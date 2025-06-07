@@ -1,17 +1,45 @@
 <div class="users-table-container">
-  <h2>Users</h2>
-  <p-table [value]="users">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>#</th>
-        <th>Username</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-user let-i="rowIndex">
-      <tr>
-        <td>{{ i + 1 }}</td>
-        <td>{{ user.username }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
+  <div *ngIf="loading" class="users-spinner-container">
+    <p-progressSpinner styleClass="users-spinner" strokeWidth="4" animationDuration="0.7s" />
+  </div>
+  <ng-container *ngIf="!loading">
+    <h2 class="users-title">Users</h2>
+    <p-table
+      [value]="users"
+      [paginator]="true"
+      [rows]="8"
+      [responsiveLayout]="'scroll'"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
+      [style]="{
+        'box-shadow': '0 4px 24px 0 rgba(44, 62, 80, 0.10)',
+        'border-radius': '12px',
+        overflow: 'hidden'
+      }"
+      class="users-table"
+    >
+      <ng-template pTemplate="caption">
+        <div class="table-caption">
+          <span class="pi pi-users table-icon"></span>
+          <span class="caption-text">User List</span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 60px">#</th>
+          <th>Username</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user let-i="rowIndex">
+        <tr>
+          <td>
+            <span class="row-index">{{ i + 1 }}</span>
+          </td>
+          <td>
+            <span class="username">{{ user.username }}</span>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-container>
 </div>
