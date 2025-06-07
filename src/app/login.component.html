@@ -1,53 +1,108 @@
-<div class="login-container">
-  <h2>Login</h2>
-  <form>
-    <div class="p-field">
-      <label for="username">Username</label>
-      <input id="username" type="text" pInputText [(ngModel)]="username" name="username" required />
-    </div>
-    <div class="p-field">
-      <label for="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        pInputText
-        [(ngModel)]="password"
-        name="password"
-        required
-      />
-    </div>
-    <button pButton type="button" label="Login" (click)="login()"></button>
-    <button
-      pButton
-      type="button"
-      label="Register"
-      class="p-button-secondary"
+<div class="flex flex-col md:flex-row min-h-[60vh]">
+  <p-toast></p-toast>
+  <div class="w-full md:w-5/12 flex flex-col items-center justify-center gap-4 py-8 px-4">
+    <form
+      (ngSubmit)="login()"
+      #loginForm="ngForm"
+      class="flex flex-col gap-4 w-full max-w-[17.35rem]"
+    >
+      <div class="flex flex-col gap-2">
+        <label for="username">Username</label>
+        <input
+          pInputText
+          id="username"
+          type="text"
+          [(ngModel)]="username"
+          name="username"
+          required
+          autocomplete="username"
+        />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="password">Password</label>
+        <input
+          pInputText
+          id="password"
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          required
+          autocomplete="current-password"
+        />
+      </div>
+      <div class="flex">
+        <p-button
+          label="Login"
+          icon="pi pi-user"
+          type="submit"
+          class="w-full max-w-[17.35rem]"
+          styleClass="w-full mx-auto"
+          [disabled]="loginForm.invalid"
+        />
+      </div>
+    </form>
+  </div>
+  <div class="w-full md:w-2/12 flex flex-col items-center justify-center">
+    <p-divider layout="vertical" class="!hidden md:!flex"><b>OR</b></p-divider>
+    <p-divider layout="horizontal" class="!flex md:!hidden" align="center"><b>OR</b></p-divider>
+  </div>
+  <div class="w-full md:w-5/12 flex items-center justify-center py-8 px-4">
+    <p-button
+      label="Sign Up"
+      icon="pi pi-user-plus"
+      severity="success"
+      class="w-full max-w-[17.35rem]"
+      styleClass="w-full mx-auto"
       (click)="showRegister = true"
-    ></button>
-  </form>
-  <p-dialog header="Register" [(visible)]="showRegister" [modal]="true" [closable]="true">
-    <div class="p-fluid">
-      <div class="p-field">
+    />
+  </div>
+  <p-dialog
+    header="Register"
+    [(visible)]="showRegister"
+    [modal]="true"
+    [closable]="true"
+    [dismissableMask]="true"
+    [style]="{ width: '350px' }"
+  >
+    <form
+      (ngSubmit)="register()"
+      #registerForm="ngForm"
+      autocomplete="off"
+      class="p-fluid flex flex-col gap-4"
+    >
+      <div class="flex flex-col gap-2">
         <label for="reg-username">Username</label>
         <input
+          pInputText
           id="reg-username"
           type="text"
-          pInputText
           [(ngModel)]="regUsername"
           name="regUsername"
+          required
+          autocomplete="username"
         />
       </div>
-      <div class="p-field">
+      <div class="flex flex-col gap-2">
         <label for="reg-password">Password</label>
         <input
+          pInputText
           id="reg-password"
           type="password"
-          pInputText
           [(ngModel)]="regPassword"
           name="regPassword"
+          required
+          autocomplete="new-password"
         />
       </div>
-      <button pButton type="button" label="Register" (click)="register()"></button>
-    </div>
+      <p-button
+        label="Register"
+        icon="pi pi-user-plus"
+        type="submit"
+        severity="success"
+        class="w-full"
+        styleClass="w-full"
+        [disabled]="registerForm.invalid"
+      />
+    </form>
   </p-dialog>
 </div>
