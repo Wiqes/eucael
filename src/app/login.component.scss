@@ -296,6 +296,20 @@ p-divider[layout='horizontal'] {
   border: none;
 }
 
+.p-divider b {
+  display: inline-block;
+  background: linear-gradient(90deg, #2196f3 0%, #21cbf3 100%);
+  color: #fff;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  padding: 0.18rem 1.1rem 0.18rem 1.1rem;
+  box-shadow: 0 2px 8px 0 rgba(33, 150, 243, 0.1);
+  margin: 0 0.1rem;
+  text-shadow: 0 1px 4px rgba(33, 150, 243, 0.1);
+}
+
 @media (max-width: 900px) {
   p-divider[layout='vertical'] {
     display: none !important;
