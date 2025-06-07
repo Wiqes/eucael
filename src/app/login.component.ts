@@ -37,7 +37,11 @@ export class LoginComponent {
         password: this.password,
       })
       .subscribe({
-        next: () => {
+        next: (res) => {
+          if (res && res.access_token) {
+            console.log('Login successful:', res);
+            localStorage.setItem('token', res.access_token);
+          }
           this.messageService.add({
             severity: 'success',
             summary: 'Login Successful',
