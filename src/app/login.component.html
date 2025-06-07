@@ -38,7 +38,8 @@
           severity="info"
           class="w-full max-w-[17.35rem]"
           styleClass="w-full mx-auto"
-          [disabled]="loginForm.invalid"
+          [disabled]="loginForm.invalid || loadingLogin"
+          [loading]="loadingLogin"
         />
       </div>
     </form>

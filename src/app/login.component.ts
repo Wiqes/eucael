@@ -23,6 +23,7 @@ export class LoginComponent {
   regUsername = '';
   regPassword = '';
   showRegister = false;
+  loadingLogin = false;
 
   constructor(
     private http: HttpClient,
@@ -31,6 +32,7 @@ export class LoginComponent {
   ) {}
 
   login() {
+    this.loadingLogin = true;
     this.http
       .post<any>('https://alseids-be.onrender.com/auth/login', {
         username: this.username,
@@ -38,16 +40,18 @@ export class LoginComponent {
       })
       .subscribe({
         next: (res) => {
-          if (res && res.access_token) {
-            console.log('Login successful:', res);
-            localStorage.setItem('token', res.access_token);
+          if (res && res.token) {
+            localStorage.setItem('token', res.token);
           }
           this.messageService.add({
             severity: 'success',
             summary: 'Login Successful',
             detail: 'Welcome!',
           });
-          setTimeout(() => this.router.navigate(['/home']), 800);
+          setTimeout(() => {
+            this.router.navigate(['/home']);
+            this.loadingLogin = false;
+          }, 800);
         },
         error: (err) => {
           this.messageService.add({
@@ -55,6 +59,7 @@ export class LoginComponent {
             summary: 'Login Failed',
             detail: err.error?.message || 'Login failed',
           });
+          this.loadingLogin = false;
         },
       });
   }
