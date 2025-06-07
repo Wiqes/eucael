@@ -1,0 +1,53 @@
+<div class="login-container">
+  <h2>Login</h2>
+  <form>
+    <div class="p-field">
+      <label for="username">Username</label>
+      <input id="username" type="text" pInputText [(ngModel)]="username" name="username" required />
+    </div>
+    <div class="p-field">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        pInputText
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+    </div>
+    <button pButton type="button" label="Login" (click)="login()"></button>
+    <button
+      pButton
+      type="button"
+      label="Register"
+      class="p-button-secondary"
+      (click)="showRegister = true"
+    ></button>
+  </form>
+  <p-dialog header="Register" [(visible)]="showRegister" [modal]="true" [closable]="true">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="reg-username">Username</label>
+        <input
+          id="reg-username"
+          type="text"
+          pInputText
+          [(ngModel)]="regUsername"
+          name="regUsername"
+        />
+      </div>
+      <div class="p-field">
+        <label for="reg-password">Password</label>
+        <input
+          id="reg-password"
+          type="password"
+          pInputText
+          [(ngModel)]="regPassword"
+          name="regPassword"
+        />
+      </div>
+      <button pButton type="button" label="Register" (click)="register()"></button>
+    </div>
+  </p-dialog>
+</div>
