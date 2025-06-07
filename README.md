@@ -28,7 +28,8 @@ This project is an Angular v19 app using PrimeNG for UI. It features authenticat
 - `src/app/login.component.*` — Login and registration UI
 - `src/app/home.component.*` — User table UI
 
-## Notes
+## Build
 
-- Ensure PrimeNG and PrimeIcons are installed and styles are imported in `styles.scss`.
-- The app uses standalone components and Angular's modern best practices.
+```bash
+   ng build --base-href /alseids/
+```
