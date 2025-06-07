@@ -69,7 +69,7 @@ form {
 }
 
 .p-button:focus {
-  box-shadow: 0 4px 16px 0 rgba(33, 150, 243, 0.10);
+  box-shadow: 0 4px 16px 0 rgba(33, 150, 243, 0.1);
 }
 
 .p-dialog .p-field {
@@ -268,7 +268,49 @@ form {
 
 /* Divider custom styles */
 p-divider {
-  margin: 0 0.5rem !important;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  min-width: 2.5rem;
+  background: transparent;
+}
+
+p-divider .p-divider-content {
+  font-weight: 600;
+  color: #64748b;
+  font-size: 1.1rem;
+  padding: 0 0.5rem;
+}
+
+p-divider[layout='vertical'] {
+  height: 100%;
+  min-width: 2.5rem;
+  border: none;
+}
+
+p-divider[layout='horizontal'] {
+  width: 100%;
+  min-height: 2.5rem;
+  border: none;
+}
+
+@media (max-width: 900px) {
+  p-divider[layout='vertical'] {
+    display: none !important;
+  }
+  p-divider[layout='horizontal'] {
+    display: flex !important;
+  }
+}
+@media (min-width: 900px) {
+  p-divider[layout='vertical'] {
+    display: flex !important;
+  }
+  p-divider[layout='horizontal'] {
+    display: none !important;
+  }
 }
 
 /* Form and input enhancements */
@@ -307,7 +349,7 @@ input[pInputText]:focus {
   transition: box-shadow 0.2s;
 }
 .p-button:focus {
-  box-shadow: 0 4px 16px 0 rgba(33, 150, 243, 0.10);
+  box-shadow: 0 4px 16px 0 rgba(33, 150, 243, 0.1);
 }
 
 /* Dialog styles */
@@ -323,7 +365,8 @@ input[pInputText]:focus {
   .md\:flex-row {
     flex-direction: column !important;
   }
-  .md\:w-5\/12, .md\:w-2\/12 {
+  .md\:w-5\/12,
+  .md\:w-2\/12 {
     width: 100% !important;
   }
 }
