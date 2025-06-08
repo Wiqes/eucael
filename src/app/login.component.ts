@@ -40,8 +40,17 @@ export class LoginComponent {
       })
       .subscribe({
         next: (res) => {
-          if (res && res.token) {
-            localStorage.setItem('token', res.token);
+          // Try to save token in a more robust way
+          try {
+            if (res && res.token) {
+              window.localStorage.setItem('token', res.token);
+            }
+          } catch (e) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Storage Error',
+              detail: 'Unable to save token. Please check your browser settings.',
+            });
           }
           this.messageService.add({
             severity: 'success',
