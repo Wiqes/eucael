@@ -42,8 +42,8 @@ export class LoginComponent {
         next: (res) => {
           // Try to save token in a more robust way
           try {
-            if (res && res.token) {
-              window.localStorage.setItem('token', res.token);
+            if (res && res.access_token) {
+              window.localStorage.setItem('token', res.access_token);
             }
           } catch (e) {
             this.messageService.add({
