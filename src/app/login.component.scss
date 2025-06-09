@@ -1,3 +1,7 @@
+:host ::ng-deep .p-button-icon-only {
+  width: 300px !important;
+}
+
 .login-container {
   max-width: 400px;
   margin: 48px auto;
@@ -395,16 +399,12 @@ input[pInputText]:focus {
   }
 }
 
-.google-btn {
-  margin-top: 1.2rem;
-  background: #fff !important;
-  color: #ea4335 !important;
-  border: 1.5px solid #ea4335 !important;
+/* Ensure all PrimeNG buttons have enough min-width for text */
+.p-button {
+  min-width: 120px;
+  font-size: 1.05rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  transition: background 0.2s, color 0.2s;
-}
-.google-btn:hover {
-  background: #ea4335 !important;
-  color: #fff !important;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px 0 rgba(44, 62, 80, 0.08);
+  transition: box-shadow 0.2s;
 }
