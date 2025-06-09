@@ -112,7 +112,7 @@ export class LoginComponent {
 
   googleLogin() {
     // Redirect to backend Google OAuth endpoint
-    window.location.href = 'http://localhost:5432/auth/google';
+    window.location.href = 'https://alseids-be.onrender.com/auth/google';
   }
 
   showSuccess() {
