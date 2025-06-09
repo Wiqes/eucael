@@ -1,5 +1,9 @@
 :host ::ng-deep .p-divider-content {
-  background-color: rgb(254, 255, 255) !important;
+  background-color: white !important;
+}
+
+:host ::ng-deep .p-button-outlined {
+  color: black !important;
 }
 
 :host ::ng-deep .p-button-outlined {
@@ -290,7 +294,7 @@ p-divider .p-divider-content {
   color: #64748b;
   font-size: 1.1rem;
   padding: 0 0.5rem;
-  background-color: rgb(254, 255, 255) !important;
+  background-color: white !important;
 }
 
 p-divider[layout='vertical'] {

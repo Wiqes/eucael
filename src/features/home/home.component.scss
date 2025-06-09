@@ -1,7 +1,12 @@
 :host ::ng-deep td,
 :host ::ng-deep th,
-:host ::ng-deep .p-paginator {
+:host ::ng-deep .p-paginator,
+:host ::ng-deep .p-datatable-header {
   background: white !important;
+}
+
+:host ::ng-deep .p-paginator-page-selected {
+  color: #047857 !important;
 }
 
 .users-table-container {
