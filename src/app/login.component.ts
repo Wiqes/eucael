@@ -113,7 +113,7 @@ export class LoginComponent {
 
   googleLogin() {
     // Redirect to backend Google OAuth endpoint
-    window.location.href = `${environment.DOMAIN}/auth/google`;
+    window.location.href = `${environment.API_URL}/auth/google`;
   }
 
   showSuccess() {
