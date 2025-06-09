@@ -1,3 +1,9 @@
+:host ::ng-deep td,
+:host ::ng-deep th,
+:host ::ng-deep .p-paginator {
+  background: white !important;
+}
+
 .users-table-container {
   max-width: 700px;
   margin: 48px auto;
