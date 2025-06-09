@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -112,7 +113,7 @@ export class LoginComponent {
 
   googleLogin() {
     // Redirect to backend Google OAuth endpoint
-    window.location.href = 'http://localhost:5432/auth/google';
+    window.location.href = `${environment.DOMAIN}/auth/google`;
   }
 
   showSuccess() {
