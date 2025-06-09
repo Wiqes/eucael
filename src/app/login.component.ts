@@ -110,6 +110,11 @@ export class LoginComponent {
       });
   }
 
+  googleLogin() {
+    // Redirect to backend Google OAuth endpoint
+    window.location.href = 'http://localhost:5432/auth/google';
+  }
+
   showSuccess() {
     this.messageService.add({
       severity: 'success',
