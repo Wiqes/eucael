@@ -9,6 +9,10 @@
   color: #047857 !important;
 }
 
+:host ::ng-deep .caption-text {
+  color: black !important;
+}
+
 .users-table-container {
   max-width: 700px;
   margin: 48px auto;
