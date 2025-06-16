@@ -344,9 +344,13 @@ p-divider[layout='horizontal'] {
 form {
   width: 100%;
 }
-.flex > p-button {
+
+.google-button-container {
   width: 100%;
+  display: flex;
+  justify-content: flex-start;
 }
+
 label {
   font-weight: 500;
   color: #374151;
