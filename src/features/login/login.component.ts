@@ -63,12 +63,14 @@ export class LoginComponent {
               severity: 'error',
               summary: 'Storage Error',
               detail: 'Unable to save token. Please check your browser settings.',
+              life: 4000,
             });
           }
           this.messageService.add({
             severity: 'success',
             summary: 'Login Successful',
             detail: 'Welcome!',
+            life: 4000,
           });
           setTimeout(() => {
             this.router.navigate(['/home']);
@@ -80,6 +82,7 @@ export class LoginComponent {
             severity: 'error',
             summary: 'Login Failed',
             detail: err.error?.message || 'Login failed',
+            life: 4000,
           });
           this.loadingLogin = false;
         },
@@ -94,6 +97,7 @@ export class LoginComponent {
           severity: 'warn',
           summary: 'Validation',
           detail: 'Email and password are required.',
+          life: 4000,
         });
         return;
       }
@@ -110,6 +114,7 @@ export class LoginComponent {
               severity: 'success',
               summary: 'OTP Sent',
               detail: 'An OTP has been sent to your email.',
+              life: 4000,
             });
           },
           error: (err) => {
@@ -117,6 +122,7 @@ export class LoginComponent {
               severity: 'error',
               summary: 'OTP Request Failed',
               detail: err.error?.message || 'Failed to send OTP.',
+              life: 4000,
             });
           },
         });
@@ -128,6 +134,7 @@ export class LoginComponent {
         severity: 'warn',
         summary: 'Validation',
         detail: 'OTP is required.',
+        life: 4000,
       });
       return;
     }
@@ -149,6 +156,7 @@ export class LoginComponent {
             severity: 'success',
             summary: 'Registration Successful',
             detail: 'Please login.',
+            life: 4000,
           });
         },
         error: (err) => {
@@ -158,6 +166,7 @@ export class LoginComponent {
             severity: 'error',
             summary: 'Registration Failed',
             detail,
+            life: 4000,
           });
         },
       });
@@ -173,6 +182,7 @@ export class LoginComponent {
       severity: 'success',
       summary: 'Success',
       detail: 'This is a success toast!',
+      life: 4000,
     });
   }
 
@@ -181,6 +191,7 @@ export class LoginComponent {
       severity: 'error',
       summary: 'Error',
       detail: 'This is an error toast!',
+      life: 4000,
     });
   }
 
@@ -189,6 +200,7 @@ export class LoginComponent {
       severity: 'info',
       summary: 'Info',
       detail: 'This is an info toast!',
+      life: 4000,
     });
   }
 }
