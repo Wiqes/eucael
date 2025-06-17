@@ -9,11 +9,20 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { environment } from '../../environments/environment';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, DialogModule, InputTextModule, ButtonModule, ToastModule, DividerModule],
+  imports: [
+    FormsModule,
+    DialogModule,
+    InputTextModule,
+    ButtonModule,
+    ToastModule,
+    DividerModule,
+    NgIf,
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   providers: [MessageService],
@@ -23,8 +32,11 @@ export class LoginComponent {
   password = '';
   regUsername = '';
   regPassword = '';
+  regOtp = '';
   showRegister = false;
   loadingLogin = false;
+  otpRequested = false;
+  emailSent = '';
 
   constructor(
     private http: HttpClient,
@@ -75,24 +87,64 @@ export class LoginComponent {
   }
 
   register() {
-    if (!this.regUsername.trim() || !this.regPassword.trim()) {
+    if (!this.otpRequested) {
+      // Step 1: Validate email and password, then request OTP
+      if (!this.regUsername.trim() || !this.regPassword.trim()) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Validation',
+          detail: 'Email and password are required.',
+        });
+        return;
+      }
+      // Save email for OTP step
+      this.emailSent = this.regUsername.trim();
+      this.http
+        .post<any>('https://alseids-be.onrender.com/auth/request-otp', {
+          username: this.emailSent,
+        })
+        .subscribe({
+          next: () => {
+            this.otpRequested = true;
+            this.messageService.add({
+              severity: 'success',
+              summary: 'OTP Sent',
+              detail: 'An OTP has been sent to your email.',
+            });
+          },
+          error: (err) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'OTP Request Failed',
+              detail: err.error?.message || 'Failed to send OTP.',
+            });
+          },
+        });
+      return;
+    }
+    // Step 2: Register with OTP
+    if (!this.regOtp.trim()) {
       this.messageService.add({
         severity: 'warn',
         summary: 'Validation',
-        detail: 'Username and password are required.',
+        detail: 'OTP is required.',
       });
       return;
     }
     this.http
       .post<any>('https://alseids-be.onrender.com/auth/register', {
-        username: this.regUsername,
+        username: this.emailSent,
         password: this.regPassword,
+        otp: this.regOtp,
       })
       .subscribe({
         next: () => {
           this.showRegister = false;
           this.regUsername = '';
           this.regPassword = '';
+          this.regOtp = '';
+          this.otpRequested = false;
+          this.emailSent = '';
           this.messageService.add({
             severity: 'success',
             summary: 'Registration Successful',

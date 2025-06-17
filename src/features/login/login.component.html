@@ -110,15 +110,16 @@
       class="p-fluid flex flex-col gap-4"
     >
       <div class="flex flex-col gap-2">
-        <label for="reg-username">Username</label>
+        <label for="reg-username">Email</label>
         <input
           pInputText
           id="reg-username"
-          type="text"
+          type="email"
           [(ngModel)]="regUsername"
           name="regUsername"
           required
           autocomplete="username"
+          [readonly]="otpRequested"
         />
       </div>
       <div class="flex flex-col gap-2">
@@ -131,16 +132,38 @@
           name="regPassword"
           required
           autocomplete="new-password"
+          [readonly]="otpRequested"
+        />
+      </div>
+      <div *ngIf="otpRequested" class="flex flex-col gap-2">
+        <label for="reg-otp">OTP</label>
+        <input
+          pInputText
+          id="reg-otp"
+          type="text"
+          [(ngModel)]="regOtp"
+          name="regOtp"
+          required
+          autocomplete="one-time-code"
         />
       </div>
       <p-button
-        label="Register"
+        [label]="otpRequested ? 'Register' : 'Request OTP'"
         icon="pi pi-user-plus"
         type="submit"
         severity="info"
         class="w-full"
         styleClass="w-full"
-        [disabled]="registerForm.invalid"
+        [disabled]="
+          (!otpRequested &&
+            ((registerForm.controls['regUsername'] &&
+              registerForm.controls['regUsername'].invalid) ||
+              (registerForm.controls['regPassword'] &&
+                registerForm.controls['regPassword'].invalid))) ||
+          (otpRequested &&
+            registerForm.controls['regOtp'] &&
+            registerForm.controls['regOtp'].invalid)
+        "
       />
     </form>
   </p-dialog>
