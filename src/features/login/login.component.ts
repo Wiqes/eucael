@@ -102,6 +102,7 @@ export class LoginComponent {
         return;
       }
       // Save email for OTP step
+      this.loadingLogin = true;
       this.emailSent = this.regUsername.trim();
       this.http
         .post<any>('https://alseids-be.onrender.com/auth/request-otp', {
@@ -116,6 +117,7 @@ export class LoginComponent {
               detail: 'An OTP has been sent to your email.',
               life: 4000,
             });
+            this.loadingLogin = false;
           },
           error: (err) => {
             this.messageService.add({
@@ -124,6 +126,7 @@ export class LoginComponent {
               detail: err.error?.message || 'Failed to send OTP.',
               life: 4000,
             });
+            this.loadingLogin = false;
           },
         });
       return;
@@ -138,6 +141,7 @@ export class LoginComponent {
       });
       return;
     }
+    this.loadingLogin = true;
     this.http
       .post<any>('https://alseids-be.onrender.com/auth/register', {
         username: this.emailSent,
@@ -158,6 +162,7 @@ export class LoginComponent {
             detail: 'Please login.',
             life: 4000,
           });
+          this.loadingLogin = false;
         },
         error: (err) => {
           let detail = err.error?.message || 'Registration failed';
@@ -168,6 +173,7 @@ export class LoginComponent {
             detail,
             life: 4000,
           });
+          this.loadingLogin = false;
         },
       });
   }

@@ -154,6 +154,7 @@
         severity="info"
         class="w-full"
         styleClass="w-full"
+        [loading]="loadingLogin"
         [disabled]="
           (!otpRequested &&
             ((registerForm.controls['regUsername'] &&
