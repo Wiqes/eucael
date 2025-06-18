@@ -5,6 +5,7 @@ import { translationProvider } from './translation.provider';
 import { primeNGProvider } from './prime-ng.provider';
 import { routerProvider } from './router.provider';
 import { authInterceptor } from '../core/auth.interceptor';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,5 +15,6 @@ export const appConfig: ApplicationConfig = {
     routerProvider(),
     translationProvider(),
     primeNGProvider(),
+    MessageService,
   ],
 };
