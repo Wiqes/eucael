@@ -1,0 +1,33 @@
+.cases-container {
+  width: 100%;
+  min-height: 64px;
+
+  .empty-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 32px;
+    min-height: 281px;
+    width: 100%;
+    padding-top: 72px;
+
+    .text-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+
+      .title {
+        font-size: 24.5px;
+        font-weight: 600;
+        height: 37px;
+      }
+
+      .description {
+        height: 21px;
+      }
+    }
+  }
+}

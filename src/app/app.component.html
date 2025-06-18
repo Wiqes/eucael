@@ -1,10 +1,4 @@
-<div class="app-container">
-  <ng-container *ngIf="!isLoginPage">
-    <div class="header">
-      <h1>Welcome to Legio</h1>
-    </div>
-  </ng-container>
-  <div class="content">
-    <router-outlet></router-outlet>
-  </div>
+<app-header *ngIf="!isLoginPage"></app-header>
+<div class="content">
+  <router-outlet />
 </div>

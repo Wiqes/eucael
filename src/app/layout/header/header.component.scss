@@ -1,0 +1,81 @@
+@use 'variables' as *;
+
+:host ::ng-deep .p-menu {
+  min-width: 175px !important;
+  width: auto !important;
+  margin-top: 12px !important;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $surface-section;
+  border-bottom: 1px solid $surface-border;
+  padding: 0 16px;
+  height: 64px;
+
+  .logo-description-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .logo-description {
+    display: flex;
+    align-items: center;
+    height: 24px;
+    font-weight: 700;
+    gap: 12px;
+
+    button {
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .divider {
+      height: 100%;
+      width: 1px;
+      background-color: $surface-border;
+    }
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
+    line-height: 150%;
+    user-select: none;
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      margin-left: 8px;
+
+      .p-menuitem-text {
+        display: none !important;
+      }
+
+      .label {
+        min-width: 19px;
+        text-align: center;
+      }
+
+      .lang-label {
+        margin-left: 8px;
+      }
+
+      svg {
+        width: 18px;
+        height: 14px;
+      }
+    }
+  }
+}

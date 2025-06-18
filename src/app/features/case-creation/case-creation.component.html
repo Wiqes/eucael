@@ -1,0 +1,20 @@
+<div class="case-creation-header">
+  <div class="title-container">
+    <div class="title">{{ 'Create case' | translate }}</div>
+    <div class="subtitle">{{ 'Provide case information to continue' | translate }}</div>
+  </div>
+  <div class="buttons-container">
+    <p-button
+      label="{{ 'Discard' | translate }}"
+      icon="pi pi-trash"
+      variant="outlined"
+      severity="danger"
+    />
+    <p-button label="{{ 'Submit case' | translate }}" (onClick)="createCase()" />
+  </div>
+</div>
+<div class="content">
+  <div class="stepper-container">
+    <app-stepper [steps]="steps()" />
+  </div>
+</div>

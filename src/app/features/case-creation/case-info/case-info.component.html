@@ -1,0 +1,30 @@
+<form [formGroup]="form">
+  <div class="form-row">
+    <app-form-control label="Claim ID*" [control]="formControls['claimNumberInsurance']" />
+    <app-form-control
+      type="select"
+      label="User language*"
+      [control]="formControls['locale']"
+      [options]="locales"
+    />
+  </div>
+  <div class="form-row">
+    <app-form-control type="date" label="Order date" [control]="formControls['orderDate']" />
+    <app-form-control type="date" label="Date of damage*" [control]="formControls['claimDate']" />
+  </div>
+  <div class="form-row">
+    <app-form-control
+      type="select"
+      label="Department*"
+      [control]="formControls['insuranceId']"
+      [options]="accounts()"
+      optionValue="id"
+    />
+    <app-form-control
+      type="select"
+      label="Case type*"
+      [control]="formControls['insuranceCoverageId']"
+      [options]="insuranceCoverages()"
+    />
+  </div>
+</form>

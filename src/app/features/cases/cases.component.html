@@ -1,0 +1,13 @@
+<div class="cases-container">
+  @if (!cases.length) {
+  <div class="empty-list">
+    <div class="text-container">
+      <div class="title">{{ 'No cases yet' | translate }}</div>
+      <div class="description">{{ 'Once created, they will appear here' | translate }}</div>
+    </div>
+    <p-button label="{{ 'Create case' | translate }}" (onClick)="onCreateCase()" />
+  </div>
+  } @else {
+  <div class="list">List</div>
+  }
+</div>

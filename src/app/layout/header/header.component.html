@@ -1,0 +1,31 @@
+<header class="header">
+  <div class="logo-description-container">
+    <div class="logo-description">
+      <button (click)="onLogoClick()">
+        <app-logo />
+      </button>
+      <div class="divider"></div>
+      <div class="description">{{ 'Insurance Workspace' | translate }}</div>
+    </div>
+  </div>
+  <div class="container">
+    <p-avatar
+      [image]="photoURL() || undefined"
+      [icon]="!photoURL() ? 'pi pi-user' : undefined"
+      shape="circle"
+    ></p-avatar>
+    <p-menu #menu [model]="items" [popup]="true"></p-menu>
+    <div class="menu" (click)="menu.toggle($event)">
+      <div *ngIf="displayName(); else loadingName" class="label">{{ displayName() }}</div>
+      <ng-template #loadingName>
+        <p-skeleton height="1rem" width="5rem" styleClass="mb-2" />
+      </ng-template>
+      <app-chevron-down-icon />
+    </div>
+    <p-menu #langMenu [model]="langItems" [popup]="true"></p-menu>
+    <div class="menu" (click)="langMenu.toggle($event)">
+      <div class="label lang-label">{{ selectedLanguage() }}</div>
+      <app-chevron-down-icon />
+    </div>
+  </div>
+</header>

@@ -1,0 +1,19 @@
+@use 'variables' as *;
+
+:host ::ng-deep .checked-step > button > .p-step-number {
+  background: $primary-color !important;
+  color: $primary-color !important;
+  position: relative;
+}
+:host ::ng-deep .checked-step > button > .p-step-number::after {
+  content: '';
+  display: block;
+  position: absolute;
+  background: url('/assets/check.png') no-repeat center center;
+  background-size: 14px;
+  pointer-events: none;
+}
+
+:host ::ng-deep .p-steppanel {
+  overflow: visible !important;
+}

@@ -1,0 +1,56 @@
+<div class="form-control">
+  <label *ngIf="label()" [for]="label()">{{ label() | translate }}</label>
+  <ng-container [ngSwitch]="type()">
+    <input
+      *ngSwitchCase="'text'"
+      pInputText
+      [id]="label()"
+      [formControl]="control()!"
+      [placeholder]="placeholder() | translate"
+      autocomplete="off"
+      (focus)="focus.emit()"
+      class="regular-input"
+      [attr.variant]="variant() || null"
+    />
+    <p-select
+      *ngSwitchCase="'select'"
+      [id]="label()"
+      [options]="options()"
+      [formControl]="control()!"
+      [placeholder]="'Select' | translate"
+      class="w-full md:w-56"
+      optionLabel="name"
+      [optionValue]="optionValue()"
+    ></p-select>
+    <p-datepicker
+      *ngSwitchCase="'date'"
+      [inputId]="label()"
+      [formControl]="control()!"
+      iconDisplay="input"
+      [showIcon]="true"
+      [showButtonBar]="true"
+      dateFormat="dd.mm.yy"
+      [firstDayOfWeek]="1"
+    ></p-datepicker>
+    <textarea
+      *ngSwitchCase="'textarea'"
+      rows="5"
+      cols="30"
+      pTextarea
+      style="resize: none"
+      class="h-full"
+      [formControl]="control()!"
+      [attr.variant]="variant() || null"
+    ></textarea>
+    <p-inputnumber
+      *ngSwitchCase="'number'"
+      [id]="label()"
+      mode="decimal"
+      [locale]="locale()"
+      [minFractionDigits]="2"
+      [formControl]="control()!"
+      [attr.variant]="variant() || null"
+    />
+    <ng-content *ngSwitchDefault></ng-content>
+  </ng-container>
+</div>

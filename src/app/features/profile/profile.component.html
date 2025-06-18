@@ -1,0 +1,28 @@
+<div class="profile-container">
+  <div class="title">{{ 'Profile' | translate }}</div>
+  <div class="general-info">
+    <div class="card">
+      <div class="pencil-container">
+        <i class="pi pi-pencil"></i>
+      </div>
+      <div class="wrapper">
+        <p-avatar
+          size="xlarge"
+          [image]="photoURL() || undefined"
+          [icon]="!photoURL() ? 'pi pi-user' : undefined"
+          shape="circle"
+        ></p-avatar>
+        <div class="name-container">
+          <div class="name">{{ displayName() }}</div>
+          <div>Insurance Officer</div>
+        </div>
+      </div>
+    </div>
+    <div class="info-container">
+      <div class="info-title">{{ 'General info' | translate }}</div>
+    </div>
+  </div>
+  <div class="cases-container">
+    <div class="table-title">{{ 'Assigned cases' | translate }}</div>
+  </div>
+</div>

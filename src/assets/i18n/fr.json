@@ -1,0 +1,51 @@
+{
+  "My Profile": "Mon profil",
+  "Log out": "Se déconnecter",
+  "Discard": "Jeter",
+  "Next": "Suivant",
+  "Back": "Retour",
+  "Profile": "Profil",
+  "General info": "Informations générales",
+  "Select": "Sélectionner",
+  "Email": "E-mail",
+  "Phone": "Téléphone",
+  "primeng": {
+    "dayNames": ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
+    "dayNamesShort": ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"],
+    "dayNamesMin": ["di", "lu", "ma", "me", "je", "ve", "sa"],
+    "monthNames": [
+      "janvier",
+      "février",
+      "mars",
+      "avril",
+      "mai",
+      "juin",
+      "juillet",
+      "août",
+      "septembre",
+      "octobre",
+      "novembre",
+      "décembre"
+    ],
+    "monthNamesShort": [
+      "janv",
+      "févr",
+      "mars",
+      "avr",
+      "mai",
+      "juin",
+      "juil",
+      "août",
+      "sept",
+      "oct",
+      "nov",
+      "déc"
+    ],
+    "today": "Aujourd'hui",
+    "clear": "Effacer",
+    "dateFormat": "dd.mm.yy",
+    "weekHeader": "Sm",
+    "firstDayOfWeek": 1
+  },
+  "Find address...": "Trouver une adresse..."
+}

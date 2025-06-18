@@ -1,0 +1,16 @@
+<div class="form-control">
+  <label [for]="label()">{{ label() | translate }}</label>
+  <p-autocomplete
+    [id]="label()"
+    [suggestions]="items()"
+    field="query"
+    [placeholder]="'Find address...' | translate"
+    (onFocus)="focus.emit()"
+    (onSelect)="getAddressData($event)"
+    (completeMethod)="search($event)"
+  >
+    <ng-template #item let-item>
+      <span [innerHTML]="item.label | safeHtml"></span>
+    </ng-template>
+  </p-autocomplete>
+</div>

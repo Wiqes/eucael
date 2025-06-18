@@ -1,0 +1,47 @@
+<form [formGroup]="form">
+  <div class="sub-title">{{ 'Policy holder details' | translate }}</div>
+  <app-form-control label="Policy holder name*" inputId="name" [control]="formControls['name']" />
+  <div class="form-row">
+    <app-form-control label="Email" [control]="formControls['email']" />
+    <app-form-control label="Phone" [control]="formControls['phone']" />
+  </div>
+  <div class="form-row">
+    <app-form-control
+      type="number"
+      label="Deductible"
+      [control]="formControls['deductibleAmount']"
+    />
+    <app-form-control type="number" label="Sum insured" [control]="formControls['insuredAmount']" />
+  </div>
+  <div class="divider"></div>
+  <div class="sub-title">{{ 'Service address' | translate }}</div>
+  <app-address (focus)="variant = 'filled'" />
+  <div class="form-row">
+    <app-form-control
+      label="Street"
+      [control]="formControls['street']"
+      (focus)="variant = ''"
+      [variant]="variant"
+    />
+    <app-form-control
+      label="Street Number"
+      [control]="formControls['streetNumber']"
+      [variant]="variant"
+      (focus)="variant = ''"
+    />
+  </div>
+  <div class="form-row">
+    <app-form-control
+      label="Zip Code"
+      [control]="formControls['zipCode']"
+      [variant]="variant"
+      (focus)="variant = ''"
+    />
+    <app-form-control
+      label="City"
+      [control]="formControls['city']"
+      [variant]="variant"
+      (focus)="variant = ''"
+    />
+  </div>
+</form>

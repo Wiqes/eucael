@@ -1,0 +1,50 @@
+@use 'variables' as *;
+
+:host ::ng-deep .p-step-title {
+  font-size: 16px;
+}
+
+:host ::ng-deep .p-stepper-separator {
+  background-color: $primary-color;
+}
+
+.case-creation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 57px;
+  margin-bottom: 16px;
+
+  .title-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+    height: 28px;
+  }
+
+  .subtitle {
+    height: 21px;
+  }
+
+  .buttons-container {
+    display: flex;
+    gap: 16px;
+  }
+}
+
+.content {
+  background-color: $surface-section;
+  min-height: 512px;
+  padding: 24px;
+  border-radius: 6px;
+  border: 1px solid $surface-border;
+
+  .stepper-container {
+    width: 50%;
+  }
+}
