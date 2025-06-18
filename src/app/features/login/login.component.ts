@@ -182,31 +182,4 @@ export class LoginComponent {
     // Redirect to backend Google OAuth endpoint
     window.location.href = `${environment.API_URL}/auth/google`;
   }
-
-  showSuccess() {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'This is a success toast!',
-      life: 4000,
-    });
-  }
-
-  showError() {
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: 'This is an error toast!',
-      life: 4000,
-    });
-  }
-
-  showInfo() {
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Info',
-      detail: 'This is an info toast!',
-      life: 4000,
-    });
-  }
 }
