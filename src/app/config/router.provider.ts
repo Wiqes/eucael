@@ -7,6 +7,7 @@ import { LoginComponent } from '../features/login/login.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
+  { path: 'home', component: CasesComponent },
   { path: 'cases', component: CasesComponent },
   { path: 'cases/:id', component: CaseComponent },
   { path: 'case-creation', component: CaseCreationComponent },
