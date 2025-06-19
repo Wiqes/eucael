@@ -14,7 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     routerProvider(),
     translationProvider(),
-    primeNGProvider(),
-    MessageService,
+    ...primeNGProvider(),
   ],
 };

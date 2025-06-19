@@ -25,7 +25,6 @@ import { GoogleButtonComponent } from '../../shared/ui/google-button/google-butt
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  providers: [MessageService],
 })
 export class LoginComponent {
   username = '';
