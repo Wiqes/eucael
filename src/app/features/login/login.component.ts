@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { environment } from '../../../environments/environment';
@@ -20,7 +19,6 @@ import { GoogleButtonComponent } from '../../shared/ui/google-button/google-butt
     DialogModule,
     InputTextModule,
     ButtonModule,
-    ToastModule,
     DividerModule,
     NgIf,
     GoogleButtonComponent,
