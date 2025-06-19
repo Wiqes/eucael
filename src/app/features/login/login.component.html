@@ -1,4 +1,4 @@
-<div class="flex flex-col md:flex-row min-h-[60vh]">
+<div class="flex md:flex-row items-center justify-center min-h-[60vh]">
   <div class="w-full md:w-5/12 flex flex-col items-center justify-center gap-4 py-8 px-4">
     <form
       (ngSubmit)="login()"
@@ -29,34 +29,24 @@
           autocomplete="current-password"
         />
       </div>
-      <div class="flex">
+      <div class="buttons-container">
         <p-button
           label="Login"
           icon="pi pi-user"
           type="submit"
           severity="info"
-          class="w-full max-w-[17.35rem]"
-          styleClass="w-full mx-auto"
           [disabled]="loginForm.invalid || loadingLogin"
           [loading]="loadingLogin"
+        />
+        <p-button
+          label="Sign Up"
+          icon="pi pi-user-plus"
+          severity="info"
+          (click)="showRegister = true"
         />
       </div>
     </form>
     <app-google-button (click)="googleLogin()" />
-  </div>
-  <div class="w-full md:w-2/12 flex flex-col items-center justify-center">
-    <p-divider layout="vertical" class="!hidden md:!flex"><b>OR</b></p-divider>
-    <p-divider layout="horizontal" class="!flex md:!hidden"><b>OR</b></p-divider>
-  </div>
-  <div class="w-full md:w-5/12 flex items-center justify-center py-8 px-4">
-    <p-button
-      label="Sign Up"
-      icon="pi pi-user-plus"
-      severity="info"
-      class="w-full max-w-[17.35rem]"
-      styleClass="w-full mx-auto"
-      (click)="showRegister = true"
-    />
   </div>
   <p-dialog
     header="Register"

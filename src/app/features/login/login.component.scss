@@ -2,16 +2,9 @@
   color: black !important;
 }
 
-.login-container {
-  max-width: 400px;
-  margin: 48px auto;
-  padding: 2.5rem 2rem 2rem 2rem;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px 0 rgba(44, 62, 80, 0.1);
+.buttons-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
 }
 
 h2 {
