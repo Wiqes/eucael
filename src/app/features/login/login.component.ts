@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { environment } from '../../../environments/environment';
 import { NgIf } from '@angular/common';
+import { GoogleButtonComponent } from '../../shared/ui/google-button/google-button.component';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ import { NgIf } from '@angular/common';
     ToastModule,
     DividerModule,
     NgIf,
+    GoogleButtonComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
@@ -47,7 +49,7 @@ export class LoginComponent {
   login() {
     this.loadingLogin = true;
     this.http
-      .post<any>('https://alseids-be.onrender.com/auth/login', {
+      .post<any>(`${environment.API_URL}/auth/login`, {
         username: this.username,
         password: this.password,
       })
@@ -105,7 +107,7 @@ export class LoginComponent {
       this.loadingLogin = true;
       this.emailSent = this.regUsername.trim();
       this.http
-        .post<any>('https://alseids-be.onrender.com/auth/request-otp', {
+        .post<any>(`${environment.API_URL}/auth/request-otp`, {
           username: this.emailSent,
         })
         .subscribe({
@@ -143,7 +145,7 @@ export class LoginComponent {
     }
     this.loadingLogin = true;
     this.http
-      .post<any>('https://alseids-be.onrender.com/auth/register', {
+      .post<any>(`${environment.API_URL}/auth/register`, {
         username: this.emailSent,
         password: this.regPassword,
         otp: this.regOtp,
