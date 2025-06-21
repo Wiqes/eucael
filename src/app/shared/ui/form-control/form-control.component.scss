@@ -30,13 +30,15 @@ p-select {
 }
 
 :host ::ng-deep input,
-:host ::ng-deep .p-datepicker {
+:host ::ng-deep .p-datepicker,
+:host ::ng-deep .p-password {
   width: 100%;
   height: 33px;
 }
 
 :host ::ng-deep .ng-invalid.ng-touched .p-datepicker input,
-:host ::ng-deep .ng-invalid.ng-touched .p-datepicker {
+:host ::ng-deep .ng-invalid.ng-touched .p-datepicker,
+:host ::ng-deep .ng-invalid.ng-touched .p-password {
   border: none;
   height: 31px;
 }

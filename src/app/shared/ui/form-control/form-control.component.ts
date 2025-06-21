@@ -6,6 +6,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextareaModule } from 'primeng/textarea';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { PasswordModule } from 'primeng/password';
 import { StateService } from '../../../core/services/state.service';
 
 @Component({
@@ -19,6 +20,7 @@ import { StateService } from '../../../core/services/state.service';
     TranslateModule,
     TextareaModule,
     InputNumberModule,
+    PasswordModule,
   ],
   templateUrl: './form-control.component.html',
   styleUrls: ['./form-control.component.scss'],
@@ -28,7 +30,7 @@ export class FormControlComponent {
   label = input('');
   placeholder = input('');
   control = input<FormControl>();
-  type = input<'text' | 'select' | 'date' | 'textarea' | 'number'>('text');
+  type = input<'text' | 'select' | 'date' | 'textarea' | 'number' | 'password'>('text');
   options = input<any[]>();
   optionValue = input('value');
   variant = input<'filled' | ''>('');

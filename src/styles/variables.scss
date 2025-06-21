@@ -47,7 +47,8 @@ $primary-color: #10b981;
     outline: none;
   }
 
-  .p-datepicker {
+  .p-datepicker,
+  .p-password {
     width: 100%;
   }
 
@@ -55,5 +56,9 @@ $primary-color: #10b981;
     border: 1px solid red !important;
     border-radius: 6px;
     box-shadow: none;
+  }
+
+  p-password.ng-invalid.ng-touched {
+    border: none !important;
   }
 }

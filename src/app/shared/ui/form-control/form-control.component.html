@@ -51,6 +51,13 @@
       [formControl]="control()!"
       [attr.variant]="variant() || null"
     />
+    <p-password
+      *ngSwitchCase="'password'"
+      [id]="label()"
+      [formControl]="control()!"
+      toggleMask="true"
+      inputStyleClass="regular-input"
+    ></p-password>
     <ng-content *ngSwitchDefault></ng-content>
   </ng-container>
 </div>

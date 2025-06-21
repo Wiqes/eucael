@@ -5,7 +5,7 @@
       <app-form-control label="One-Time Password" [control]="formControls['otp']" />
       } @else {
       <app-form-control label="Email" [control]="formControls['email']" />
-      <app-form-control label="Password" [control]="formControls['password']" />
+      <app-form-control type="password" label="Password" [control]="formControls['password']" />
       }
       <div class="buttons-container">
         @if(otpRequested()) {
@@ -35,7 +35,9 @@
       </div>
     </form>
     @if(!otpRequested()) {
-    <app-google-button />
+    <div class="google-button-container">
+      <app-google-button />
+    </div>
     }
   </div>
 </div>
