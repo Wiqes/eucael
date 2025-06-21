@@ -2,7 +2,7 @@
   <div class="form-container">
     <form [formGroup]="form" class="form-content">
       @if(otpRequested()) {
-      <app-form-control label="OTP" [control]="formControls['otp']" />
+      <app-form-control label="One-Time Password" [control]="formControls['otp']" />
       } @else {
       <app-form-control label="Email" [control]="formControls['email']" />
       <app-form-control label="Password" [control]="formControls['password']" />

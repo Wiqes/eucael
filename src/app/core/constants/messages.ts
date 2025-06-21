@@ -16,18 +16,18 @@ export const MESSAGES = {
   },
   OTP_SENT: {
     severity: 'success',
-    summary: 'OTP Sent',
-    detail: 'An OTP has been sent to your email.',
+    summary: 'One-Time Password Sent',
+    detail: 'An One-Time Password has been sent to your email.',
   },
   OTP_REQUEST_FAILED: {
     severity: 'error',
-    summary: 'OTP Request Failed',
-    detail: 'Failed to send OTP. Please try again.',
+    summary: 'One-Time Password Request Failed',
+    detail: 'Failed to send One-Time Password. Please try again.',
   },
   OTP_IS_REQUIRED: {
     severity: 'error',
-    summary: 'OTP Required',
-    detail: 'Please enter the OTP sent to your email.',
+    summary: 'One-Time Password Required',
+    detail: 'Please enter the One-Time Password sent to your email.',
   },
   REGISTRATION_SUCCESS: {
     severity: 'success',
