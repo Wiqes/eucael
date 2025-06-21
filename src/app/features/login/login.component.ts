@@ -177,8 +177,4 @@ export class LoginComponent {
         },
       });
   }
-
-  googleLogin() {
-    window.location.href = `${environment.API_URL}/auth/google`;
-  }
 }
