@@ -1,124 +1,39 @@
-<div class="flex md:flex-row items-center justify-center min-h-[60vh]">
-  <div class="w-full md:w-5/12 flex flex-col items-center justify-center gap-4 py-8 px-4">
-    <form
-      (ngSubmit)="login()"
-      #loginForm="ngForm"
-      class="flex flex-col gap-4 w-full max-w-[17.35rem]"
-    >
-      <div class="flex flex-col gap-2">
-        <label for="username">Username</label>
-        <input
-          pInputText
-          id="username"
-          type="text"
-          [(ngModel)]="username"
-          name="username"
-          required
-          autocomplete="username"
-        />
-      </div>
-      <div class="flex flex-col gap-2">
-        <label for="password">Password</label>
-        <input
-          pInputText
-          id="password"
-          type="password"
-          [(ngModel)]="password"
-          name="password"
-          required
-          autocomplete="current-password"
-        />
-      </div>
+<div class="login-container">
+  <div class="form-container">
+    <form [formGroup]="form" class="form-content">
+      @if(otpRequested) {
+      <app-form-control label="OTP" [control]="formControls['otp']" />
+      } @else {
+      <app-form-control label="Email" [control]="formControls['email']" />
+      <app-form-control label="Password" [control]="formControls['password']" />
+      }
       <div class="buttons-container">
+        @if(otpRequested) {
+        <p-button
+          label="Back to Login"
+          icon="pi pi-check"
+          (onClick)="otpRequested = false"
+          [disabled]="loadingLogin"
+        />
+        } @else {
         <p-button
           label="Login"
           icon="pi pi-user"
           type="submit"
-          severity="info"
-          [disabled]="loginForm.invalid || loadingLogin"
+          (onClick)="login()"
+          [disabled]="form.invalid || loadingLogin || loadingRegistration"
           [loading]="loadingLogin"
         />
+        }
         <p-button
           label="Sign Up"
           icon="pi pi-user-plus"
-          severity="info"
-          (click)="showRegister = true"
+          (onClick)="register()"
+          [disabled]="form.invalid || loadingLogin || loadingRegistration"
+          [loading]="loadingRegistration"
         />
       </div>
     </form>
     <app-google-button (click)="googleLogin()" />
   </div>
-  <p-dialog
-    header="Register"
-    [(visible)]="showRegister"
-    [modal]="true"
-    [closable]="true"
-    [dismissableMask]="true"
-    [style]="{ width: '350px' }"
-  >
-    <form
-      (ngSubmit)="register()"
-      #registerForm="ngForm"
-      autocomplete="off"
-      class="p-fluid flex flex-col gap-4"
-    >
-      <div class="flex flex-col gap-2">
-        <label for="reg-username">Email</label>
-        <input
-          pInputText
-          id="reg-username"
-          type="email"
-          [(ngModel)]="regUsername"
-          name="regUsername"
-          required
-          autocomplete="username"
-          [readonly]="otpRequested"
-        />
-      </div>
-      <div class="flex flex-col gap-2">
-        <label for="reg-password">Password</label>
-        <input
-          pInputText
-          id="reg-password"
-          type="password"
-          [(ngModel)]="regPassword"
-          name="regPassword"
-          required
-          autocomplete="new-password"
-          [readonly]="otpRequested"
-        />
-      </div>
-      <div *ngIf="otpRequested" class="flex flex-col gap-2">
-        <label for="reg-otp">OTP</label>
-        <input
-          pInputText
-          id="reg-otp"
-          type="text"
-          [(ngModel)]="regOtp"
-          name="regOtp"
-          required
-          autocomplete="one-time-code"
-        />
-      </div>
-      <p-button
-        [label]="otpRequested ? 'Register' : 'Request OTP'"
-        icon="pi pi-user-plus"
-        type="submit"
-        severity="info"
-        class="w-full"
-        styleClass="w-full"
-        [loading]="loadingLogin"
-        [disabled]="
-          (!otpRequested &&
-            ((registerForm.controls['regUsername'] &&
-              registerForm.controls['regUsername'].invalid) ||
-              (registerForm.controls['regPassword'] &&
-                registerForm.controls['regPassword'].invalid))) ||
-          (otpRequested &&
-            registerForm.controls['regOtp'] &&
-            registerForm.controls['regOtp'].invalid)
-        "
-      />
-    </form>
-  </p-dialog>
 </div>

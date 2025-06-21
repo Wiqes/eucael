@@ -1,235 +1,29 @@
-:host ::ng-deep .p-button-outlined {
-  color: black !important;
-}
-
-.buttons-container {
+.login-container {
   display: flex;
-  justify-content: space-between;
-}
-
-h2 {
-  margin-bottom: 2rem;
-  color: var(--primary-color, #2196f3);
-  font-weight: 600;
-  letter-spacing: 1px;
-}
-
-form {
-  width: 100%;
-}
-
-.p-field {
-  margin-bottom: 1.5rem;
-}
-
-.p-inputtext {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-.p-inputtext:focus {
-  border-color: var(--primary-color, #2196f3);
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.15);
-}
-
-.p-d-flex {
-  display: flex;
-}
-
-.p-jc-between {
-  justify-content: space-between;
-}
-
-.p-mt-3 {
-  margin-top: 1.5rem;
-}
-
-.p-mr-2 {
-  margin-right: 0.75rem;
-}
-
-.p-mt-2 {
-  margin-top: 1rem;
-}
-
-.p-button {
-  min-width: 120px;
-  font-weight: 600;
-  border-radius: 8px;
-  font-size: 1.05rem;
-  box-shadow: 0 2px 8px 0 rgba(44, 62, 80, 0.08);
-  transition: box-shadow 0.2s;
-}
-
-.p-button:focus {
-  box-shadow: 0 4px 16px 0 rgba(33, 150, 243, 0.1);
-}
-
-.p-dialog .p-field {
-  margin-bottom: 1.25rem;
-}
-
-.p-dialog .p-inputtext {
-  padding: 0.65rem 1rem;
-}
-
-@media (max-width: 380px) {
-  .login-container {
-    padding: 1.2rem 0.5rem;
-  }
-  .p-dialog {
-    width: 85vw !important;
-  }
-}
-
-.flex {
-  display: flex;
-}
-.flex-col {
-  flex-direction: column;
-}
-.items-center {
-  align-items: center;
-}
-.justify-center {
   justify-content: center;
-}
-.gap-2 {
-  gap: 0.5rem;
-}
-.gap-3 {
-  gap: 0.75rem;
-}
-.gap-4 {
-  gap: 1rem;
-}
-.py-5 {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-}
-.py-8 {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-}
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-.w-full {
-  width: 100%;
-}
-.max-w-\[17\.35rem\] {
-  max-width: 17.35rem;
-}
-.min-h-\[60vh\] {
-  min-height: 60vh;
-}
-.md\:flex-row {
-  @media (min-width: 768px) {
-    flex-direction: row;
-  }
-}
-.md\:w-5\/12 {
-  @media (min-width: 768px) {
-    width: 41.666667%;
-  }
-}
-.md\:w-2\/12 {
-  @media (min-width: 768px) {
-    width: 16.666667%;
-  }
-}
-.md\:hidden {
-  @media (min-width: 768px) {
-    display: none !important;
-  }
-}
-.md\:flex {
-  @media (min-width: 768px) {
-    display: flex !important;
-  }
-}
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
+  padding-top: 40px;
+  align-items: flex-start;
+  min-height: 50vh;
 
-/* Form and input enhancements */
-form {
-  width: 100%;
-}
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
 
-label {
-  font-weight: 500;
-  color: #374151;
-  margin-bottom: 0.25rem;
-}
-input[pInputText] {
-  background: #f9fafb;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-input[pInputText]:focus {
-  border-color: var(--primary-color, #2196f3);
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.12);
-  outline: none;
-}
+    .form-content {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      width: 100%;
 
-/* Button enhancements */
-.p-button {
-  min-width: 120px;
-  font-weight: 600;
-  border-radius: 8px;
-  font-size: 1.05rem;
-  box-shadow: 0 2px 8px 0 rgba(44, 62, 80, 0.08);
-  transition: box-shadow 0.2s;
-}
-.p-button:focus {
-  box-shadow: 0 4px 16px 0 rgba(33, 150, 243, 0.1);
-}
-
-/* Dialog styles */
-.p-dialog .p-field {
-  margin-bottom: 1.25rem;
-}
-.p-dialog .p-inputtext {
-  padding: 0.65rem 1rem;
-}
-
-/* Responsive tweaks */
-@media (max-width: 900px) {
-  .md\:flex-row {
-    flex-direction: column !important;
+      .buttons-container {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
   }
-  .md\:w-5\/12,
-  .md\:w-2\/12 {
-    width: 100% !important;
-  }
-}
-@media (max-width: 600px) {
-  .py-8 {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-  .px-4 {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-}
-
-/* Ensure all PrimeNG buttons have enough min-width for text */
-.p-button {
-  min-width: 120px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px 0 rgba(44, 62, 80, 0.08);
-  transition: box-shadow 0.2s;
 }

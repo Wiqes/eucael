@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
@@ -8,8 +8,9 @@ import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { environment } from '../../../environments/environment';
-import { NgIf } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleButtonComponent } from '../../shared/ui/google-button/google-button.component';
+import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
 
 @Component({
   selector: 'app-login',
@@ -19,36 +20,37 @@ import { GoogleButtonComponent } from '../../shared/ui/google-button/google-butt
     DialogModule,
     InputTextModule,
     ButtonModule,
+    ReactiveFormsModule,
     DividerModule,
-    NgIf,
     GoogleButtonComponent,
+    FormControlComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  username = '';
-  password = '';
-  regUsername = '';
-  regPassword = '';
-  regOtp = '';
-  showRegister = false;
   loadingLogin = false;
+  loadingRegistration = false;
   otpRequested = false;
-  emailSent = '';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private messageService: MessageService,
-  ) {}
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private messageService = inject(MessageService);
+  private formBuilder = inject(FormBuilder);
+
+  form = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+    otp: ['', [Validators.pattern(/^\d{6}$/)]],
+  });
+  formControls = this.form.controls;
 
   login() {
     this.loadingLogin = true;
     this.http
       .post<any>(`${environment.API_URL}/auth/login`, {
-        username: this.username,
-        password: this.password,
+        username: this.formControls['email'].value,
+        password: this.formControls['password'].value,
       })
       .subscribe({
         next: (res) => {
@@ -90,33 +92,22 @@ export class LoginComponent {
 
   register() {
     if (!this.otpRequested) {
-      // Step 1: Validate email and password, then request OTP
-      if (!this.regUsername.trim() || !this.regPassword.trim()) {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Validation',
-          detail: 'Email and password are required.',
-          life: 4000,
-        });
-        return;
-      }
       // Save email for OTP step
-      this.loadingLogin = true;
-      this.emailSent = this.regUsername.trim();
+      this.loadingRegistration = true;
       this.http
         .post<any>(`${environment.API_URL}/auth/request-otp`, {
-          username: this.emailSent,
+          username: this.formControls['email'].value,
         })
         .subscribe({
           next: () => {
-            this.otpRequested = true;
             this.messageService.add({
               severity: 'success',
               summary: 'OTP Sent',
               detail: 'An OTP has been sent to your email.',
               life: 4000,
             });
-            this.loadingLogin = false;
+            this.loadingRegistration = false;
+            this.otpRequested = true;
           },
           error: (err) => {
             this.messageService.add({
@@ -125,13 +116,13 @@ export class LoginComponent {
               detail: err.error?.message || 'Failed to send OTP.',
               life: 4000,
             });
-            this.loadingLogin = false;
+            this.loadingRegistration = false;
           },
         });
       return;
     }
     // Step 2: Register with OTP
-    if (!this.regOtp.trim()) {
+    if (this.otpRequested && !this.formControls['otp'].value) {
       this.messageService.add({
         severity: 'warn',
         summary: 'Validation',
@@ -140,28 +131,23 @@ export class LoginComponent {
       });
       return;
     }
-    this.loadingLogin = true;
+    this.loadingRegistration = true;
     this.http
       .post<any>(`${environment.API_URL}/auth/register`, {
-        username: this.emailSent,
-        password: this.regPassword,
-        otp: this.regOtp,
+        username: this.formControls['email'].value,
+        password: this.formControls['password'].value,
+        otp: this.formControls['otp'].value,
       })
       .subscribe({
         next: () => {
-          this.showRegister = false;
-          this.regUsername = '';
-          this.regPassword = '';
-          this.regOtp = '';
           this.otpRequested = false;
-          this.emailSent = '';
           this.messageService.add({
             severity: 'success',
             summary: 'Registration Successful',
             detail: 'Please login.',
             life: 4000,
           });
-          this.loadingLogin = false;
+          this.loadingRegistration = false;
         },
         error: (err) => {
           let detail = err.error?.message || 'Registration failed';
@@ -172,7 +158,7 @@ export class LoginComponent {
             detail,
             life: 4000,
           });
-          this.loadingLogin = false;
+          this.loadingRegistration = false;
         },
       });
   }
