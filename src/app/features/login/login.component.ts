@@ -5,12 +5,13 @@ import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { MessageService } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { environment } from '../../../environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleButtonComponent } from '../../shared/ui/google-button/google-button.component';
 import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
+import { MessageService } from '../../core/services/message.service';
+import { MESSAGES } from '../../core/constants/messages';
 
 @Component({
   selector: 'app-login',
@@ -75,31 +76,16 @@ export class LoginComponent {
               window.localStorage.setItem('token', res.access_token);
             }
           } catch (e) {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Storage Error',
-              detail: 'Unable to save token. Please check your browser settings.',
-              life: 4000,
-            });
+            this.messageService.sendMessage(MESSAGES.STORAGE_ERROR);
           }
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Login Successful',
-            detail: 'Welcome!',
-            life: 4000,
-          });
+          this.messageService.sendMessage(MESSAGES.LOGIN_SUCCESS);
           setTimeout(() => {
             this.router.navigate(['/cases']);
             this.loadingLogin = false;
           }, 800);
         },
-        error: (err) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Login Failed',
-            detail: err.error?.message || 'Login failed',
-            life: 4000,
-          });
+        error: () => {
+          this.messageService.sendMessage(MESSAGES.LOGIN_FAILED);
           this.loadingLogin = false;
         },
       });
@@ -115,22 +101,12 @@ export class LoginComponent {
         })
         .subscribe({
           next: () => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'OTP Sent',
-              detail: 'An OTP has been sent to your email.',
-              life: 4000,
-            });
+            this.messageService.sendMessage(MESSAGES.OTP_SENT);
             this.loadingRegistration = false;
             this.otpRequested.set(true);
           },
           error: (err) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'OTP Request Failed',
-              detail: err.error?.message || 'Failed to send OTP.',
-              life: 4000,
-            });
+            this.messageService.sendMessage(MESSAGES.OTP_REQUEST_FAILED);
             this.loadingRegistration = false;
           },
         });
@@ -138,12 +114,7 @@ export class LoginComponent {
     }
     // Step 2: Register with OTP
     if (this.otpRequested() && !this.formControls['otp'].value) {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Validation',
-        detail: 'OTP is required.',
-        life: 4000,
-      });
+      this.messageService.sendMessage(MESSAGES.OTP_IS_REQUIRED);
       return;
     }
     this.loadingRegistration = true;
@@ -156,23 +127,11 @@ export class LoginComponent {
       .subscribe({
         next: () => {
           this.otpRequested.set(false);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Registration Successful',
-            detail: 'Please login.',
-            life: 4000,
-          });
+          this.messageService.sendMessage(MESSAGES.REGISTRATION_SUCCESS);
           this.loadingRegistration = false;
         },
-        error: (err) => {
-          let detail = err.error?.message || 'Registration failed';
-          if (typeof detail !== 'string') detail = 'Registration failed';
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Registration Failed',
-            detail,
-            life: 4000,
-          });
+        error: () => {
+          this.messageService.sendMessage(MESSAGES.REGISTRATION_FAILED);
           this.loadingRegistration = false;
         },
       });
