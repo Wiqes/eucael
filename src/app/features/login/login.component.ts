@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -31,7 +31,7 @@ import { FormControlComponent } from '../../shared/ui/form-control/form-control.
 export class LoginComponent {
   loadingLogin = false;
   loadingRegistration = false;
-  otpRequested = false;
+  otpRequested = signal(false);
 
   private http = inject(HttpClient);
   private router = inject(Router);
@@ -41,9 +41,24 @@ export class LoginComponent {
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
-    otp: ['', [Validators.pattern(/^\d{6}$/)]],
+    otp: ['', [Validators.pattern(/^[0-9]{6}$/)]],
   });
   formControls = this.form.controls;
+
+  constructor() {
+    effect(() => {
+      const required = this.otpRequested();
+      const otpControl = this.formControls['otp'];
+      if (required) {
+        otpControl.addValidators(Validators.required);
+      } else {
+        otpControl.removeValidators(Validators.required);
+        otpControl.setValue('');
+        otpControl.markAsUntouched();
+      }
+      otpControl.updateValueAndValidity();
+    });
+  }
 
   login() {
     this.loadingLogin = true;
@@ -91,7 +106,7 @@ export class LoginComponent {
   }
 
   register() {
-    if (!this.otpRequested) {
+    if (!this.otpRequested()) {
       // Save email for OTP step
       this.loadingRegistration = true;
       this.http
@@ -107,7 +122,7 @@ export class LoginComponent {
               life: 4000,
             });
             this.loadingRegistration = false;
-            this.otpRequested = true;
+            this.otpRequested.set(true);
           },
           error: (err) => {
             this.messageService.add({
@@ -122,7 +137,7 @@ export class LoginComponent {
       return;
     }
     // Step 2: Register with OTP
-    if (this.otpRequested && !this.formControls['otp'].value) {
+    if (this.otpRequested() && !this.formControls['otp'].value) {
       this.messageService.add({
         severity: 'warn',
         summary: 'Validation',
@@ -140,7 +155,7 @@ export class LoginComponent {
       })
       .subscribe({
         next: () => {
-          this.otpRequested = false;
+          this.otpRequested.set(false);
           this.messageService.add({
             severity: 'success',
             summary: 'Registration Successful',
@@ -164,7 +179,6 @@ export class LoginComponent {
   }
 
   googleLogin() {
-    // Redirect to backend Google OAuth endpoint
     window.location.href = `${environment.API_URL}/auth/google`;
   }
 }
