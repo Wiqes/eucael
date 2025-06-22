@@ -144,4 +144,8 @@ export class LoginComponent {
     this.formControls['otp'].setValue('');
     this.formControls['confirmPassword'].setValue('');
   }
+
+  onForgotPassword() {
+    this.messageService.sendMessage(MESSAGES.FORGOT_PASSWORD_INFO);
+  }
 }

@@ -42,4 +42,10 @@ export const MESSAGES = {
     summary: 'Password Mismatch',
     detail: 'The password confirmation does not match. Please try again.',
   },
+  FORGOT_PASSWORD_INFO: {
+    severity: 'info',
+    summary: 'Forgot Password',
+    detail: 'Forgot password clicked! (implement logic)',
+    life: 3000,
+  },
 };

@@ -5,7 +5,27 @@
       <app-form-control label="One-Time Password" [control]="formControls['otp']" />
       } @else {
       <app-form-control label="Email" [control]="formControls['email']" />
-      <app-form-control type="password" label="Password" [control]="formControls['password']" />
+      <div style="position: relative">
+        <app-form-control type="password" label="Password" [control]="formControls['password']" />
+        <p-button
+          label="Forgot password?"
+          class="forgot-password-abs"
+          [style]="{
+            position: 'absolute',
+            top: '15%',
+            right: '-0.44rem',
+            transform: 'translateY(-50%)',
+            fontSize: '0.95em',
+            zIndex: 2,
+            background: 'none',
+            border: 'none',
+            color: '#34d399',
+            boxShadow: 'none'
+          }"
+          (onClick)="onForgotPassword()"
+          [text]="true"
+        ></p-button>
+      </div>
       } @if(passwordConfirmationRequested()) {
       <app-form-control
         type="password"
