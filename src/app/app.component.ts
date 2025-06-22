@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
@@ -12,7 +12,7 @@ import { ToastComponent } from './shared/ui/toast/toast.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   isLoginPage = false;
 
   constructor(private router: Router) {
@@ -21,5 +21,9 @@ export class AppComponent {
     });
     // Set initial value
     this.isLoginPage = this.router.url === '/' || this.router.url.startsWith('/?');
+  }
+  ngOnInit(): void {
+    const element = document.querySelector('html');
+    element?.classList.toggle('wiqes-app-dark');
   }
 }

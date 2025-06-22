@@ -43,9 +43,6 @@ p-select {
   height: 31px;
 }
 
-:host ::ng-deep input[variant='filled'],
-:host ::ng-deep textarea[variant='filled'],
-:host ::ng-deep .p-inputnumber-input[variant='filled'] {
-  background-color: #e2e8f0 !important;
-  border: 2px solid #cbd5e1 !important;
+:host ::ng-deep p-password.ng-invalid.ng-dirty .p-inputtext {
+  border-color: $red-color !important;
 }

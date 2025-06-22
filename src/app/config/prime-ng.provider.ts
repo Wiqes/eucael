@@ -7,6 +7,9 @@ export const primeNGProvider = () => [
   providePrimeNG({
     theme: {
       preset: Aura,
+      options: {
+        darkModeSelector: '.wiqes-app-dark',
+      },
     },
   }),
   ToastModule,
