@@ -33,6 +33,7 @@ export class LoginComponent {
   loadingLogin = false;
   loadingRegistration = false;
   otpRequested = signal(false);
+  passwordConfirmationRequested = signal(false);
 
   private http = inject(HttpClient);
   private router = inject(Router);
@@ -42,6 +43,7 @@ export class LoginComponent {
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
+    confirmPassword: [''],
     otp: ['', [Validators.pattern(/^[0-9]{6}$/)]],
   });
   formControls = this.form.controls;
@@ -72,7 +74,7 @@ export class LoginComponent {
         next: (res) => {
           // Try to save token in a more robust way
           try {
-            if (res && res.access_token) {
+            if (res?.access_token) {
               window.localStorage.setItem('token', res.access_token);
             }
           } catch (e) {
@@ -91,32 +93,31 @@ export class LoginComponent {
       });
   }
 
+  requestOTP() {
+    if (this.formControls['password'].value !== this.formControls['confirmPassword'].value) {
+      this.messageService.sendMessage(MESSAGES.PASSWORD_MISMATCH);
+      return;
+    }
+    this.loadingRegistration = true;
+    this.http
+      .post<any>(`${environment.API_URL}/auth/request-otp`, {
+        username: this.formControls['email'].value,
+      })
+      .subscribe({
+        next: () => {
+          this.messageService.sendMessage(MESSAGES.OTP_SENT);
+          this.loadingRegistration = false;
+          this.otpRequested.set(true);
+          this.passwordConfirmationRequested.set(false);
+        },
+        error: () => {
+          this.messageService.sendMessage(MESSAGES.OTP_REQUEST_FAILED);
+          this.loadingRegistration = false;
+        },
+      });
+  }
+
   register() {
-    if (!this.otpRequested()) {
-      // Save email for OTP step
-      this.loadingRegistration = true;
-      this.http
-        .post<any>(`${environment.API_URL}/auth/request-otp`, {
-          username: this.formControls['email'].value,
-        })
-        .subscribe({
-          next: () => {
-            this.messageService.sendMessage(MESSAGES.OTP_SENT);
-            this.loadingRegistration = false;
-            this.otpRequested.set(true);
-          },
-          error: (err) => {
-            this.messageService.sendMessage(MESSAGES.OTP_REQUEST_FAILED);
-            this.loadingRegistration = false;
-          },
-        });
-      return;
-    }
-    // Step 2: Register with OTP
-    if (this.otpRequested() && !this.formControls['otp'].value) {
-      this.messageService.sendMessage(MESSAGES.OTP_IS_REQUIRED);
-      return;
-    }
     this.loadingRegistration = true;
     this.http
       .post<any>(`${environment.API_URL}/auth/register`, {

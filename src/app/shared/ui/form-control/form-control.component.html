@@ -55,7 +55,8 @@
       *ngSwitchCase="'password'"
       [id]="label()"
       [formControl]="control()!"
-      toggleMask="true"
+      [toggleMask]="true"
+      [feedback]="false"
       inputStyleClass="regular-input"
     ></p-password>
     <ng-content *ngSwitchDefault></ng-content>

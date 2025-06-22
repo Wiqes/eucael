@@ -9,6 +9,6 @@ export class MessageService {
   private messageService = inject(PrimeNGMessageService);
 
   sendMessage(message: IMessage) {
-    this.messageService.add({ ...message, life: message.life ?? 7000 });
+    this.messageService.add({ ...message, life: message.life ?? 3000 });
   }
 }

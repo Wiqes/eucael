@@ -3,6 +3,7 @@ export const MESSAGES = {
     severity: 'success',
     summary: 'Login Successful',
     detail: 'Welcome!',
+    life: 1000,
   },
   LOGIN_FAILED: {
     severity: 'error',
@@ -18,16 +19,13 @@ export const MESSAGES = {
     severity: 'success',
     summary: 'One-Time Password Sent',
     detail: 'An One-Time Password has been sent to your email.',
+    life: 7000,
   },
   OTP_REQUEST_FAILED: {
     severity: 'error',
     summary: 'OTP Request Failed',
     detail: 'Failed to send One-Time Password. Email already exists.',
-  },
-  OTP_IS_REQUIRED: {
-    severity: 'error',
-    summary: 'One-Time Password Required',
-    detail: 'Please enter the One-Time Password sent to your email.',
+    life: 7000,
   },
   REGISTRATION_SUCCESS: {
     severity: 'success',
@@ -38,5 +36,10 @@ export const MESSAGES = {
     severity: 'error',
     summary: 'Registration Failed',
     detail: 'Invalid or expired OTP. Please try again.',
+  },
+  PASSWORD_MISMATCH: {
+    severity: 'error',
+    summary: 'Password Mismatch',
+    detail: 'The password confirmation does not match. Please try again.',
   },
 };

@@ -6,16 +6,30 @@
       } @else {
       <app-form-control label="Email" [control]="formControls['email']" />
       <app-form-control type="password" label="Password" [control]="formControls['password']" />
+      } @if(passwordConfirmationRequested()) {
+      <app-form-control
+        type="password"
+        label="Confirm Password"
+        [control]="formControls['confirmPassword']"
+      />
       }
       <div class="buttons-container">
-        @if(otpRequested()) {
+        @if(otpRequested() || passwordConfirmationRequested()) {
         <p-button
-          label="Login"
+          label="Back"
           icon="pi pi-arrow-left"
-          (onClick)="otpRequested.set(false)"
-          [disabled]="loadingLogin"
+          [disabled]="loadingLogin || loadingRegistration"
+          (onClick)="otpRequested.set(false); passwordConfirmationRequested.set(false)"
         />
-        } @else {
+        } @if(otpRequested()) {
+        <p-button
+          label="Sign Up"
+          icon="pi pi-user-plus"
+          (onClick)="register()"
+          [disabled]="form.invalid || loadingRegistration"
+          [loading]="loadingRegistration"
+        />
+        } @if(!otpRequested() && !passwordConfirmationRequested()) {
         <p-button
           label="Login"
           icon="pi pi-user"
@@ -24,17 +38,25 @@
           [disabled]="form.invalid || loadingLogin || loadingRegistration"
           [loading]="loadingLogin"
         />
-        }
         <p-button
           label="Sign Up"
           icon="pi pi-user-plus"
-          (onClick)="register()"
+          (onClick)="passwordConfirmationRequested.set(true)"
           [disabled]="form.invalid || loadingLogin || loadingRegistration"
           [loading]="loadingRegistration"
         />
+        } @if(passwordConfirmationRequested()) {
+        <p-button
+          label="Continue"
+          icon="pi pi-arrow-right"
+          (onClick)="requestOTP()"
+          [disabled]="form.invalid || loadingRegistration"
+          [loading]="loadingRegistration"
+        />
+        }
       </div>
     </form>
-    @if(!otpRequested()) {
+    @if(!otpRequested() && !passwordConfirmationRequested()) {
     <div class="google-button-container">
       <app-google-button />
     </div>
