@@ -21,8 +21,8 @@ export const MESSAGES = {
   },
   OTP_REQUEST_FAILED: {
     severity: 'error',
-    summary: 'One-Time Password Request Failed',
-    detail: 'Failed to send One-Time Password. Please try again.',
+    summary: 'OTP Request Failed',
+    detail: 'Failed to send One-Time Password. Email already exists.',
   },
   OTP_IS_REQUIRED: {
     severity: 'error',
@@ -37,6 +37,6 @@ export const MESSAGES = {
   REGISTRATION_FAILED: {
     severity: 'error',
     summary: 'Registration Failed',
-    detail: 'Registration failed. Please try again.',
+    detail: 'Invalid or expired OTP. Please try again.',
   },
 };
