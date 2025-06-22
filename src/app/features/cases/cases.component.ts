@@ -2,8 +2,9 @@ import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common';
+import { MessageService } from '../../core/services/message.service';
+import { MESSAGES } from '../../core/constants/messages';
 
 @Component({
   selector: 'app-cases',
@@ -27,17 +28,9 @@ export class CasesComponent {
         try {
           window.localStorage.setItem('token', token);
         } catch (e) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Storage Error',
-            detail: 'Unable to save token. Please check your browser settings.',
-          });
+          this.messageService.sendMessage(MESSAGES.STORAGE_ERROR);
         }
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Login Successful',
-          detail: 'Welcome! You are now logged in with Google.',
-        });
+        this.messageService.sendMessage(MESSAGES.LOGIN_SUCCESS);
         // Remove token from URL for cleanliness
         this.location.replaceState(this.router.url.split('?')[0]);
       }

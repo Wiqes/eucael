@@ -19,7 +19,7 @@
           label="Back"
           icon="pi pi-arrow-left"
           [disabled]="loadingLogin || loadingRegistration"
-          (onClick)="otpRequested.set(false); passwordConfirmationRequested.set(false)"
+          (onClick)="backToLogin()"
         />
         } @if(otpRequested()) {
         <p-button

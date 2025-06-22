@@ -137,4 +137,11 @@ export class LoginComponent {
         },
       });
   }
+
+  backToLogin() {
+    this.otpRequested.set(false);
+    this.passwordConfirmationRequested.set(false);
+    this.formControls['otp'].setValue('');
+    this.formControls['confirmPassword'].setValue('');
+  }
 }
