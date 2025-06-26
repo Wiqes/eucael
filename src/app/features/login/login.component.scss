@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 .login-container {
   display: flex;
   justify-content: center;
@@ -23,6 +25,20 @@
         display: flex;
         width: 100%;
         justify-content: space-between;
+      }
+
+      .forgot-password-button {
+        position: absolute;
+        top: 15%;
+        right: -0.44rem;
+        transform: translateY(-50%);
+        font-size: 0.95em;
+        z-index: 2;
+        padding: 0;
+        background: none;
+        border: none;
+        color: $primary-color;
+        box-shadow: none;
       }
     }
 
