@@ -5,21 +5,18 @@ import { Component } from '@angular/core';
   standalone: true,
   template: `
     <svg xmlns="http://www.w3.org/2000/svg" width="90" height="28" viewBox="0 0 90 28" fill="none">
-      <!-- W (fixed to look less like "V") -->
+      <!-- W  -->
       <path
-        d="M0 5.87944H3.2L5.2 17.5L7.2 9.5L9.2 17.5L11.2 5.87944H14.4L10.2 22.1212H8.2L7.2 17.5L6.2 22.1212H4.6L0 5.87944Z"
+        d="M1.5 6L5 22H7.5L9 14L10.5 22H13L16.5 6H13.5L11.5 16L9.5 6H7.5L5.5 16L3.5 6H1.5Z"
         fill="#00A780"
       />
-      <!-- I -->
-      <rect x="16" y="5.87944" width="4.8" height="16.2418" fill="#00A780" />
-      <rect x="16" y="0" width="4.8" height="4.09072" fill="#00A780" />
-      <!-- Q -->
-      <path
-        d="M24.5 14.031C24.5 9.36461 28.2893 5.57752 33.3928 5.57752C38.4668 5.57752 42.2242 9.30465 42.2242 13.9725V14.033C42.2242 18.6994 38.4349 22.4865 33.3314 22.4865C28.2279 22.4865 24.5 18.6994 24.5 14.031ZM37.5 18.5C39.5 18.5 40.5 17.5 40.5 15.5C40.5 13.5 39.5 12.5 37.5 12.5C35.5 12.5 34.5 13.5 34.5 15.5C34.5 17.5 35.5 18.5 37.5 18.5ZM39.5 20.5L43 24"
-        stroke="#00A780"
-        stroke-width="2"
-        fill="none"
-      />
+      <!-- I  -->
+      <rect x="18" y="6" width="3.5" height="16" rx="1.5" fill="#00A780" />
+      <rect x="18" y="2" width="3.5" height="2.5" rx="1.25" fill="#00A780" />
+      <!-- Q (more circular, elegant tail) -->
+      <ellipse cx="29.5" cy="14" rx="6.5" ry="8" fill="none" stroke="#00A780" stroke-width="2" />
+      <ellipse cx="29.5" cy="14" rx="4.5" ry="6" fill="none" stroke="#00A780" stroke-width="2" />
+      <path d="M33.5 19.5L37 24" stroke="#00A780" stroke-width="2" stroke-linecap="round" />
       <!-- E -->
       <path
         d="M45 5.87944H54V9.54655H49.6V12.5H53.5V16.1671H49.6V18.4547H54V22.1212H45V5.87944Z"
