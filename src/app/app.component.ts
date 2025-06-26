@@ -13,15 +13,6 @@ import { ToastComponent } from './shared/ui/toast/toast.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  isLoginPage = false;
-
-  constructor(private router: Router) {
-    this.router.events.subscribe(() => {
-      this.isLoginPage = this.router.url === '/' || this.router.url.startsWith('/?');
-    });
-    // Set initial value
-    this.isLoginPage = this.router.url === '/' || this.router.url.startsWith('/?');
-  }
   ngOnInit(): void {
     const element = document.querySelector('html');
     element?.classList.toggle('wiqes-app-dark');
