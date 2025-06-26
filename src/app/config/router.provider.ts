@@ -1,19 +1,46 @@
 import { provideRouter, Routes } from '@angular/router';
-import { CasesComponent } from '../features/cases/cases.component';
-import { CaseComponent } from '../features/case/case.component';
-import { CaseCreationComponent } from '../features/case-creation/case-creation.component';
-import { ProfileComponent } from '../features/profile/profile.component';
-import { LoginComponent } from '../features/login/login.component';
-import { ResetPasswordComponent } from '../features/reset-password/reset-password.component';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: 'home', component: CasesComponent },
-  { path: 'cases', component: CasesComponent },
-  { path: 'cases/:id', component: CaseComponent },
-  { path: 'case-creation', component: CaseCreationComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
+  {
+    path: '',
+    loadComponent: () => import('../features/login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: '',
+    outlet: 'header',
+    loadComponent: () => import('../layout/header/header.component').then((m) => m.HeaderComponent),
+  },
+  {
+    path: 'home',
+    loadComponent: () => import('../features/cases/cases.component').then((m) => m.CasesComponent),
+  },
+  {
+    path: 'cases',
+    loadComponent: () => import('../features/cases/cases.component').then((m) => m.CasesComponent),
+  },
+  {
+    path: 'cases/:id',
+    loadComponent: () => import('../features/case/case.component').then((m) => m.CaseComponent),
+  },
+  {
+    path: 'case-creation',
+    loadComponent: () =>
+      import('../features/case-creation/case-creation.component').then(
+        (m) => m.CaseCreationComponent,
+      ),
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('../features/profile/profile.component').then((m) => m.ProfileComponent),
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () =>
+      import('../features/reset-password/reset-password.component').then(
+        (m) => m.ResetPasswordComponent,
+      ),
+  },
 ];
 
 export const routerProvider = () => provideRouter(routes);
