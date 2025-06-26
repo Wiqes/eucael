@@ -5,7 +5,7 @@
       <app-form-control label="One-Time Password" [control]="formControls['otp']" />
       } @else {
       <app-form-control label="Email" [control]="formControls['email']" />
-      <div style="position: relative">
+      <div class="password-container">
         <app-form-control type="password" label="Password" [control]="formControls['password']" />
         <p-button
           label="Forgot password?"
