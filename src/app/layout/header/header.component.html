@@ -9,6 +9,7 @@
     </div>
   </div>
   <div class="container">
+    @if(displayName() || photoURL()) {
     <p-avatar
       [image]="photoURL() || undefined"
       [icon]="!photoURL() ? 'pi pi-user' : undefined"
@@ -22,6 +23,7 @@
       </ng-template>
       <app-chevron-down-icon />
     </div>
+    }
     <p-menu #langMenu [model]="langItems" [popup]="true"></p-menu>
     <div class="menu" (click)="langMenu.toggle($event)">
       <div class="label lang-label">{{ selectedLanguage() }}</div>
