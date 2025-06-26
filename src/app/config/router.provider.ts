@@ -4,6 +4,7 @@ import { CaseComponent } from '../features/case/case.component';
 import { CaseCreationComponent } from '../features/case-creation/case-creation.component';
 import { ProfileComponent } from '../features/profile/profile.component';
 import { LoginComponent } from '../features/login/login.component';
+import { ResetPasswordComponent } from '../features/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'cases/:id', component: CaseComponent },
   { path: 'case-creation', component: CaseCreationComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
 ];
 
 export const routerProvider = () => provideRouter(routes);

@@ -58,4 +58,14 @@ export const MESSAGES = {
     summary: 'Invalid Email',
     detail: 'Please enter a valid email address.',
   },
+  PASSWORD_RESET_SUCCESS: {
+    severity: 'success',
+    summary: 'Password Reset Successful',
+    detail: 'Your password has been reset successfully. Please login.',
+  },
+  PASSWORD_RESET_FAILED: {
+    severity: 'error',
+    summary: 'Password Reset Failed',
+    detail: 'Failed to reset password. Invalid or expired token.',
+  },
 };
