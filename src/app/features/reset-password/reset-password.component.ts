@@ -60,7 +60,7 @@ export class ResetPasswordComponent {
         next: () => {
           this.messageService.sendMessage(MESSAGES.PASSWORD_RESET_SUCCESS);
           setTimeout(() => {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/']);
             this.loadingResetPassword = false;
           }, 800);
         },
