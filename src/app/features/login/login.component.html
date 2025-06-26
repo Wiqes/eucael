@@ -12,6 +12,8 @@
           class="forgot-password-button"
           (onClick)="onForgotPassword()"
           [text]="true"
+          [disabled]="loadingResetPassword"
+          [loading]="loadingResetPassword"
         ></p-button>
       </div>
       } @if(passwordConfirmationRequested()) {

@@ -44,8 +44,18 @@ export const MESSAGES = {
   },
   FORGOT_PASSWORD_INFO: {
     severity: 'info',
-    summary: 'Forgot Password',
-    detail: 'Forgot password clicked! (implement logic)',
-    life: 3000,
+    summary: 'Link Sent',
+    detail: 'A password reset link has been sent to your email address.',
+    life: 7000,
+  },
+  FORGOT_PASSWORD_ERROR: {
+    severity: 'error',
+    summary: 'Error Sending Link',
+    detail: 'Failed to send password reset link. Please try again later.',
+  },
+  INVALID_EMAIL: {
+    severity: 'error',
+    summary: 'Invalid Email',
+    detail: 'Please enter a valid email address.',
   },
 };

@@ -32,6 +32,7 @@ import { MESSAGES } from '../../core/constants/messages';
 export class LoginComponent {
   loadingLogin = false;
   loadingRegistration = false;
+  loadingResetPassword = false;
   otpRequested = signal(false);
   passwordConfirmationRequested = signal(false);
 
@@ -146,6 +147,24 @@ export class LoginComponent {
   }
 
   onForgotPassword() {
-    this.messageService.sendMessage(MESSAGES.FORGOT_PASSWORD_INFO);
+    if (this.formControls['email'].invalid) {
+      this.messageService.sendMessage(MESSAGES.INVALID_EMAIL);
+      return;
+    }
+    this.loadingResetPassword = true;
+    this.http
+      .post<any>(`${environment.API_URL}/auth/request-password-reset`, {
+        username: this.formControls['email'].value,
+      })
+      .subscribe({
+        next: () => {
+          this.messageService.sendMessage(MESSAGES.FORGOT_PASSWORD_INFO);
+          this.loadingResetPassword = false;
+        },
+        error: () => {
+          this.messageService.sendMessage(MESSAGES.FORGOT_PASSWORD_ERROR);
+          this.loadingResetPassword = false;
+        },
+      });
   }
 }
