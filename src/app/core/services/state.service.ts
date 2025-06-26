@@ -9,7 +9,7 @@ import { DataAccessService } from './data-access.service';
   providedIn: 'root',
 })
 export class StateService {
-  readonly user = signal<IUser | null>(null);
+  readonly user = signal<Partial<IUser> | null>(null);
   readonly selectedLanguage = signal<string>('EN');
   private readonly dataAccessService = inject(DataAccessService);
 

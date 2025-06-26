@@ -12,6 +12,7 @@ import { GoogleButtonComponent } from '../../shared/ui/google-button/google-butt
 import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
 import { MessageService } from '../../core/services/message.service';
 import { MESSAGES } from '../../core/constants/messages';
+import { StateService } from '../../core/services/state.service';
 
 @Component({
   selector: 'app-login',
@@ -40,6 +41,7 @@ export class LoginComponent {
   private router = inject(Router);
   private messageService = inject(MessageService);
   private formBuilder = inject(FormBuilder);
+  private stateService = inject(StateService);
 
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -84,6 +86,10 @@ export class LoginComponent {
           this.messageService.sendMessage(MESSAGES.LOGIN_SUCCESS);
           setTimeout(() => {
             this.router.navigate(['/cases']);
+            if (!this.stateService.user()) {
+              this.stateService.user.set({ displayName: this.formControls['email'].value || '' });
+            }
+
             this.loadingLogin = false;
           }, 800);
         },
