@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect, computed } from '@angular/core';
+import { Component, inject, signal, effect, computed, linkedSignal } from '@angular/core';
 import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -14,6 +14,7 @@ import { MessageService } from '../../core/services/message.service';
 import { MESSAGES } from '../../core/constants/messages';
 import { StateService } from '../../core/services/state.service';
 import { AuthService } from '../../core/services/auth/auth.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -32,10 +33,7 @@ import { AuthService } from '../../core/services/auth/auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  loadingRegistration = false;
   loadingResetPassword = false;
-  otpRequested = signal(false);
-  passwordConfirmationRequested = signal(false);
 
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
@@ -43,6 +41,11 @@ export class LoginComponent {
   private authService = inject(AuthService);
 
   loadingLogin = computed(() => this.authService.isLoadingLogin());
+  loadingRegistration = computed(() => this.authService.isLoadingRegistration());
+  otpRequested = computed(() => this.authService.isOtpRequested());
+  passwordConfirmationRequested = computed(() =>
+    this.authService.isPasswordConfirmationRequested(),
+  );
 
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -73,55 +76,31 @@ export class LoginComponent {
     this.authService.login(email, password);
   }
 
+  requestPasswordConfirmation() {
+    this.authService.requestPasswordConfirmation();
+  }
+
   requestOTP() {
     if (this.formControls['password'].value !== this.formControls['confirmPassword'].value) {
       this.formControls['confirmPassword'].setErrors({ mismatch: true });
       this.messageService.sendMessage(MESSAGES.PASSWORD_MISMATCH);
       return;
     }
-    this.loadingRegistration = true;
-    this.http
-      .post<any>(`${environment.API_URL}/auth/request-otp`, {
-        username: this.formControls['email'].value,
-      })
-      .subscribe({
-        next: () => {
-          this.messageService.sendMessage(MESSAGES.OTP_SENT);
-          this.loadingRegistration = false;
-          this.otpRequested.set(true);
-          this.passwordConfirmationRequested.set(false);
-        },
-        error: () => {
-          this.messageService.sendMessage(MESSAGES.OTP_REQUEST_FAILED);
-          this.loadingRegistration = false;
-        },
-      });
+
+    const email = this.formControls['email'].value || '';
+    this.authService.requestOTP(email);
   }
 
   register() {
-    this.loadingRegistration = true;
-    this.http
-      .post<any>(`${environment.API_URL}/auth/register`, {
-        username: this.formControls['email'].value,
-        password: this.formControls['password'].value,
-        otp: this.formControls['otp'].value,
-      })
-      .subscribe({
-        next: () => {
-          this.otpRequested.set(false);
-          this.messageService.sendMessage(MESSAGES.REGISTRATION_SUCCESS);
-          this.loadingRegistration = false;
-        },
-        error: () => {
-          this.messageService.sendMessage(MESSAGES.REGISTRATION_FAILED);
-          this.loadingRegistration = false;
-        },
-      });
+    const email = this.formControls['email'].value || '';
+    const password = this.formControls['password'].value || '';
+    const otp = this.formControls['otp'].value || '';
+
+    this.authService.register(email, password, otp);
   }
 
   backToLogin() {
-    this.otpRequested.set(false);
-    this.passwordConfirmationRequested.set(false);
+    this.authService.reset();
     this.formControls['otp'].setValue('');
     this.formControls['confirmPassword'].setValue('');
   }

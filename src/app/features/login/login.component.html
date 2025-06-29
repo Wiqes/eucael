@@ -28,7 +28,7 @@
         <p-button
           label="Back"
           icon="pi pi-arrow-left"
-          [disabled]="loadingLogin() || loadingRegistration"
+          [disabled]="loadingLogin() || loadingRegistration()"
           (onClick)="backToLogin()"
         />
         } @if(otpRequested()) {
@@ -36,8 +36,8 @@
           label="Sign Up"
           icon="pi pi-user-plus"
           (onClick)="register()"
-          [disabled]="form.invalid || loadingRegistration"
-          [loading]="loadingRegistration"
+          [disabled]="form.invalid || loadingRegistration()"
+          [loading]="loadingRegistration()"
         />
         } @if(!otpRequested() && !passwordConfirmationRequested()) {
         <p-button
@@ -45,23 +45,23 @@
           icon="pi pi-user"
           type="submit"
           (onClick)="login()"
-          [disabled]="form.invalid || loadingLogin() || loadingRegistration"
+          [disabled]="form.invalid || loadingLogin() || loadingRegistration()"
           [loading]="loadingLogin()"
         />
         <p-button
           label="Sign Up"
           icon="pi pi-user-plus"
-          (onClick)="passwordConfirmationRequested.set(true)"
-          [disabled]="form.invalid || loadingLogin() || loadingRegistration"
-          [loading]="loadingRegistration"
+          (onClick)="requestPasswordConfirmation()"
+          [disabled]="form.invalid || loadingLogin() || loadingRegistration()"
+          [loading]="loadingRegistration()"
         />
         } @if(passwordConfirmationRequested()) {
         <p-button
           label="Continue"
           icon="pi pi-arrow-right"
           (onClick)="requestOTP()"
-          [disabled]="form.invalid || loadingRegistration"
-          [loading]="loadingRegistration"
+          [disabled]="form.invalid || loadingRegistration()"
+          [loading]="loadingRegistration()"
         />
         }
       </div>
