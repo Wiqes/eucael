@@ -1,53 +1,43 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { MessageService } from '../message.service';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
 import { MESSAGES } from '../../constants/messages';
 import { StateService } from '../state.service';
 import { ICredentials } from '../../models/credentials.model';
+import { AuthBaseService } from './auth-base.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LoginService {
-  private http = inject(HttpClient);
-  private messageService = inject(MessageService);
+export class LoginService extends AuthBaseService {
   private router = inject(Router);
   private stateService = inject(StateService);
-  isLoading = signal(false);
 
   request({ email, password }: ICredentials) {
-    this.isLoading.set(true);
-    this.http
-      .post<any>(`${environment.API_URL}/auth/login`, {
-        username: email,
-        password,
-      })
-      .subscribe({
-        next: (res) => {
-          // Try to save token in a more robust way
-          try {
-            if (res?.access_token) {
-              window.localStorage.setItem('token', res.access_token);
-            }
-          } catch (e) {
-            this.messageService.sendMessage(MESSAGES.STORAGE_ERROR);
-          }
-          this.messageService.sendMessage(MESSAGES.LOGIN_SUCCESS);
-          setTimeout(() => {
-            this.router.navigate(['/cases']);
-            if (!this.stateService.user()) {
-              this.stateService.user.set({ displayName: email || '' });
-            }
+    this.makeAuthRequest(
+      '/auth/login',
+      { username: email, password },
+      (res) => this.onLoginSuccess(res, email),
+      () => this.handleError(MESSAGES.LOGIN_FAILED),
+    );
+  }
 
-            this.isLoading.set(false);
-          }, 800);
-        },
-        error: () => {
-          this.messageService.sendMessage(MESSAGES.LOGIN_FAILED);
-          this.isLoading.set(false);
-        },
-      });
+  private onLoginSuccess(res: any, email?: string): void {
+    // Try to save token in a more robust way
+    try {
+      if (res?.access_token) {
+        window.localStorage.setItem('token', res.access_token);
+      }
+    } catch (e) {
+      this.messageService.sendMessage(MESSAGES.STORAGE_ERROR);
+    }
+
+    this.handleSuccess(MESSAGES.LOGIN_SUCCESS, () => {
+      setTimeout(() => {
+        this.router.navigate(['/cases']);
+        if (!this.stateService.user()) {
+          this.stateService.user.set({ displayName: email || '' });
+        }
+      }, 800);
+    });
   }
 }
