@@ -7,14 +7,10 @@
       <app-form-control label="Email" [control]="formControls['email']" />
       <div class="password-container">
         <app-form-control type="password" label="Password" [control]="formControls['password']" />
-        <p-button
-          label="Forgot password?"
-          class="forgot-password-button"
-          (onClick)="onForgotPassword()"
-          [text]="true"
-          [disabled]="loadingResetPassword"
-          [loading]="loadingResetPassword"
-        ></p-button>
+        <app-forgot-password-button
+          [email]="formControls['email'].value"
+          [isValidEmail]="formControls['email'].valid"
+        />
       </div>
       } @if (passwordConfirmationRequested()) {
       <app-form-control

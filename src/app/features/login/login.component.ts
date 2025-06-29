@@ -1,20 +1,17 @@
 import { Component, inject, signal, effect, computed, linkedSignal } from '@angular/core';
 import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
-import { environment } from '../../../environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleButtonComponent } from '../../shared/ui/google-button/google-button.component';
 import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
 import { MessageService } from '../../core/services/message.service';
 import { MESSAGES } from '../../core/constants/messages';
-import { StateService } from '../../core/services/state.service';
 import { AuthService } from '../../core/services/auth/auth.service';
-import { combineLatest } from 'rxjs';
+import { ForgotPasswordButtonComponent } from '../../shared/ui/forgot-password-button/forgot-password-button.component';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +25,7 @@ import { combineLatest } from 'rxjs';
     DividerModule,
     GoogleButtonComponent,
     FormControlComponent,
+    ForgotPasswordButtonComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
@@ -103,27 +101,5 @@ export class LoginComponent {
     this.authService.reset();
     this.formControls['otp'].setValue('');
     this.formControls['confirmPassword'].setValue('');
-  }
-
-  onForgotPassword() {
-    if (this.formControls['email'].invalid) {
-      this.messageService.sendMessage(MESSAGES.INVALID_EMAIL);
-      return;
-    }
-    this.loadingResetPassword = true;
-    this.http
-      .post<any>(`${environment.API_URL}/auth/request-password-reset`, {
-        username: this.formControls['email'].value,
-      })
-      .subscribe({
-        next: () => {
-          this.messageService.sendMessage(MESSAGES.FORGOT_PASSWORD_INFO);
-          this.loadingResetPassword = false;
-        },
-        error: () => {
-          this.messageService.sendMessage(MESSAGES.FORGOT_PASSWORD_ERROR);
-          this.loadingResetPassword = false;
-        },
-      });
   }
 }

@@ -29,20 +29,6 @@
 
       .password-container {
         position: relative;
-
-        .forgot-password-button {
-          position: absolute;
-          top: 15%;
-          right: 0;
-          transform: translateY(-50%);
-          font-size: 0.95em;
-          z-index: 2;
-          padding: 0 !important;
-          background: none;
-          border: none;
-          color: $primary-color;
-          box-shadow: none;
-        }
       }
     }
 
