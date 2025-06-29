@@ -5,18 +5,19 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { MESSAGES } from '../../constants/messages';
 import { StateService } from '../state.service';
+import { ICredentials } from '../../models/credentials.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
   private http = inject(HttpClient);
-  private router = inject(Router);
   private messageService = inject(MessageService);
+  private router = inject(Router);
   private stateService = inject(StateService);
   isLoading = signal(false);
 
-  request(email: string, password: string) {
+  request({ email, password }: ICredentials) {
     this.isLoading.set(true);
     this.http
       .post<any>(`${environment.API_URL}/auth/login`, {

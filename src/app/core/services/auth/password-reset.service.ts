@@ -3,6 +3,7 @@ import { MessageService } from '../message.service';
 import { HttpClient } from '@angular/common/http';
 import { MESSAGES } from '../../constants/messages';
 import { environment } from '../../../../environments/environment';
+import { ICredentials } from '../../models/credentials.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class PasswordResetService {
   private messageService = inject(MessageService);
   isLoading = signal(false);
 
-  request(email: string) {
+  request({ email }: ICredentials) {
     this.isLoading.set(true);
     this.http
       .post<any>(`${environment.API_URL}/auth/request-password-reset`, {

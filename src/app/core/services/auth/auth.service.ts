@@ -2,6 +2,7 @@ import { computed, inject, Injectable, linkedSignal } from '@angular/core';
 import { LoginService } from './login.service';
 import { RegistrationService } from './registration.service';
 import { PasswordResetService } from './password-reset.service';
+import { ICredentials } from '../../models/credentials.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +20,11 @@ export class AuthService {
   isResetPasswordRequested = computed(() => this.passwordResetService.isLoading());
 
   login(email: string, password: string) {
-    this.loginService.request(email, password);
+    this.loginService.request({ email, password });
   }
 
-  register(email: string, password: string, otp: string) {
-    this.registrationService.request(email, password, otp);
+  register({ email, password, otp }: ICredentials) {
+    this.registrationService.request({ email, password, otp });
   }
 
   requestOTP(email: string) {
@@ -40,6 +41,6 @@ export class AuthService {
   }
 
   sendPasswordResetRequest(email: string) {
-    this.passwordResetService.request(email);
+    this.passwordResetService.request({ email });
   }
 }

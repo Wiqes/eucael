@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { MESSAGES } from '../../constants/messages';
 import { MessageService } from '../message.service';
+import { ICredentials } from '../../models/credentials.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +11,11 @@ import { MessageService } from '../message.service';
 export class RegistrationService {
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
-  isOtpRequested = signal(false);
   isLoading = signal(false);
+  isOtpRequested = signal(false);
   isPasswordConfirmationRequested = signal(false);
 
-  request(email: string, password: string, otp: string) {
+  request({ email, password, otp }: ICredentials) {
     this.isLoading.set(true);
     this.http
       .post<any>(`${environment.API_URL}/auth/register`, {

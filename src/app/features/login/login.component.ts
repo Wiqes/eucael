@@ -94,7 +94,7 @@ export class LoginComponent {
     const password = this.formControls['password'].value || '';
     const otp = this.formControls['otp'].value || '';
 
-    this.authService.register(email, password, otp);
+    this.authService.register({ email, password, otp });
   }
 
   backToLogin() {
