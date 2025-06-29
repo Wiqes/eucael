@@ -1,7 +1,7 @@
 <div class="login-container">
   <div class="form-container">
     <form [formGroup]="form" class="form-content">
-      @if(otpRequested()) {
+      @if (otpRequested()) {
       <app-form-control label="One-Time Password" [control]="formControls['otp']" />
       } @else {
       <app-form-control label="Email" [control]="formControls['email']" />
@@ -16,7 +16,7 @@
           [loading]="loadingResetPassword"
         ></p-button>
       </div>
-      } @if(passwordConfirmationRequested()) {
+      } @if (passwordConfirmationRequested()) {
       <app-form-control
         type="password"
         label="Confirm Password"
@@ -24,14 +24,14 @@
       />
       }
       <div class="buttons-container">
-        @if(otpRequested() || passwordConfirmationRequested()) {
+        @if (otpRequested() || passwordConfirmationRequested()) {
         <p-button
           label="Back"
           icon="pi pi-arrow-left"
           [disabled]="loadingLogin() || loadingRegistration()"
           (onClick)="backToLogin()"
         />
-        } @if(otpRequested()) {
+        } @if (otpRequested()) {
         <p-button
           label="Sign Up"
           icon="pi pi-user-plus"
@@ -39,7 +39,7 @@
           [disabled]="form.invalid || loadingRegistration()"
           [loading]="loadingRegistration()"
         />
-        } @if(!otpRequested() && !passwordConfirmationRequested()) {
+        } @if (!otpRequested() && !passwordConfirmationRequested()) {
         <p-button
           label="Login"
           icon="pi pi-user"
@@ -55,7 +55,7 @@
           [disabled]="form.invalid || loadingLogin() || loadingRegistration()"
           [loading]="loadingRegistration()"
         />
-        } @if(passwordConfirmationRequested()) {
+        } @if (passwordConfirmationRequested()) {
         <p-button
           label="Continue"
           icon="pi pi-arrow-right"
@@ -66,7 +66,7 @@
         }
       </div>
     </form>
-    @if(!otpRequested() && !passwordConfirmationRequested()) {
+    @if (!otpRequested() && !passwordConfirmationRequested()) {
     <div class="google-button-container">
       <app-google-button />
     </div>
