@@ -102,6 +102,7 @@ export class LoginComponent {
 
   requestOTP() {
     if (this.formControls['password'].value !== this.formControls['confirmPassword'].value) {
+      this.formControls['confirmPassword'].setErrors({ mismatch: true });
       this.messageService.sendMessage(MESSAGES.PASSWORD_MISMATCH);
       return;
     }

@@ -43,8 +43,13 @@ $red-color: #8b0000;
     flex-grow: 0;
   }
 
-  input.regular-input:focus {
+  input.regular-input.ng-valid:focus {
     border: 1px solid #34d399 !important;
+    outline: none;
+  }
+
+  input.regular-input.ng-invalid:focus {
+    border: 1px solid $red-color !important;
     outline: none;
   }
 
