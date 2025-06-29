@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect, computed } from '@angular/core';
 import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { FormControlComponent } from '../../shared/ui/form-control/form-control.
 import { MessageService } from '../../core/services/message.service';
 import { MESSAGES } from '../../core/constants/messages';
 import { StateService } from '../../core/services/state.service';
+import { AuthService } from '../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -31,17 +32,17 @@ import { StateService } from '../../core/services/state.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  loadingLogin = false;
   loadingRegistration = false;
   loadingResetPassword = false;
   otpRequested = signal(false);
   passwordConfirmationRequested = signal(false);
 
   private http = inject(HttpClient);
-  private router = inject(Router);
   private messageService = inject(MessageService);
   private formBuilder = inject(FormBuilder);
-  private stateService = inject(StateService);
+  private authService = inject(AuthService);
+
+  loadingLogin = computed(() => this.authService.isLoadingLogin());
 
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -67,37 +68,9 @@ export class LoginComponent {
   }
 
   login() {
-    this.loadingLogin = true;
-    this.http
-      .post<any>(`${environment.API_URL}/auth/login`, {
-        username: this.formControls['email'].value,
-        password: this.formControls['password'].value,
-      })
-      .subscribe({
-        next: (res) => {
-          // Try to save token in a more robust way
-          try {
-            if (res?.access_token) {
-              window.localStorage.setItem('token', res.access_token);
-            }
-          } catch (e) {
-            this.messageService.sendMessage(MESSAGES.STORAGE_ERROR);
-          }
-          this.messageService.sendMessage(MESSAGES.LOGIN_SUCCESS);
-          setTimeout(() => {
-            this.router.navigate(['/cases']);
-            if (!this.stateService.user()) {
-              this.stateService.user.set({ displayName: this.formControls['email'].value || '' });
-            }
-
-            this.loadingLogin = false;
-          }, 800);
-        },
-        error: () => {
-          this.messageService.sendMessage(MESSAGES.LOGIN_FAILED);
-          this.loadingLogin = false;
-        },
-      });
+    const email = this.formControls['email'].value || '';
+    const password = this.formControls['password'].value || '';
+    this.authService.login(email, password);
   }
 
   requestOTP() {

@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { MessageService } from '../message.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -14,10 +14,10 @@ export class LoginService {
   private router = inject(Router);
   private messageService = inject(MessageService);
   private stateService = inject(StateService);
-  isLoading = false;
+  isLoading = signal(false);
 
   request(email: string, password: string) {
-    this.isLoading = true;
+    this.isLoading.set(true);
     this.http
       .post<any>(`${environment.API_URL}/auth/login`, {
         username: email,
@@ -40,12 +40,12 @@ export class LoginService {
               this.stateService.user.set({ displayName: email || '' });
             }
 
-            this.isLoading = false;
+            this.isLoading.set(false);
           }, 800);
         },
         error: () => {
           this.messageService.sendMessage(MESSAGES.LOGIN_FAILED);
-          this.isLoading = false;
+          this.isLoading.set(false);
         },
       });
   }

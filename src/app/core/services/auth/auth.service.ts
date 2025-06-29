@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { LoginService } from './login.service';
 
 @Injectable({
@@ -6,7 +6,7 @@ import { LoginService } from './login.service';
 })
 export class AuthService {
   private loginService = inject(LoginService);
-  isLoadingLogin = this.loginService.isLoading;
+  isLoadingLogin = computed(() => this.loginService.isLoading());
 
   login(email: string, password: string) {
     this.loginService.request(email, password);

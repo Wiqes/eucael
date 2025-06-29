@@ -28,7 +28,7 @@
         <p-button
           label="Back"
           icon="pi pi-arrow-left"
-          [disabled]="loadingLogin || loadingRegistration"
+          [disabled]="loadingLogin() || loadingRegistration"
           (onClick)="backToLogin()"
         />
         } @if(otpRequested()) {
@@ -45,14 +45,14 @@
           icon="pi pi-user"
           type="submit"
           (onClick)="login()"
-          [disabled]="form.invalid || loadingLogin || loadingRegistration"
-          [loading]="loadingLogin"
+          [disabled]="form.invalid || loadingLogin() || loadingRegistration"
+          [loading]="loadingLogin()"
         />
         <p-button
           label="Sign Up"
           icon="pi pi-user-plus"
           (onClick)="passwordConfirmationRequested.set(true)"
-          [disabled]="form.invalid || loadingLogin || loadingRegistration"
+          [disabled]="form.invalid || loadingLogin() || loadingRegistration"
           [loading]="loadingRegistration"
         />
         } @if(passwordConfirmationRequested()) {
