@@ -4,8 +4,8 @@
 
 body {
   background: $surface-ground url('/assets/images/background.png') no-repeat;
-  background-position: -200px 36px;
-  background-size: cover;
+  background-position: -270px -20px;
+  background-size: 122%;
   background-attachment: fixed;
   margin: 0;
   font-family: Inter;
@@ -20,6 +20,7 @@ body {
 html,
 body {
   height: 100%;
+  overflow: hidden;
 }
 
 app-root {
