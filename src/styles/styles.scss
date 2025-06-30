@@ -3,8 +3,10 @@
 @import 'primeicons/primeicons.css';
 
 body {
-  background: $surface-ground url('/assets/images/background.png') no-repeat center center fixed;
+  background: $surface-ground url('/assets/images/background.png') no-repeat;
+  background-position: -200px center;
   background-size: cover;
+  background-attachment: fixed;
   margin: 0;
   font-family: Inter;
   font-style: normal;
