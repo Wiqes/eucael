@@ -3,7 +3,8 @@
 @import 'primeicons/primeicons.css';
 
 body {
-  background: $surface-ground;
+  background: $surface-ground url('/assets/images/background.png') no-repeat center center fixed;
+  background-size: cover;
   margin: 0;
   font-family: Inter;
   font-style: normal;
@@ -11,6 +12,18 @@ body {
   color: $text-color;
   font-size: 14px;
   font-weight: 400;
+  min-height: 100vh;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .form-row {
@@ -22,4 +35,34 @@ form {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+// Ensure consistent background across all pages
+* {
+  box-sizing: border-box;
+}
+
+// Style scrollbar to match the dark theme
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(24, 24, 27, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(163, 163, 163, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(163, 163, 163, 0.5);
+}
+
+// Global backdrop filter support for older browsers
+@supports not (backdrop-filter: blur(10px)) {
+  .form-container {
+    background: rgba(24, 24, 27, 0.95) !important;
+  }
 }
