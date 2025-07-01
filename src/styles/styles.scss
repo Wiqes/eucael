@@ -8,8 +8,7 @@ html {
 }
 
 body {
-  background: linear-gradient(269deg, rgba(24, 24, 27, 1) 0%, rgba(24, 24, 27, 0.11) 93%),
-    url('/assets/images/background.png') no-repeat;
+  background: url('/assets/images/background.png') no-repeat;
   background-size: 100%;
   background-attachment: fixed;
   margin: 0;
