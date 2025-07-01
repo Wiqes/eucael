@@ -51,8 +51,8 @@ form {
 }
 
 // Global backdrop filter support for older browsers
-@supports not (backdrop-filter: blur(10px)) {
+@supports not (backdrop-filter: blur(5px)) {
   .form-container {
-    background: rgba(24, 24, 27, 0.95) !important;
+    background: rgba(24, 24, 27, 0.42) !important;
   }
 }

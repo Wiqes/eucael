@@ -4,6 +4,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
+
   padding: 40px 20px;
   box-sizing: border-box;
 
@@ -51,23 +52,13 @@
     padding: 20px 15px;
 
     .form-container {
-      max-width: 100%;
+      max-width: 400px;
       padding: 30px 20px;
 
       .google-button-container {
         margin-top: 15px;
       }
     }
-  }
-}
-
-// Enhanced visual effects for the form
-.form-container {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   }
 }
 
