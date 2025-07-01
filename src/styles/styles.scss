@@ -2,10 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 @import 'primeicons/primeicons.css';
 
+html {
+  background-color: $surface-ground;
+  height: 100%;
+}
+
 body {
-  background: $surface-ground url('/assets/images/background.png') no-repeat;
-  background-position: -270px -20px;
-  background-size: 122%;
+  background: linear-gradient(269deg, rgba(24, 24, 27, 1) 0%, rgba(24, 24, 27, 0.11) 93%),
+    url('/assets/images/background.png') no-repeat;
+  background-size: 100%;
   background-attachment: fixed;
   margin: 0;
   font-family: Inter;
@@ -14,6 +19,7 @@ body {
   color: $text-color;
   font-size: 14px;
   font-weight: 400;
+  height: 100%;
 }
 
 .form-row {
