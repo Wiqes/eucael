@@ -4,85 +4,18 @@
   padding: 0.2rem;
 }
 
-.p-toast {
-  z-index: 1100;
-  top: 2.5rem;
-  right: 2.5rem;
-  left: auto;
-  bottom: auto;
-}
-
-.p-toast .p-toast-message {
-  border-radius: 12px;
-  box-shadow: 0 6px 32px 0 rgba(44, 62, 80, 0.18);
-  padding: 1.5rem 2rem 1.25rem 1.5rem;
-  font-size: 1.08rem;
-  margin-bottom: 1.1rem;
-  border: none;
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  animation: toast-fade-in 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 :host ::ng-deep .p-toast .p-toast-message-success {
-  background: linear-gradient(90deg, #51ee78 0%, #46ee70 100%);
-  color: #058344;
+  color: #03572d;
 }
 
 :host ::ng-deep .p-toast .p-toast-message-error {
-  background: linear-gradient(90deg, #f06767 0%, #ee5454 100%);
   color: #bd0606;
 }
 
 :host ::ng-deep .p-toast .p-toast-message-info {
-  background: linear-gradient(90deg, #5779e9 0%, #423feb 100%);
   color: #051181;
 }
 
-.p-toast .p-toast-message-icon {
-  font-size: 2rem;
-  margin-right: 1rem;
-  margin-top: 0.1rem;
-}
-
-.p-toast .p-toast-message-text {
-  font-weight: 500;
-  flex: 1;
-}
-
-.p-toast .p-toast-summary {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin-bottom: 0.18rem;
-  letter-spacing: 0.5px;
-}
-
-.p-toast .p-toast-detail {
-  font-size: 1rem;
-  opacity: 0.97;
-  margin-top: 0.1rem;
-}
-
-.p-toast .p-toast-icon-close {
-  font-size: 1.2rem;
-  color: #888;
-  margin-left: 0.5rem;
-  margin-top: 0.2rem;
-  transition: color 0.2s;
-}
-
-.p-toast .p-toast-icon-close:hover {
-  color: #222;
-}
-
-@keyframes toast-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(-30px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+:host ::ng-deep .p-toast-detail {
+  color: black;
 }
