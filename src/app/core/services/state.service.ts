@@ -22,4 +22,8 @@ export class StateService {
     };
     return map[this.selectedLanguage().toLowerCase()] ?? 'en-US';
   });
+
+  addBackendDataToState() {
+    this.dataAccessService.getUserData().subscribe(this.user.set);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnDestroy } from '@angular/core';
+import { Component, computed, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
@@ -28,7 +28,7 @@ import { PrimeNG } from 'primeng/config';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
   private router = inject(Router);
   private stateService = inject(StateService);
@@ -36,7 +36,7 @@ export class HeaderComponent implements OnDestroy {
   private primeng = inject(PrimeNG);
 
   photoURL = computed(() => this.stateService.user()?.photoURL || '');
-  displayName = computed(() => this.stateService.user()?.displayName || '');
+  displayName = computed(() => this.stateService.user()?.fullName || '');
   selectedLanguage = computed(() => this.stateService.selectedLanguage());
 
   items: any[] = [];
@@ -46,6 +46,10 @@ export class HeaderComponent implements OnDestroy {
     this.langChangeSub = this.translate.onLangChange.subscribe(() => {
       this.setMenuItems();
     });
+  }
+
+  ngOnInit() {
+    this.stateService.addBackendDataToState();
   }
 
   private setMenuItems() {

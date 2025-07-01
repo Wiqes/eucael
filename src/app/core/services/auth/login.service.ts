@@ -34,9 +34,7 @@ export class LoginService extends AuthBaseService {
     this.handleSuccess(MESSAGES.LOGIN_SUCCESS, () => {
       setTimeout(() => {
         this.router.navigate(['/cases']);
-        if (!this.stateService.user()) {
-          this.stateService.user.set({ displayName: email || '' });
-        }
+        this.stateService.addBackendDataToState();
       }, 800);
     });
   }
