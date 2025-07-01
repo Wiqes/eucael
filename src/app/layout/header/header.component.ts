@@ -88,6 +88,7 @@ export class HeaderComponent implements OnDestroy {
 
   logout(): void {
     localStorage.removeItem('token');
+    this.stateService.user.set(null);
     this.router.navigate(['/']);
   }
 
