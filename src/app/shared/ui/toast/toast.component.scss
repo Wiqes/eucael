@@ -25,22 +25,19 @@
   animation: toast-fade-in 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.p-toast .p-toast-message-success {
-  background: linear-gradient(90deg, #e8f9f1 0%, #b6f0d3 100%);
-  color: #176b3a;
-  border-left: 7px solid #22c55e;
+:host ::ng-deep .p-toast .p-toast-message-success {
+  background: linear-gradient(90deg, #51ee78 0%, #46ee70 100%);
+  color: #058344;
 }
 
-.p-toast .p-toast-message-error {
-  background: linear-gradient(90deg, #fff0f0 0%, #ffd6d6 100%);
-  color: #b91c1c;
-  border-left: 7px solid #ef4444;
+:host ::ng-deep .p-toast .p-toast-message-error {
+  background: linear-gradient(90deg, #f06767 0%, #ee5454 100%);
+  color: #bd0606;
 }
 
-.p-toast .p-toast-message-info {
-  background: linear-gradient(90deg, #e0f2fe 0%, #bae6fd 100%);
-  color: #0369a1;
-  border-left: 7px solid #0ea5e9;
+:host ::ng-deep .p-toast .p-toast-message-info {
+  background: linear-gradient(90deg, #5779e9 0%, #423feb 100%);
+  color: #051181;
 }
 
 .p-toast .p-toast-message-icon {
