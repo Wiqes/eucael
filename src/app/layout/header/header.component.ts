@@ -38,6 +38,14 @@ export class HeaderComponent implements OnInit {
   selectedLanguage = computed(() => this.stateService.selectedLanguage());
   isDataLoading = computed(() => this.stateService.isDataLoading());
 
+  constructor() {
+    effect(() => {
+      const name = this.displayName();
+      const isDataLoading = this.isDataLoading();
+      console.log(`Display Name: ${name}, Data Loading: ${isDataLoading}`);
+    });
+  }
+
   ngOnInit() {
     this.stateService.addBackendDataToState();
   }

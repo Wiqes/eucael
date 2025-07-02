@@ -1,6 +1,5 @@
 import { Component, inject, signal, effect, computed, linkedSignal } from '@angular/core';
 import { FormBuilder, FormsModule, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -33,7 +32,6 @@ import { ForgotPasswordButtonComponent } from '../../shared/ui/forgot-password-b
 export class LoginComponent {
   loadingResetPassword = false;
 
-  private http = inject(HttpClient);
   private messageService = inject(MessageService);
   private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);

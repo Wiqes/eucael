@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { IUser } from '../models/user.model';
-import { catchError, Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +10,10 @@ import { catchError, Observable } from 'rxjs';
 export class DataAccessService {
   private http = inject(HttpClient);
 
-  getUserData(): Observable<IUser> {
+  getUserData(): Observable<IUser | null> {
     const token = localStorage.getItem('token');
     if (!token) {
-      throw new Error('No JWT token found in local storage');
+      return of(null);
     }
 
     const payload = JSON.parse(atob(token.split('.')[1]));
