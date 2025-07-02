@@ -36,7 +36,7 @@ export class MenuComponent implements OnDestroy {
       {
         icon: 'pi pi-user',
         label: this.translate.instant('My Profile'),
-        command: () => this.onProfile(),
+        command: () => this.router.navigate(['/profile']),
       },
       {
         icon: 'pi pi-sign-out',
@@ -44,10 +44,6 @@ export class MenuComponent implements OnDestroy {
         command: () => this.logout(),
       },
     ];
-  }
-
-  onProfile(): void {
-    this.router.navigate(['/profile']);
   }
 
   logout(): void {
