@@ -1,35 +1,33 @@
 import { Component, computed, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu';
 import { ChevronDownIconComponent } from '../../shared/ui/chevron-down-icon.component';
 import { LogoComponent } from '../../shared/ui/logo.component';
 import { StateService } from '../../core/services/state.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SkeletonModule } from 'primeng/skeleton';
 import { NgIf } from '@angular/common';
-import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PrimeNG } from 'primeng/config';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
+import { MenuComponent } from './menu/menu.component';
+import { MenuModule } from 'primeng/menu';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
     ButtonModule,
-    MenuModule,
     ChevronDownIconComponent,
     LogoComponent,
-    SkeletonModule,
     TranslateModule,
     NgIf,
     UserAvatarComponent,
+    MenuComponent,
+    MenuModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  private langChangeSub: Subscription;
+export class HeaderComponent implements OnInit {
   private router = inject(Router);
   private stateService = inject(StateService);
   private translate = inject(TranslateService);
@@ -40,32 +38,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   selectedLanguage = computed(() => this.stateService.selectedLanguage());
   isDataLoading = computed(() => this.stateService.isDataLoading());
 
-  items: any[] = [];
-
-  constructor() {
-    this.setMenuItems();
-    this.langChangeSub = this.translate.onLangChange.subscribe(() => {
-      this.setMenuItems();
-    });
-  }
-
   ngOnInit() {
     this.stateService.addBackendDataToState();
-  }
-
-  private setMenuItems() {
-    this.items = [
-      {
-        icon: 'pi pi-user',
-        label: this.translate.instant('My Profile'),
-        command: () => this.onProfile(),
-      },
-      {
-        icon: 'pi pi-sign-out',
-        label: this.translate.instant('Log out'),
-        command: () => this.logout(),
-      },
-    ];
   }
 
   readonly langItems = [
@@ -74,10 +48,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { label: 'Italiano', command: () => this.onChangeLanguage('IT') },
     { label: 'Français', command: () => this.onChangeLanguage('FR') },
   ];
-
-  onProfile(): void {
-    this.router.navigate(['/profile']);
-  }
 
   onLogoClick(): void {
     this.router.navigate(['/cases']);
@@ -89,15 +59,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.translate.get('primeng').subscribe((res) => {
       this.primeng.setTranslation(res);
     });
-  }
-
-  logout(): void {
-    localStorage.removeItem('token');
-    this.stateService.user.set(null);
-    this.router.navigate(['/']);
-  }
-
-  ngOnDestroy() {
-    this.langChangeSub.unsubscribe();
   }
 }

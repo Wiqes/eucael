@@ -57,30 +57,7 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 
     .menu {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      margin-left: 8px;
-
-      .p-menuitem-text {
-        display: none !important;
-      }
-
-      .label {
-        min-width: 19px;
-        text-align: center;
-        text-wrap: nowrap;
-      }
-
-      .lang-label {
-        margin-left: 8px;
-      }
-
-      svg {
-        width: 18px;
-        height: 14px;
-      }
+      @extend %menu-base;
     }
   }
 }

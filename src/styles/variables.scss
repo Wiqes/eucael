@@ -6,6 +6,33 @@ $text-color-secondary: white;
 $primary-color: #34d399;
 $red-color: #8b0000;
 
+%menu-base {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  margin-left: 8px;
+
+  .p-menuitem-text {
+    display: none !important;
+  }
+
+  .label {
+    min-width: 19px;
+    text-align: center;
+    text-wrap: nowrap;
+  }
+
+  .lang-label {
+    margin-left: 8px;
+  }
+
+  svg {
+    width: 18px;
+    height: 14px;
+  }
+}
+
 %form-control-base {
   display: flex;
   flex-direction: column;

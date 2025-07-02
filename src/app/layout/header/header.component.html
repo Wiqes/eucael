@@ -9,16 +9,7 @@
   <div class="container">
     <ng-container *ngIf="displayName() || isDataLoading()">
       <app-user-avatar />
-      <p-menu #menu [model]="items" [popup]="true"></p-menu>
-      <div class="menu" (click)="menu.toggle($event)">
-        <ng-container *ngIf="displayName(); else loadingName">
-          <div class="label">{{ displayName() }}</div>
-        </ng-container>
-        <ng-template #loadingName>
-          <p-skeleton height="1rem" width="5rem" styleClass="mb-2" />
-        </ng-template>
-        <app-chevron-down-icon />
-      </div>
+      <app-menu />
     </ng-container>
     <p-menu #langMenu [model]="langItems" [popup]="true"></p-menu>
     <div class="menu" (click)="langMenu.toggle($event)">
