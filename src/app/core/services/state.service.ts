@@ -1,8 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { IUser } from '../models/user.model';
-import { IAccount } from '../models/account.model';
-import { IOrder } from '../models/entity/order.model';
-import { IConnection } from '../models/entity/connection.model';
 import { DataAccessService } from './data-access.service';
 
 @Injectable({
@@ -11,6 +8,7 @@ import { DataAccessService } from './data-access.service';
 export class StateService {
   readonly user = signal<Partial<IUser> | null>(null);
   readonly selectedLanguage = signal<string>('EN');
+  readonly isDataLoading = signal<boolean>(false);
   private readonly dataAccessService = inject(DataAccessService);
 
   readonly locale = computed(() => {
@@ -24,6 +22,11 @@ export class StateService {
   });
 
   addBackendDataToState() {
-    this.dataAccessService.getUserData().subscribe(this.user.set);
+    this.isDataLoading.set(true);
+    this.dataAccessService.getUserData().subscribe({
+      next: this.user.set,
+      error: () => this.isDataLoading.set(false),
+      complete: () => this.isDataLoading.set(false),
+    });
   }
 }
