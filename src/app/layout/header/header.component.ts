@@ -1,6 +1,5 @@
 import { Component, computed, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
 import { ChevronDownIconComponent } from '../../shared/ui/chevron-down-icon.component';
 import { LogoComponent } from '../../shared/ui/logo.component';
@@ -11,19 +10,20 @@ import { NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PrimeNG } from 'primeng/config';
+import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
     ButtonModule,
-    AvatarModule,
     MenuModule,
     ChevronDownIconComponent,
     LogoComponent,
     SkeletonModule,
     TranslateModule,
     NgIf,
+    UserAvatarComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',

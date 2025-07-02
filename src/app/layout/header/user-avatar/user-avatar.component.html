@@ -1,0 +1,10 @@
+<ng-container *ngIf="isDataLoading(); else userAvatar">
+  <p-skeleton shape="circle" size="2rem"></p-skeleton>
+</ng-container>
+<ng-template #userAvatar>
+  <p-avatar
+    [image]="photoURL() || undefined"
+    [icon]="!photoURL() ? 'pi pi-user' : undefined"
+    shape="circle"
+  ></p-avatar>
+</ng-template>

@@ -7,24 +7,19 @@
     </div>
   </div>
   <div class="container">
-    @if(displayName() || isDataLoading()) { @if(isDataLoading()) {
-    <p-skeleton shape="circle" size="2rem" />
-    } @else {
-    <p-avatar
-      [image]="photoURL() || undefined"
-      [icon]="!photoURL() ? 'pi pi-user' : undefined"
-      shape="circle"
-    ></p-avatar>
-    }
-    <p-menu #menu [model]="items" [popup]="true"></p-menu>
-    <div class="menu" (click)="menu.toggle($event)">
-      <div *ngIf="displayName(); else loadingName" class="label">{{ displayName() }}</div>
-      <ng-template #loadingName>
-        <p-skeleton height="1rem" width="5rem" styleClass="mb-2" />
-      </ng-template>
-      <app-chevron-down-icon />
-    </div>
-    }
+    <ng-container *ngIf="displayName() || isDataLoading()">
+      <app-user-avatar />
+      <p-menu #menu [model]="items" [popup]="true"></p-menu>
+      <div class="menu" (click)="menu.toggle($event)">
+        <ng-container *ngIf="displayName(); else loadingName">
+          <div class="label">{{ displayName() }}</div>
+        </ng-container>
+        <ng-template #loadingName>
+          <p-skeleton height="1rem" width="5rem" styleClass="mb-2" />
+        </ng-template>
+        <app-chevron-down-icon />
+      </div>
+    </ng-container>
     <p-menu #langMenu [model]="langItems" [popup]="true"></p-menu>
     <div class="menu" (click)="langMenu.toggle($event)">
       <div class="label lang-label">{{ selectedLanguage() }}</div>
