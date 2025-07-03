@@ -1,63 +1,15 @@
 @use 'variables' as *;
 
-.login-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
+.auth-container {
+  @extend %auth-base;
 
-  padding: 40px 20px;
-  box-sizing: border-box;
-
-  .form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-    max-width: 400px;
-    background: rgba(24, 24, 27, 0.42);
-    border: 1px solid $surface-border;
-    border-radius: 16px;
-    padding: 40px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-
-    .form-content {
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-      width: 100%;
-
-      .buttons-container {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-      }
-
-      .password-container {
-        position: relative;
-      }
-    }
-
-    .google-button-container {
-      width: 100%;
-      margin-top: 20px;
-    }
+  .password-container {
+    position: relative;
   }
-}
 
-// Responsive design for mobile devices
-@media (max-width: 768px) {
-  .login-container {
-    padding: 20px 15px;
-
-    .form-container {
-      max-width: 400px;
-      padding: 30px 20px;
-
-      .google-button-container {
-        margin-top: 15px;
-      }
-    }
+  .google-button-container {
+    width: 100%;
+    margin-top: 20px;
   }
 }
 
