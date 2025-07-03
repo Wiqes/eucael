@@ -88,6 +88,20 @@ body {
   }
 }
 
+@media (max-width: 620px) {
+  body {
+    background-size: 220%;
+    background-position-x: -600px;
+  }
+}
+
+@media (max-width: 510px) {
+  body {
+    background-size: 100%;
+    background-position-x: 0;
+  }
+}
+
 .form-row {
   display: flex;
   gap: 12px;
