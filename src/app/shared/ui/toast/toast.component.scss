@@ -5,17 +5,23 @@
 }
 
 :host ::ng-deep .p-toast .p-toast-message-success {
-  color: #03572d;
+  background: rgba(240, 253, 244, 0.95);
+  backdrop-filter: blur(calc(1.5px / 2));
+  color: #16a34a;
 }
 
 :host ::ng-deep .p-toast .p-toast-message-error {
-  color: #bd0606;
+  background: rgba(254, 242, 242, 0.95);
+  backdrop-filter: blur(calc(1.5px / 2));
+  color: #dc2626;
 }
 
 :host ::ng-deep .p-toast .p-toast-message-info {
+  background: rgba(240, 244, 255, 0.95);
+  backdrop-filter: blur(calc(1.5px / 2));
   color: #051181;
 }
 
 :host ::ng-deep .p-toast-detail {
-  color: black;
+  color: #334155 !important;
 }

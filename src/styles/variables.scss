@@ -60,6 +60,7 @@ $red-color: #8b0000;
   @media (max-width: 510px) {
     & {
       justify-content: center;
+      padding: 0;
     }
   }
 }
