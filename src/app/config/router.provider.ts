@@ -11,16 +11,8 @@ const routes: Routes = [
     loadComponent: () => import('../layout/header/header.component').then((m) => m.HeaderComponent),
   },
   {
-    path: 'home',
-    loadComponent: () => import('../features/cases/cases.component').then((m) => m.CasesComponent),
-  },
-  {
     path: 'cases',
     loadComponent: () => import('../features/cases/cases.component').then((m) => m.CasesComponent),
-  },
-  {
-    path: 'cases/:id',
-    loadComponent: () => import('../features/case/case.component').then((m) => m.CaseComponent),
   },
   {
     path: 'case-creation',
