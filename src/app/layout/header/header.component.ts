@@ -30,7 +30,6 @@ export class HeaderComponent implements OnInit {
 
   photoURL = computed(() => this.stateService.user()?.photoURL || '');
   displayName = computed(() => this.stateService.user()?.fullName || '');
-  selectedLanguage = computed(() => this.stateService.selectedLanguage());
   isDataLoading = computed(() => this.stateService.isDataLoading());
 
   ngOnInit() {

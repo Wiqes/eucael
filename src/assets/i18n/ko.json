@@ -1,0 +1,130 @@
+{
+  "My Profile": "내 프로필",
+  "Log out": "로그아웃",
+  "Discard": "취소",
+  "Next": "다음",
+  "Back": "뒤로",
+  "Profile": "프로필",
+  "General info": "일반 정보",
+  "Select": "선택",
+  "Email": "이메일",
+  "Phone": "전화번호",
+  "messages": {
+    "login": {
+      "success": {
+        "summary": "로그인 성공",
+        "detail": "환영합니다!"
+      },
+      "failed": {
+        "summary": "로그인 실패",
+        "detail": "인증 정보가 올바르지 않습니다. 다시 시도해 주세요."
+      }
+    },
+    "storage": {
+      "error": {
+        "summary": "스토리지 오류",
+        "detail": "토큰을 저장할 수 없습니다. 브라우저 설정을 확인해 주세요."
+      }
+    },
+    "otp": {
+      "sent": {
+        "summary": "OTP 전송 완료",
+        "detail": "일회용 비밀번호가 이메일로 전송되었습니다."
+      },
+      "requestFailed": {
+        "summary": "OTP 요청 실패",
+        "detail": "일회용 비밀번호 전송에 실패했습니다. 이메일이 이미 존재합니다."
+      }
+    },
+    "registration": {
+      "success": {
+        "summary": "등록 성공",
+        "detail": "로그인해 주세요."
+      },
+      "failed": {
+        "summary": "등록 실패",
+        "detail": "잘못되었거나 만료된 OTP입니다. 다시 시도해 주세요."
+      }
+    },
+    "password": {
+      "mismatch": {
+        "summary": "비밀번호 불일치",
+        "detail": "비밀번호 확인이 일치하지 않습니다. 다시 시도해 주세요."
+      }
+    },
+    "forgotPassword": {
+      "info": {
+        "summary": "링크 전송 완료",
+        "detail": "비밀번호 재설정 링크가 이메일로 전송되었습니다."
+      },
+      "error": {
+        "summary": "링크 전송 오류",
+        "detail": "비밀번호 재설정 링크 전송에 실패했습니다. 나중에 다시 시도해 주세요."
+      }
+    },
+    "email": {
+      "invalid": {
+        "summary": "잘못된 이메일",
+        "detail": "유효한 이메일 주소를 입력해 주세요."
+      }
+    },
+    "passwordReset": {
+      "success": {
+        "summary": "비밀번호 재설정 성공",
+        "detail": "비밀번호가 성공적으로 재설정되었습니다. 로그인해 주세요."
+      },
+      "failed": {
+        "summary": "비밀번호 재설정 실패",
+        "detail": "비밀번호 재설정에 실패했습니다. 잘못되었거나 만료된 토큰입니다."
+      }
+    }
+  },
+  "primeng": {
+    "dayNames": ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"],
+    "dayNamesShort": ["日", "月", "火", "水", "木", "金", "土"],
+    "dayNamesMin": ["日", "月", "火", "水", "木", "金", "土"],
+    "monthNames": [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月"
+    ],
+    "monthNamesShort": [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月"
+    ],
+    "today": "今日",
+    "clear": "クリア",
+    "dateFormat": "yy/mm/dd",
+    "weekHeader": "週",
+    "firstDayOfWeek": 0
+  },
+  "Find address...": "주소 찾기...",
+  "Password": "비밀번호",
+  "Login": "로그인",
+  "Forgot password?": "비밀번호를 잊으셨나요?",
+  "Sign Up": "회원가입",
+  "Confirm Password": "비밀번호 확인",
+  "Reset Password": "비밀번호 재설정",
+  "Sign in with Google": "Google로 로그인",
+  "Continue": "계속",
+  "One-Time Password": "일회용 비밀번호"
+}

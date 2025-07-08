@@ -7,7 +7,6 @@ import { DataAccessService } from './data-access.service';
 })
 export class StateService {
   readonly user = signal<Partial<IUser> | null>(null);
-  readonly selectedLanguage = signal<string>('EN');
   readonly isDataLoading = signal<boolean>(false);
   private readonly dataAccessService = inject(DataAccessService);
 
@@ -36,7 +35,7 @@ export class StateService {
       te: 'te-IN',
       uk: 'uk-UA',
     };
-    return map[this.selectedLanguage().toLowerCase()] ?? 'en-US';
+    return map['en'] ?? 'en-US';
   });
 
   addBackendDataToState() {
@@ -46,9 +45,5 @@ export class StateService {
       error: () => this.isDataLoading.set(false),
       complete: () => this.isDataLoading.set(false),
     });
-  }
-
-  updateSelectedLanguage(languageCode: string) {
-    this.selectedLanguage.set(languageCode.toUpperCase());
   }
 }
