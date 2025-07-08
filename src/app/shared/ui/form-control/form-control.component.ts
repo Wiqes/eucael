@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TextareaModule } from 'primeng/textarea';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { PasswordModule } from 'primeng/password';
-import { StateService } from '../../../core/services/state.service';
+import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-form-control',
@@ -34,6 +34,6 @@ export class FormControlComponent {
   options = input<any[]>();
   optionValue = input('value');
   variant = input<'filled' | ''>('');
-  private readonly stateService = inject(StateService);
-  locale = computed(() => this.stateService.locale() || 'en-US');
+  private readonly languageService = inject(LanguageService);
+  locale = computed(() => this.languageService.locale() || 'en-US');
 }

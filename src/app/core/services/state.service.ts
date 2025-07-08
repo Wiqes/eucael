@@ -10,34 +10,6 @@ export class StateService {
   readonly isDataLoading = signal<boolean>(false);
   private readonly dataAccessService = inject(DataAccessService);
 
-  readonly locale = computed(() => {
-    const map: Record<string, string> = {
-      en: 'en-US',
-      es: 'es-ES',
-      zh: 'zh-CN',
-      hi: 'hi-IN',
-      ar: 'ar-SA',
-      bn: 'bn-BD',
-      pt: 'pt-BR',
-      ru: 'ru-RU',
-      ja: 'ja-JP',
-      pa: 'pa-IN',
-      de: 'de-DE',
-      fr: 'fr-FR',
-      tr: 'tr-TR',
-      it: 'it-IT',
-      vi: 'vi-VN',
-      ta: 'ta-IN',
-      ur: 'ur-PK',
-      id: 'id-ID',
-      sw: 'sw-KE',
-      mr: 'mr-IN',
-      te: 'te-IN',
-      uk: 'uk-UA',
-    };
-    return map['en'] ?? 'en-US';
-  });
-
   addBackendDataToState() {
     this.isDataLoading.set(true);
     this.dataAccessService.getUserData().subscribe({

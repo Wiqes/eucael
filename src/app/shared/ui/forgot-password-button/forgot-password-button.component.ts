@@ -1,13 +1,13 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { PasswordResetService } from '../../../core/services/auth/password-reset.service';
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { MESSAGES } from '../../../core/constants/messages';
 import { MessageService } from '../../../core/services/message.service';
 
 @Component({
   selector: 'app-forgot-password-button',
-  imports: [ButtonModule],
+  imports: [ButtonModule, TranslateModule],
   templateUrl: './forgot-password-button.component.html',
   styleUrl: './forgot-password-button.component.scss',
 })

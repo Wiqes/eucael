@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { LanguageService, Language } from '../../../core/services/language.service';
+import { LanguageService } from '../../../core/services/language.service';
 import { ChevronDownIconComponent } from '../chevron-down-icon.component';
+import { LANGUAGES } from '../../../core/constants/supported-languages';
+import { Language } from '../../../core/models/language.model';
 
 @Component({
   selector: 'app-language-selector',
@@ -16,15 +18,15 @@ import { ChevronDownIconComponent } from '../chevron-down-icon.component';
 export class LanguageSelectorComponent {
   private readonly languageService = inject(LanguageService);
 
-  readonly languages: Language[] = this.languageService.supportedLanguages;
   selectedLanguage: string = this.languageService.getCurrentLanguage();
 
   get selectedLanguageObj(): Language | undefined {
     return this.languageService.getLanguageByCode(this.selectedLanguage);
   }
 
-  languageItems: MenuItem[] = this.languages.map((language) => ({
+  languageItems: MenuItem[] = LANGUAGES.map((language) => ({
     label: language.name,
+    icon: language.flag,
     command: () => this.onLanguageChange(language.code),
   }));
 
