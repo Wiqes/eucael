@@ -22,14 +22,14 @@
       <div class="buttons-container">
         @if (otpRequested() || passwordConfirmationRequested()) {
         <p-button
-          label="Back"
+          [label]="'Back' | translate"
           icon="pi pi-arrow-left"
           [disabled]="loadingLogin() || loadingRegistration()"
           (onClick)="backToLogin()"
         />
         } @if (otpRequested()) {
         <p-button
-          label="Sign Up"
+          [label]="'Sign Up' | translate"
           icon="pi pi-user-plus"
           (onClick)="register()"
           [disabled]="form.invalid || loadingRegistration()"
@@ -37,7 +37,7 @@
         />
         } @if (!otpRequested() && !passwordConfirmationRequested()) {
         <p-button
-          label="Login"
+          [label]="'Login' | translate"
           icon="pi pi-user"
           type="submit"
           (onClick)="login()"
@@ -45,7 +45,7 @@
           [loading]="loadingLogin()"
         />
         <p-button
-          label="Sign Up"
+          [label]="'Sign Up' | translate"
           icon="pi pi-user-plus"
           (onClick)="requestPasswordConfirmation()"
           [disabled]="form.invalid || loadingLogin() || loadingRegistration()"
@@ -53,7 +53,7 @@
         />
         } @if (passwordConfirmationRequested()) {
         <p-button
-          label="Continue"
+          [label]="'Continue' | translate"
           icon="pi pi-arrow-right"
           (onClick)="requestOTP()"
           [disabled]="form.invalid || loadingRegistration()"

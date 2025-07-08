@@ -11,6 +11,7 @@ import { MessageService } from '../../core/services/message.service';
 import { MESSAGES } from '../../core/constants/messages';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { ForgotPasswordButtonComponent } from '../../shared/ui/forgot-password-button/forgot-password-button.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ import { ForgotPasswordButtonComponent } from '../../shared/ui/forgot-password-b
     InputTextModule,
     ButtonModule,
     ReactiveFormsModule,
+    TranslateModule,
     DividerModule,
     GoogleButtonComponent,
     FormControlComponent,

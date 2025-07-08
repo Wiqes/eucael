@@ -48,5 +48,13 @@
     "firstDayOfWeek": 0
   },
   "Find address...": "Find address...",
-  "Password": "Password"
+  "Password": "Password",
+  "Login": "Login",
+  "Forgot password?": "Forgot password?",
+  "Sign Up": "Sign Up",
+  "Confirm Password": "Confirm Password",
+  "Reset Password": "Reset Password",
+  "Sign in with Google": "Sign in with Google",
+  "Continue": "Continue",
+  "One-Time Password": "One-Time Password"
 }

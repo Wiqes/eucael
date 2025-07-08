@@ -17,6 +17,9 @@ export class StateService {
       de: 'de-DE',
       fr: 'fr-FR',
       it: 'it-IT',
+      es: 'es-ES',
+      pt: 'pt-PT',
+      ru: 'ru-RU',
     };
     return map[this.selectedLanguage().toLowerCase()] ?? 'en-US';
   });
