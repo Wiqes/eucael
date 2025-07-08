@@ -102,6 +102,12 @@ body {
   }
 }
 
+@media (max-width: 400px) {
+  .p-button {
+    font-size: 12px !important;
+  }
+}
+
 .form-row {
   display: flex;
   gap: 12px;
