@@ -1,0 +1,130 @@
+{
+  "My Profile": "Profil Saya",
+  "Log out": "Keluar",
+  "Discard": "Buang",
+  "Next": "Berikutnya",
+  "Back": "Kembali",
+  "Profile": "Profil",
+  "General info": "Informasi Umum",
+  "Select": "Pilih",
+  "Email": "Email",
+  "Phone": "Telepon",
+  "messages": {
+    "login": {
+      "success": {
+        "summary": "Login Berhasil",
+        "detail": "Selamat datang!"
+      },
+      "failed": {
+        "summary": "Login Gagal",
+        "detail": "Kredensial tidak valid. Silakan coba lagi."
+      }
+    },
+    "storage": {
+      "error": {
+        "summary": "Kesalahan Penyimpanan",
+        "detail": "Tidak dapat menyimpan token. Silakan periksa pengaturan browser Anda."
+      }
+    },
+    "otp": {
+      "sent": {
+        "summary": "Kata Sandi Sekali Pakai Terkirim",
+        "detail": "Kata sandi sekali pakai telah dikirim ke email Anda."
+      },
+      "requestFailed": {
+        "summary": "Permintaan OTP Gagal",
+        "detail": "Gagal mengirim kata sandi sekali pakai. Email sudah ada."
+      }
+    },
+    "registration": {
+      "success": {
+        "summary": "Pendaftaran Berhasil",
+        "detail": "Silakan login."
+      },
+      "failed": {
+        "summary": "Pendaftaran Gagal",
+        "detail": "OTP tidak valid atau kedaluwarsa. Silakan coba lagi."
+      }
+    },
+    "password": {
+      "mismatch": {
+        "summary": "Kata Sandi Tidak Cocok",
+        "detail": "Konfirmasi kata sandi tidak cocok. Silakan coba lagi."
+      }
+    },
+    "forgotPassword": {
+      "info": {
+        "summary": "Tautan Terkirim",
+        "detail": "Tautan reset kata sandi telah dikirim ke alamat email Anda."
+      },
+      "error": {
+        "summary": "Kesalahan Mengirim Tautan",
+        "detail": "Gagal mengirim tautan reset kata sandi. Silakan coba lagi nanti."
+      }
+    },
+    "email": {
+      "invalid": {
+        "summary": "Email Tidak Valid",
+        "detail": "Silakan masukkan alamat email yang valid."
+      }
+    },
+    "passwordReset": {
+      "success": {
+        "summary": "Reset Kata Sandi Berhasil",
+        "detail": "Kata sandi Anda berhasil direset. Silakan login."
+      },
+      "failed": {
+        "summary": "Reset Kata Sandi Gagal",
+        "detail": "Gagal reset kata sandi. Token tidak valid atau kedaluwarsa."
+      }
+    }
+  },
+  "primeng": {
+    "dayNames": ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"],
+    "dayNamesShort": ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"],
+    "dayNamesMin": ["M", "S", "S", "R", "K", "J", "S"],
+    "monthNames": [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember"
+    ],
+    "monthNamesShort": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mei",
+      "Jun",
+      "Jul",
+      "Agu",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des"
+    ],
+    "today": "Hari ini",
+    "clear": "Hapus",
+    "dateFormat": "dd/mm/yy",
+    "weekHeader": "Mgg",
+    "firstDayOfWeek": 0
+  },
+  "Find address...": "Cari alamat...",
+  "Password": "Kata Sandi",
+  "Login": "Masuk",
+  "Forgot password?": "Lupa kata sandi?",
+  "Sign Up": "Daftar",
+  "Confirm Password": "Konfirmasi Kata Sandi",
+  "Reset Password": "Reset Kata Sandi",
+  "Sign in with Google": "Masuk dengan Google",
+  "Continue": "Lanjutkan",
+  "One-Time Password": "Kata Sandi Sekali Pakai"
+}

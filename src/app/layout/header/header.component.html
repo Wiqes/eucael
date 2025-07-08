@@ -11,10 +11,6 @@
       <app-user-avatar />
       <app-menu />
     </ng-container>
-    <p-menu #langMenu [model]="langItems" [popup]="true"></p-menu>
-    <div class="menu" (click)="langMenu.toggle($event)">
-      <div class="label lang-label">{{ selectedLanguage() }}</div>
-      <app-chevron-down-icon />
-    </div>
+    <app-language-selector />
   </div>
 </header>

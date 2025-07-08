@@ -1,0 +1,6 @@
+<p-menu #langMenu [model]="menuItems" [popup]="true" styleClass="language-menu"></p-menu>
+<div class="menu" (click)="langMenu.toggle($event)">
+  <span class="label">{{ selectedLanguageObj?.flag }}</span>
+  <span class="lang-label">{{ selectedLanguageObj?.code?.toUpperCase() }}</span>
+  <app-chevron-down-icon />
+</div>

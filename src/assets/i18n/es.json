@@ -1,0 +1,130 @@
+{
+  "My Profile": "Mi Perfil",
+  "Log out": "Cerrar Sesión",
+  "Discard": "Descartar",
+  "Next": "Siguiente",
+  "Back": "Atrás",
+  "Profile": "Perfil",
+  "General info": "Información General",
+  "Select": "Seleccionar",
+  "Email": "Correo Electrónico",
+  "Phone": "Teléfono",
+  "messages": {
+    "login": {
+      "success": {
+        "summary": "Inicio de Sesión Exitoso",
+        "detail": "¡Bienvenido!"
+      },
+      "failed": {
+        "summary": "Inicio de Sesión Fallido",
+        "detail": "Credenciales inválidas. Por favor intenta de nuevo."
+      }
+    },
+    "storage": {
+      "error": {
+        "summary": "Error de Almacenamiento",
+        "detail": "No se puede guardar el token. Por favor revisa la configuración de tu navegador."
+      }
+    },
+    "otp": {
+      "sent": {
+        "summary": "Contraseña de Un Solo Uso Enviada",
+        "detail": "Se ha enviado una contraseña de un solo uso a tu correo electrónico."
+      },
+      "requestFailed": {
+        "summary": "Solicitud de OTP Fallida",
+        "detail": "Error al enviar la contraseña de un solo uso. El correo electrónico ya existe."
+      }
+    },
+    "registration": {
+      "success": {
+        "summary": "Registro Exitoso",
+        "detail": "Por favor inicia sesión."
+      },
+      "failed": {
+        "summary": "Registro Fallido",
+        "detail": "OTP inválido o expirado. Por favor intenta de nuevo."
+      }
+    },
+    "password": {
+      "mismatch": {
+        "summary": "Las Contraseñas No Coinciden",
+        "detail": "La confirmación de contraseña no coincide. Por favor intenta de nuevo."
+      }
+    },
+    "forgotPassword": {
+      "info": {
+        "summary": "Enlace Enviado",
+        "detail": "Se ha enviado un enlace de restablecimiento de contraseña a tu dirección de correo electrónico."
+      },
+      "error": {
+        "summary": "Error al Enviar Enlace",
+        "detail": "Error al enviar el enlace de restablecimiento de contraseña. Por favor intenta más tarde."
+      }
+    },
+    "email": {
+      "invalid": {
+        "summary": "Correo Electrónico Inválido",
+        "detail": "Por favor ingresa una dirección de correo electrónico válida."
+      }
+    },
+    "passwordReset": {
+      "success": {
+        "summary": "Restablecimiento de Contraseña Exitoso",
+        "detail": "Tu contraseña ha sido restablecida exitosamente. Por favor inicia sesión."
+      },
+      "failed": {
+        "summary": "Restablecimiento de Contraseña Fallido",
+        "detail": "Error al restablecer la contraseña. Token inválido o expirado."
+      }
+    }
+  },
+  "primeng": {
+    "dayNames": ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+    "dayNamesShort": ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+    "dayNamesMin": ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"],
+    "monthNames": [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ],
+    "monthNamesShort": [
+      "Ene",
+      "Feb",
+      "Mar",
+      "Abr",
+      "May",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dic"
+    ],
+    "today": "Hoy",
+    "clear": "Limpiar",
+    "dateFormat": "dd/mm/yy",
+    "weekHeader": "Sem",
+    "firstDayOfWeek": 1
+  },
+  "Find address...": "Buscar dirección...",
+  "Password": "Contraseña",
+  "Login": "Iniciar Sesión",
+  "Forgot password?": "¿Olvidaste tu contraseña?",
+  "Sign Up": "Registrarse",
+  "Confirm Password": "Confirmar Contraseña",
+  "Reset Password": "Restablecer Contraseña",
+  "Sign in with Google": "Iniciar sesión con Google",
+  "Continue": "Continuar",
+  "One-Time Password": "Contraseña de Un Solo Uso"
+}

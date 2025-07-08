@@ -1,0 +1,130 @@
+{
+  "My Profile": "Profilim",
+  "Log out": "Çıkış Yap",
+  "Discard": "İptal Et",
+  "Next": "İleri",
+  "Back": "Geri",
+  "Profile": "Profil",
+  "General info": "Genel Bilgiler",
+  "Select": "Seç",
+  "Email": "E-posta",
+  "Phone": "Telefon",
+  "messages": {
+    "login": {
+      "success": {
+        "summary": "Giriş Başarılı",
+        "detail": "Hoş geldiniz!"
+      },
+      "failed": {
+        "summary": "Giriş Başarısız",
+        "detail": "Geçersiz kimlik bilgileri. Lütfen tekrar deneyin."
+      }
+    },
+    "storage": {
+      "error": {
+        "summary": "Depolama Hatası",
+        "detail": "Token kaydedilemedi. Lütfen tarayıcı ayarlarınızı kontrol edin."
+      }
+    },
+    "otp": {
+      "sent": {
+        "summary": "Tek Kullanımlık Şifre Gönderildi",
+        "detail": "E-posta adresinize tek kullanımlık şifre gönderildi."
+      },
+      "requestFailed": {
+        "summary": "OTP İsteği Başarısız",
+        "detail": "Tek kullanımlık şifre gönderme başarısız. E-posta zaten mevcut."
+      }
+    },
+    "registration": {
+      "success": {
+        "summary": "Kayıt Başarılı",
+        "detail": "Lütfen giriş yapın."
+      },
+      "failed": {
+        "summary": "Kayıt Başarısız",
+        "detail": "Geçersiz veya süresi dolmuş OTP. Lütfen tekrar deneyin."
+      }
+    },
+    "password": {
+      "mismatch": {
+        "summary": "Şifreler Eşleşmiyor",
+        "detail": "Şifre onayı eşleşmiyor. Lütfen tekrar deneyin."
+      }
+    },
+    "forgotPassword": {
+      "info": {
+        "summary": "Bağlantı Gönderildi",
+        "detail": "E-posta adresinize şifre sıfırlama bağlantısı gönderildi."
+      },
+      "error": {
+        "summary": "Bağlantı Gönderme Hatası",
+        "detail": "Şifre sıfırlama bağlantısı gönderme başarısız. Lütfen daha sonra deneyin."
+      }
+    },
+    "email": {
+      "invalid": {
+        "summary": "Geçersiz E-posta",
+        "detail": "Lütfen geçerli bir e-posta adresi girin."
+      }
+    },
+    "passwordReset": {
+      "success": {
+        "summary": "Şifre Sıfırlama Başarılı",
+        "detail": "Şifreniz başarıyla sıfırlandı. Lütfen giriş yapın."
+      },
+      "failed": {
+        "summary": "Şifre Sıfırlama Başarısız",
+        "detail": "Şifre sıfırlama başarısız. Geçersiz veya süresi dolmuş token."
+      }
+    }
+  },
+  "primeng": {
+    "dayNames": ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"],
+    "dayNamesShort": ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"],
+    "dayNamesMin": ["P", "P", "S", "Ç", "P", "C", "C"],
+    "monthNames": [
+      "Ocak",
+      "Şubat",
+      "Mart",
+      "Nisan",
+      "Mayıs",
+      "Haziran",
+      "Temmuz",
+      "Ağustos",
+      "Eylül",
+      "Ekim",
+      "Kasım",
+      "Aralık"
+    ],
+    "monthNamesShort": [
+      "Oca",
+      "Şub",
+      "Mar",
+      "Nis",
+      "May",
+      "Haz",
+      "Tem",
+      "Ağu",
+      "Eyl",
+      "Eki",
+      "Kas",
+      "Ara"
+    ],
+    "today": "Bugün",
+    "clear": "Temizle",
+    "dateFormat": "dd/mm/yy",
+    "weekHeader": "Hf",
+    "firstDayOfWeek": 1
+  },
+  "Find address...": "Adres bul...",
+  "Password": "Şifre",
+  "Login": "Giriş Yap",
+  "Forgot password?": "Şifrenizi unuttunuz mu?",
+  "Sign Up": "Kayıt Ol",
+  "Confirm Password": "Şifreyi Onayla",
+  "Reset Password": "Şifreyi Sıfırla",
+  "Sign in with Google": "Google ile Giriş Yap",
+  "Continue": "Devam Et",
+  "One-Time Password": "Tek Kullanımlık Şifre"
+}

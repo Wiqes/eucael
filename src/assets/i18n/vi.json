@@ -1,0 +1,130 @@
+{
+  "My Profile": "Hồ sơ của tôi",
+  "Log out": "Đăng xuất",
+  "Discard": "Loại bỏ",
+  "Next": "Tiếp theo",
+  "Back": "Quay lại",
+  "Profile": "Hồ sơ",
+  "General info": "Thông tin chung",
+  "Select": "Chọn",
+  "Email": "Email",
+  "Phone": "Điện thoại",
+  "messages": {
+    "login": {
+      "success": {
+        "summary": "Đăng nhập thành công",
+        "detail": "Chào mừng!"
+      },
+      "failed": {
+        "summary": "Đăng nhập thất bại",
+        "detail": "Thông tin đăng nhập không hợp lệ. Vui lòng thử lại."
+      }
+    },
+    "storage": {
+      "error": {
+        "summary": "Lỗi lưu trữ",
+        "detail": "Không thể lưu token. Vui lòng kiểm tra cài đặt trình duyệt của bạn."
+      }
+    },
+    "otp": {
+      "sent": {
+        "summary": "Mật khẩu một lần đã được gửi",
+        "detail": "Mật khẩu một lần đã được gửi đến email của bạn."
+      },
+      "requestFailed": {
+        "summary": "Yêu cầu OTP thất bại",
+        "detail": "Không thể gửi mật khẩu một lần. Email đã tồn tại."
+      }
+    },
+    "registration": {
+      "success": {
+        "summary": "Đăng ký thành công",
+        "detail": "Vui lòng đăng nhập."
+      },
+      "failed": {
+        "summary": "Đăng ký thất bại",
+        "detail": "OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại."
+      }
+    },
+    "password": {
+      "mismatch": {
+        "summary": "Mật khẩu không khớp",
+        "detail": "Xác nhận mật khẩu không khớp. Vui lòng thử lại."
+      }
+    },
+    "forgotPassword": {
+      "info": {
+        "summary": "Liên kết đã được gửi",
+        "detail": "Liên kết đặt lại mật khẩu đã được gửi đến địa chỉ email của bạn."
+      },
+      "error": {
+        "summary": "Lỗi gửi liên kết",
+        "detail": "Không thể gửi liên kết đặt lại mật khẩu. Vui lòng thử lại sau."
+      }
+    },
+    "email": {
+      "invalid": {
+        "summary": "Email không hợp lệ",
+        "detail": "Vui lòng nhập địa chỉ email hợp lệ."
+      }
+    },
+    "passwordReset": {
+      "success": {
+        "summary": "Đặt lại mật khẩu thành công",
+        "detail": "Mật khẩu của bạn đã được đặt lại thành công. Vui lòng đăng nhập."
+      },
+      "failed": {
+        "summary": "Đặt lại mật khẩu thất bại",
+        "detail": "Không thể đặt lại mật khẩu. Token không hợp lệ hoặc đã hết hạn."
+      }
+    }
+  },
+  "primeng": {
+    "dayNames": ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"],
+    "dayNamesShort": ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+    "dayNamesMin": ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+    "monthNames": [
+      "Tháng 1",
+      "Tháng 2",
+      "Tháng 3",
+      "Tháng 4",
+      "Tháng 5",
+      "Tháng 6",
+      "Tháng 7",
+      "Tháng 8",
+      "Tháng 9",
+      "Tháng 10",
+      "Tháng 11",
+      "Tháng 12"
+    ],
+    "monthNamesShort": [
+      "Th1",
+      "Th2",
+      "Th3",
+      "Th4",
+      "Th5",
+      "Th6",
+      "Th7",
+      "Th8",
+      "Th9",
+      "Th10",
+      "Th11",
+      "Th12"
+    ],
+    "today": "Hôm nay",
+    "clear": "Xóa",
+    "dateFormat": "dd/mm/yy",
+    "weekHeader": "Tuần",
+    "firstDayOfWeek": 1
+  },
+  "Find address...": "Tìm địa chỉ...",
+  "Password": "Mật khẩu",
+  "Login": "Đăng nhập",
+  "Forgot password?": "Quên mật khẩu?",
+  "Sign Up": "Đăng ký",
+  "Confirm Password": "Xác nhận mật khẩu",
+  "Reset Password": "Đặt lại mật khẩu",
+  "Sign in with Google": "Đăng nhập bằng Google",
+  "Continue": "Tiếp tục",
+  "One-Time Password": "Mật khẩu một lần"
+}

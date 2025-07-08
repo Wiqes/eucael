@@ -1,0 +1,130 @@
+{
+  "My Profile": "私のプロフィール",
+  "Log out": "ログアウト",
+  "Discard": "破棄",
+  "Next": "次へ",
+  "Back": "戻る",
+  "Profile": "プロフィール",
+  "General info": "一般情報",
+  "Select": "選択",
+  "Email": "メール",
+  "Phone": "電話",
+  "messages": {
+    "login": {
+      "success": {
+        "summary": "ログイン成功",
+        "detail": "ようこそ！"
+      },
+      "failed": {
+        "summary": "ログイン失敗",
+        "detail": "認証情報が無効です。再度お試しください。"
+      }
+    },
+    "storage": {
+      "error": {
+        "summary": "ストレージエラー",
+        "detail": "トークンを保存できません。ブラウザの設定を確認してください。"
+      }
+    },
+    "otp": {
+      "sent": {
+        "summary": "ワンタイムパスワード送信済み",
+        "detail": "ワンタイムパスワードがメールに送信されました。"
+      },
+      "requestFailed": {
+        "summary": "OTPリクエスト失敗",
+        "detail": "ワンタイムパスワードの送信に失敗しました。メールアドレスが既に存在します。"
+      }
+    },
+    "registration": {
+      "success": {
+        "summary": "登録成功",
+        "detail": "ログインしてください。"
+      },
+      "failed": {
+        "summary": "登録失敗",
+        "detail": "無効または期限切れのOTPです。再度お試しください。"
+      }
+    },
+    "password": {
+      "mismatch": {
+        "summary": "パスワード不一致",
+        "detail": "パスワード確認が一致しません。再度お試しください。"
+      }
+    },
+    "forgotPassword": {
+      "info": {
+        "summary": "リンク送信済み",
+        "detail": "パスワードリセットリンクがメールアドレスに送信されました。"
+      },
+      "error": {
+        "summary": "リンク送信エラー",
+        "detail": "パスワードリセットリンクの送信に失敗しました。後でもう一度お試しください。"
+      }
+    },
+    "email": {
+      "invalid": {
+        "summary": "無効なメール",
+        "detail": "有効なメールアドレスを入力してください。"
+      }
+    },
+    "passwordReset": {
+      "success": {
+        "summary": "パスワードリセット成功",
+        "detail": "パスワードが正常にリセットされました。ログインしてください。"
+      },
+      "failed": {
+        "summary": "パスワードリセット失敗",
+        "detail": "パスワードのリセットに失敗しました。無効または期限切れのトークンです。"
+      }
+    }
+  },
+  "primeng": {
+    "dayNames": ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"],
+    "dayNamesShort": ["日", "月", "火", "水", "木", "金", "土"],
+    "dayNamesMin": ["日", "月", "火", "水", "木", "金", "土"],
+    "monthNames": [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月"
+    ],
+    "monthNamesShort": [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月"
+    ],
+    "today": "今日",
+    "clear": "クリア",
+    "dateFormat": "yy/mm/dd",
+    "weekHeader": "週",
+    "firstDayOfWeek": 0
+  },
+  "Find address...": "住所を検索...",
+  "Password": "パスワード",
+  "Login": "ログイン",
+  "Forgot password?": "パスワードを忘れましたか？",
+  "Sign Up": "サインアップ",
+  "Confirm Password": "パスワード確認",
+  "Reset Password": "パスワードリセット",
+  "Sign in with Google": "Googleでサインイン",
+  "Continue": "続行",
+  "One-Time Password": "ワンタイムパスワード"
+}

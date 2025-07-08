@@ -14,12 +14,27 @@ export class StateService {
   readonly locale = computed(() => {
     const map: Record<string, string> = {
       en: 'en-US',
+      es: 'es-ES',
+      zh: 'zh-CN',
+      hi: 'hi-IN',
+      ar: 'ar-SA',
+      bn: 'bn-BD',
+      pt: 'pt-BR',
+      ru: 'ru-RU',
+      ja: 'ja-JP',
+      pa: 'pa-IN',
       de: 'de-DE',
       fr: 'fr-FR',
+      tr: 'tr-TR',
       it: 'it-IT',
-      es: 'es-ES',
-      pt: 'pt-PT',
-      ru: 'ru-RU',
+      vi: 'vi-VN',
+      ta: 'ta-IN',
+      ur: 'ur-PK',
+      id: 'id-ID',
+      sw: 'sw-KE',
+      mr: 'mr-IN',
+      te: 'te-IN',
+      uk: 'uk-UA',
     };
     return map[this.selectedLanguage().toLowerCase()] ?? 'en-US';
   });
@@ -31,5 +46,9 @@ export class StateService {
       error: () => this.isDataLoading.set(false),
       complete: () => this.isDataLoading.set(false),
     });
+  }
+
+  updateSelectedLanguage(languageCode: string) {
+    this.selectedLanguage.set(languageCode.toUpperCase());
   }
 }

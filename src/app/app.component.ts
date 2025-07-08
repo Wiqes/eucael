@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet, Router } from '@angular/router';
 import { ToastComponent } from './shared/ui/toast/toast.component';
+import { LanguageService } from './core/services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,13 @@ import { ToastComponent } from './shared/ui/toast/toast.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
+  private readonly languageService = inject(LanguageService);
+
   ngOnInit(): void {
     const element = document.querySelector('html');
     element?.classList.toggle('wiqes-app-dark');
+
+    // Initialize language service
+    this.languageService.initializeLanguage();
   }
 }

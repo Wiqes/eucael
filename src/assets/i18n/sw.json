@@ -1,0 +1,130 @@
+{
+  "My Profile": "Wasifu Wangu",
+  "Log out": "Toka",
+  "Discard": "Tupa",
+  "Next": "Ifuatayo",
+  "Back": "Rudi",
+  "Profile": "Wasifu",
+  "General info": "Taarifa za Jumla",
+  "Select": "Chagua",
+  "Email": "Barua pepe",
+  "Phone": "Simu",
+  "messages": {
+    "login": {
+      "success": {
+        "summary": "Kuingia Kumefanikiwa",
+        "detail": "Karibu!"
+      },
+      "failed": {
+        "summary": "Kuingia Kumeshindwa",
+        "detail": "Uthibitisho ni vibaya. Tafadhali jaribu tena."
+      }
+    },
+    "storage": {
+      "error": {
+        "summary": "Hitilafu ya Uhifadhi",
+        "detail": "Haiwezi kuhifadhi alama. Tafadhali angalia mipangilio ya kivinjari chako."
+      }
+    },
+    "otp": {
+      "sent": {
+        "summary": "Nywila ya Mara Moja Imetumwa",
+        "detail": "Nywila ya mara moja imetumwa kwenye barua pepe yako."
+      },
+      "requestFailed": {
+        "summary": "Ombi la OTP Limeshindwa",
+        "detail": "Kutuma nywila ya mara moja kumeshindwa. Barua pepe tayari ipo."
+      }
+    },
+    "registration": {
+      "success": {
+        "summary": "Usajili Umefanikiwa",
+        "detail": "Tafadhali ingia."
+      },
+      "failed": {
+        "summary": "Usajili Umeshindwa",
+        "detail": "OTP ni batili au imeisha. Tafadhali jaribu tena."
+      }
+    },
+    "password": {
+      "mismatch": {
+        "summary": "Manyesha Hayalingani",
+        "detail": "Uthibitisho wa nywila haulingani. Tafadhali jaribu tena."
+      }
+    },
+    "forgotPassword": {
+      "info": {
+        "summary": "Kiungo Kimetumwa",
+        "detail": "Kiungo cha kubadili nywila kimetumwa kwenye anuani yako ya barua pepe."
+      },
+      "error": {
+        "summary": "Hitilafu ya Kutuma Kiungo",
+        "detail": "Kutuma kiungo cha kubadili nywila kumeshindwa. Tafadhali jaribu baadaye."
+      }
+    },
+    "email": {
+      "invalid": {
+        "summary": "Barua pepe ni Batili",
+        "detail": "Tafadhali ingiza anuani sahihi ya barua pepe."
+      }
+    },
+    "passwordReset": {
+      "success": {
+        "summary": "Kubadili Nywila Kumefanikiwa",
+        "detail": "Nywila yako imebadilishwa kwa ufanisi. Tafadhali ingia."
+      },
+      "failed": {
+        "summary": "Kubadili Nywila Kumeshindwa",
+        "detail": "Kubadili nywila kumeshindwa. Alama ni batili au imeisha."
+      }
+    }
+  },
+  "primeng": {
+    "dayNames": ["Jumapili", "Jumatatu", "Jumanne", "Jumatano", "Alhamisi", "Ijumaa", "Jumamosi"],
+    "dayNamesShort": ["Jpl", "Jtt", "Jnn", "Jtn", "Alh", "Iju", "Jms"],
+    "dayNamesMin": ["J", "J", "J", "J", "A", "I", "J"],
+    "monthNames": [
+      "Januari",
+      "Februari",
+      "Machi",
+      "Aprili",
+      "Mei",
+      "Juni",
+      "Julai",
+      "Agosti",
+      "Septemba",
+      "Oktoba",
+      "Novemba",
+      "Desemba"
+    ],
+    "monthNamesShort": [
+      "Jan",
+      "Feb",
+      "Mac",
+      "Apr",
+      "Mei",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des"
+    ],
+    "today": "Leo",
+    "clear": "Safisha",
+    "dateFormat": "dd/mm/yy",
+    "weekHeader": "Wiki",
+    "firstDayOfWeek": 1
+  },
+  "Find address...": "Tafuta anuani...",
+  "Password": "Nywila",
+  "Login": "Ingia",
+  "Forgot password?": "Umesahau nywila?",
+  "Sign Up": "Jisajili",
+  "Confirm Password": "Thibitisha Nywila",
+  "Reset Password": "Badili Nywila",
+  "Sign in with Google": "Ingia kwa Google",
+  "Continue": "Endelea",
+  "One-Time Password": "Nywila ya Mara Moja"
+}
