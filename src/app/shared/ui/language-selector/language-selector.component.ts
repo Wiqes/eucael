@@ -25,7 +25,6 @@ export class LanguageSelectorComponent {
 
   languageItems: MenuItem[] = this.languages.map((language) => ({
     label: language.name,
-    icon: language.flag,
     command: () => this.onLanguageChange(language.code),
   }));
 

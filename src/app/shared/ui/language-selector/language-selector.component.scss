@@ -7,18 +7,3 @@
 .menu {
   @extend %menu-base;
 }
-
-.language-menu {
-  min-width: 200px !important;
-}
-
-.language-menu .p-menuitem-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-}
-
-.language-menu .p-menuitem:hover {
-  background: var(--primary-color-alpha);
-}
