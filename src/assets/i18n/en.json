@@ -9,6 +9,76 @@
   "Select": "Select",
   "Email": "Email",
   "Phone": "Phone",
+  "messages": {
+    "login": {
+      "success": {
+        "summary": "Login Successful",
+        "detail": "Welcome!"
+      },
+      "failed": {
+        "summary": "Login Failed",
+        "detail": "Invalid credentials. Please try again."
+      }
+    },
+    "storage": {
+      "error": {
+        "summary": "Storage Error",
+        "detail": "Unable to save token. Please check your browser settings."
+      }
+    },
+    "otp": {
+      "sent": {
+        "summary": "One-Time Password Sent",
+        "detail": "An One-Time Password has been sent to your email."
+      },
+      "requestFailed": {
+        "summary": "OTP Request Failed",
+        "detail": "Failed to send One-Time Password. Email already exists."
+      }
+    },
+    "registration": {
+      "success": {
+        "summary": "Registration Successful",
+        "detail": "Please login."
+      },
+      "failed": {
+        "summary": "Registration Failed",
+        "detail": "Invalid or expired OTP. Please try again."
+      }
+    },
+    "password": {
+      "mismatch": {
+        "summary": "Password Mismatch",
+        "detail": "The password confirmation does not match. Please try again."
+      }
+    },
+    "forgotPassword": {
+      "info": {
+        "summary": "Link Sent",
+        "detail": "A password reset link has been sent to your email address."
+      },
+      "error": {
+        "summary": "Error Sending Link",
+        "detail": "Failed to send password reset link. Please try again later."
+      }
+    },
+    "email": {
+      "invalid": {
+        "summary": "Invalid Email",
+        "detail": "Please enter a valid email address."
+      }
+    },
+    "passwordReset": {
+      "success": {
+        "summary": "Password Reset Successful",
+        "detail": "Your password has been reset successfully. Please login."
+      },
+      "failed": {
+        "summary": "Password Reset Failed",
+        "detail": "Failed to reset password. Invalid or expired token."
+      }
+    }
+  },
   "primeng": {
     "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
     "dayNamesShort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],

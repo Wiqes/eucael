@@ -47,6 +47,76 @@
     "weekHeader": "Sm",
     "firstDayOfWeek": 1
   },
+  "messages": {
+    "login": {
+      "success": {
+        "summary": "Connexion réussie",
+        "detail": "Bienvenue !"
+      },
+      "failed": {
+        "summary": "Échec de la connexion",
+        "detail": "Identifiants invalides. Veuillez réessayer."
+      }
+    },
+    "storage": {
+      "error": {
+        "summary": "Erreur de stockage",
+        "detail": "Impossible d'enregistrer le jeton. Veuillez vérifier les paramètres de votre navigateur."
+      }
+    },
+    "otp": {
+      "sent": {
+        "summary": "Mot de passe à usage unique envoyé",
+        "detail": "Un mot de passe à usage unique a été envoyé à votre adresse e-mail."
+      },
+      "requestFailed": {
+        "summary": "Échec de la demande OTP",
+        "detail": "Échec de l'envoi du mot de passe à usage unique. L'adresse e-mail existe déjà."
+      }
+    },
+    "registration": {
+      "success": {
+        "summary": "Inscription réussie",
+        "detail": "Veuillez vous connecter."
+      },
+      "failed": {
+        "summary": "Échec de l'inscription",
+        "detail": "OTP invalide ou expiré. Veuillez réessayer."
+      }
+    },
+    "password": {
+      "mismatch": {
+        "summary": "Mot de passe non conforme",
+        "detail": "La confirmation du mot de passe ne correspond pas. Veuillez réessayer."
+      }
+    },
+    "forgotPassword": {
+      "info": {
+        "summary": "Lien envoyé",
+        "detail": "Un lien de réinitialisation du mot de passe a été envoyé à votre adresse e-mail."
+      },
+      "error": {
+        "summary": "Erreur lors de l'envoi du lien",
+        "detail": "Échec de l'envoi du lien de réinitialisation du mot de passe. Veuillez réessayer plus tard."
+      }
+    },
+    "email": {
+      "invalid": {
+        "summary": "E-mail invalide",
+        "detail": "Veuillez saisir une adresse e-mail valide."
+      }
+    },
+    "passwordReset": {
+      "success": {
+        "summary": "Réinitialisation du mot de passe réussie",
+        "detail": "Votre mot de passe a été réinitialisé avec succès. Veuillez vous connecter."
+      },
+      "failed": {
+        "summary": "Échec de la réinitialisation du mot de passe",
+        "detail": "Échec de la réinitialisation du mot de passe. Jeton invalide ou expiré."
+      }
+    }
+  },
   "Find address...": "Trouver une adresse...",
   "Password": "Mot de passe",
   "Login": "Connexion",

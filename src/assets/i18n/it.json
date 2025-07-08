@@ -47,6 +47,76 @@
     "weekHeader": "Sm",
     "firstDayOfWeek": 1
   },
+  "messages": {
+    "login": {
+      "success": {
+        "summary": "Accesso riuscito",
+        "detail": "Benvenuto!"
+      },
+      "failed": {
+        "summary": "Accesso fallito",
+        "detail": "Credenziali non valide. Riprova."
+      }
+    },
+    "storage": {
+      "error": {
+        "summary": "Errore di memorizzazione",
+        "detail": "Impossibile salvare il token. Controlla le impostazioni del browser."
+      }
+    },
+    "otp": {
+      "sent": {
+        "summary": "Password usa e getta inviata",
+        "detail": "Una password usa e getta è stata inviata alla tua email."
+      },
+      "requestFailed": {
+        "summary": "Richiesta OTP fallita",
+        "detail": "Invio della password usa e getta fallito. L'email esiste già."
+      }
+    },
+    "registration": {
+      "success": {
+        "summary": "Registrazione riuscita",
+        "detail": "Effettua l'accesso."
+      },
+      "failed": {
+        "summary": "Registrazione fallita",
+        "detail": "OTP non valido o scaduto. Riprova."
+      }
+    },
+    "password": {
+      "mismatch": {
+        "summary": "Password non corrispondente",
+        "detail": "La conferma della password non corrisponde. Riprova."
+      }
+    },
+    "forgotPassword": {
+      "info": {
+        "summary": "Link inviato",
+        "detail": "Un link per reimpostare la password è stato inviato al tuo indirizzo email."
+      },
+      "error": {
+        "summary": "Errore nell'invio del link",
+        "detail": "Invio del link per reimpostare la password fallito. Riprova più tardi."
+      }
+    },
+    "email": {
+      "invalid": {
+        "summary": "Email non valida",
+        "detail": "Inserisci un indirizzo email valido."
+      }
+    },
+    "passwordReset": {
+      "success": {
+        "summary": "Password reimpostata con successo",
+        "detail": "La tua password è stata reimpostata con successo. Effettua l'accesso."
+      },
+      "failed": {
+        "summary": "Reimpostazione password fallita",
+        "detail": "Reimpostazione password fallita. Token non valido o scaduto."
+      }
+    }
+  },
   "Find address...": "Trova un indirizzo...",
   "Password": "Password",
   "Login": "Accesso",
