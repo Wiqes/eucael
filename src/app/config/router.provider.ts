@@ -33,6 +33,10 @@ const routes: Routes = [
         (m) => m.ResetPasswordComponent,
       ),
   },
+  {
+    path: 'admin',
+    loadComponent: () => import('../features/admin/admin.component').then((m) => m.AdminComponent),
+  },
 ];
 
 export const routerProvider = () => provideRouter(routes);

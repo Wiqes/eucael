@@ -1,0 +1,24 @@
+<div>
+  <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+  <button (click)="onUpload()" [disabled]="!selectedFile || isUploading">
+    {{ isUploading ? 'Uploading...' : 'Upload Image' }}
+  </button>
+
+  <div *ngIf="uploadProgress > 0">
+    <progress [value]="uploadProgress" max="100"></progress>
+    {{ uploadProgress }}%
+  </div>
+
+  <div *ngIf="uploadedImageUrl">
+    <h3>Upload Complete!</h3>
+    <img [src]="uploadedImageUrl" alt="Uploaded Image" width="300" />
+    <p>
+      Image URL:
+      <a [href]="uploadedImageUrl" target="_blank">{{ uploadedImageUrl }}</a>
+    </p>
+  </div>
+
+  <div *ngIf="error">
+    <p style="color: red">Error: {{ error }}</p>
+  </div>
+</div>
