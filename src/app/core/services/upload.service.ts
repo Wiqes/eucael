@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 interface PresignedUrlResponse {
   uploadUrl: string;
   publicUrl: string;
+  key: string;
 }
 
 @Injectable({
@@ -14,7 +15,6 @@ interface PresignedUrlResponse {
 export class UploadService {
   constructor(private http: HttpClient) {}
 
-  // 1. Get the pre-signed URL from NestJS
   getPresignedUrl(filename: string, contentType: string): Observable<PresignedUrlResponse> {
     return this.http.post<PresignedUrlResponse>(`${environment.API_URL}/uploads/signed-url`, {
       filename,
@@ -22,8 +22,11 @@ export class UploadService {
     });
   }
 
-  // 2. Upload the file directly to S3
   uploadFileToS3(presignedUrl: string, file: File): Observable<any> {
     return this.http.put(presignedUrl, file, { reportProgress: true, observe: 'events' });
+  }
+
+  deleteFile(key: string): Observable<any> {
+    return this.http.delete(`${environment.API_URL}/uploads/${key}`);
   }
 }

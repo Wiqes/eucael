@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
-import { finalize } from 'rxjs';
+import { finalize, switchMap } from 'rxjs';
 import { UploadService } from '../../core/services/upload.service';
 import { NgIf } from '@angular/common';
 
@@ -15,7 +15,9 @@ export class AdminComponent {
   isUploading = false;
   uploadProgress = 0;
   uploadedImageUrl: string | null = null;
+  publicUrl: string | null = null;
   error: string | null = null;
+  uploadedImageKey: string | null = null;
 
   constructor(private uploadService: UploadService) {}
 
@@ -38,26 +40,48 @@ export class AdminComponent {
     this.error = null;
     const file = this.selectedFile;
 
-    // Step 1: Get Pre-signed URL
-    this.uploadService.getPresignedUrl(file.name, file.type).subscribe({
-      next: (res) => {
-        // Step 2: Upload file to S3
-        this.uploadService
-          .uploadFileToS3(res.uploadUrl, file)
-          .pipe(finalize(() => (this.isUploading = false)))
-          .subscribe((event) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.uploadProgress = Math.round(100 * (event.loaded / event.total!));
-            } else if (event.type === HttpEventType.Response) {
-              console.log('Upload successful!');
-              this.uploadedImageUrl = res.publicUrl;
-            }
-          });
+    this.uploadService
+      .getPresignedUrl(file.name, file.type)
+      .pipe(
+        switchMap((res) => {
+          // Store the key and URL immediately
+          this.uploadedImageKey = res.key;
+          this.publicUrl = res.publicUrl;
+          return this.uploadService.uploadFileToS3(res.uploadUrl, file);
+        }),
+        finalize(() => (this.isUploading = false)),
+      )
+      .subscribe((event) => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.uploadProgress = Math.round(100 * (event.loaded / event.total!));
+        } else if (event.type === HttpEventType.Response) {
+          this.uploadedImageUrl = this.publicUrl;
+          console.log('File uploaded successfully', this.publicUrl);
+        }
+      });
+  }
+
+  onDelete(): void {
+    if (!this.uploadedImageKey) {
+      return;
+    }
+
+    // A confirmation dialog is always a good idea
+    if (!confirm('Are you sure you want to delete this image?')) {
+      return;
+    }
+
+    this.uploadService.deleteFile(this.uploadedImageKey).subscribe({
+      next: () => {
+        console.log('File deleted successfully');
+        this.uploadedImageUrl = null;
+        this.uploadedImageKey = null;
+        this.selectedFile = null;
+        this.uploadProgress = 0;
       },
       error: (err) => {
-        console.error(err);
-        this.error = 'Failed to get pre-signed URL.';
-        this.isUploading = false;
+        console.error('Error deleting file', err);
+        this.error = 'Failed to delete the file.';
       },
     });
   }
