@@ -19,7 +19,7 @@ export class MenuComponent implements OnDestroy {
   private router = inject(Router);
   private stateService = inject(StateService);
   private translate = inject(TranslateService);
-  displayName = computed(() => this.stateService.user()?.fullName || '');
+  displayName = computed(() => this.stateService.displayName());
   isDataLoading = computed(() => this.stateService.isDataLoading());
 
   items: any[] = [];

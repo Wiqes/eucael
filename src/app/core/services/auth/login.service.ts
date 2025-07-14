@@ -33,7 +33,7 @@ export class LoginService extends AuthBaseService {
 
     this.handleSuccess(MESSAGES.LOGIN_SUCCESS, () => {
       setTimeout(() => {
-        this.router.navigate(['/cases']);
+        this.router.navigate(['/home']);
         this.stateService.addBackendDataToState();
       }, 800);
     });

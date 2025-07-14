@@ -9,6 +9,7 @@ export class StateService {
   readonly user = signal<Partial<IUser> | null>(null);
   readonly isDataLoading = signal<boolean>(false);
   private readonly dataAccessService = inject(DataAccessService);
+  displayName = computed(() => this.user()?.fullName || this.user()?.username || '');
 
   addBackendDataToState() {
     this.isDataLoading.set(true);

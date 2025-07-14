@@ -11,7 +11,7 @@ const routes: Routes = [
     loadComponent: () => import('../layout/header/header.component').then((m) => m.HeaderComponent),
   },
   {
-    path: 'cases',
+    path: 'home',
     loadComponent: () => import('../features/cases/cases.component').then((m) => m.CasesComponent),
   },
   {

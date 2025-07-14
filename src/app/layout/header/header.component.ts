@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
   private stateService = inject(StateService);
 
   photoURL = computed(() => this.stateService.user()?.photoURL || '');
-  displayName = computed(() => this.stateService.user()?.fullName || '');
+  displayName = computed(() => this.stateService.displayName());
   isDataLoading = computed(() => this.stateService.isDataLoading());
 
   ngOnInit() {
@@ -37,6 +37,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogoClick(): void {
-    this.router.navigate(['/cases']);
+    this.router.navigate(['/home']);
   }
 }
