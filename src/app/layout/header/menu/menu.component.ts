@@ -7,6 +7,7 @@ import { StateService } from '../../../core/services/state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Router } from '@angular/router';
+import { LoginService } from '../../../core/services/auth/login.service';
 
 @Component({
   selector: 'app-menu',
@@ -19,6 +20,7 @@ export class MenuComponent implements OnDestroy {
   private router = inject(Router);
   private stateService = inject(StateService);
   private translate = inject(TranslateService);
+  private loginService = inject(LoginService);
   displayName = computed(() => this.stateService.displayName());
   isDataLoading = computed(() => this.stateService.isDataLoading());
 
@@ -47,9 +49,7 @@ export class MenuComponent implements OnDestroy {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    this.stateService.user.set(null);
-    this.router.navigate(['/']);
+    this.loginService.logout();
   }
 
   ngOnDestroy() {
