@@ -3,6 +3,7 @@ import { LoginService } from './login.service';
 import { RegistrationService } from './registration.service';
 import { PasswordResetService } from './password-reset.service';
 import { ICredentials } from '../../models/credentials.model';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,16 @@ export class AuthService {
     this.registrationService.isPasswordConfirmationRequested(),
   );
   isResetPasswordRequested = computed(() => this.passwordResetService.isLoading());
+  authToken = computed(() => this.loginService.authToken() || '');
+
+  hasRole(role: string): boolean {
+    if (!this.authToken()) {
+      return false;
+    }
+    const decodedToken: any = jwtDecode(this.authToken());
+    console.log('Decoded Token:', decodedToken);
+    return decodedToken.roles?.includes(role);
+  }
 
   login(email: string, password: string) {
     this.loginService.request({ email, password });

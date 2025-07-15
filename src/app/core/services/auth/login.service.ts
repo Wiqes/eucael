@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { MESSAGES } from '../../constants/messages';
 import { StateService } from '../state.service';
@@ -11,6 +11,7 @@ import { AuthBaseService } from './auth-base.service';
 export class LoginService extends AuthBaseService {
   private router = inject(Router);
   private stateService = inject(StateService);
+  authToken = signal<string | null>(null);
 
   request({ email, password }: ICredentials) {
     this.makeAuthRequest(
@@ -26,6 +27,7 @@ export class LoginService extends AuthBaseService {
     try {
       if (res?.access_token) {
         window.localStorage.setItem('token', res.access_token);
+        this.authToken.set(res.access_token);
       }
     } catch (e) {
       this.messageService.sendMessage(MESSAGES.STORAGE_ERROR);
