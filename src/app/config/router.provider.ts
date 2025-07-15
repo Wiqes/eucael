@@ -14,7 +14,6 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    canActivate: [AuthGuard],
     loadComponent: () => import('../features/home/home.component').then((m) => m.HomeComponent),
   },
   {

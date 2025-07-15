@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { ToastComponent } from './shared/ui/toast/toast.component';
 import { LanguageService } from './core/services/language.service';
 import { LoginService } from './core/services/auth/login.service';
+import { AuthService } from './core/services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { LoginService } from './core/services/auth/login.service';
 export class AppComponent implements OnInit {
   private readonly languageService = inject(LanguageService);
   private readonly loginService = inject(LoginService);
+  protected readonly authService = inject(AuthService);
   isLoggedIn = computed(() => this.loginService.isLoggedIn());
 
   ngOnInit(): void {
