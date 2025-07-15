@@ -1,15 +1,345 @@
 @use 'variables' as *;
 
 .auth-container {
-  @extend %auth-base;
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
 
-  .password-container {
+  // Image Section (Left Side)
+  .image-section {
+    flex: 1;
     position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .background-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.1);
+      transition: transform 0.3s ease;
+      filter: brightness(0.8) contrast(1.1);
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        135deg,
+        rgba(52, 211, 153, 0.15) 0%,
+        rgba(24, 24, 27, 0.3) 50%,
+        rgba(24, 24, 27, 0.7) 100%
+      );
+      z-index: 1;
+    }
+
+    .image-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+      padding: 40px;
+      max-width: 500px;
+      animation: slideInFromLeft 0.8s ease-out;
+
+      .logo-container {
+        margin-bottom: 60px;
+        opacity: 0;
+        animation: fadeInUp 1s ease-out 0.3s forwards;
+
+        app-logo {
+          transform: scale(1.5);
+          filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+      }
+
+      .welcome-text {
+        h1 {
+          font-size: 3.5rem;
+          font-weight: 700;
+          margin-bottom: 20px;
+          background: linear-gradient(135deg, #ffffff 0%, #34d399 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+          opacity: 0;
+          animation: fadeInUp 1s ease-out 0.6s forwards;
+        }
+
+        p {
+          font-size: 1.3rem;
+          color: rgba(255, 255, 255, 0.9);
+          font-weight: 300;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+          opacity: 0;
+          animation: fadeInUp 1s ease-out 0.9s forwards;
+        }
+      }
+    }
   }
 
-  .google-button-container {
-    width: 100%;
-    margin-top: 20px;
+  // Form Section (Right Side)
+  .form-section {
+    flex: 0 0 480px;
+    background: linear-gradient(135deg, #18181b 0%, #1f1f23 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, $primary-color, transparent);
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 400px;
+      animation: slideInFromRight 0.8s ease-out;
+
+      .form-header {
+        text-align: center;
+        margin-bottom: 40px;
+        opacity: 0;
+        animation: fadeInUp 1s ease-out 0.4s forwards;
+
+        h2 {
+          font-size: 2.2rem;
+          font-weight: 600;
+          color: $text-color;
+          margin-bottom: 10px;
+          background: linear-gradient(135deg, #ffffff 0%, #34d399 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .form-subtitle {
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 1rem;
+          font-weight: 300;
+        }
+      }
+
+      .form-content {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        opacity: 0;
+        animation: fadeInUp 1s ease-out 0.6s forwards;
+
+        .password-container {
+          position: relative;
+        }
+
+        .buttons-container {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          gap: 12px;
+          margin-top: 10px;
+
+          p-button {
+            flex: 1;
+
+            ::ng-deep .p-button {
+              width: 100%;
+              padding: 12px 20px;
+              font-weight: 500;
+              border-radius: 8px;
+              transition: all 0.3s ease;
+
+              &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(52, 211, 153, 0.3);
+              }
+            }
+          }
+        }
+      }
+
+      .divider {
+        text-align: center;
+        margin: 30px 0 20px 0;
+        position: relative;
+        opacity: 0;
+        animation: fadeInUp 1s ease-out 0.8s forwards;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        span {
+          background: #18181b;
+          padding: 0 20px;
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 0.9rem;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+      }
+
+      .google-button-container {
+        opacity: 0;
+        animation: fadeInUp 1s ease-out 1s forwards;
+      }
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 1024px) {
+    .form-section {
+      flex: 0 0 420px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    min-height: 100vh;
+
+    .image-section {
+      flex: 0 0 40vh;
+
+      .image-content {
+        padding: 20px;
+
+        .logo-container {
+          margin-bottom: 20px;
+        }
+
+        .welcome-text {
+          h1 {
+            font-size: 2.5rem;
+          }
+
+          p {
+            font-size: 1.1rem;
+          }
+        }
+      }
+    }
+
+    .form-section {
+      flex: 1;
+      padding: 30px 20px;
+
+      .form-container {
+        .form-header {
+          margin-bottom: 30px;
+
+          h2 {
+            font-size: 1.8rem;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .image-section {
+      flex: 0 0 35vh;
+
+      .image-content {
+        .welcome-text {
+          h1 {
+            font-size: 2rem;
+          }
+
+          p {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+
+    .form-section {
+      padding: 20px 15px;
+
+      .form-container {
+        .form-content {
+          .buttons-container {
+            flex-direction: column;
+            gap: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Custom PrimeNG button overrides
+:host ::ng-deep .p-button {
+  &.p-button-secondary {
+    background: transparent !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-color: rgba(255, 255, 255, 0.5) !important;
+    }
   }
 }
 

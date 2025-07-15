@@ -1,71 +1,117 @@
 <div class="auth-container">
-  <div class="form-container">
-    <form [formGroup]="form" class="form-content">
-      @if (otpRequested()) {
-      <app-form-control label="One-Time Password" [control]="formControls['otp']" />
-      } @else {
-      <app-form-control label="Email" [control]="formControls['email']" />
-      <div class="password-container">
-        <app-form-control type="password" label="Password" [control]="formControls['password']" />
-        <app-forgot-password-button
-          [email]="formControls['email'].value"
-          [isValidEmail]="formControls['email'].valid"
-        />
+  <!-- Background Image Section -->
+  <div class="image-section">
+    <div class="image-overlay"></div>
+    <img src="assets/images/panther.jpg" alt="Panther" class="background-image" />
+    <div class="image-content">
+      <div class="logo-container">
+        <app-logo />
       </div>
-      } @if (passwordConfirmationRequested()) {
-      <app-form-control
-        type="password"
-        label="Confirm Password"
-        [control]="formControls['confirmPassword']"
-      />
-      }
-      <div class="buttons-container">
-        @if (otpRequested() || passwordConfirmationRequested()) {
-        <p-button
-          [label]="'Back' | translate"
-          icon="pi pi-arrow-left"
-          [disabled]="loadingLogin() || loadingRegistration()"
-          (onClick)="backToLogin()"
-        />
-        } @if (otpRequested()) {
-        <p-button
-          [label]="'Sign Up' | translate"
-          icon="pi pi-user-plus"
-          (onClick)="register()"
-          [disabled]="form.invalid || loadingRegistration()"
-          [loading]="loadingRegistration()"
-        />
-        } @if (!otpRequested() && !passwordConfirmationRequested()) {
-        <p-button
-          [label]="'Login' | translate"
-          icon="pi pi-user"
-          type="submit"
-          (onClick)="login()"
-          [disabled]="form.invalid || loadingLogin() || loadingRegistration()"
-          [loading]="loadingLogin()"
-        />
-        <p-button
-          [label]="'Sign Up' | translate"
-          icon="pi pi-user-plus"
-          (onClick)="requestPasswordConfirmation()"
-          [disabled]="form.invalid || loadingLogin() || loadingRegistration()"
-          [loading]="loadingRegistration()"
-        />
+      <div class="welcome-text">
+        <h1>{{ 'Welcome Back' | translate }}</h1>
+        <p>{{ 'Experience the power of innovation' | translate }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Section -->
+  <div class="form-section">
+    <div class="form-container">
+      <div class="form-header">
+        <h2>
+          {{
+            (otpRequested()
+              ? 'Verify Code'
+              : passwordConfirmationRequested()
+              ? 'Complete Registration'
+              : 'Sign In'
+            ) | translate
+          }}
+        </h2>
+        <p class="form-subtitle">
+          {{
+            (otpRequested()
+              ? 'Enter the code sent to your email'
+              : passwordConfirmationRequested()
+              ? 'Create your account'
+              : 'Access your account'
+            ) | translate
+          }}
+        </p>
+      </div>
+
+      <form [formGroup]="form" class="form-content">
+        @if (otpRequested()) {
+        <app-form-control label="One-Time Password" [control]="formControls['otp']" />
+        } @else {
+        <app-form-control label="Email" [control]="formControls['email']" />
+        <div class="password-container">
+          <app-form-control type="password" label="Password" [control]="formControls['password']" />
+          <app-forgot-password-button
+            [email]="formControls['email'].value"
+            [isValidEmail]="formControls['email'].valid"
+          />
+        </div>
         } @if (passwordConfirmationRequested()) {
-        <p-button
-          [label]="'Continue' | translate"
-          icon="pi pi-arrow-right"
-          (onClick)="requestOTP()"
-          [disabled]="form.invalid || loadingRegistration()"
-          [loading]="loadingRegistration()"
+        <app-form-control
+          type="password"
+          label="Confirm Password"
+          [control]="formControls['confirmPassword']"
         />
         }
+        <div class="buttons-container">
+          @if (otpRequested() || passwordConfirmationRequested()) {
+          <p-button
+            [label]="'Back' | translate"
+            icon="pi pi-arrow-left"
+            [disabled]="loadingLogin() || loadingRegistration()"
+            (onClick)="backToLogin()"
+            severity="secondary"
+          />
+          } @if (otpRequested()) {
+          <p-button
+            [label]="'Sign Up' | translate"
+            icon="pi pi-user-plus"
+            (onClick)="register()"
+            [disabled]="form.invalid || loadingRegistration()"
+            [loading]="loadingRegistration()"
+          />
+          } @if (!otpRequested() && !passwordConfirmationRequested()) {
+          <p-button
+            [label]="'Login' | translate"
+            icon="pi pi-user"
+            type="submit"
+            (onClick)="login()"
+            [disabled]="form.invalid || loadingLogin() || loadingRegistration()"
+            [loading]="loadingLogin()"
+          />
+          <p-button
+            [label]="'Sign Up' | translate"
+            icon="pi pi-user-plus"
+            (onClick)="requestPasswordConfirmation()"
+            [disabled]="form.invalid || loadingLogin() || loadingRegistration()"
+            [loading]="loadingRegistration()"
+            severity="secondary"
+          />
+          } @if (passwordConfirmationRequested()) {
+          <p-button
+            [label]="'Continue' | translate"
+            icon="pi pi-arrow-right"
+            (onClick)="requestOTP()"
+            [disabled]="form.invalid || loadingRegistration()"
+            [loading]="loadingRegistration()"
+          />
+          }
+        </div>
+      </form>
+      @if (!otpRequested() && !passwordConfirmationRequested()) {
+      <div class="divider">
+        <span>{{ 'or' | translate }}</span>
       </div>
-    </form>
-    @if (!otpRequested() && !passwordConfirmationRequested()) {
-    <div class="google-button-container">
-      <app-google-button />
+      <div class="google-button-container">
+        <app-google-button />
+      </div>
+      }
     </div>
-    }
   </div>
 </div>
