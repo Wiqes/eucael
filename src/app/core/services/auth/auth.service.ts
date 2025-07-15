@@ -19,14 +19,20 @@ export class AuthService {
     this.registrationService.isPasswordConfirmationRequested(),
   );
   isResetPasswordRequested = computed(() => this.passwordResetService.isLoading());
-  authToken = computed(() => this.loginService.authToken() || '');
+
+  getStoredToken(): string | null {
+    try {
+      return window.localStorage.getItem('token');
+    } catch (e) {
+      return null;
+    }
+  }
 
   hasRole(role: string): boolean {
-    if (!this.authToken()) {
+    if (!this.getStoredToken()) {
       return false;
     }
-    const decodedToken: any = jwtDecode(this.authToken());
-    console.log('Decoded Token:', decodedToken);
+    const decodedToken: any = jwtDecode(this.getStoredToken() || '');
     return decodedToken.roles?.includes(role);
   }
 

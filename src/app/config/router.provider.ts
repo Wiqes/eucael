@@ -1,5 +1,6 @@
 import { provideRouter, Routes } from '@angular/router';
 import { AdminGuard } from '../core/guards/admin.guard';
+import { AuthGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -13,10 +14,12 @@ const routes: Routes = [
   },
   {
     path: 'home',
+    canActivate: [AuthGuard],
     loadComponent: () => import('../features/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'case-creation',
+    canActivate: [AuthGuard],
     loadComponent: () =>
       import('../features/case-creation/case-creation.component').then(
         (m) => m.CaseCreationComponent,
@@ -24,6 +27,7 @@ const routes: Routes = [
   },
   {
     path: 'profile',
+    canActivate: [AuthGuard],
     loadComponent: () =>
       import('../features/profile/profile.component').then((m) => m.ProfileComponent),
   },
