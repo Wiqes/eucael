@@ -11,7 +11,15 @@ import { AuthBaseService } from './auth-base.service';
 export class LoginService extends AuthBaseService {
   private router = inject(Router);
   private stateService = inject(StateService);
-  authToken = signal<string | null>(null);
+  authToken = signal<string | null>(this.getStoredToken());
+
+  private getStoredToken(): string | null {
+    try {
+      return window.localStorage.getItem('token');
+    } catch (e) {
+      return null;
+    }
+  }
 
   request({ email, password }: ICredentials) {
     this.makeAuthRequest(
@@ -39,5 +47,15 @@ export class LoginService extends AuthBaseService {
         this.stateService.addBackendDataToState();
       }, 800);
     });
+  }
+
+  logout(): void {
+    try {
+      window.localStorage.removeItem('token');
+      this.authToken.set(null);
+      this.router.navigate(['']);
+    } catch (e) {
+      console.error('Error during logout:', e);
+    }
   }
 }
