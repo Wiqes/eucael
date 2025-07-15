@@ -69,7 +69,8 @@
 
       .welcome-text {
         h1 {
-          font-size: 3.5rem;
+          font-family: 'Uncial Antiqua', cursive;
+          font-size: 3rem;
           font-weight: 700;
           margin-bottom: 20px;
           background: linear-gradient(135deg, #ffffff 0%, #34d399 100%);
@@ -82,7 +83,8 @@
         }
 
         p {
-          font-size: 1.3rem;
+          font-family: 'Cinzel', serif;
+          font-size: 1rem;
           color: rgba(255, 255, 255, 0.9);
           font-weight: 300;
           text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
