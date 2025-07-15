@@ -1,0 +1,31 @@
+{
+  "name": "Wiqes",
+  "short_name": "Wiqes",
+  "description": "Wiqes Don't Age",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "assets/favicons/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/favicons/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/favicons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
