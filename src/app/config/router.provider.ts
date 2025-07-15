@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadComponent: () => import('../features/cases/cases.component').then((m) => m.CasesComponent),
+    loadComponent: () => import('../features/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'case-creation',

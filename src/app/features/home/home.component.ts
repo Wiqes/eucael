@@ -1,19 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { Location } from '@angular/common';
 import { MessageService } from '../../core/services/message.service';
 import { MESSAGES } from '../../core/constants/messages';
+import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-cases',
-  standalone: true,
-  imports: [ButtonModule, TranslateModule],
-  templateUrl: './cases.component.html',
-  styleUrl: './cases.component.scss',
+  selector: 'app-home',
+  imports: [],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
 })
-export class CasesComponent {
+export class HomeComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private location = inject(Location);
@@ -35,9 +32,5 @@ export class CasesComponent {
         this.location.replaceState(this.router.url.split('?')[0]);
       }
     });
-  }
-
-  onCreateCase() {
-    this.router.navigate(['/case-creation']);
   }
 }
