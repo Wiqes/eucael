@@ -1,3 +1,4 @@
+@if(!isLoggedIn() || !authService.getStoredToken()) {
 <div class="logo-container">
   <div class="logo">
     <app-logo />
@@ -118,3 +119,4 @@
     </div>
   </div>
 </div>
+}

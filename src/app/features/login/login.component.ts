@@ -13,6 +13,7 @@ import { AuthService } from '../../core/services/auth/auth.service';
 import { ForgotPasswordButtonComponent } from '../../shared/ui/forgot-password-button/forgot-password-button.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LogoComponent } from '../../shared/ui/logo.component';
+import { LoginService } from '../../core/services/auth/login.service';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,9 @@ export class LoginComponent {
 
   private messageService = inject(MessageService);
   private formBuilder = inject(FormBuilder);
-  private authService = inject(AuthService);
+  protected authService = inject(AuthService);
+  private readonly loginService = inject(LoginService);
+  isLoggedIn = computed(() => this.loginService.isLoggedIn());
 
   loadingLogin = computed(() => this.authService.isLoadingLogin());
   loadingRegistration = computed(() => this.authService.isLoadingRegistration());

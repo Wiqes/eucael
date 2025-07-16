@@ -88,6 +88,7 @@
         }
 
         p {
+          font-family: Cinzel, serif;
           font-size: 1.3rem;
           color: rgba(255, 255, 255, 0.9);
           font-weight: 300;
@@ -251,11 +252,7 @@
 
       .form-container {
         .form-header {
-          margin-bottom: 30px;
-
-          h2 {
-            font-size: 1.8rem;
-          }
+          display: none;
         }
       }
     }
