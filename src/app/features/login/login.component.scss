@@ -73,8 +73,8 @@
       animation: slideInFromLeft 0.8s ease-out;
 
       .welcome-text {
+        font-family: 'Uncial Antiqua', cursive;
         h1 {
-          font-family: 'Uncial Antiqua', cursive;
           font-size: 3rem;
           font-weight: 700;
           margin-bottom: 20px;
@@ -88,7 +88,6 @@
         }
 
         p {
-          font-family: Cinzel, serif;
           font-size: 1.3rem;
           color: rgba(255, 255, 255, 0.9);
           font-weight: 300;
