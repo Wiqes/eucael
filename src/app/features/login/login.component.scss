@@ -1,5 +1,21 @@
 @use 'variables' as *;
 
+.logo-container {
+  position: absolute;
+  z-index: 2;
+  padding: 8px 20px;
+  animation: slideInFromLeft 0.8s ease-out;
+
+  .logo {
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.3s forwards;
+
+    app-logo {
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    }
+  }
+}
+
 .auth-container {
   display: flex;
   min-height: 100vh;
@@ -52,20 +68,9 @@
       z-index: 2;
       text-align: center;
       color: white;
-      padding: 40px;
+      padding: 40px 30px;
       max-width: 500px;
       animation: slideInFromLeft 0.8s ease-out;
-
-      .logo-container {
-        margin-bottom: 60px;
-        opacity: 0;
-        animation: fadeInUp 1s ease-out 0.3s forwards;
-
-        app-logo {
-          transform: scale(1.5);
-          filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-        }
-      }
 
       .welcome-text {
         h1 {
@@ -231,10 +236,6 @@
 
       .image-content {
         padding: 20px;
-
-        .logo-container {
-          margin-bottom: 20px;
-        }
 
         .welcome-text {
           h1 {
