@@ -1,4 +1,4 @@
-<div>
+<div class="admin-container">
   <input type="file" (change)="onFileSelected($event)" accept="image/*" />
   <button (click)="onUpload()" [disabled]="!selectedFile || isUploading">
     {{ isUploading ? 'Uploading...' : 'Upload Image' }}

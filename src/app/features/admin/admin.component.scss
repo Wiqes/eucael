@@ -1,0 +1,29 @@
+.admin-container {
+  padding: 80px;
+
+  input[type='file'] {
+    margin-bottom: 10px;
+  }
+
+  button {
+    margin-top: 10px;
+  }
+
+  progress {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  img {
+    margin-top: 10px;
+  }
+
+  p {
+    margin-top: 10px;
+  }
+
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+}
