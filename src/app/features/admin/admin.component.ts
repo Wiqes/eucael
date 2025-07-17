@@ -17,7 +17,6 @@ export class AdminComponent {
   uploadedImageUrl: string | null = null;
   publicUrl: string | null = null;
   error: string | null = null;
-  uploadedImageKey: string | null = null;
 
   constructor(private uploadService: UploadService) {}
 
@@ -44,8 +43,6 @@ export class AdminComponent {
       .getPresignedUrl(file.name, file.type)
       .pipe(
         switchMap((res) => {
-          // Store the key and URL immediately
-          this.uploadedImageKey = res.key;
           this.publicUrl = res.publicUrl;
           return this.uploadService.uploadFileToS3(res.uploadUrl, file);
         }),
@@ -62,7 +59,7 @@ export class AdminComponent {
   }
 
   onDelete(): void {
-    if (!this.uploadedImageKey) {
+    if (!this.publicUrl) {
       return;
     }
 
@@ -71,11 +68,10 @@ export class AdminComponent {
       return;
     }
 
-    this.uploadService.deleteFile(this.uploadedImageKey).subscribe({
+    this.uploadService.deleteFile(this.publicUrl).subscribe({
       next: () => {
         console.log('File deleted successfully');
         this.uploadedImageUrl = null;
-        this.uploadedImageKey = null;
         this.selectedFile = null;
         this.uploadProgress = 0;
       },
