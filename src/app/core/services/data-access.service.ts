@@ -20,7 +20,7 @@ export class DataAccessService {
     const username = payload.username;
     return this.http.get<IUser>(`${environment.API_URL}/users/${username}`).pipe(
       catchError((error) => {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching user data:', error.status);
         throw new Error('Failed to fetch user data');
       }),
     );
