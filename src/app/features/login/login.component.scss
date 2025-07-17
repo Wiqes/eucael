@@ -74,10 +74,10 @@
 
       .welcome-text {
         font-family: 'Uncial Antiqua', cursive;
-        h1 {
+
+        .title {
           font-size: 3rem;
           font-weight: 700;
-          margin-bottom: 20px;
           background: linear-gradient(135deg, #ffffff 0%, #34d399 100%);
           background-clip: text;
           -webkit-background-clip: text;
@@ -87,10 +87,11 @@
           animation: fadeInUp 1s ease-out 0.6s forwards;
         }
 
-        p {
+        .sub-title {
           font-size: 1.3rem;
           color: rgba(255, 255, 255, 0.9);
           font-weight: 300;
+          padding: 0;
           text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
           opacity: 0;
           animation: fadeInUp 1s ease-out 0.9s forwards;
