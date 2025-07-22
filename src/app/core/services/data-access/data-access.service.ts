@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { IUser } from '../models/user.model';
+import { environment } from '../../../../environments/environment';
+import { IUser } from '../../models/entities/user.model';
 import { catchError, Observable, of } from 'rxjs';
+import { IAnimal } from '../../models/entities/animal.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,15 @@ export class DataAccessService {
       catchError((error) => {
         console.error('Error fetching user data:', error.status);
         throw new Error('Failed to fetch user data');
+      }),
+    );
+  }
+
+  getAnimals(): Observable<IAnimal[]> {
+    return this.http.get<IAnimal[]>(`${environment.API_URL}/animals`).pipe(
+      catchError((error) => {
+        console.error('Error fetching animals:', error.status);
+        throw new Error('Failed to fetch animals');
       }),
     );
   }

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 import { finalize, switchMap } from 'rxjs';
-import { UploadService } from '../../core/services/upload.service';
+import { UploadService } from '../../core/services/data-access/upload.service';
 import { NgIf } from '@angular/common';
 import { EntityType } from '../../core/constants/entity-type';
+import { StateService } from '../../core/services/state.service';
 
 @Component({
   selector: 'app-admin',
@@ -18,8 +19,9 @@ export class AdminComponent {
   uploadedImageUrl: string | null = null;
   publicUrl: string | null = null;
   error: string | null = null;
-
-  constructor(private uploadService: UploadService) {}
+  private readonly stateService = inject(StateService);
+  private readonly uploadService = inject(UploadService);
+  animals = computed(() => this.stateService.animals());
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
