@@ -15,6 +15,10 @@ export class StateService {
   readonly displayName = computed(() => this.user()?.fullName || this.user()?.username || '');
 
   addBackendDataToState() {
+    if (this.user() || this.isDataLoading()) {
+      return;
+    }
+
     this.isDataLoading.set(true);
     forkJoin({
       user: this.dataAccessService.getUserData(),
