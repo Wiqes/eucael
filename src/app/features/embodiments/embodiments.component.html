@@ -3,18 +3,18 @@
     <div class="genders">
       <p-imagecompare class="shadow-lg rounded-2xl">
         <ng-template #left>
-          <img [src]="animal.male.imageUrl" alt="Male" />
+          <img [src]="animal.totem.imageUrl" alt="Male" />
         </ng-template>
         <ng-template #right>
-          <img [src]="animal.totem.imageUrl" alt="Totem" />
+          <img [src]="animal.male.imageUrl" alt="Totem" />
         </ng-template>
       </p-imagecompare>
       <p-imagecompare class="shadow-lg rounded-2xl">
         <ng-template #left>
-          <img [src]="animal.female.imageUrl" alt="Female" />
+          <img [src]="animal.totem.imageUrl" alt="Female" />
         </ng-template>
         <ng-template #right>
-          <img [src]="animal.totem.imageUrl" alt="Totem" />
+          <img [src]="animal.female.imageUrl" alt="Totem" />
         </ng-template>
       </p-imagecompare>
     </div>
