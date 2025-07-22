@@ -18,6 +18,19 @@
     >
       Animal selection is required
     </div>
+
+    <app-form-control
+      type="select"
+      label="Entity Type"
+      placeholder="Choose entity type"
+      [control]="entityTypeControl"
+      [options]="entityTypeOptions"
+      optionValue="value"
+    ></app-form-control>
+
+    <div *ngIf="entityTypeControl.invalid && entityTypeControl.touched" class="error-message">
+      Entity type selection is required
+    </div>
   </form>
 
   <!-- File Upload Section -->
@@ -40,9 +53,6 @@
         Image URL:
         <a [href]="uploadedImageUrl" target="_blank">{{ uploadedImageUrl }}</a>
       </p>
-      <button (click)="onDelete()" style="background-color: #ff4d4d; color: white">
-        Delete Image
-      </button>
     </div>
 
     <div *ngIf="error">

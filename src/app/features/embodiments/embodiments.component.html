@@ -1,0 +1,22 @@
+<div class="embodiments-container">
+  <div class="animal-card" *ngFor="let animal of animals()">
+    <div class="genders">
+      <p-imagecompare class="shadow-lg rounded-2xl">
+        <ng-template #left>
+          <p-image [src]="animal.male.imageUrl" alt="Image" width="250" [preview]="true" />
+        </ng-template>
+        <ng-template #right>
+          <p-image [src]="animal.totem.imageUrl" alt="Image" width="250" [preview]="true" />
+        </ng-template>
+      </p-imagecompare>
+      <p-imagecompare class="shadow-lg rounded-2xl">
+        <ng-template #left>
+          <p-image [src]="animal.male.imageUrl" alt="Image" width="250" [preview]="true" />
+        </ng-template>
+        <ng-template #right>
+          <p-image [src]="animal.totem.imageUrl" alt="Image" width="250" [preview]="true" />
+        </ng-template>
+      </p-imagecompare>
+    </div>
+  </div>
+</div>

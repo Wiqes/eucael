@@ -42,6 +42,11 @@ const routes: Routes = [
     canActivate: [AdminGuard],
     loadComponent: () => import('../features/admin/admin.component').then((m) => m.AdminComponent),
   },
+  {
+    path: 'embodiments',
+    loadComponent: () =>
+      import('../features/embodiments/embodiments.component').then((m) => m.EmbodimentsComponent),
+  },
 ];
 
 export const routerProvider = () => provideRouter(routes);

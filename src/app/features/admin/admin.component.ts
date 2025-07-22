@@ -7,6 +7,8 @@ import { EntityType } from '../../core/constants/entity-type';
 import { StateService } from '../../core/services/state.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
+import { IAnimal } from '../../core/models/entities/animal.model';
+import { ICard } from '../../core/models/entities/card.model';
 
 @Component({
   selector: 'app-admin',
@@ -27,16 +29,24 @@ export class AdminComponent {
 
   adminForm = new FormGroup({
     selectedAnimal: new FormControl<number | null>(null, [Validators.required]),
+    entityType: new FormControl<EntityType | null>(null, [Validators.required]),
   });
 
   get selectedAnimalControl() {
     return this.adminForm.get('selectedAnimal') as FormControl;
   }
 
+  get entityTypeControl() {
+    return this.adminForm.get('entityType') as FormControl;
+  }
+
+  // Convert enum to options array for the select
+  entityTypeOptions = Object.values(EntityType).map((value) => ({
+    name: value.charAt(0).toUpperCase() + value.slice(1), // Capitalize first letter
+    value: value,
+  }));
+
   onFileSelected(event: Event): void {
-    const selectedAnimalId = this.selectedAnimalControl.value;
-    const animal = this.animals().find((a) => a.id === selectedAnimalId);
-    console.log('Selected animal:', animal);
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       this.selectedFile = input.files[0];
@@ -48,13 +58,14 @@ export class AdminComponent {
 
   onUpload(): void {
     if (!this.selectedFile || this.adminForm.invalid) {
-      // Mark form as touched to show validation errors
       this.adminForm.markAllAsTouched();
       return;
     }
 
     const selectedAnimalId = this.selectedAnimalControl.value;
+    const selectedEntityType: keyof IAnimal = this.entityTypeControl.value;
     const animal = this.animals().find((a) => a.id === selectedAnimalId);
+    const entity: ICard | null = animal ? (animal[selectedEntityType] as ICard) : null; // Use the selected entity type
     this.isUploading = true;
     this.error = null;
     const file = this.selectedFile;
@@ -63,8 +74,8 @@ export class AdminComponent {
       .getPresignedUrl({
         filename: file.name,
         contentType: file.type,
-        entityType: EntityType.TOTEM,
-        entityId: selectedAnimalId!, // Use the selected animal ID
+        entityType: selectedEntityType as EntityType,
+        entityId: entity?.id || 0,
       })
       .pipe(
         switchMap((res) => {
@@ -78,33 +89,7 @@ export class AdminComponent {
           this.uploadProgress = Math.round(100 * (event.loaded / event.total!));
         } else if (event.type === HttpEventType.Response) {
           this.uploadedImageUrl = this.publicUrl;
-          console.log('File uploaded successfully', this.publicUrl);
-          console.log('Selected animal ID:', selectedAnimalId);
         }
       });
-  }
-
-  onDelete(): void {
-    if (!this.publicUrl) {
-      return;
-    }
-
-    // A confirmation dialog is always a good idea
-    if (!confirm('Are you sure you want to delete this image?')) {
-      return;
-    }
-
-    this.uploadService.deleteFile(this.publicUrl).subscribe({
-      next: () => {
-        console.log('File deleted successfully');
-        this.uploadedImageUrl = null;
-        this.selectedFile = null;
-        this.uploadProgress = 0;
-      },
-      error: (err) => {
-        console.error('Error deleting file', err);
-        this.error = 'Failed to delete the file.';
-      },
-    });
   }
 }

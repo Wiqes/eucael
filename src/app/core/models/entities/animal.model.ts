@@ -1,9 +1,9 @@
-import { ICreature, ITotem } from "./card.model";
+import { ICreature, ITotem } from './card.model';
 
 export interface IAnimal {
   id: number;
   name: string;
   male: ICreature;
   female: ICreature;
-  totam: ITotem
+  totem: ITotem;
 }

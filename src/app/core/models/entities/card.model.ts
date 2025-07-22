@@ -1,4 +1,4 @@
-interface ICard {
+export interface ICard {
   id: number;
   animalId: number;
   imageUrl: string;
@@ -9,5 +9,5 @@ export interface ITotem extends ICard {
 }
 
 export interface ICreature extends ICard {
-    level: number;
+  level: number;
 }
