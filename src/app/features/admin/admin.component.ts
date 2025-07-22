@@ -5,10 +5,12 @@ import { UploadService } from '../../core/services/data-access/upload.service';
 import { NgIf } from '@angular/common';
 import { EntityType } from '../../core/constants/entity-type';
 import { StateService } from '../../core/services/state.service';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
 
 @Component({
   selector: 'app-admin',
-  imports: [NgIf],
+  imports: [NgIf, ReactiveFormsModule, FormControlComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
 })
@@ -23,7 +25,18 @@ export class AdminComponent {
   private readonly uploadService = inject(UploadService);
   animals = computed(() => this.stateService.animals());
 
+  adminForm = new FormGroup({
+    selectedAnimal: new FormControl<number | null>(null, [Validators.required]),
+  });
+
+  get selectedAnimalControl() {
+    return this.adminForm.get('selectedAnimal') as FormControl;
+  }
+
   onFileSelected(event: Event): void {
+    const selectedAnimalId = this.selectedAnimalControl.value;
+    const animal = this.animals().find((a) => a.id === selectedAnimalId);
+    console.log('Selected animal:', animal);
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       this.selectedFile = input.files[0];
@@ -34,10 +47,14 @@ export class AdminComponent {
   }
 
   onUpload(): void {
-    if (!this.selectedFile) {
+    if (!this.selectedFile || this.adminForm.invalid) {
+      // Mark form as touched to show validation errors
+      this.adminForm.markAllAsTouched();
       return;
     }
 
+    const selectedAnimalId = this.selectedAnimalControl.value;
+    const animal = this.animals().find((a) => a.id === selectedAnimalId);
     this.isUploading = true;
     this.error = null;
     const file = this.selectedFile;
@@ -47,7 +64,7 @@ export class AdminComponent {
         filename: file.name,
         contentType: file.type,
         entityType: EntityType.TOTEM,
-        entityId: 2,
+        entityId: selectedAnimalId!, // Use the selected animal ID
       })
       .pipe(
         switchMap((res) => {
@@ -62,6 +79,7 @@ export class AdminComponent {
         } else if (event.type === HttpEventType.Response) {
           this.uploadedImageUrl = this.publicUrl;
           console.log('File uploaded successfully', this.publicUrl);
+          console.log('Selected animal ID:', selectedAnimalId);
         }
       });
   }
