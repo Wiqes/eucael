@@ -3,6 +3,7 @@ import { HttpEventType } from '@angular/common/http';
 import { finalize, switchMap } from 'rxjs';
 import { UploadService } from '../../core/services/upload.service';
 import { NgIf } from '@angular/common';
+import { EntityType } from '../../core/constants/entity-type';
 
 @Component({
   selector: 'app-admin',
@@ -40,7 +41,12 @@ export class AdminComponent {
     const file = this.selectedFile;
 
     this.uploadService
-      .getPresignedUrl(file.name, file.type)
+      .getPresignedUrl({
+        filename: file.name,
+        contentType: file.type,
+        entityType: EntityType.TOTEM,
+        entityId: 2,
+      })
       .pipe(
         switchMap((res) => {
           this.publicUrl = res.publicUrl;

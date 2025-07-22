@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { IPresignedUrlRequest } from '../models/api-requests.model';
 
 interface PresignedUrlResponse {
   uploadUrl: string;
@@ -14,11 +15,8 @@ interface PresignedUrlResponse {
 export class UploadService {
   constructor(private http: HttpClient) {}
 
-  getPresignedUrl(filename: string, contentType: string): Observable<PresignedUrlResponse> {
-    return this.http.post<PresignedUrlResponse>(`${environment.API_URL}/uploads/signed-url`, {
-      filename,
-      contentType,
-    });
+  getPresignedUrl(requestData: IPresignedUrlRequest): Observable<PresignedUrlResponse> {
+    return this.http.post<PresignedUrlResponse>(`${environment.API_URL}/uploads/signed-url`, requestData);
   }
 
   uploadFileToS3(presignedUrl: string, file: File): Observable<any> {
