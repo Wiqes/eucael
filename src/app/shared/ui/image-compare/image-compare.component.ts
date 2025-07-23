@@ -116,14 +116,13 @@ export class ImageCompareComponent implements AfterViewInit {
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 4px;
         color: white;
-        padding: 0.5rem;
         cursor: pointer;
         font-size: 1.2rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
       `;
 
       button.addEventListener('mouseenter', () => {
