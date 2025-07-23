@@ -11,7 +11,14 @@
 
 .image-compare-container {
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  width: auto;
+  height: 100%;
 }
 
 p-imagecompare {
@@ -31,8 +38,8 @@ p-imagecompare {
   top: 8px;
   right: 8px;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.9) !important;
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgb(236, 227, 227, 0.1) !important;
   border-radius: 50%;
   width: 32px;
   height: 32px;
@@ -43,7 +50,7 @@ p-imagecompare {
   font-size: 16px;
 
   &:hover {
-    background: rgba(255, 255, 255, 1) !important;
+    background: rgb(0, 0, 0) !important;
     transform: scale(1.05);
     transition: all 0.2s ease-in-out;
   }

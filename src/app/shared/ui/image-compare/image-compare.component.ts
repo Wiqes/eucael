@@ -152,11 +152,6 @@ export class ImageCompareComponent implements AfterViewInit {
       updateTransform();
     });
 
-    const rotateBtn = createButton('🔄', 'Rotate', () => {
-      rotation = (rotation + 90) % 360;
-      updateTransform();
-    });
-
     const closeBtn = createButton('✕', 'Close', () => {
       document.body.removeChild(overlay);
     });
@@ -164,7 +159,6 @@ export class ImageCompareComponent implements AfterViewInit {
     // Add buttons to toolbar
     toolbar.appendChild(zoomInBtn);
     toolbar.appendChild(zoomOutBtn);
-    toolbar.appendChild(rotateBtn);
     toolbar.appendChild(closeBtn);
 
     // Prevent image container clicks from closing the modal
