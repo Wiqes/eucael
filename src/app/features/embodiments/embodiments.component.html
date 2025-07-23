@@ -1,22 +1,8 @@
 <div class="embodiments-container">
   <div class="animal-card" *ngFor="let animal of animals()">
     <div class="genders">
-      <p-imagecompare class="shadow-lg rounded-2xl">
-        <ng-template #left>
-          <img [src]="animal.totem.imageUrl" alt="Male" />
-        </ng-template>
-        <ng-template #right>
-          <img [src]="animal.male.imageUrl" alt="Totem" />
-        </ng-template>
-      </p-imagecompare>
-      <p-imagecompare class="shadow-lg rounded-2xl">
-        <ng-template #left>
-          <img [src]="animal.totem.imageUrl" alt="Female" />
-        </ng-template>
-        <ng-template #right>
-          <img [src]="animal.female.imageUrl" alt="Totem" />
-        </ng-template>
-      </p-imagecompare>
+      <app-image-compare [leftUrl]="animal.totem.imageUrl" [rightUrl]="animal.male.imageUrl" />
+      <app-image-compare [leftUrl]="animal.totem.imageUrl" [rightUrl]="animal.female.imageUrl" />
     </div>
   </div>
 </div>

@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  width: auto;
+  height: 100%;
+}
+
+p-imagecompare {
+  width: 220px;
+  height: 296px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
