@@ -7,10 +7,13 @@ import {
   input,
 } from '@angular/core';
 import { ImageCompareModule } from 'primeng/imagecompare';
+import { ImageModule } from 'primeng/image';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-image-compare',
-  imports: [ImageCompareModule],
+  imports: [ImageCompareModule, ImageModule, ButtonModule, TooltipModule],
   templateUrl: './image-compare.component.html',
   styleUrl: './image-compare.component.scss',
 })
@@ -21,27 +24,75 @@ export class ImageCompareComponent implements AfterViewInit {
   private readonly cdr = inject(ChangeDetectorRef);
 
   ngAfterViewInit() {
-    // Set default value of all range input fields to 90
-    // Use multiple attempts with increasing delays to ensure components are ready
     this.setRangeValues();
   }
 
+  onViewFullImage() {
+    console.log('🔍 View button clicked!');
+    alert('Button clicked! This should work.');
+
+    // For now, let's just show the custom modal directly
+    this.showImagePreview();
+  }
+
+  private showImagePreview() {
+    console.log('Showing dynamic image preview');
+
+    // Create a simple modal-like overlay to show the full image
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      cursor: pointer;
+    `;
+
+    const img = document.createElement('img');
+    img.src = this.rightUrl();
+    img.alt = 'Full Size Image';
+    img.style.cssText = `
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    `;
+
+    // Close overlay when clicked
+    overlay.addEventListener('click', () => {
+      document.body.removeChild(overlay);
+    });
+
+    // Close on Escape key
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        document.body.removeChild(overlay);
+        document.removeEventListener('keydown', handleEscape);
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+  }
+
   private setRangeValues(attempt: number = 1): void {
-    const delay = attempt * 200; // Increase delay with each attempt
+    const delay = attempt * 200;
 
     setTimeout(() => {
-      console.log(`Attempt ${attempt} to set range values`);
-
-      // Try multiple selectors to find the range inputs
       const rangeInputs = this.elementRef.nativeElement.querySelectorAll(
         'input[type="range"], p-imagecompare input[type="range"]',
       );
 
-      console.log(`Found ${rangeInputs.length} range inputs`);
-
       if (rangeInputs.length > 0) {
         rangeInputs.forEach((input: HTMLInputElement, index: number) => {
-          console.log(`Setting range input ${index} to value 100`);
           input.value = '100';
 
           // Trigger multiple events to ensure the change is detected

@@ -1,8 +1,25 @@
-<p-imagecompare class="shadow-lg rounded-2xl">
-  <ng-template #left>
-    <img [src]="leftUrl()" alt="Male" />
-  </ng-template>
-  <ng-template #right>
-    <img [src]="rightUrl()" alt="Totem" />
-  </ng-template>
-</p-imagecompare>
+<div class="image-compare-container">
+  <p-imagecompare class="shadow-lg rounded-2xl">
+    <ng-template #left>
+      <img [src]="leftUrl()" alt="Left Image" />
+    </ng-template>
+    <ng-template #right>
+      <img [src]="rightUrl()" alt="Right Image" />
+    </ng-template>
+  </p-imagecompare>
+
+  <!-- View Icon Button -->
+  <button
+    type="button"
+    class="view-button-simple"
+    (click)="onViewFullImage()"
+    title="View full image"
+  >
+    👁️
+  </button>
+
+  <!-- Hidden Image for Preview (fallback) -->
+  <div class="preview-image" style="display: none">
+    <p-image [src]="rightUrl()" alt="Full Size Image" [preview]="true"></p-image>
+  </div>
+</div>

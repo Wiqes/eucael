@@ -9,6 +9,11 @@
   height: 100%;
 }
 
+.image-compare-container {
+  position: relative;
+  display: inline-block;
+}
+
 p-imagecompare {
   width: 220px;
   height: 296px;
@@ -18,4 +23,42 @@ p-imagecompare {
     height: 100%;
     object-fit: cover;
   }
+}
+
+.view-button,
+.view-button-simple {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    transform: scale(1.05);
+    transition: all 0.2s ease-in-out;
+  }
+
+  ::ng-deep .p-button-icon {
+    color: #6b7280 !important;
+  }
+
+  &:hover ::ng-deep .p-button-icon {
+    color: #374151 !important;
+  }
+}
+.preview-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
 }
