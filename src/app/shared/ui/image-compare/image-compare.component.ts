@@ -80,8 +80,9 @@ export class ImageCompareComponent implements AfterViewInit {
       object-fit: contain;
       border-radius: 8px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-      transition: transform 0.3s ease;
       cursor: grab;
+      user-select: none;
+      -webkit-user-drag: none;
     `;
 
     // Create toolbar
@@ -97,13 +98,20 @@ export class ImageCompareComponent implements AfterViewInit {
       gap: 0.5rem;
     `;
 
-    // Variables for zoom and rotation
+    // Variables for zoom, rotation, and position
     let scale = 1;
     let rotation = 0;
+    let translateX = 0;
+    let translateY = 0;
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragStartTranslateX = 0;
+    let dragStartTranslateY = 0;
 
     // Function to update image transform
     const updateTransform = () => {
-      img.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+      img.style.transform = `scale(${scale}) rotate(${rotation}deg) translate(${translateX}px, ${translateY}px)`;
     };
 
     // Create buttons
@@ -140,6 +148,92 @@ export class ImageCompareComponent implements AfterViewInit {
 
       return button;
     };
+
+    // Add drag functionality to image
+    img.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      dragStartTranslateX = translateX;
+      dragStartTranslateY = translateY;
+      img.style.cursor = 'grabbing';
+    });
+
+    // Add mouse move event for dragging
+    overlay.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        e.preventDefault();
+        const deltaX = e.clientX - dragStartX;
+        const deltaY = e.clientY - dragStartY;
+        translateX = dragStartTranslateX + deltaX;
+        translateY = dragStartTranslateY + deltaY;
+        updateTransform();
+      }
+    });
+
+    // Add mouse up event to stop dragging
+    overlay.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        img.style.cursor = 'grab';
+      }
+    });
+
+    // Add mouse leave event to stop dragging when cursor leaves overlay
+    overlay.addEventListener('mouseleave', () => {
+      if (isDragging) {
+        isDragging = false;
+        img.style.cursor = 'grab';
+      }
+    });
+
+    // Add touch support for mobile devices
+    img.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (e.touches.length === 1) {
+        isDragging = true;
+        dragStartX = e.touches[0].clientX;
+        dragStartY = e.touches[0].clientY;
+        dragStartTranslateX = translateX;
+        dragStartTranslateY = translateY;
+      }
+    });
+
+    overlay.addEventListener('touchmove', (e) => {
+      if (isDragging && e.touches.length === 1) {
+        e.preventDefault();
+        const deltaX = e.touches[0].clientX - dragStartX;
+        const deltaY = e.touches[0].clientY - dragStartY;
+        translateX = dragStartTranslateX + deltaX;
+        translateY = dragStartTranslateY + deltaY;
+        updateTransform();
+      }
+    });
+
+    overlay.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+
+    // Add wheel zoom functionality
+    img.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+      const newScale = Math.min(Math.max(scale * zoomFactor, 0.1), 5);
+
+      // Calculate zoom center point relative to image
+      const rect = img.getBoundingClientRect();
+      const centerX = e.clientX - rect.left - rect.width / 2;
+      const centerY = e.clientY - rect.top - rect.height / 2;
+
+      // Adjust translation to zoom towards cursor position
+      const scaleRatio = newScale / scale;
+      translateX = translateX - centerX * (scaleRatio - 1);
+      translateY = translateY - centerY * (scaleRatio - 1);
+
+      scale = newScale;
+      updateTransform();
+    });
 
     // Create control buttons
     const zoomInBtn = createButton('🔍+', 'Zoom In', () => {
