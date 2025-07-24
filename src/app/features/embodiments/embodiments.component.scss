@@ -1,18 +1,21 @@
+@use 'variables' as *;
+
 .embodiments-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
-  gap: 20px;
+  justify-content: center;
+  gap: $gallery-gap;
   padding: 20px;
+  width: auto;
 
   .genders {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     align-items: center;
-    justify-content: flex-start;
-    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $gallery-gap;
   }
 }

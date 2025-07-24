@@ -1,8 +1,6 @@
 <div class="embodiments-container">
-  <div class="animal-card" *ngFor="let animal of animals()">
-    <div class="genders">
-      <app-image-compare [leftUrl]="animal.totem.imageUrl" [rightUrl]="animal.male.imageUrl" />
-      <app-image-compare [leftUrl]="animal.totem.imageUrl" [rightUrl]="animal.female.imageUrl" />
-    </div>
+  <div class="genders" *ngFor="let animal of animals()">
+    <app-image-compare [leftUrl]="animal.totem.imageUrl" [rightUrl]="animal.male.imageUrl" />
+    <app-image-compare [leftUrl]="animal.totem.imageUrl" [rightUrl]="animal.female.imageUrl" />
   </div>
 </div>

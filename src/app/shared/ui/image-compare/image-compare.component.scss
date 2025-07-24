@@ -1,10 +1,12 @@
+@use 'variables' as *;
+
 :host {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  gap: 20px;
+  gap: $gallery-gap;
   width: auto;
   height: 100%;
 }
@@ -16,7 +18,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  gap: 20px;
+  gap: $gallery-gap;
   width: auto;
   height: 100%;
 }
