@@ -41,6 +41,11 @@ export class MenuComponent implements OnDestroy {
         command: () => this.router.navigate(['/profile']),
       },
       {
+        icon: 'pi pi-cog',
+        label: this.translate.instant('Embodiments'),
+        command: () => this.router.navigate(['/embodiments']),
+      },
+      {
         icon: 'pi pi-sign-out',
         label: this.translate.instant('Log out'),
         command: () => this.logout(),
