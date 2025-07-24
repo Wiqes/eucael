@@ -14,7 +14,8 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadComponent: () => import('../features/home/home.component').then((m) => m.HomeComponent),
+    loadComponent: () =>
+      import('../features/embodiments/embodiments.component').then((m) => m.EmbodimentsComponent),
   },
   {
     path: 'case-creation',
