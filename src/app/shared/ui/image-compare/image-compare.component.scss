@@ -24,13 +24,20 @@
 }
 
 p-imagecompare {
-  width: 440px;
-  height: 592px;
+  width: 220px;
+  height: 296px;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+}
+
+@media screen and (max-width: 475px) {
+  p-imagecompare {
+    width: 165px;
+    height: 222px;
   }
 }
 

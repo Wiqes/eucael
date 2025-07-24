@@ -19,3 +19,9 @@
     gap: $gallery-gap;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .embodiments-container {
+    padding: 10px;
+  }
+}
