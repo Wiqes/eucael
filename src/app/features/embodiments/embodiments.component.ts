@@ -11,6 +11,7 @@ import { NgFor } from '@angular/common';
 import { ImageModule } from 'primeng/image';
 import { ImageCompareModule } from 'primeng/imagecompare';
 import { ImageCompareComponent } from '../../shared/ui/image-compare/image-compare.component';
+import { HomeComponent } from '../home/home.component';
 
 @Component({
   selector: 'app-embodiments',
@@ -18,7 +19,7 @@ import { ImageCompareComponent } from '../../shared/ui/image-compare/image-compa
   templateUrl: './embodiments.component.html',
   styleUrl: './embodiments.component.scss',
 })
-export class EmbodimentsComponent {
+export class EmbodimentsComponent extends HomeComponent {
   private readonly stateService = inject(StateService);
   animals = computed(() => this.stateService.animals());
 }
