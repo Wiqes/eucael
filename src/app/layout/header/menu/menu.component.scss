@@ -2,4 +2,27 @@
 
 .menu {
   @extend %menu-base;
+
+  .label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 280px;
+  }
+
+  .pi-list {
+    font-size: 18px;
+    display: none;
+    color: $text-color;
+  }
+
+  @media (max-width: 580px) {
+    .label {
+      display: none;
+    }
+
+    .pi-list {
+      display: block;
+    }
+  }
 }
