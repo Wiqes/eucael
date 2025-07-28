@@ -1,3 +1,13 @@
+<div class="filters">
+  <div class="totem-switcher">
+    <div class="label">Totem</div>
+    <p-toggleswitch [(ngModel)]="isTotemShown">
+      <ng-template #handle let-checked="checked">
+        <i [ngClass]="['!text-xs', 'pi', isTotemShown ? 'pi-check' : 'pi-times']"></i>
+      </ng-template>
+    </p-toggleswitch>
+  </div>
+</div>
 <div class="embodiments-container">
   <div class="genders" *ngFor="let animal of animals()">
     <app-image-compare [leftUrl]="animal.totem.imageUrl" [rightUrl]="animal.male.imageUrl" />

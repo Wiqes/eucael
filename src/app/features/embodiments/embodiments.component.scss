@@ -1,5 +1,40 @@
 @use 'variables' as *;
 
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $gallery-gap;
+  padding: 20px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 20px;
+
+  .totem-switcher {
+    display: flex;
+    flex-direction: column;
+
+    .label {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    p-toggleswitch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
 .embodiments-container {
   display: flex;
   flex-direction: row;
@@ -7,7 +42,6 @@
   align-items: center;
   justify-content: center;
   gap: $gallery-gap;
-  padding: 20px;
   width: auto;
 
   .genders {
