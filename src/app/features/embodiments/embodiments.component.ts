@@ -7,7 +7,7 @@ import { ImageCompareComponent } from '../../shared/ui/image-compare/image-compa
 import { HomeComponent } from '../home/home.component';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-embodiments',
@@ -19,6 +19,7 @@ import { NgClass } from '@angular/common';
     ToggleSwitch,
     FormsModule,
     NgClass,
+    NgIf,
   ],
   templateUrl: './embodiments.component.html',
   styleUrl: './embodiments.component.scss',
