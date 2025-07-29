@@ -7,7 +7,8 @@ import { ImageCompareComponent } from '../../shared/ui/image-compare/image-compa
 import { HomeComponent } from '../home/home.component';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-embodiments',
@@ -19,6 +20,8 @@ import { NgClass } from '@angular/common';
     ToggleSwitch,
     FormsModule,
     NgClass,
+    SkeletonModule,
+    NgIf,
   ],
   templateUrl: './embodiments.component.html',
   styleUrl: './embodiments.component.scss',
@@ -27,4 +30,5 @@ export class EmbodimentsComponent extends HomeComponent {
   private readonly stateService = inject(StateService);
   animals = computed(() => this.stateService.animals());
   isTotemShown = false;
+  isDataLoading = computed(() => this.stateService.isDataLoading());
 }
