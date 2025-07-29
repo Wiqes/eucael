@@ -8,7 +8,7 @@
     </p-toggleswitch>
   </div>
 </div>
-<div class="embodiments-container">
+<div class="embodiments-container" [ngClass]="{ 'hide-slider': !isTotemShown }">
   <div class="genders" *ngFor="let animal of animals()">
     <app-image-compare
       [leftUrl]="isTotemShown ? animal.totem.imageUrl : animal.male.imageUrl"
