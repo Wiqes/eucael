@@ -17,15 +17,11 @@ import { TooltipModule } from 'primeng/tooltip';
   templateUrl: './image-compare.component.html',
   styleUrl: './image-compare.component.scss',
 })
-export class ImageCompareComponent implements AfterViewInit {
+export class ImageCompareComponent {
   leftUrl = input<string>('');
   rightUrl = input<string>('');
   private readonly elementRef = inject(ElementRef);
   private readonly cdr = inject(ChangeDetectorRef);
-
-  ngAfterViewInit() {
-    this.setRangeValues();
-  }
 
   onViewFullImage() {
     console.log('🔍 View button clicked!');
@@ -279,34 +275,5 @@ export class ImageCompareComponent implements AfterViewInit {
     imageContainer.appendChild(toolbar);
     overlay.appendChild(imageContainer);
     document.body.appendChild(overlay);
-  }
-
-  private setRangeValues(attempt: number = 1): void {
-    const delay = attempt * 200;
-
-    setTimeout(() => {
-      const rangeInputs = this.elementRef.nativeElement.querySelectorAll(
-        'input[type="range"], p-imagecompare input[type="range"]',
-      );
-
-      if (rangeInputs.length > 0) {
-        rangeInputs.forEach((input: HTMLInputElement, index: number) => {
-          input.value = '100';
-
-          // Trigger multiple events to ensure the change is detected
-          input.dispatchEvent(new Event('input', { bubbles: true }));
-          input.dispatchEvent(new Event('change', { bubbles: true }));
-        });
-
-        // Force change detection
-        this.cdr.detectChanges();
-      } else if (attempt < 5) {
-        // Retry up to 5 times if no inputs found
-        console.log(`No range inputs found, retrying in ${delay * 2}ms`);
-        this.setRangeValues(attempt + 1);
-      } else {
-        console.warn('Could not find any range inputs after 5 attempts');
-      }
-    }, delay);
   }
 }
