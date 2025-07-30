@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ICreature } from '../../../core/models/entities/card.model';
+import { ICreature, ITotem } from '../../../core/models/entities/card.model';
 import { ImageComponent } from '../image/image.component';
 
 @Component({
@@ -10,12 +10,13 @@ import { ImageComponent } from '../image/image.component';
   styleUrl: './card.component.scss',
 })
 export class CardComponent {
-  creature = input<ICreature | null>(null);
+  creature = input<ICreature | ITotem | null>(null);
+  animalName = input<string>('');
   imageUrl = computed(() => {
     return this.creature()?.imageUrl || '';
   });
   name = computed(() => {
-    return this.creature()?.name || 'Noname';
+    return (this.creature() as ICreature).name || this.animalName() || 'N/A';
   });
   level = computed(() => {
     return this.creature()?.level || 1;

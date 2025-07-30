@@ -15,6 +15,6 @@
   <div class="genders" *ngFor="let animal of animals()">
     <app-card [creature]="animal.male" />
     <app-card [creature]="animal.female" />
-    <app-image *ngIf="isTotemShown" [imageUrl]="animal.totem.imageUrl" />
+    <app-card *ngIf="isTotemShown" [creature]="animal.totem" [animalName]="animal.name" />
   </div>
 </div>
