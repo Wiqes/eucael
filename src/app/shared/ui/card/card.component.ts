@@ -15,7 +15,7 @@ export class CardComponent {
     return this.creature()?.imageUrl || '';
   });
   name = computed(() => {
-    return this.creature()?.name || 'N/A';
+    return this.creature()?.name || 'Noname';
   });
   level = computed(() => {
     return this.creature()?.level || 1;
