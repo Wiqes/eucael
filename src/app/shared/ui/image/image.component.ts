@@ -14,17 +14,13 @@ export class ImageComponent {
   leftUrl = input<string>('');
   imageUrl = input<string>('');
 
-  onViewFullImage() {
-    // Check if we have a valid image URL
+  public showImagePreview() {
+    // Check if we have a valid image URL before showing preview
     if (!this.imageUrl()) {
-      console.error('No image URL provided');
+      console.error('Cannot show image preview: No image URL provided');
       return;
     }
 
-    // Always use our custom modal for now to ensure it works
-    this.showImagePreview();
-  }
-  private showImagePreview() {
     console.log('Showing dynamic image preview');
 
     // Create overlay

@@ -1,8 +1,8 @@
-<div class="card-wrapper">
+<div class="card-wrapper" (click)="imageComponent.showImagePreview()">
   <div class="card-border">
     <div class="card-content">
       <div class="image-container">
-        <app-image [imageUrl]="imageUrl()" />
+        <app-image #imageComponent [imageUrl]="imageUrl()" />
         <div class="image-overlay"></div>
       </div>
       <div class="name-section">
