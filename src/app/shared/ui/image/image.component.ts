@@ -1,19 +1,16 @@
-import {
-  Component,
-  input,
-} from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ImageCompareModule } from 'primeng/imagecompare';
 import { ImageModule } from 'primeng/image';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
-  selector: 'app-image-compare',
+  selector: 'app-image',
   imports: [ImageCompareModule, ImageModule, ButtonModule, TooltipModule],
-  templateUrl: './image-compare.component.html',
-  styleUrl: './image-compare.component.scss',
+  templateUrl: './image.component.html',
+  styleUrl: './image.component.scss',
 })
-export class ImageCompareComponent {
+export class ImageComponent {
   leftUrl = input<string>('');
   imageUrl = input<string>('');
 
