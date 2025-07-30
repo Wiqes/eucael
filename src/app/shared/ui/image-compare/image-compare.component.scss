@@ -23,7 +23,7 @@
   height: 100%;
 }
 
-p-imagecompare {
+.image-container {
   width: 220px;
   height: 296px;
 
@@ -34,8 +34,8 @@ p-imagecompare {
   }
 }
 
-@media screen and (max-width: 475px) {
-  p-imagecompare {
+@media screen and (max-width: 500px) {
+  .image-container {
     width: 165px;
     height: 222px;
   }

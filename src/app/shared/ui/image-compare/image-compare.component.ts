@@ -1,9 +1,5 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
-  ElementRef,
-  inject,
   input,
 } from '@angular/core';
 import { ImageCompareModule } from 'primeng/imagecompare';
@@ -19,16 +15,11 @@ import { TooltipModule } from 'primeng/tooltip';
 })
 export class ImageCompareComponent {
   leftUrl = input<string>('');
-  rightUrl = input<string>('');
-  private readonly elementRef = inject(ElementRef);
-  private readonly cdr = inject(ChangeDetectorRef);
+  imageUrl = input<string>('');
 
   onViewFullImage() {
-    console.log('🔍 View button clicked!');
-    console.log('Right URL:', this.rightUrl());
-
     // Check if we have a valid image URL
-    if (!this.rightUrl()) {
+    if (!this.imageUrl()) {
       console.error('No image URL provided');
       return;
     }
@@ -68,7 +59,7 @@ export class ImageCompareComponent {
 
     // Create image
     const img = document.createElement('img');
-    img.src = this.rightUrl();
+    img.src = this.imageUrl();
     img.alt = 'Full Size Image';
     img.style.cssText = `
       max-width: 100%;

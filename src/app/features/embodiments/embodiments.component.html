@@ -13,13 +13,8 @@
     <p-skeleton *ngFor="let skeleton of [].constructor(20)" height="296px" width="220px" />
   </div>
   <div class="genders" *ngFor="let animal of animals()">
-    <app-image-compare
-      [leftUrl]="isTotemShown ? animal.totem.imageUrl : animal.male.imageUrl"
-      [rightUrl]="animal.male.imageUrl"
-    />
-    <app-image-compare
-      [leftUrl]="isTotemShown ? animal.totem.imageUrl : animal.female.imageUrl"
-      [rightUrl]="animal.female.imageUrl"
-    />
+    <app-card [creature]="animal.male" />
+    <app-card [creature]="animal.female" />
+    <app-image-compare *ngIf="isTotemShown" [imageUrl]="animal.totem.imageUrl" />
   </div>
 </div>

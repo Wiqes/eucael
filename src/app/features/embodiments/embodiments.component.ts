@@ -9,6 +9,7 @@ import { ToggleSwitch } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgIf } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
+import { CardComponent } from '../../shared/ui/card/card.component';
 
 @Component({
   selector: 'app-embodiments',
@@ -22,6 +23,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     NgClass,
     SkeletonModule,
     NgIf,
+    CardComponent,
   ],
   templateUrl: './embodiments.component.html',
   styleUrl: './embodiments.component.scss',

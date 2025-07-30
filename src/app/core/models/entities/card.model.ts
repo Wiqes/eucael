@@ -10,4 +10,5 @@ export interface ITotem extends ICard {
 
 export interface ICreature extends ICard {
   level: number;
+  name: string;
 }
