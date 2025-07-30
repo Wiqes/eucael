@@ -1,2 +1,15 @@
-<app-image [imageUrl]="imageUrl()" />
-<div class="name">{{ name() }}</div>
+<div class="card-wrapper">
+  <div class="card-border">
+    <div class="card-content">
+      <div class="image-container">
+        <app-image [imageUrl]="imageUrl()" />
+        <div class="image-overlay"></div>
+      </div>
+      <div class="name-section">
+        <div class="name-container" *ngIf="name()">
+          <span class="name-text">{{ name() }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

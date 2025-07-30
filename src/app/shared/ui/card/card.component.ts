@@ -1,10 +1,11 @@
 import { Component, computed, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ICreature } from '../../../core/models/entities/card.model';
 import { ImageComponent } from '../image/image.component';
 
 @Component({
   selector: 'app-card',
-  imports: [ImageComponent],
+  imports: [CommonModule, ImageComponent],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
@@ -15,5 +16,8 @@ export class CardComponent {
   });
   name = computed(() => {
     return this.creature()?.name || 'N/A';
+  });
+  level = computed(() => {
+    return this.creature()?.level || 1;
   });
 }
