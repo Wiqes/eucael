@@ -21,8 +21,6 @@ export class ImageComponent {
       return;
     }
 
-    console.log('Showing dynamic image preview');
-
     // Create overlay
     const overlay = document.createElement('div');
     overlay.style.cssText = `
