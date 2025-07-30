@@ -29,12 +29,13 @@ export class ImageComponent {
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 10000;
       cursor: pointer;
+      transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     `;
 
     // Create image container
@@ -46,6 +47,9 @@ export class ImageComponent {
       display: flex;
       justify-content: center;
       align-items: center;
+      transform: scale(0.8) translateY(20px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     `;
 
     // Create image
@@ -63,6 +67,18 @@ export class ImageComponent {
       -webkit-user-drag: none;
     `;
 
+    // Add image load animation with initial scale
+    img.style.transform = 'scale(0.95)';
+    img.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+
+    img.onload = () => {
+      img.style.transform = 'scale(1)';
+      // Remove transition after load animation to not interfere with dragging
+      setTimeout(() => {
+        img.style.transition = 'none';
+      }, 300);
+    };
+
     // Create toolbar
     const toolbar = document.createElement('div');
     toolbar.style.cssText = `
@@ -74,6 +90,9 @@ export class ImageComponent {
       padding: 0.5rem;
       display: flex;
       gap: 0.5rem;
+      transform: translateY(-10px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
     `;
 
     // Variables for zoom, rotation, and position
@@ -109,14 +128,18 @@ export class ImageComponent {
         justify-content: center;
         width: 52px;
         height: 52px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: scale(1);
       `;
 
       button.addEventListener('mouseenter', () => {
         button.style.background = 'rgba(255, 255, 255, 0.2)';
+        button.style.transform = 'scale(1.05)';
       });
 
       button.addEventListener('mouseleave', () => {
         button.style.background = 'rgba(255, 255, 255, 0.1)';
+        button.style.transform = 'scale(1)';
       });
 
       button.addEventListener('click', (e) => {
@@ -136,6 +159,8 @@ export class ImageComponent {
       dragStartTranslateX = translateX;
       dragStartTranslateY = translateY;
       img.style.cursor = 'grabbing';
+      // Ensure no transitions interfere with dragging
+      img.style.transition = 'none';
     });
 
     // Add mouse move event for dragging
@@ -175,6 +200,8 @@ export class ImageComponent {
         dragStartY = e.touches[0].clientY;
         dragStartTranslateX = translateX;
         dragStartTranslateY = translateY;
+        // Ensure no transitions interfere with touch dragging
+        img.style.transition = 'none';
       }
     });
 
@@ -225,7 +252,7 @@ export class ImageComponent {
     });
 
     const closeBtn = createButton('✕', 'Close', () => {
-      document.body.removeChild(overlay);
+      this.closeImagePreview(overlay);
     });
 
     // Add buttons to toolbar
@@ -240,13 +267,13 @@ export class ImageComponent {
 
     // Close overlay when background is clicked
     overlay.addEventListener('click', () => {
-      document.body.removeChild(overlay);
+      this.closeImagePreview(overlay);
     });
 
     // Close on Escape key
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        document.body.removeChild(overlay);
+        this.closeImagePreview(overlay);
         document.removeEventListener('keydown', handleEscape);
       }
     };
@@ -257,5 +284,37 @@ export class ImageComponent {
     imageContainer.appendChild(toolbar);
     overlay.appendChild(imageContainer);
     document.body.appendChild(overlay);
+
+    // Trigger animations after adding to DOM
+    requestAnimationFrame(() => {
+      overlay.style.background = 'rgba(0, 0, 0, 0.9)';
+      imageContainer.style.transform = 'scale(1) translateY(0)';
+      imageContainer.style.opacity = '1';
+      toolbar.style.transform = 'translateY(0)';
+      toolbar.style.opacity = '1';
+    });
+  }
+
+  private closeImagePreview(overlay: HTMLElement) {
+    const imageContainer = overlay.querySelector('div') as HTMLElement;
+    const toolbar = overlay.querySelector('div > div:last-child') as HTMLElement;
+
+    // Animate out
+    overlay.style.background = 'rgba(0, 0, 0, 0)';
+    if (imageContainer) {
+      imageContainer.style.transform = 'scale(0.8) translateY(20px)';
+      imageContainer.style.opacity = '0';
+    }
+    if (toolbar) {
+      toolbar.style.transform = 'translateY(-10px)';
+      toolbar.style.opacity = '0';
+    }
+
+    // Remove after animation completes
+    setTimeout(() => {
+      if (document.body.contains(overlay)) {
+        document.body.removeChild(overlay);
+      }
+    }, 400);
   }
 }

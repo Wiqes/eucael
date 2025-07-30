@@ -105,6 +105,11 @@
       transform: translateY(-8px) rotateX(5deg) scale(0.98);
       transition-duration: 0.1s;
     }
+
+    // Click animation class for image preview trigger
+    &.clicking {
+      animation: clickPulse 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   }
 
   .card-border {
@@ -287,6 +292,21 @@
   100% {
     background-position: 0% 50%;
     transform: rotate(360deg);
+  }
+}
+
+// Click animation for image preview trigger
+@keyframes clickPulse {
+  0% {
+    transform: translateY(-12px) rotateX(8deg) scale(1.02);
+  }
+  50% {
+    transform: translateY(-16px) rotateX(12deg) scale(1.05);
+    box-shadow: 0 0 40px rgba($primary-color, 0.8), 0 0 80px rgba($primary-color, 0.4),
+      0 0 120px rgba($primary-color, 0.2), 0 25px 70px rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    transform: translateY(-12px) rotateX(8deg) scale(1.02);
   }
 }
 
