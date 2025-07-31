@@ -1,0 +1,16 @@
+// Shared theme mixin for fantasy loader effects
+@mixin fantasy-effect-theme {
+  // Inherit CSS custom properties from parent
+  --primary-hue: inherit;
+  --primary-saturation: inherit;
+  --primary-lightness: inherit;
+  --animation-speed: inherit;
+}
+
+// Default theme values (fallback)
+@mixin fantasy-effect-defaults {
+  --primary-hue: 160;
+  --primary-saturation: 84%;
+  --primary-lightness: 51%;
+  --animation-speed: 1;
+}

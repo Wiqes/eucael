@@ -1,0 +1,8 @@
+<div class="power-surge" [style.--animation-speed]="animationSpeed">
+  @for (beam of beams; track beam.position) {
+  <div
+    class="surge-beam beam-{{ beam.position }}"
+    [style.animation-delay]="beam.delay / animationSpeed + 's'"
+  ></div>
+  }
+</div>

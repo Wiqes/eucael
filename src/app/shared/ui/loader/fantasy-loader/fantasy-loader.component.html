@@ -18,88 +18,34 @@
   <div class="loader-container">
     <!-- Portal Effect (Epic Mode) -->
     @if (intensity === 'epic') {
-    <div class="portal-effect">
-      <div class="portal-ring portal-ring-1"></div>
-      <div class="portal-ring portal-ring-2"></div>
-      <div class="portal-ring portal-ring-3"></div>
-      <div class="portal-ring portal-ring-4"></div>
-    </div>
+    <app-portal-effect
+      [intensity]="intensity"
+      [animationSpeed]="currentSpeed()"
+    ></app-portal-effect>
     }
 
     <!-- Main Mystical Orb -->
-    <div class="mystical-orb">
-      <!-- Power Core with Multiple Layers -->
-      <div class="orb-core">
-        <div class="core-inner"></div>
-        <div class="core-pulse"></div>
-        @if (intensity === 'epic' || intensity === 'high') {
-        <div class="core-energy"></div>
-        }
-      </div>
-
-      <!-- Enhanced Rotating Rings -->
-      <div class="orb-ring ring-1" [style.--ring-speed]="currentSpeed() + 's'"></div>
-      <div class="orb-ring ring-2" [style.--ring-speed]="currentSpeed() * 1.3 + 's'"></div>
-      <div class="orb-ring ring-3" [style.--ring-speed]="currentSpeed() * 0.8 + 's'"></div>
-      @if (intensity === 'epic' || intensity === 'high') {
-      <div class="orb-ring ring-4" [style.--ring-speed]="currentSpeed() * 2 + 's'"></div>
-      <div class="orb-ring ring-5" [style.--ring-speed]="currentSpeed() * 0.5 + 's'"></div>
-      }
-
-      <!-- Dynamic Floating Particles -->
-      @for (particle of dynamicParticles; track particle) {
-      <div
-        class="particle particle-{{ particle }}"
-        [style.--particle-delay]="particle * 0.2 + 's'"
-        [style.--particle-duration]="2 + (particle % 3) + 's'"
-      ></div>
-      }
-    </div>
+    <app-mystical-orb
+      [intensity]="intensity"
+      [animationSpeed]="currentSpeed()"
+      [particleCount]="totalParticles()"
+    ></app-mystical-orb>
 
     <!-- Enhanced Mystical Runes -->
-    <div class="runes-container">
-      <div class="rune rune-2" [attr.data-stage]="currentStage()">✦</div>
-      <div class="rune rune-3" [attr.data-stage]="currentStage()">◊</div>
-      <div class="rune rune-4" [attr.data-stage]="currentStage()">◉</div>
-      <div class="rune rune-5" [attr.data-stage]="currentStage()">⟐</div>
-      <div class="rune rune-6" [attr.data-stage]="currentStage()">✧</div>
-      @if (intensity === 'epic') {
-      <div class="rune rune-7" [attr.data-stage]="currentStage()">⟢</div>
-      }
-    </div>
+    <app-runes-container
+      [intensity]="intensity"
+      [currentStage]="currentStage()"
+    ></app-runes-container>
 
     <!-- Enhanced Constellation -->
-    <div class="constellation">
-      <div class="star star-3">✯</div>
-      <div class="star star-4">✶</div>
-      @if (intensity === 'epic' || intensity === 'high') {
-      <div class="star star-5">✴</div>
-      <div class="star star-7">✧</div>
-      <div class="star star-8">⭒</div>
-      }
-    </div>
+    <app-constellation [intensity]="intensity"></app-constellation>
 
     <!-- Multi-Layer Energy Waves -->
-    <div class="energy-waves">
-      <div class="wave wave-1"></div>
-      <div class="wave wave-2"></div>
-      <div class="wave wave-3"></div>
-      @if (intensity === 'epic' || intensity === 'high') {
-      <div class="wave wave-4"></div>
-      <div class="wave wave-5"></div>
-      <div class="shockwave shockwave-1"></div>
-      <div class="shockwave shockwave-2"></div>
-      }
-    </div>
+    <app-energy-waves [intensity]="intensity" [animationSpeed]="currentSpeed()"></app-energy-waves>
 
     <!-- Power Surge Effect -->
     @if (intensity === 'epic') {
-    <div class="power-surge">
-      <div class="surge-beam beam-1"></div>
-      <div class="surge-beam beam-2"></div>
-      <div class="surge-beam beam-3"></div>
-      <div class="surge-beam beam-4"></div>
-    </div>
+    <app-power-surge [animationSpeed]="currentSpeed()"></app-power-surge>
     }
   </div>
 

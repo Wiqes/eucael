@@ -1,10 +1,26 @@
 import { Component, Input, OnInit, OnDestroy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  PortalEffectComponent,
+  MysticalOrbComponent,
+  RunesContainerComponent,
+  ConstellationComponent,
+  EnergyWavesComponent,
+  PowerSurgeComponent,
+} from '../effects';
 
 @Component({
   selector: 'app-fantasy-loader',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    PortalEffectComponent,
+    MysticalOrbComponent,
+    RunesContainerComponent,
+    ConstellationComponent,
+    EnergyWavesComponent,
+    PowerSurgeComponent,
+  ],
   templateUrl: './fantasy-loader.component.html',
   styleUrls: ['./fantasy-loader.component.scss'],
 })
@@ -110,11 +126,6 @@ export class FantasyLoaderComponent implements OnInit, OnDestroy {
     if (this.stageInterval) {
       clearInterval(this.stageInterval);
     }
-  }
-
-  // Generate dynamic particle array
-  get dynamicParticles() {
-    return Array.from({ length: this.totalParticles() }, (_, i) => i + 1);
   }
 
   // Get theme-specific CSS classes

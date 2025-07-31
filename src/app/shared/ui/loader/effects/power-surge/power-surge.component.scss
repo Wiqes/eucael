@@ -1,0 +1,77 @@
+@use 'variables' as *;
+@use '../theme-mixins' as *;
+
+:host {
+  @include fantasy-effect-defaults;
+  @include fantasy-effect-theme;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.power-surge {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+
+  .surge-beam {
+    position: absolute;
+    background: radial-gradient(
+      ellipse at center,
+      hsla(var(--primary-hue), 100%, 90%, 0.8) 0%,
+      transparent 70%
+    );
+    animation: surgeBeam calc(2s / var(--animation-speed)) ease-in-out infinite;
+
+    &.beam-1 {
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      animation-delay: 0s;
+    }
+
+    &.beam-2 {
+      top: 0;
+      left: 50%;
+      width: 1px;
+      height: 100%;
+      animation-delay: calc(0.5s / var(--animation-speed));
+    }
+
+    &.beam-3 {
+      top: 25%;
+      left: 25%;
+      width: 50%;
+      height: 1px;
+      transform: rotate(45deg);
+      animation-delay: calc(1s / var(--animation-speed));
+    }
+
+    &.beam-4 {
+      top: 25%;
+      right: 25%;
+      width: 50%;
+      height: 1px;
+      transform: rotate(-45deg);
+      animation-delay: calc(1.5s / var(--animation-speed));
+    }
+  }
+}
+
+@keyframes surgeBeam {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

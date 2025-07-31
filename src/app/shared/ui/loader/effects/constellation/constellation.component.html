@@ -1,0 +1,7 @@
+<div class="constellation">
+  @for (star of visibleStars; track star.position) {
+  <div class="star star-{{ star.position }}" [style.animation-delay]="star.animationDelay + 's'">
+    {{ star.symbol }}
+  </div>
+  }
+</div>

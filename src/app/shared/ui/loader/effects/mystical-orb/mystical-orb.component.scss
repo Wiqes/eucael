@@ -1,0 +1,348 @@
+@use 'variables' as *;
+@use '../theme-mixins' as *;
+
+:host {
+  @include fantasy-effect-defaults;
+  @include fantasy-effect-theme;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mystical-orb {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .orb-core {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
+    z-index: 5;
+
+    background: none;
+
+    box-shadow: none;
+
+    animation: orbPulse calc(2s / var(--animation-speed)) ease-in-out infinite;
+
+    .core-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        hsla(var(--primary-hue), 100%, 95%, 0.9) 0%,
+        hsla(var(--primary-hue), 100%, 80%, 0.5) 100%
+      );
+      animation: coreInnerPulse calc(1.5s / var(--animation-speed)) ease-in-out infinite;
+    }
+
+    .core-pulse {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid hsla(var(--primary-hue), 90%, 70%, 0.3);
+      animation: corePulseExpand calc(2s / var(--animation-speed)) ease-out infinite;
+    }
+
+    .core-plasma {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        hsla(var(--primary-hue), 100%, 80%, 0.8),
+        hsla(calc(var(--primary-hue) + 60), 100%, 80%, 0.8),
+        hsla(calc(var(--primary-hue) + 120), 100%, 80%, 0.8),
+        hsla(var(--primary-hue), 100%, 80%, 0.8)
+      );
+      animation: plasmaRotate calc(3s / var(--animation-speed)) linear infinite;
+    }
+
+    .core-energy {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        transparent 60%,
+        hsla(var(--primary-hue), 100%, 90%, 0.2) 70%,
+        hsla(var(--primary-hue), 100%, 80%, 0.4) 80%,
+        transparent 90%
+      );
+      animation: energyPulse calc(1s / var(--animation-speed)) ease-in-out infinite;
+    }
+  }
+
+  .orb-ring {
+    position: absolute;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    animation-duration: var(--ring-speed, 3s);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-name: ringRotate;
+
+    &.ring-1 {
+      width: 70px;
+      height: 70px;
+      border-top: 2px solid hsla(var(--primary-hue), 90%, 70%, 0.7);
+      border-right: 2px solid hsla(var(--primary-hue), 90%, 70%, 0.3);
+    }
+
+    &.ring-2 {
+      width: 85px;
+      height: 85px;
+      border-bottom: 2px solid hsla(var(--primary-hue), 80%, 60%, 0.6);
+      border-left: 2px solid hsla(var(--primary-hue), 80%, 60%, 0.2);
+    }
+
+    &.ring-3 {
+      width: 100px;
+      height: 100px;
+      border-top: 1px solid hsla(var(--primary-hue), 70%, 50%, 0.5);
+      border-right: 1px solid hsla(var(--primary-hue), 70%, 50%, 0.2);
+    }
+
+    &.ring-4 {
+      width: 115px;
+      height: 115px;
+      border-bottom: 1px solid hsla(var(--primary-hue), 60%, 40%, 0.4);
+      border-left: 1px solid hsla(var(--primary-hue), 60%, 40%, 0.1);
+    }
+
+    &.ring-5 {
+      width: 130px;
+      height: 130px;
+      border-top: 1px solid hsla(var(--primary-hue), 50%, 30%, 0.3);
+    }
+  }
+
+  // Enhanced Dynamic Particles
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      hsla(var(--primary-hue), 100%, 90%, 0.9),
+      hsla(var(--primary-hue), 100%, 70%, 0.2)
+    );
+    animation: particleFloat var(--particle-duration, 2.5s) ease-in-out infinite;
+    animation-delay: var(--particle-delay, 0s);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      border-radius: 50%;
+      background: inherit;
+      opacity: 0.5;
+      animation: particleGlow calc(1s / var(--animation-speed)) ease-in-out infinite;
+    }
+
+    // Fixed positioning for particles 1-12
+    &.particle-1 {
+      top: 15%;
+      left: 80%;
+      animation-delay: 0s;
+    }
+
+    &.particle-2 {
+      top: 35%;
+      left: 95%;
+      animation-delay: 0.2s;
+    }
+
+    &.particle-3 {
+      top: 65%;
+      left: 85%;
+      animation-delay: 0.4s;
+    }
+
+    &.particle-4 {
+      top: 85%;
+      left: 65%;
+      animation-delay: 0.6s;
+    }
+
+    &.particle-5 {
+      top: 85%;
+      left: 35%;
+      animation-delay: 0.8s;
+    }
+
+    &.particle-6 {
+      top: 65%;
+      left: 15%;
+      animation-delay: 1s;
+    }
+
+    &.particle-7 {
+      top: 35%;
+      left: 5%;
+      animation-delay: 1.2s;
+    }
+
+    &.particle-8 {
+      top: 15%;
+      left: 20%;
+      animation-delay: 1.4s;
+    }
+
+    &.particle-9 {
+      top: 5%;
+      left: 50%;
+      animation-delay: 1.6s;
+    }
+
+    &.particle-10 {
+      top: 25%;
+      left: 75%;
+      animation-delay: 1.8s;
+    }
+
+    &.particle-11 {
+      top: 75%;
+      left: 25%;
+      animation-delay: 2s;
+    }
+
+    &.particle-12 {
+      top: 50%;
+      left: 90%;
+      animation-delay: 2.2s;
+    }
+  }
+}
+
+@keyframes orbPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px hsla(var(--primary-hue), 90%, 70%, 0.6),
+      0 0 40px hsla(var(--primary-hue), 90%, 70%, 0.4),
+      0 0 60px hsla(var(--primary-hue), 90%, 70%, 0.2), inset 0 0 20px hsla(0, 0%, 100%, 0.1);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px hsla(var(--primary-hue), 90%, 70%, 0.8),
+      0 0 60px hsla(var(--primary-hue), 90%, 70%, 0.6),
+      0 0 90px hsla(var(--primary-hue), 90%, 70%, 0.4), inset 0 0 30px hsla(0, 0%, 100%, 0.2);
+  }
+}
+
+@keyframes coreInnerPulse {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+@keyframes corePulseExpand {
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
+
+@keyframes plasmaRotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes energyPulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+@keyframes particleFloat {
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateY(-15px) scale(1.2);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-30px) scale(0.8);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateY(-15px) scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes particleGlow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes ringRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

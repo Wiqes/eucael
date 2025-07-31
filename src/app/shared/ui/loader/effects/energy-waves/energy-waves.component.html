@@ -1,0 +1,13 @@
+<div class="energy-waves" [style.--animation-speed]="animationSpeed">
+  @for (wave of visibleWaves; track wave.position) {
+  <div
+    class="wave wave-{{ wave.position }}"
+    [style.animation-delay]="wave.delay / animationSpeed + 's'"
+  ></div>
+  } @if (showShockwaves) { @for (shockwave of shockwaves; track shockwave.position) {
+  <div
+    class="shockwave shockwave-{{ shockwave.position }}"
+    [style.animation-delay]="shockwave.delay / animationSpeed + 's'"
+  ></div>
+  } }
+</div>

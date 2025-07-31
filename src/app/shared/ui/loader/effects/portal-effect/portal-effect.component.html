@@ -1,0 +1,11 @@
+<div class="portal-effect" [style.--animation-speed]="animationSpeed">
+  @for (ring of rings; track ring) {
+  <div class="portal-ring portal-ring-{{ ring }}"></div>
+  }
+  <div class="portal-center"></div>
+  <div
+    class="portal-energy"
+    [style.--energy-delay]="0.5 + 's'"
+    [style.--energy-duration]="2 + 's'"
+  ></div>
+</div>
