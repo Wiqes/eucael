@@ -94,7 +94,7 @@ export class FantasyLoaderComponent implements OnInit, OnDestroy {
 
   private startStageProgression() {
     this.stageInterval = window.setInterval(() => {
-      this.loadingStage.update((stage) => (stage + 1) % 4);
+      this.loadingStage.update((stage) => (stage + 1) % 5);
     }, 2000);
   }
 

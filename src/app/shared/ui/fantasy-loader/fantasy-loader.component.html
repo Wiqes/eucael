@@ -125,7 +125,7 @@
   @if (intensity === 'epic' || intensity === 'high') {
   <div class="progress-indicator">
     <div class="progress-orbs">
-      @for (orb of [0,1,2,3]; track orb) {
+      @for (orb of [0,1,2,3,4]; track orb) {
       <div
         class="progress-orb"
         [class.active]="orb <= currentStage()"
