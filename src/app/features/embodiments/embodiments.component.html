@@ -8,10 +8,10 @@
     </p-toggleswitch>
   </div>
 </div>
-<div class="embodiments-container" [ngClass]="{ 'hide-slider': !isTotemShown }">
-  <div class="genders" *ngIf="isDataLoading()">
-    <p-skeleton *ngFor="let skeleton of [].constructor(20)" height="296px" width="220px" />
-  </div>
+<div *ngIf="isDataLoading() || true">
+  <app-loader />
+</div>
+<div *ngIf="false" class="embodiments-container" [ngClass]="{ 'hide-slider': !isTotemShown }">
   <div class="genders" *ngFor="let animal of animals()">
     <app-card [creature]="animal.male" />
     <app-card [creature]="animal.female" />

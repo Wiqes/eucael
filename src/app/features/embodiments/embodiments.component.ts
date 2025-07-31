@@ -5,12 +5,12 @@ import { HomeComponent } from '../home/home.component';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgIf } from '@angular/common';
-import { SkeletonModule } from 'primeng/skeleton';
 import { CardComponent } from '../../shared/ui/card/card.component';
+import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 
 @Component({
   selector: 'app-embodiments',
-  imports: [NgFor, ToggleSwitch, FormsModule, NgClass, SkeletonModule, NgIf, CardComponent],
+  imports: [NgFor, ToggleSwitch, FormsModule, NgClass, NgIf, CardComponent, LoaderComponent],
   templateUrl: './embodiments.component.html',
   styleUrl: './embodiments.component.scss',
 })

@@ -16,7 +16,6 @@ import { LogoComponent } from '../../shared/ui/logo.component';
 import { LoginService } from '../../core/services/auth/login.service';
 import { StateService } from '../../core/services/state.service';
 import { Router } from '@angular/router';
-import { FantasyLoaderComponent } from '../../shared/ui/fantasy-loader/fantasy-loader.component';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +32,6 @@ import { FantasyLoaderComponent } from '../../shared/ui/fantasy-loader/fantasy-l
     FormControlComponent,
     ForgotPasswordButtonComponent,
     LogoComponent,
-    FantasyLoaderComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
