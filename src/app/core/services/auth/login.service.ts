@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MESSAGES } from '../../constants/messages';
 import { StateService } from '../state.service';
@@ -14,8 +14,7 @@ export class LoginService extends AuthBaseService {
   private stateService = inject(StateService);
   private authTokenService = inject(AuthTokenService);
 
-  // Use the shared auth token service's signal
-  isLoggedIn = this.authTokenService.isLoggedIn;
+  isLoggedIn = computed(() => this.authTokenService.isLoggedIn());
 
   request({ email, password }: ICredentials) {
     this.makeAuthRequest(

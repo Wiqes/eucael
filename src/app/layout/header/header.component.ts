@@ -31,6 +31,8 @@ export class HeaderComponent implements OnInit {
   photoURL = computed(() => this.stateService.user()?.photoURL || '');
   displayName = computed(() => this.stateService.displayName());
   isDataLoading = computed(() => this.stateService.isDataLoading());
+  user = computed(() => this.stateService.user());
+  isHidden = computed(() => !this.user() && !this.isDataLoading());
 
   ngOnInit() {
     this.stateService.addBackendDataToState();

@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect, computed, linkedSignal } from '@angular/core';
+import { Component, inject, effect, computed } from '@angular/core';
 import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -14,6 +14,8 @@ import { ForgotPasswordButtonComponent } from '../../shared/ui/forgot-password-b
 import { TranslateModule } from '@ngx-translate/core';
 import { LogoComponent } from '../../shared/ui/logo.component';
 import { LoginService } from '../../core/services/auth/login.service';
+import { StateService } from '../../core/services/state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -37,17 +39,25 @@ import { LoginService } from '../../core/services/auth/login.service';
 export class LoginComponent {
   loadingResetPassword = false;
 
-  private messageService = inject(MessageService);
-  private formBuilder = inject(FormBuilder);
-  protected authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly messageService = inject(MessageService);
+  private readonly formBuilder = inject(FormBuilder);
+  protected readonly authService = inject(AuthService);
   private readonly loginService = inject(LoginService);
+  private readonly stateService = inject(StateService);
   isLoggedIn = computed(() => this.loginService.isLoggedIn());
+  user = computed(() => this.stateService.user());
+  isDataLoading = computed(() => this.stateService.isDataLoading());
+  isHidden = computed(() => this.user() || this.isDataLoading());
 
   loadingLogin = computed(() => this.authService.isLoadingLogin());
   loadingRegistration = computed(() => this.authService.isLoadingRegistration());
   otpRequested = computed(() => this.authService.isOtpRequested());
   passwordConfirmationRequested = computed(() =>
     this.authService.isPasswordConfirmationRequested(),
+  );
+  isVisible = computed(
+    () => !this.isHidden() && (!this.isLoggedIn() || !this.authService.getStoredToken()),
   );
 
   form = this.formBuilder.group({
@@ -70,6 +80,14 @@ export class LoginComponent {
         otpControl.markAsUntouched();
       }
       otpControl.updateValueAndValidity();
+    });
+
+    effect(() => {
+      const user = this.user();
+
+      if (user) {
+        this.router.navigate(['/home']);
+      }
     });
   }
 

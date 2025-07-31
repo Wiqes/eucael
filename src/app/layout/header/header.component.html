@@ -1,4 +1,4 @@
-<header class="header">
+<header *ngIf="!isHidden()" class="header">
   <div class="logo-description-container">
     <div class="logo-description">
       <button (click)="onLogoClick()">
