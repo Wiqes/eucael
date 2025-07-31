@@ -48,6 +48,11 @@ const routes: Routes = [
     loadComponent: () =>
       import('../features/embodiments/embodiments.component').then((m) => m.EmbodimentsComponent),
   },
+  {
+    path: 'loader-demo',
+    loadComponent: () =>
+      import('../features/loader-demo/loader-demo.component').then((m) => m.LoaderDemoComponent),
+  },
 ];
 
 export const routerProvider = () => provideRouter(routes);

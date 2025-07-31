@@ -1,4 +1,16 @@
 @if(isVisible()) {
+
+<!-- Fantasy Loader Overlay -->
+@if(isDataLoading()) {
+<div class="loader-overlay">
+  <app-fantasy-loader
+    text="Awakening the realm..."
+    size="large"
+    [showText]="true"
+  ></app-fantasy-loader>
+</div>
+}
+
 <div class="logo-container">
   <div class="logo">
     <app-logo />
@@ -20,6 +32,17 @@
 
   <!-- Form Section -->
   <div class="form-section">
+    <!-- Inline loader for form actions -->
+    @if(loadingLogin() || loadingRegistration()) {
+    <div class="form-loader-overlay">
+      <app-fantasy-loader
+        [text]="loadingLogin() ? 'Entering the realm...' : 'Creating your destiny...'"
+        size="medium"
+        [showText]="true"
+      ></app-fantasy-loader>
+    </div>
+    }
+
     <div class="form-container">
       <div class="form-header">
         <h2>

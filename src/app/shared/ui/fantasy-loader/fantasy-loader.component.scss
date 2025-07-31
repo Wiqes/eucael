@@ -1,0 +1,434 @@
+@use 'variables' as *;
+
+.fantasy-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+
+  &.size-small {
+    .loader-container {
+      transform: scale(0.7);
+    }
+    .loading-text {
+      font-size: 0.9rem;
+    }
+  }
+
+  &.size-medium {
+    .loader-container {
+      transform: scale(1);
+    }
+    .loading-text {
+      font-size: 1.1rem;
+    }
+  }
+
+  &.size-large {
+    .loader-container {
+      transform: scale(1.3);
+    }
+    .loading-text {
+      font-size: 1.3rem;
+    }
+  }
+}
+
+.loader-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Main Mystical Orb
+.mystical-orb {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .orb-core {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(52, 211, 153, 0.9) 0%,
+      rgba(16, 185, 129, 0.8) 30%,
+      rgba(5, 150, 105, 0.6) 60%,
+      rgba(4, 120, 87, 0.4) 100%
+    );
+    box-shadow: 0 0 20px rgba(52, 211, 153, 0.6), 0 0 40px rgba(52, 211, 153, 0.4),
+      0 0 60px rgba(52, 211, 153, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.1);
+    animation: orbPulse 2s ease-in-out infinite;
+    position: relative;
+    z-index: 3;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 10%;
+      left: 20%;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+      animation: shimmer 1.5s ease-in-out infinite;
+    }
+  }
+
+  .orb-ring {
+    position: absolute;
+    border: 2px solid transparent;
+    border-radius: 50%;
+
+    &.ring-1 {
+      width: 70px;
+      height: 70px;
+      border-top: 2px solid rgba(52, 211, 153, 0.6);
+      border-right: 2px solid rgba(52, 211, 153, 0.3);
+      animation: ringRotate 3s linear infinite;
+    }
+
+    &.ring-2 {
+      width: 85px;
+      height: 85px;
+      border-bottom: 2px solid rgba(16, 185, 129, 0.5);
+      border-left: 2px solid rgba(16, 185, 129, 0.2);
+      animation: ringRotate 4s linear infinite reverse;
+    }
+
+    &.ring-3 {
+      width: 100px;
+      height: 100px;
+      border-top: 1px solid rgba(5, 150, 105, 0.4);
+      border-right: 1px solid rgba(5, 150, 105, 0.2);
+      animation: ringRotate 5s linear infinite;
+    }
+  }
+
+  // Floating Particles
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(52, 211, 153, 0.9), rgba(52, 211, 153, 0.2));
+
+    &.particle-1 {
+      top: 15%;
+      left: 80%;
+      animation: particleFloat 2.5s ease-in-out infinite;
+      animation-delay: 0s;
+    }
+
+    &.particle-2 {
+      top: 75%;
+      left: 15%;
+      animation: particleFloat 3s ease-in-out infinite;
+      animation-delay: 0.5s;
+    }
+
+    &.particle-3 {
+      top: 25%;
+      right: 85%;
+      animation: particleFloat 2.8s ease-in-out infinite;
+      animation-delay: 1s;
+    }
+
+    &.particle-4 {
+      bottom: 25%;
+      right: 20%;
+      animation: particleFloat 3.2s ease-in-out infinite;
+      animation-delay: 1.5s;
+    }
+
+    &.particle-5 {
+      top: 50%;
+      left: 10%;
+      animation: particleFloat 2.7s ease-in-out infinite;
+      animation-delay: 2s;
+    }
+
+    &.particle-6 {
+      bottom: 15%;
+      left: 85%;
+      animation: particleFloat 3.1s ease-in-out infinite;
+      animation-delay: 2.5s;
+    }
+  }
+}
+
+// Mystical Runes
+.runes-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  .rune {
+    position: absolute;
+    color: rgba(52, 211, 153, 0.7);
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+    animation: runeGlow 2s ease-in-out infinite;
+
+    &.rune-1 {
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      animation-delay: 0s;
+    }
+
+    &.rune-2 {
+      top: 25%;
+      right: 10%;
+      animation-delay: 0.3s;
+    }
+
+    &.rune-3 {
+      top: 50%;
+      right: 5%;
+      transform: translateY(-50%);
+      animation-delay: 0.6s;
+    }
+
+    &.rune-4 {
+      bottom: 25%;
+      right: 10%;
+      animation-delay: 0.9s;
+    }
+
+    &.rune-5 {
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      animation-delay: 1.2s;
+    }
+
+    &.rune-6 {
+      top: 50%;
+      left: 5%;
+      transform: translateY(-50%);
+      animation-delay: 1.5s;
+    }
+  }
+}
+
+// Mystical Constellation
+.constellation {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  .star {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+    animation: starTwinkle 1.5s ease-in-out infinite;
+
+    &.star-1 {
+      top: 15%;
+      left: 30%;
+      animation-delay: 0s;
+    }
+
+    &.star-2 {
+      top: 30%;
+      right: 25%;
+      animation-delay: 0.4s;
+    }
+
+    &.star-3 {
+      bottom: 30%;
+      left: 25%;
+      animation-delay: 0.8s;
+    }
+
+    &.star-4 {
+      bottom: 15%;
+      right: 30%;
+      animation-delay: 1.2s;
+    }
+  }
+}
+
+// Energy Waves
+.energy-waves {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  .wave {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    border-radius: 50%;
+    animation: waveExpand 2s ease-out infinite;
+
+    &.wave-1 {
+      animation-delay: 0s;
+    }
+
+    &.wave-2 {
+      animation-delay: 0.7s;
+    }
+
+    &.wave-3 {
+      animation-delay: 1.4s;
+    }
+  }
+}
+
+// Loading Text
+.loading-text {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+
+  .text-content {
+    background: linear-gradient(135deg, #ffffff 0%, #34d399 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(52, 211, 153, 0.3);
+    animation: textShimmer 3s ease-in-out infinite;
+  }
+
+  .cursor {
+    color: $primary-color;
+    animation: cursorBlink 1s step-start infinite;
+    font-weight: bold;
+  }
+}
+
+// Animations
+@keyframes orbPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(52, 211, 153, 0.6), 0 0 40px rgba(52, 211, 153, 0.4),
+      0 0 60px rgba(52, 211, 153, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(52, 211, 153, 0.8), 0 0 60px rgba(52, 211, 153, 0.6),
+      0 0 90px rgba(52, 211, 153, 0.4), inset 0 0 30px rgba(255, 255, 255, 0.2);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes ringRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes particleFloat {
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateY(-10px) scale(1.1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-20px) scale(0.9);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateY(-10px) scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes runeGlow {
+  0%,
+  100% {
+    color: rgba(52, 211, 153, 0.5);
+    text-shadow: 0 0 10px rgba(52, 211, 153, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    color: rgba(52, 211, 153, 0.9);
+    text-shadow: 0 0 20px rgba(52, 211, 153, 0.7);
+    transform: scale(1.1);
+  }
+}
+
+@keyframes waveExpand {
+  0% {
+    width: 40px;
+    height: 40px;
+    opacity: 0.8;
+  }
+  100% {
+    width: 120px;
+    height: 120px;
+    opacity: 0;
+  }
+}
+
+@keyframes textShimmer {
+  0%,
+  100% {
+    text-shadow: 0 0 20px rgba(52, 211, 153, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(52, 211, 153, 0.6);
+  }
+}
+
+@keyframes starTwinkle {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes cursorBlink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
