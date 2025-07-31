@@ -168,6 +168,7 @@
     border-radius: 50%;
     box-shadow: 0 0 6px hsla(var(--primary-hue), 100%, 80%, 0.6),
       0 0 12px hsla(var(--primary-hue), 100%, 70%, 0.4);
+    opacity: 0; // Start invisible
     animation: cosmicFloat 6s linear infinite;
     animation-delay: var(--delay);
 
