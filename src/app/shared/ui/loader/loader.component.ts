@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FantasyLoaderComponent } from '../fantasy-loader/fantasy-loader.component';
+import { FantasyLoaderComponent } from './fantasy-loader/fantasy-loader.component';
 
 @Component({
   selector: 'app-loader',

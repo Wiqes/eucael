@@ -324,6 +324,15 @@
   }
 }
 
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $gallery-gap;
+  padding: 20px;
+}
+
 // Custom PrimeNG button overrides
 :host ::ng-deep .p-button {
   &.p-button-secondary {

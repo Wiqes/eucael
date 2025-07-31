@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FantasyLoaderComponent } from '../../shared/ui/fantasy-loader/fantasy-loader.component';
+import { FantasyLoaderComponent } from '../../shared/ui/loader/fantasy-loader/fantasy-loader.component';
 import { CommonModule } from '@angular/common';
 
 @Component({

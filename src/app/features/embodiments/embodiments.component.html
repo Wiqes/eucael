@@ -1,3 +1,6 @@
+@if(isDataLoading()) {
+<app-loader />
+} @else {
 <div class="filters">
   <div class="totem-switcher">
     <div class="label">Totem</div>
@@ -8,13 +11,11 @@
     </p-toggleswitch>
   </div>
 </div>
-<div *ngIf="isDataLoading() || true">
-  <app-loader />
-</div>
-<div *ngIf="false" class="embodiments-container" [ngClass]="{ 'hide-slider': !isTotemShown }">
+<div class="embodiments-container" [ngClass]="{ 'hide-slider': !isTotemShown }">
   <div class="genders" *ngFor="let animal of animals()">
     <app-card [creature]="animal.male" />
     <app-card [creature]="animal.female" />
     <app-card *ngIf="isTotemShown" [creature]="animal.totem" [animalName]="animal.name" />
   </div>
 </div>
+}
