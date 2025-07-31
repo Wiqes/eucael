@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,8 +8,121 @@ import { CommonModule } from '@angular/common';
   templateUrl: './fantasy-loader.component.html',
   styleUrls: ['./fantasy-loader.component.scss'],
 })
-export class FantasyLoaderComponent {
+export class FantasyLoaderComponent implements OnInit, OnDestroy {
   @Input() text: string = 'Loading...';
-  @Input() size: 'small' | 'medium' | 'large' = 'medium';
+  @Input() size: 'extra-small' | 'small' | 'medium' | 'large' = 'medium';
   @Input() showText: boolean = true;
+  @Input() theme: 'emerald' | 'sapphire' | 'ruby' | 'amethyst' = 'emerald';
+  @Input() intensity: 'low' | 'medium' | 'high' | 'epic' = 'high';
+  @Input() enableSoundEffects: boolean = false;
+
+  // Dynamic state management
+  private loadingStage = signal(0);
+  private animationSpeed = signal(1);
+  private particleCount = signal(6);
+
+  // Computed properties for dynamic behavior
+  currentStage = computed(() => this.loadingStage());
+  currentSpeed = computed(() => this.animationSpeed());
+  totalParticles = computed(() => this.particleCount());
+
+  // Dynamic text animation
+  displayedText = signal('');
+  private textAnimationInterval?: number;
+  private stageInterval?: number;
+
+  // Epic mode features
+  readonly epicFeatures = {
+    lightningBolts: true,
+    portalEffect: true,
+    dimensionalRift: true,
+    cosmicDust: true,
+    powerSurge: true,
+  };
+
+  ngOnInit() {
+    this.initializeLoader();
+    this.startTextAnimation();
+    this.startStageProgression();
+
+    if (this.intensity === 'epic') {
+      this.enableEpicMode();
+    }
+  }
+
+  ngOnDestroy() {
+    this.clearIntervals();
+  }
+
+  private initializeLoader() {
+    // Adjust particle count based on intensity
+    switch (this.intensity) {
+      case 'low':
+        this.particleCount.set(4);
+        this.animationSpeed.set(0.7);
+        break;
+      case 'medium':
+        this.particleCount.set(6);
+        this.animationSpeed.set(1);
+        break;
+      case 'high':
+        this.particleCount.set(8);
+        this.animationSpeed.set(1.3);
+        break;
+      case 'epic':
+        this.particleCount.set(12);
+        this.animationSpeed.set(1.6);
+        break;
+    }
+  }
+
+  private startTextAnimation() {
+    if (!this.showText) return;
+
+    let charIndex = 0;
+    this.textAnimationInterval = window.setInterval(() => {
+      if (charIndex <= this.text.length) {
+        this.displayedText.set(this.text.substring(0, charIndex));
+        charIndex++;
+      } else {
+        // Reset and restart
+        charIndex = 0;
+        this.displayedText.set('');
+      }
+    }, 150);
+  }
+
+  private startStageProgression() {
+    this.stageInterval = window.setInterval(() => {
+      this.loadingStage.update((stage) => (stage + 1) % 4);
+    }, 2000);
+  }
+
+  private enableEpicMode() {
+    // Add extra visual effects for epic mode
+    document.documentElement.style.setProperty('--epic-mode', '1');
+  }
+
+  private clearIntervals() {
+    if (this.textAnimationInterval) {
+      clearInterval(this.textAnimationInterval);
+    }
+    if (this.stageInterval) {
+      clearInterval(this.stageInterval);
+    }
+  }
+
+  // Generate dynamic particle array
+  get dynamicParticles() {
+    return Array.from({ length: this.totalParticles() }, (_, i) => i + 1);
+  }
+
+  // Get theme-specific CSS classes
+  get themeClass() {
+    return `theme-${this.theme}`;
+  }
+
+  get intensityClass() {
+    return `intensity-${this.intensity}`;
+  }
 }

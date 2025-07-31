@@ -1,52 +1,133 @@
-<div class="fantasy-loader" [ngClass]="'size-' + size">
+<div
+  class="fantasy-loader"
+  [ngClass]="['size-' + size, themeClass, intensityClass, 'stage-' + currentStage()]"
+  [style.--animation-speed]="currentSpeed()"
+>
+  <!-- Epic Background Effects -->
+  @if (intensity === 'epic') {
+  <div class="epic-background">
+    <!-- Cosmic Dust -->
+    <div class="cosmic-dust">
+      @for (dustParticle of [1,2,3,4,5,6,7,8,9,10]; track dustParticle) {
+      <div class="dust-particle" [style.--delay]="dustParticle * 0.3 + 's'"></div>
+      }
+    </div>
+  </div>
+  }
+
   <div class="loader-container">
+    <!-- Portal Effect (Epic Mode) -->
+    @if (intensity === 'epic') {
+    <div class="portal-effect">
+      <div class="portal-ring portal-ring-1"></div>
+      <div class="portal-ring portal-ring-2"></div>
+      <div class="portal-ring portal-ring-3"></div>
+      <div class="portal-ring portal-ring-4"></div>
+    </div>
+    }
+
     <!-- Main Mystical Orb -->
     <div class="mystical-orb">
-      <div class="orb-core"></div>
-      <div class="orb-ring ring-1"></div>
-      <div class="orb-ring ring-2"></div>
-      <div class="orb-ring ring-3"></div>
+      <!-- Power Core with Multiple Layers -->
+      <div class="orb-core">
+        <div class="core-inner"></div>
+        <div class="core-pulse"></div>
+        @if (intensity === 'epic' || intensity === 'high') {
+        <div class="core-energy"></div>
+        }
+      </div>
 
-      <!-- Floating Particles -->
-      <div class="particle particle-1"></div>
-      <div class="particle particle-2"></div>
-      <div class="particle particle-3"></div>
-      <div class="particle particle-4"></div>
-      <div class="particle particle-5"></div>
-      <div class="particle particle-6"></div>
+      <!-- Enhanced Rotating Rings -->
+      <div class="orb-ring ring-3" [style.--ring-speed]="currentSpeed() * 0.8 + 's'"></div>
+      @if (intensity === 'epic' || intensity === 'high') {
+      <div class="orb-ring ring-4" [style.--ring-speed]="currentSpeed() * 2 + 's'"></div>
+      <div class="orb-ring ring-5" [style.--ring-speed]="currentSpeed() * 0.5 + 's'"></div>
+      }
+
+      <!-- Dynamic Floating Particles -->
+      @for (particle of dynamicParticles; track particle) {
+      <div
+        class="particle particle-{{ particle }}"
+        [style.--particle-delay]="particle * 0.2 + 's'"
+        [style.--particle-duration]="2 + (particle % 3) + 's'"
+      ></div>
+      }
     </div>
 
-    <!-- Mystical Runes -->
+    <!-- Enhanced Mystical Runes -->
     <div class="runes-container">
-      <div class="rune rune-1">⚡</div>
-      <div class="rune rune-2">✦</div>
-      <div class="rune rune-3">◊</div>
-      <div class="rune rune-4">◉</div>
-      <div class="rune rune-5">⟐</div>
-      <div class="rune rune-6">✧</div>
+      <div class="rune rune-2" [attr.data-stage]="currentStage()">✦</div>
+      <div class="rune rune-3" [attr.data-stage]="currentStage()">◊</div>
+      <div class="rune rune-4" [attr.data-stage]="currentStage()">◉</div>
+      <div class="rune rune-5" [attr.data-stage]="currentStage()">⟐</div>
+      <div class="rune rune-6" [attr.data-stage]="currentStage()">✧</div>
+      @if (intensity === 'epic') {
+      <div class="rune rune-7" [attr.data-stage]="currentStage()">⟢</div>
+      }
     </div>
 
-    <!-- Mystical Constellation -->
+    <!-- Enhanced Constellation -->
     <div class="constellation">
-      <div class="star star-1">✨</div>
-      <div class="star star-2">⭐</div>
       <div class="star star-3">✯</div>
       <div class="star star-4">✶</div>
+      @if (intensity === 'epic' || intensity === 'high') {
+      <div class="star star-5">✴</div>
+      <div class="star star-7">✧</div>
+      <div class="star star-8">⭒</div>
+      }
     </div>
 
-    <!-- Energy Waves -->
+    <!-- Multi-Layer Energy Waves -->
     <div class="energy-waves">
       <div class="wave wave-1"></div>
       <div class="wave wave-2"></div>
       <div class="wave wave-3"></div>
+      @if (intensity === 'epic' || intensity === 'high') {
+      <div class="wave wave-4"></div>
+      <div class="wave wave-5"></div>
+      <div class="shockwave shockwave-1"></div>
+      <div class="shockwave shockwave-2"></div>
+      }
     </div>
+
+    <!-- Power Surge Effect -->
+    @if (intensity === 'epic') {
+    <div class="power-surge">
+      <div class="surge-beam beam-1"></div>
+    </div>
+    }
   </div>
 
-  <!-- Loading Text with Typewriter Effect -->
+  <!-- Enhanced Loading Text with Dynamic Animation -->
   @if (showText) {
   <div class="loading-text">
-    <span class="text-content">{{ text }}</span>
-    <span class="cursor">|</span>
+    <div class="text-container">
+      <span class="text-content">{{ displayedText() }}</span>
+      <span class="cursor">|</span>
+    </div>
+    @if (intensity === 'epic') {
+    <div class="text-glow"></div>
+    <div class="text-particles">
+      @for (textParticle of [1,2,3,4,5]; track textParticle) {
+      <div class="text-particle"></div>
+      }
+    </div>
+    }
+  </div>
+  }
+
+  <!-- Loading Progress Indicator -->
+  @if (intensity === 'epic' || intensity === 'high') {
+  <div class="progress-indicator">
+    <div class="progress-orbs">
+      @for (orb of [0,1,2,3,4]; track orb) {
+      <div
+        class="progress-orb"
+        [class.active]="orb <= currentStage()"
+        [style.--orb-delay]="orb * 0.5 + 's'"
+      ></div>
+      }
+    </div>
   </div>
   }
 </div>
