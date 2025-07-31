@@ -38,6 +38,8 @@
       </div>
 
       <!-- Enhanced Rotating Rings -->
+      <div class="orb-ring ring-1" [style.--ring-speed]="currentSpeed() + 's'"></div>
+      <div class="orb-ring ring-2" [style.--ring-speed]="currentSpeed() * 1.3 + 's'"></div>
       <div class="orb-ring ring-3" [style.--ring-speed]="currentSpeed() * 0.8 + 's'"></div>
       @if (intensity === 'epic' || intensity === 'high') {
       <div class="orb-ring ring-4" [style.--ring-speed]="currentSpeed() * 2 + 's'"></div>
