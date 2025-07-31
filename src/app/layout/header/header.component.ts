@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
   displayName = computed(() => this.stateService.displayName());
   isDataLoading = computed(() => this.stateService.isDataLoading());
   user = computed(() => this.stateService.user());
-  isHidden = computed(() => !this.user() && !this.isDataLoading());
+  isHidden = computed(() => !this.user() || this.isDataLoading());
 
   ngOnInit() {
     this.stateService.addBackendDataToState();

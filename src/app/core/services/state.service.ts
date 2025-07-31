@@ -29,7 +29,7 @@ export class StateService {
         this.animals.set(animals);
       },
       error: () => this.isDataLoading.set(false),
-      complete: () => this.isDataLoading.set(false),
+      complete: () => setTimeout(() => this.isDataLoading.set(false), 4000),
     });
   }
 }
