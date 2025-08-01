@@ -15,13 +15,11 @@ export class RunesContainerComponent {
   readonly runes = [
     { symbol: '✦', position: 2 },
     { symbol: '◊', position: 3 },
-    { symbol: '◉', position: 4 },
     { symbol: '⟐', position: 5 },
     { symbol: '✧', position: 6 },
-    { symbol: '⟢', position: 7, epicOnly: true },
   ];
 
   get visibleRunes() {
-    return this.runes.filter((rune) => !rune.epicOnly || this.intensity === 'epic');
+    return this.runes;
   }
 }
