@@ -4,11 +4,11 @@
   [style.--animation-speed]="currentSpeed()"
 >
   <!-- Epic Background Effects -->
-  @if (intensity === 'epic') {
+  @if (intensity === 'medium') {
   <div class="epic-background">
     <!-- Cosmic Dust -->
     <div class="cosmic-dust">
-      @for (dustParticle of [1,2,3,4,5,6,7,8,9,10]; track dustParticle) {
+      @for (dustParticle of [1,2,3,4,5]; track dustParticle) {
       <div class="dust-particle" [style.--delay]="dustParticle * 0.1 + 's'"></div>
       }
     </div>
@@ -68,7 +68,7 @@
   }
 
   <!-- Loading Progress Indicator -->
-  @if (intensity === 'epic' || intensity === 'high') {
+  @if (intensity === 'epic' || intensity === 'medium') {
   <div class="progress-indicator">
     <div class="progress-orbs">
       @for (orb of [0,1,2,3,4]; track orb) {

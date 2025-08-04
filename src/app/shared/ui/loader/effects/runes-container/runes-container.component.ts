@@ -12,12 +12,7 @@ export class RunesContainerComponent {
   @Input() intensity: 'low' | 'medium' | 'high' | 'epic' = 'high';
   @Input() currentStage: number = 0;
 
-  readonly runes = [
-    { symbol: '✦', position: 2 },
-    { symbol: '◊', position: 3 },
-    { symbol: '⟐', position: 5 },
-    { symbol: '✧', position: 6 },
-  ];
+  readonly runes = [{ symbol: '✦', position: 2 }];
 
   get visibleRunes() {
     return this.runes;

@@ -21,7 +21,7 @@ export class ConstellationComponent {
 
   get visibleStars() {
     return this.stars.filter(
-      (star) => !star.highIntensityOnly || this.intensity === 'epic' || this.intensity === 'high',
+      (star) => !star.highIntensityOnly || this.intensity === 'epic' || this.intensity === 'medium',
     );
   }
 }

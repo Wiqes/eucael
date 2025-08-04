@@ -78,7 +78,7 @@ export class FantasyLoaderComponent implements OnInit, OnDestroy {
         this.animationSpeed.set(0.7);
         break;
       case 'medium':
-        this.particleCount.set(6);
+        this.particleCount.set(4);
         this.animationSpeed.set(1);
         break;
       case 'high':
@@ -86,7 +86,7 @@ export class FantasyLoaderComponent implements OnInit, OnDestroy {
         this.animationSpeed.set(1.3);
         break;
       case 'epic':
-        this.particleCount.set(12);
+        this.particleCount.set(4);
         this.animationSpeed.set(1.6);
         break;
     }
