@@ -12,7 +12,7 @@ $gallery-gap: 1vw;
   color: #34d399;
   text-shadow: 0 0 15px rgba(52, 211, 153, 0.5);
   font-weight: 600;
-  background: linear-gradient(135deg, white 0%, rgba(52, 211, 153, 0.8) 100%);
+  background: linear-gradient(135deg, #34d399 0%, #22d3ee 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -91,7 +91,6 @@ $gallery-gap: 1vw;
     min-width: 19px;
     text-align: center;
     text-wrap: nowrap;
-    @extend %text-gradient;
   }
 
   svg {
