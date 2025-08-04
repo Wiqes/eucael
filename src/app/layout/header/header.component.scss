@@ -4,6 +4,14 @@
   min-width: 175px !important;
   width: auto !important;
   margin-top: 12px !important;
+
+  .p-menu-item-content:hover {
+    color: $primary-color !important;
+
+    .p-menu-item-icon {
+      color: $primary-color !important;
+    }
+  }
 }
 
 .header {
