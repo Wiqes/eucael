@@ -29,26 +29,16 @@
     button {
       background: transparent;
       border: none;
-      border-color: rgba(52, 211, 153, 0.4);
+      padding: 0;
       cursor: pointer;
       display: flex;
       align-items: center;
-      transition: all 0.3s ease;
-
-      &:hover {
-        border: 1px solid rgba(52, 211, 153, 0.15);
-        border-color: rgba(52, 211, 153, 0.4);
-        border-radius: 8px;
-        box-shadow: 0 0 15px rgba(52, 211, 153, 0.3);
-        background: rgba(52, 211, 153, 0.05);
-      }
     }
 
     .divider {
       height: 100%;
       width: 1px;
-      background: linear-gradient(180deg, transparent, rgba(52, 211, 153, 0.5), transparent);
-      box-shadow: 0 0 8px rgba(52, 211, 153, 0.2);
+      background-color: $surface-border;
     }
   }
 
@@ -61,10 +51,9 @@
     justify-content: flex-end;
     line-height: 150%;
     user-select: none;
-    border: 1px solid rgba(52, 211, 153, 0.15);
-    border-color: rgba(52, 211, 153, 0.4);
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(52, 211, 153, 0.3);
-    background: rgba(52, 211, 153, 0.05);
+    border: 1px solid $surface-border;
+    border-radius: 5px;
+    background: rgba(24, 24, 27, 0.42);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 }
