@@ -16,6 +16,10 @@
     color: $text-color;
   }
 
+  .p-menu-item-label:hover {
+    color: red;
+  }
+
   @media (max-width: 580px) {
     .label {
       display: none;

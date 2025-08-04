@@ -8,6 +8,16 @@ $main-black: #3f3f46;
 $red-color: #8b0000;
 $gallery-gap: 1vw;
 
+%text-gradient {
+  color: #34d399;
+  text-shadow: 0 0 15px rgba(52, 211, 153, 0.5);
+  font-weight: 600;
+  background: linear-gradient(135deg, white 0%, rgba(52, 211, 153, 0.8) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 %auth-base {
   display: flex;
   justify-content: center;
@@ -81,6 +91,7 @@ $gallery-gap: 1vw;
     min-width: 19px;
     text-align: center;
     text-wrap: nowrap;
+    @extend %text-gradient;
   }
 
   svg {
