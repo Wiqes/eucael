@@ -11,13 +11,7 @@ import { CommonModule } from '@angular/common';
 export class ConstellationComponent {
   @Input() intensity: 'low' | 'medium' | 'high' | 'epic' = 'high';
 
-  readonly stars = [
-    { symbol: '✯', position: 3, animationDelay: 0.9 },
-    { symbol: '✶', position: 4, animationDelay: 1.2 },
-    { symbol: '✴', position: 5, animationDelay: 1.5, highIntensityOnly: true },
-    { symbol: '✧', position: 7, animationDelay: 2.1, highIntensityOnly: true },
-    { symbol: '⭒', position: 8, animationDelay: 2.4, highIntensityOnly: true },
-  ];
+  readonly stars = [{ symbol: '✴', position: 5, animationDelay: 1.5, highIntensityOnly: true }];
 
   get visibleStars() {
     return this.stars.filter(

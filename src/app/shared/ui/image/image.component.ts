@@ -120,7 +120,7 @@ export class ImageComponent {
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 4px;
-        color: white;
+        color: #34d399;
         cursor: pointer;
         font-size: 1.2rem;
         display: flex;
@@ -131,6 +131,12 @@ export class ImageComponent {
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         transform: scale(1);
       `;
+
+      // Style PrimeNG icons specifically
+      const iconElement = button.querySelector('.pi');
+      if (iconElement) {
+        (iconElement as HTMLElement).style.fontSize = '22px';
+      }
 
       button.addEventListener('mouseenter', () => {
         button.style.background = 'rgba(255, 255, 255, 0.2)';
@@ -241,12 +247,12 @@ export class ImageComponent {
     });
 
     // Create control buttons
-    const zoomInBtn = createButton('🔍+', 'Zoom In', () => {
+    const zoomInBtn = createButton('<i class="pi pi-search-plus"></i>', 'Zoom In', () => {
       scale = Math.min(scale * 1.2, 3);
       updateTransform();
     });
 
-    const zoomOutBtn = createButton('🔍-', 'Zoom Out', () => {
+    const zoomOutBtn = createButton('<i class="pi pi-search-minus"></i>', 'Zoom Out', () => {
       scale = Math.max(scale / 1.2, 0.5);
       updateTransform();
     });
