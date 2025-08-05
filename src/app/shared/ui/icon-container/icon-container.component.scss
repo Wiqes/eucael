@@ -53,11 +53,6 @@
 
   filter: brightness(1.2) contrast(1.1);
 
-  .glow-ring {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-
   .particles .particle {
     animation-play-state: running;
   }
@@ -68,22 +63,6 @@
     z-index: 3;
     filter: drop-shadow(0 0 20px var(--icon-color, #10b981));
   }
-}
-
-.glow-ring {
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    transparent 60%,
-    var(--icon-color, #10b981) 65%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  animation: pulse-ring 2s ease-in-out infinite;
-  z-index: -1;
 }
 
 .particles {
@@ -228,18 +207,6 @@ svg {
   }
   to {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes pulse-ring {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.6;
   }
 }
 
