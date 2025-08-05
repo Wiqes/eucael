@@ -62,6 +62,14 @@
     }
   }
 
+  &:not(:hover) {
+    .particles .particle {
+      animation: none;
+      opacity: 0;
+      transform: translate(0, 0) scale(0);
+    }
+  }
+
   &:active {
     transform: scale(0.95);
     transition: transform 0.1s ease;
@@ -102,6 +110,7 @@
     animation-timing-function: ease-out;
     animation-iteration-count: infinite;
     animation-play-state: paused;
+    animation-fill-mode: forwards;
     filter: blur(0.5px);
 
     &:nth-child(1) {
@@ -159,6 +168,48 @@
       animation-name: particle-float-8;
       animation-delay: 2.1s;
     }
+  }
+}
+
+.icon-container:hover .particles .particle {
+  &:nth-child(1) {
+    animation: particle-float-1 3s ease-out infinite;
+    animation-delay: 0s;
+  }
+
+  &:nth-child(2) {
+    animation: particle-float-2 3s ease-out infinite;
+    animation-delay: 0.3s;
+  }
+
+  &:nth-child(3) {
+    animation: particle-float-3 3s ease-out infinite;
+    animation-delay: 0.6s;
+  }
+
+  &:nth-child(4) {
+    animation: particle-float-4 3s ease-out infinite;
+    animation-delay: 0.9s;
+  }
+
+  &:nth-child(5) {
+    animation: particle-float-5 3s ease-out infinite;
+    animation-delay: 1.2s;
+  }
+
+  &:nth-child(6) {
+    animation: particle-float-6 3s ease-out infinite;
+    animation-delay: 1.5s;
+  }
+
+  &:nth-child(7) {
+    animation: particle-float-7 3s ease-out infinite;
+    animation-delay: 1.8s;
+  }
+
+  &:nth-child(8) {
+    animation: particle-float-8 3s ease-out infinite;
+    animation-delay: 2.1s;
   }
 }
 
