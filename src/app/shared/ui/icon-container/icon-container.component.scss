@@ -2,7 +2,6 @@
   position: relative;
   border-radius: 50%;
   isolation: isolate;
-  animation: float 3s ease-in-out infinite;
 
   &::before {
     content: '';
@@ -27,39 +26,16 @@
   &::after {
     content: '';
     position: absolute;
-    inset: 20px;
+    inset: 60px;
     border-radius: 50%;
-    background: radial-gradient(
-      circle at 30% 30%,
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(255, 255, 255, 0.1) 40%,
-      transparent 70%
-    );
+    background: black;
     pointer-events: none;
     z-index: 2;
   }
 
-  &:hover {
-    transform: scale(1.1) rotate(5deg);
-    filter: brightness(1.2) contrast(1.1);
-
-    .glow-ring {
-      opacity: 1;
-      transform: scale(1.2);
-    }
-
-    .particles .particle {
-      animation-play-state: running;
-    }
-
-    .shimmer {
-      animation: shimmer 1.5s ease-in-out;
-    }
-
-    .icon-wrapper {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 20px var(--icon-color, #10b981));
-    }
+  &:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
   }
 
   &:not(:hover) {
@@ -70,9 +46,26 @@
     }
   }
 
-  &:active {
-    transform: scale(0.95);
-    transition: transform 0.1s ease;
+  filter: brightness(1.2) contrast(1.1);
+
+  .glow-ring {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  .particles .particle {
+    animation-play-state: running;
+  }
+
+  .shimmer {
+    animation: shimmer 1.5s ease-in-out;
+  }
+
+  .icon-wrapper {
+    width: 38%;
+    height: 38%;
+    z-index: 3;
+    filter: drop-shadow(0 0 20px var(--icon-color, #10b981));
   }
 }
 
@@ -171,7 +164,7 @@
   }
 }
 
-.icon-container:hover .particles .particle {
+.icon-container .particles .particle {
   &:nth-child(1) {
     animation: particle-float-1 3s ease-out infinite;
     animation-delay: 0s;
@@ -242,23 +235,6 @@ svg {
   height: 100%;
   transition: all 0.3s ease;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
-}
-
-// Keyframe animations
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  25% {
-    transform: translateY(-5px) rotate(1deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(0deg);
-  }
-  75% {
-    transform: translateY(-5px) rotate(-1deg);
-  }
 }
 
 @keyframes spin {
