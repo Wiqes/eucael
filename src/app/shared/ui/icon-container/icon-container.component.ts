@@ -5,7 +5,7 @@ import { FoxIconComponent } from '../icons/fox-icon/fox-icon.component';
 
 @Component({
   selector: 'app-icon-container',
-  imports: [CommonModule, BearIconComponent, FoxIconComponent],
+  imports: [CommonModule],
   templateUrl: './icon-container.component.html',
   styleUrls: ['./icon-container.component.scss'],
 })
