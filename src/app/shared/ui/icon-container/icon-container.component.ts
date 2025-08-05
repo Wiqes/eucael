@@ -5,6 +5,12 @@ import { FoxIconComponent } from '../icons/fox-icon/fox-icon.component';
 import { SnakeIconComponent } from '../icons/snake-icon/snake-icon.component';
 import { BatIconComponent } from '../icons/bat-icon/bat-icon.component';
 import { CatIconComponent } from '../icons/cat-icon/cat-icon.component';
+import { EagleIconComponent } from '../icons/eagle-icon/eagle-icon.component';
+import { ElkIconComponent } from '../icons/elk-icon/elk-icon.component';
+import { GiraffeIconComponent } from '../icons/giraffe-icon/giraffe-icon.component';
+import { HorseIconComponent } from '../icons/horse-icon/horse-icon.component';
+import { MoleIconComponent } from '../icons/mole-icon/mole-icon.component';
+import { OwlIconComponent } from '../icons/owl-icon/owl-icon.component';
 
 @Component({
   selector: 'app-icon-container',
@@ -25,6 +31,18 @@ export class IconContainerComponent {
         return CatIconComponent;
       case 'bat':
         return BatIconComponent;
+      case 'eagle':
+        return EagleIconComponent;
+      case 'elk':
+        return ElkIconComponent;
+      case 'giraffe':
+        return GiraffeIconComponent;
+      case 'horse':
+        return HorseIconComponent;
+      case 'mole':
+        return MoleIconComponent;
+      case 'owl':
+        return OwlIconComponent;
       case 'bear':
       default:
         return BearIconComponent;
