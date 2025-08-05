@@ -1,0 +1,7 @@
+@use 'variables' as *;
+
+svg {
+  width: 100%;
+  height: auto;
+  fill: $primary-color;
+}
