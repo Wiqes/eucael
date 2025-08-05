@@ -1,0 +1,16 @@
+export const ANIMALS = {
+  BEAR: 'bear',
+  FOX: 'fox',
+  SNAKE: 'snake',
+  BAT: 'bat',
+  CAT: 'cat',
+  EAGLE: 'eagle',
+  ELK: 'elk',
+  GIRAFFE: 'giraffe',
+  HORSE: 'horse',
+  MOLE: 'mole',
+  OWL: 'owl',
+  PANTHER: 'panther',
+  RAT: 'rat',
+  WOLF: 'wolf',
+};

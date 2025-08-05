@@ -11,6 +11,10 @@ import { GiraffeIconComponent } from '../icons/giraffe-icon/giraffe-icon.compone
 import { HorseIconComponent } from '../icons/horse-icon/horse-icon.component';
 import { MoleIconComponent } from '../icons/mole-icon/mole-icon.component';
 import { OwlIconComponent } from '../icons/owl-icon/owl-icon.component';
+import { PantherIconComponent } from '../icons/panther-icon/panther-icon.component';
+import { ANIMALS } from '../../../core/constants/animals';
+import { RatIconComponent } from '../icons/rat-icon/rat-icon.component';
+import { WolfIconComponent } from '../icons/wolf-icon/wolf-icon.component';
 
 @Component({
   selector: 'app-icon-container',
@@ -23,27 +27,33 @@ export class IconContainerComponent {
   iconName = input<string>('bear'); // Default icon
   iconComponent = computed(() => {
     switch (this.iconName()) {
-      case 'fox':
+      case ANIMALS.FOX:
         return FoxIconComponent;
-      case 'snake':
+      case ANIMALS.SNAKE:
         return SnakeIconComponent;
-      case 'cat':
+      case ANIMALS.CAT:
         return CatIconComponent;
-      case 'bat':
+      case ANIMALS.BAT:
         return BatIconComponent;
-      case 'eagle':
+      case ANIMALS.EAGLE:
         return EagleIconComponent;
-      case 'elk':
+      case ANIMALS.ELK:
         return ElkIconComponent;
-      case 'giraffe':
+      case ANIMALS.GIRAFFE:
         return GiraffeIconComponent;
-      case 'horse':
+      case ANIMALS.HORSE:
         return HorseIconComponent;
-      case 'mole':
+      case ANIMALS.MOLE:
         return MoleIconComponent;
-      case 'owl':
+      case ANIMALS.OWL:
         return OwlIconComponent;
-      case 'bear':
+      case ANIMALS.PANTHER:
+        return PantherIconComponent;
+      case ANIMALS.RAT:
+        return RatIconComponent;
+      case ANIMALS.WOLF:
+        return WolfIconComponent;
+      case ANIMALS.BEAR:
       default:
         return BearIconComponent;
     }
