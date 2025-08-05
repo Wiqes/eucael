@@ -1,7 +1,13 @@
 @use 'variables' as *;
 
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 svg {
   width: 100%;
-  height: auto;
-  fill: $primary-color;
+  height: 100%;
+  fill: var(--icon-color, $primary-color);
 }

@@ -7,10 +7,20 @@ import { FormsModule } from '@angular/forms';
 import { NgClass, NgIf } from '@angular/common';
 import { CardComponent } from '../../shared/ui/card/card.component';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
+import { IconContainerComponent } from '../../shared/ui/icon-container/icon-container.component';
 
 @Component({
   selector: 'app-embodiments',
-  imports: [NgFor, ToggleSwitch, FormsModule, NgClass, NgIf, CardComponent, LoaderComponent],
+  imports: [
+    NgFor,
+    ToggleSwitch,
+    FormsModule,
+    NgClass,
+    NgIf,
+    CardComponent,
+    LoaderComponent,
+    IconContainerComponent,
+  ],
   templateUrl: './embodiments.component.html',
   styleUrl: './embodiments.component.scss',
 })
@@ -18,5 +28,5 @@ export class EmbodimentsComponent extends HomeComponent {
   private readonly stateService = inject(StateService);
   animals = computed(() => this.stateService.animals());
   isTotemShown = false;
-  isDataLoading = computed(() => this.stateService.isDataLoading());
+  isDataLoading = computed(() => false);
 }
