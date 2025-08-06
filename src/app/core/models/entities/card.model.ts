@@ -1,7 +1,7 @@
 export interface ICard {
   id: number;
   animalId: number;
-  imageUrl: string;
+  color: IColor;
 }
 
 export interface ITotem extends ICard {
@@ -11,4 +11,11 @@ export interface ITotem extends ICard {
 export interface ICreature extends ICard {
   level: number;
   name: string;
+  imageUrl: string;
+}
+
+interface IColor {
+  id: number;
+  name: string;
+  hex: string;
 }
