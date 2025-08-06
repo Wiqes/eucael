@@ -1,3 +1,9 @@
-<app-card [creature]="male()" />
-<app-card [creature]="female()" />
-<app-icon-container *ngIf="isTotemShown()" [color]="color()" [iconName]="animalName()" />
+<app-card *ngFor="let creature of male()" [creature]="creature" />
+<app-card *ngFor="let creature of female()" [creature]="creature" />
+@if(isTotemShown()) {
+<app-icon-container
+  *ngFor="let totem of totem()"
+  [color]="totem.color.hex || 'orange'"
+  [iconName]="animalName()"
+/>
+}

@@ -2,11 +2,11 @@ import { Component, computed, input } from '@angular/core';
 import { CardComponent } from '../../../shared/ui/card/card.component';
 import { IconContainerComponent } from '../../../shared/ui/icon-container/icon-container.component';
 import { IAnimal } from '../../../core/models/entities/animal.model';
-import { NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-animal',
-  imports: [CardComponent, IconContainerComponent, NgIf],
+  imports: [CardComponent, IconContainerComponent, NgFor],
   templateUrl: './animal.component.html',
   styleUrl: './animal.component.scss',
 })
@@ -17,5 +17,4 @@ export class AnimalComponent {
   male = computed(() => this.animal()?.male || null);
   female = computed(() => this.animal()?.female || null);
   totem = computed(() => this.animal()?.totem || null);
-  color = computed(() => this.totem()?.color?.hex || '');
 }

@@ -65,7 +65,7 @@ export class AdminComponent {
     const selectedAnimalId = this.selectedAnimalControl.value;
     const selectedEntityType: keyof IAnimal = this.entityTypeControl.value;
     const animal = this.animals().find((a) => a.id === selectedAnimalId);
-    const entity: ICard | null = animal ? (animal[selectedEntityType] as ICard) : null; // Use the selected entity type
+    const entity: ICard[] = animal ? (animal[selectedEntityType] as ICard[]) : []; // Use the selected entity type
     this.isUploading = true;
     this.error = null;
     const file = this.selectedFile;
@@ -75,7 +75,7 @@ export class AdminComponent {
         filename: file.name,
         contentType: file.type,
         entityType: selectedEntityType as EntityType,
-        entityId: entity?.id || 0,
+        entityId: entity?.[0]?.id || 0,
       })
       .pipe(
         switchMap((res) => {
