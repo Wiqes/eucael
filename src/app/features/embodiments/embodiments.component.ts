@@ -18,5 +18,5 @@ export class EmbodimentsComponent extends HomeComponent {
   private readonly stateService = inject(StateService);
   animals = computed(() => this.stateService.animals());
   isTotemShown = false;
-  isDataLoading = computed(() => false);
+  isDataLoading = computed(() => this.stateService.isDataLoading());
 }

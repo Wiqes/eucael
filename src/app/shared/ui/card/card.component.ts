@@ -12,7 +12,7 @@ import { ImageComponent } from '../image/image.component';
 export class CardComponent {
   @ViewChild('imageComponent') imageComponent!: ImageComponent;
 
-  creature = input<ICreature | ITotem | null>(null);
+  creature = input<ICreature | null>(null);
   animalName = input<string>('');
   imageUrl = computed(() => {
     return this.creature()?.imageUrl || '';

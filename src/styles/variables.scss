@@ -10,9 +10,9 @@ $gallery-gap: 1vw;
 
 %text-gradient {
   color: #34d399;
-  text-shadow: 0 0 15px rgba(52, 211, 153, 0.5);
+  text-shadow: 0 4px 8px rgba(52, 211, 153, 0.3);
   font-weight: 600;
-  background: linear-gradient(135deg, #34d399 0%, #22d3ee 100%);
+  background: linear-gradient(135deg, #34d399 0%, #34d3cc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
