@@ -4,11 +4,13 @@ import { NgFor } from '@angular/common';
 import { HomeComponent } from '../home/home.component';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { NgClass } from '@angular/common';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 import { AnimalComponent } from './animal/animal.component';
 import { IAnimal } from '../../core/models/entities/animal.model';
+import { IconService } from '../../core/services/icon.service';
 
 @Component({
   selector: 'app-embodiments',
@@ -20,12 +22,14 @@ import { IAnimal } from '../../core/models/entities/animal.model';
     LoaderComponent,
     AnimalComponent,
     MultiSelectModule,
+    CommonModule,
   ],
   templateUrl: './embodiments.component.html',
   styleUrl: './embodiments.component.scss',
 })
 export class EmbodimentsComponent extends HomeComponent {
   private readonly stateService = inject(StateService);
+  protected iconService = inject(IconService);
   animals = computed(() => this.stateService.animals());
   isTotemShown = false;
   isDataLoading = computed(() => this.stateService.isDataLoading());

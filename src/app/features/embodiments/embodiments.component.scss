@@ -22,6 +22,11 @@
   .p-multiselect {
     width: 100%;
     max-width: 300px;
+
+    svg {
+      width: 10px !important;
+      height: 10px !important;
+    }
   }
 
   .totem-switcher {
