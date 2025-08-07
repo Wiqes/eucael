@@ -7,7 +7,7 @@
     [ngModel]="selectedAnimals()"
     (onChange)="selectedAnimals.set($event.value)"
     [placeholder]="'Select Animals' | translate"
-    optionLabel="name"
+    optionLabel="translatedName"
     dataKey="id"
     class="w-full md:w-80"
   >
@@ -16,7 +16,7 @@
         <ng-container *ngComponentOutlet="iconService.getIconComponent(animal.name)"></ng-container>
       </div>
       <div class="label">
-        {{ animal.name }}
+        {{ animal.translatedName }}
       </div>
     </ng-template>
   </p-multiselect>

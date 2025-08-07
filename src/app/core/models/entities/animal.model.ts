@@ -6,4 +6,5 @@ export interface IAnimal {
   male: ICreature[];
   female: ICreature[];
   totem: ITotem[];
+  translatedName?: string;
 }

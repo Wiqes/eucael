@@ -43,7 +43,7 @@ export class EmbodimentsComponent extends HomeComponent {
         : '';
       return {
         ...animal,
-        name: this.translate.instant(animalName),
+        translatedName: this.translate.instant(animalName),
       } as IAnimal;
     });
   });
@@ -53,14 +53,4 @@ export class EmbodimentsComponent extends HomeComponent {
   filteredAnimals = computed(() => {
     return this.selectedAnimals().length ? this.selectedAnimals() : this.animals();
   });
-
-  constructor() {
-    super();
-    this.stateService.addBackendDataToState();
-
-    effect(() => {
-      const selectedAnimals = this.selectedAnimals();
-      console.log('Selected Animals:', selectedAnimals);
-    });
-  }
 }
