@@ -11,6 +11,7 @@ import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 import { AnimalComponent } from './animal/animal.component';
 import { IAnimal } from '../../core/models/entities/animal.model';
 import { IconService } from '../../core/services/icon.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-embodiments',
@@ -23,6 +24,7 @@ import { IconService } from '../../core/services/icon.service';
     AnimalComponent,
     MultiSelectModule,
     CommonModule,
+    TranslateModule,
   ],
   templateUrl: './embodiments.component.html',
   styleUrl: './embodiments.component.scss',

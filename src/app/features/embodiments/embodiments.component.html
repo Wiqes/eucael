@@ -13,11 +13,13 @@
       <div class="icon-container">
         <ng-container *ngComponentOutlet="iconService.getIconComponent(animal.name)"></ng-container>
       </div>
-      <div class="label">{{ animal.name.charAt(0).toUpperCase() + animal.name.slice(1) }}</div>
+      <div class="label">
+        {{ animal.name.charAt(0).toUpperCase() + animal.name.slice(1) | translate }}
+      </div>
     </ng-template>
   </p-multiselect>
   <div class="totem-switcher">
-    <div class="label">Totem</div>
+    <div class="label">{{ 'Totem' | translate }}</div>
     <p-toggleswitch [(ngModel)]="isTotemShown">
       <ng-template #handle let-checked="checked">
         <i [ngClass]="['!text-xs', 'pi', isTotemShown ? 'pi-check' : 'pi-times']"></i>
