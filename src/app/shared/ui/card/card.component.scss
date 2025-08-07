@@ -317,3 +317,9 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .card-wrapper:hover::before {
+    display: none;
+  }
+}
