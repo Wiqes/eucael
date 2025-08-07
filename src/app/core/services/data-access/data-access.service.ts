@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { IUser } from '../../models/entities/user.model';
 import { catchError, Observable, of } from 'rxjs';
 import { IAnimal } from '../../models/entities/animal.model';
+import { IColor } from '../../models/option.model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +33,15 @@ export class DataAccessService {
       catchError((error) => {
         console.error('Error fetching animals:', error.status);
         throw new Error('Failed to fetch animals');
+      }),
+    );
+  }
+
+  getColors(): Observable<IColor[]> {
+    return this.http.get<IColor[]>(`${environment.API_URL}/colors`).pipe(
+      catchError((error) => {
+        console.error('Error fetching colors:', error.status);
+        throw new Error('Failed to fetch colors');
       }),
     );
   }

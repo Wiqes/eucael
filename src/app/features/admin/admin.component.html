@@ -21,6 +21,19 @@
 
     <app-form-control
       type="select"
+      label="Select Color"
+      placeholder="Choose a color"
+      [control]="selectedColorControl"
+      [options]="colors()"
+      optionValue="id"
+    ></app-form-control>
+
+    <div *ngIf="selectedColorControl.invalid && selectedColorControl.touched" class="error-message">
+      Color selection is required
+    </div>
+
+    <app-form-control
+      type="select"
       label="Entity Type"
       placeholder="Choose entity type"
       [control]="entityTypeControl"

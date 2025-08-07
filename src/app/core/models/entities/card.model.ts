@@ -1,6 +1,7 @@
 export interface ICard {
   id: number;
   animalId: number;
+  colorId: number;
   color: IColor;
 }
 

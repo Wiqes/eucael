@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 import { finalize, switchMap } from 'rxjs';
 import { UploadService } from '../../core/services/data-access/upload.service';
@@ -9,6 +9,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
 import { IAnimal } from '../../core/models/entities/animal.model';
 import { ICard } from '../../core/models/entities/card.model';
+import { IColor } from '../../core/models/option.model';
+import { DataAccessService } from '../../core/services/data-access/data-access.service';
 
 @Component({
   selector: 'app-admin',
@@ -16,7 +18,7 @@ import { ICard } from '../../core/models/entities/card.model';
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
   selectedFile: File | null = null;
   isUploading = false;
   uploadProgress = 0;
@@ -25,15 +27,22 @@ export class AdminComponent {
   error: string | null = null;
   private readonly stateService = inject(StateService);
   private readonly uploadService = inject(UploadService);
+  private readonly dataAccessService = inject(DataAccessService);
   animals = computed(() => this.stateService.animals());
+  colors = signal<IColor[]>([]);
 
   adminForm = new FormGroup({
     selectedAnimal: new FormControl<number | null>(null, [Validators.required]),
+    selectedColor: new FormControl<number | null>(null, [Validators.required]),
     entityType: new FormControl<EntityType | null>(null, [Validators.required]),
   });
 
   get selectedAnimalControl() {
     return this.adminForm.get('selectedAnimal') as FormControl;
+  }
+
+  get selectedColorControl() {
+    return this.adminForm.get('selectedColor') as FormControl;
   }
 
   get entityTypeControl() {
@@ -45,6 +54,12 @@ export class AdminComponent {
     name: value.charAt(0).toUpperCase() + value.slice(1), // Capitalize first letter
     value: value,
   }));
+
+  ngOnInit(): void {
+    this.dataAccessService.getColors().subscribe((colors) => {
+      this.colors.set(colors);
+    });
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -63,9 +78,11 @@ export class AdminComponent {
     }
 
     const selectedAnimalId = this.selectedAnimalControl.value;
+    const selectedColorId = this.selectedColorControl.value;
     const selectedEntityType: keyof IAnimal = this.entityTypeControl.value;
     const animal = this.animals().find((a) => a.id === selectedAnimalId);
-    const entity: ICard[] = animal ? (animal[selectedEntityType] as ICard[]) : []; // Use the selected entity type
+    const entityArray: ICard[] = animal ? (animal[selectedEntityType] as ICard[]) : [];
+    const entity: ICard | null = entityArray.find((e) => e.colorId === selectedColorId) || null;
     this.isUploading = true;
     this.error = null;
     const file = this.selectedFile;
@@ -75,7 +92,7 @@ export class AdminComponent {
         filename: file.name,
         contentType: file.type,
         entityType: selectedEntityType as EntityType,
-        entityId: entity?.[0]?.id || 0,
+        entityId: entity?.id || 0,
       })
       .pipe(
         switchMap((res) => {
