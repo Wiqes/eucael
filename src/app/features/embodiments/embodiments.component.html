@@ -4,9 +4,11 @@
 <div class="filters">
   <p-multiselect
     [options]="animals()"
+    [ngModel]="selectedAnimals()"
     (onChange)="selectedAnimals.set($event.value)"
-    placeholder="Select Animals"
+    [placeholder]="'Select Animals' | translate"
     optionLabel="name"
+    dataKey="id"
     class="w-full md:w-80"
   >
     <ng-template let-animal #item>
