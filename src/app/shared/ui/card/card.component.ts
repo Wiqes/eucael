@@ -1,11 +1,12 @@
 import { Component, computed, input, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ICreature, ITotem } from '../../../core/models/entities/card.model';
+import { ICreature } from '../../../core/models/entities/card.model';
 import { ImageComponent } from '../image/image.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-card',
-  imports: [CommonModule, ImageComponent],
+  imports: [CommonModule, ImageComponent, TranslateModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
