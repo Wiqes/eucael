@@ -1,9 +1,6 @@
-<app-card *ngFor="let creature of male()" [creature]="creature" />
-<app-card *ngFor="let creature of female()" [creature]="creature" />
+@for (totem of totem(); track totem.id; let idx = $index) {
+<app-card [creature]="female()[idx]" />
+<app-card [creature]="male()[idx]" />
 @if(isTotemShown()) {
-<app-icon-container
-  *ngFor="let totem of totem()"
-  [color]="totem.color.hex || 'orange'"
-  [iconName]="animalName()"
-/>
-}
+<app-icon-container [color]="totem.color.hex" [iconName]="animalName()" />
+} }
