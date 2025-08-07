@@ -23,9 +23,22 @@
     width: 100%;
     max-width: 300px;
 
-    svg {
-      width: 10px !important;
-      height: 10px !important;
+    .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+
+      ::ng-deep svg {
+        width: 100% !important;
+        height: 100% !important;
+        fill: white;
+      }
+    }
+
+    .label {
+      font-size: 24px;
     }
   }
 
