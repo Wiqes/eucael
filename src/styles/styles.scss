@@ -5,18 +5,47 @@
 @import 'primeicons/primeicons.css';
 
 html {
-  background-color: #151517;
   height: 100%;
+  background-color: #151517; // Fallback color
 }
 
 body {
   margin: 0;
   font-family: Inter, sans-serif;
+  min-height: 100vh;
+  background: url('/assets/background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 @media (max-width: 400px) {
   .p-button {
     font-size: 12px !important;
+  }
+}
+
+// Responsive background adjustments
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll; // Better performance on mobile
+    background-position: center top;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    background-size: cover;
+    background-position: center center;
+  }
+}
+
+// High DPI displays
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  body {
+    background-image: linear-gradient(rgba(21, 21, 23, 0.7), rgba(21, 21, 23, 0.7)),
+      url('/assets/background.jpg');
   }
 }
 
@@ -34,6 +63,21 @@ form {
 // Ensure consistent background across all pages
 * {
   box-sizing: border-box;
+}
+
+// Main content container styling for better readability
+.main-content {
+  position: relative;
+  z-index: 1;
+}
+
+// Enhance content visibility with subtle backdrop
+.content-backdrop {
+  background: rgba(21, 21, 23, 0.8);
+  backdrop-filter: blur(5px);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
 }
 
 // Style scrollbar to match the dark theme
@@ -56,7 +100,92 @@ form {
 
 // Global backdrop filter support for older browsers
 @supports not (backdrop-filter: blur(5px)) {
-  .form-container {
-    background: rgba(24, 24, 27, 0.42) !important;
+  .form-container,
+  .p-card,
+  .p-dialog {
+    background: rgba(24, 24, 27, 0.95) !important;
+  }
+
+  .content-backdrop {
+    background: rgba(21, 21, 23, 0.95);
+  }
+}
+
+// Smooth transitions for better UX
+.p-card,
+.p-dialog,
+.form-container,
+.content-backdrop {
+  transition: all 0.3s ease;
+}
+
+// Preload background image for better performance
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/assets/background.jpg') center center/cover no-repeat;
+  z-index: -2;
+  opacity: 0;
+  animation: fadeInBackground 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInBackground {
+  to {
+    opacity: 1;
+  }
+}
+
+// Ensure text remains readable
+.text-light {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.text-muted {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+// Utility classes for content over background
+.glass-panel {
+  background: rgba(24, 24, 27, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card {
+  background: rgba(24, 24, 27, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+// Page container for consistent spacing
+.page-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 16px;
+  }
+
+  .glass-panel {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .glass-card {
+    padding: 12px;
+    border-radius: 6px;
   }
 }
