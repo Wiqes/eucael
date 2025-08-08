@@ -26,14 +26,6 @@ body {
   }
 }
 
-// Responsive background adjustments
-@media (max-width: 768px) {
-  body {
-    background-attachment: scroll; // Better performance on mobile
-    background-position: center top;
-  }
-}
-
 @media (max-width: 480px) {
   body {
     background-size: cover;
