@@ -26,21 +26,6 @@ body {
   }
 }
 
-@media (max-width: 480px) {
-  body {
-    background-size: cover;
-    background-position: center center;
-  }
-}
-
-// High DPI displays
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  body {
-    background-image: linear-gradient(rgba(21, 21, 23, 0.7), rgba(21, 21, 23, 0.7)),
-      url('/assets/background.jpg');
-  }
-}
-
 .form-row {
   display: flex;
   gap: 12px;
