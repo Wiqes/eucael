@@ -36,10 +36,11 @@ export class LoginService extends AuthBaseService {
       this.messageService.sendMessage(MESSAGES.STORAGE_ERROR);
     }
 
-    this.handleSuccess(MESSAGES.LOGIN_SUCCESS, () => {
+    this.handleSuccess(null, () => {
       setTimeout(() => {
         this.router.navigate(['/home']);
         this.stateService.addBackendDataToState();
+        this.isLoading.set(false);
       }, 800);
     });
   }

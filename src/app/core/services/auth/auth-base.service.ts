@@ -22,7 +22,6 @@ export abstract class AuthBaseService {
     this.http.post<any>(`${environment.API_URL}${endpoint}`, payload).subscribe({
       next: (response) => {
         onSuccess(response);
-        this.isLoading.set(false);
       },
       error: () => {
         onError();
@@ -32,7 +31,9 @@ export abstract class AuthBaseService {
   }
 
   protected handleSuccess(message: any, callback?: () => void): void {
-    this.messageService.sendMessage(message);
+    if (message) {
+      this.messageService.sendMessage(message);
+    }
     if (callback) {
       callback();
     }
