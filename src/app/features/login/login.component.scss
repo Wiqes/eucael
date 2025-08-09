@@ -2,7 +2,6 @@
 
 :host {
   position: relative;
-  top: -64px;
 }
 
 .logo-container {
@@ -323,15 +322,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.loader-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: $gallery-gap;
-  padding: 20px;
 }
 
 // Custom PrimeNG button overrides
