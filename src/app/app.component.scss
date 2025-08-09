@@ -15,14 +15,5 @@
   z-index: 9999;
 }
 
-// Enhance header visibility if present
-::ng-deep app-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-  background: rgba(21, 21, 23, 0.8);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
+// Remove the old header styling since we're handling it in the header component itself
+// The header component now handles its own positioning and background

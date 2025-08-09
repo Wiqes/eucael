@@ -20,6 +20,23 @@
   justify-content: space-between;
   padding: 8px 20px;
   height: 64px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(21, 21, 23, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease-in-out;
+
+  &.header-visible {
+    transform: translateY(0);
+  }
+
+  &.header-hidden {
+    transform: translateY(-100%);
+  }
 
   .logo-description-container {
     display: flex;
