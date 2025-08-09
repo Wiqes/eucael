@@ -1,6 +1,6 @@
 @for (totem of totem(); track totem.id; let idx = $index) {
-<app-card [creature]="female()[idx]" />
-<app-card [creature]="male()[idx]" />
+<app-card [creature]="getFemaleByColorId(totem.colorId)" />
+<app-card [creature]="getMaleByColorId(totem.colorId)" />
 @if(isTotemShown()) {
 <app-icon-container [color]="totem.color.hex" [iconName]="animalName()" />
 } }
