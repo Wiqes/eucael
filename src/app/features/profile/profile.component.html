@@ -1,28 +1,125 @@
 <div class="profile-container">
-  <div class="title">{{ 'Profile' | translate }}</div>
-  <div class="general-info">
-    <div class="card">
-      <div class="pencil-container">
-        <i class="pi pi-pencil"></i>
+  <div class="profile-header">
+    <div class="header-background"></div>
+    <div class="profile-card">
+      <div class="avatar-section">
+        <div class="avatar-wrapper">
+          <p-avatar
+            [image]="photoURL()"
+            size="xlarge"
+            shape="circle"
+            class="profile-avatar"
+          ></p-avatar>
+          <div class="avatar-ring"></div>
+          <div class="status-indicator"></div>
+        </div>
       </div>
-      <div class="wrapper">
-        <p-avatar
-          size="xlarge"
-          [image]="photoURL() || undefined"
-          [icon]="!photoURL() ? 'pi pi-user' : undefined"
-          shape="circle"
-        ></p-avatar>
-        <div class="name-container">
-          <div class="name">{{ displayName() }}</div>
-          <div>Status</div>
+
+      <div class="profile-info">
+        <h1 class="display-name">{{ displayName() }}</h1>
+        <p class="email">{{ email() }}</p>
+        <div class="location">
+          <i class="pi pi-map-marker"></i>
+          <span>{{ country() || 'Unknown Location' }}</span>
         </div>
       </div>
     </div>
-    <div class="info-container">
-      <div class="info-title">{{ 'General info' | translate }}</div>
-    </div>
   </div>
-  <div class="cases-container">
-    <div class="table-title">{{ 'Embodiments' | translate }}</div>
+
+  <div class="profile-content">
+    <div class="info-grid">
+      <div class="info-card personal-info">
+        <div class="card-header">
+          <i class="pi pi-user"></i>
+          <h3>{{ 'Personal Information' | translate }}</h3>
+        </div>
+        <div class="card-content">
+          <div class="info-item">
+            <label>{{ 'Display Name' | translate }}</label>
+            <span>{{ displayName() || 'Not provided' }}</span>
+          </div>
+          <div class="info-item">
+            <label>{{ 'Email Address' | translate }}</label>
+            <span>{{ email() || 'Not provided' }}</span>
+          </div>
+          <div class="info-item">
+            <label>{{ 'Country' | translate }}</label>
+            <span>{{ country() || 'Not specified' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card account-stats">
+        <div class="card-header">
+          <i class="pi pi-chart-line"></i>
+          <h3>{{ 'Account Statistics' | translate }}</h3>
+        </div>
+        <div class="card-content">
+          <div class="stat-item">
+            <div class="stat-value">42</div>
+            <div class="stat-label">{{ 'Total Cases' | translate }}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">15</div>
+            <div class="stat-label">{{ 'Active Projects' | translate }}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">89%</div>
+            <div class="stat-label">{{ 'Success Rate' | translate }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card recent-activity">
+        <div class="card-header">
+          <i class="pi pi-clock"></i>
+          <h3>{{ 'Recent Activity' | translate }}</h3>
+        </div>
+        <div class="card-content">
+          <div class="activity-item">
+            <div class="activity-icon">
+              <i class="pi pi-plus-circle"></i>
+            </div>
+            <div class="activity-details">
+              <span class="activity-text">{{ 'Created new case' | translate }}</span>
+              <span class="activity-time">2 hours ago</span>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon">
+              <i class="pi pi-check-circle"></i>
+            </div>
+            <div class="activity-details">
+              <span class="activity-text">{{ 'Completed analysis' | translate }}</span>
+              <span class="activity-time">1 day ago</span>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon">
+              <i class="pi pi-users"></i>
+            </div>
+            <div class="activity-details">
+              <span class="activity-text">{{ 'Joined team project' | translate }}</span>
+              <span class="activity-time">3 days ago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="action-btn primary">
+        <i class="pi pi-pencil"></i>
+        {{ 'Edit Profile' | translate }}
+      </button>
+      <button class="action-btn secondary">
+        <i class="pi pi-cog"></i>
+        {{ 'Settings' | translate }}
+      </button>
+      <button class="action-btn outline">
+        <i class="pi pi-download"></i>
+        {{ 'Export Data' | translate }}
+      </button>
+    </div>
   </div>
 </div>

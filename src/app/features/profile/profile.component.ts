@@ -13,4 +13,6 @@ export class ProfileComponent {
   private stateService = inject(StateService);
   photoURL = computed(() => this.stateService.profile()?.avatarUrl || '');
   displayName = computed(() => this.stateService.displayName());
+  email = computed(() => this.stateService.profile()?.email || '');
+  country = computed(() => this.stateService.profile()?.country || '');
 }
