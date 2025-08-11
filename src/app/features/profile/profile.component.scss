@@ -23,33 +23,6 @@
     position: relative;
     padding: 2rem 2rem 0;
 
-    .header-background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 200px;
-      background: linear-gradient(135deg, #34d399 0%, #34d3cc 50%, #2dd4bf 100%);
-      border-radius: 0 0 3rem 3rem;
-      box-shadow: 0 20px 40px rgba(52, 211, 153, 0.2);
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(
-          45deg,
-          transparent 30%,
-          rgba(255, 255, 255, 0.1) 50%,
-          transparent 70%
-        );
-        animation: shimmer 3s ease-in-out infinite;
-      }
-    }
-
     .profile-card {
       position: relative;
       z-index: 2;
