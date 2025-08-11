@@ -12,7 +12,8 @@ export class StateService {
   readonly animals = signal<IAnimal[]>([]);
   readonly isDataLoading = signal<boolean>(false);
   private readonly dataAccessService = inject(DataAccessService);
-  readonly displayName = computed(() => this.user()?.fullName || this.user()?.username || '');
+  readonly profile = computed(() => this.user()?.profile);
+  readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
 
   addBackendDataToState() {
     if (this.user() || this.isDataLoading()) {

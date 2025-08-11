@@ -11,6 +11,6 @@ import { AvatarModule } from 'primeng/avatar';
 })
 export class ProfileComponent {
   private stateService = inject(StateService);
-  photoURL = computed(() => this.stateService.user()?.photoURL || '');
-  displayName = computed(() => this.stateService.user()?.fullName || '');
+  photoURL = computed(() => this.stateService.profile()?.avatarUrl || '');
+  displayName = computed(() => this.stateService.displayName());
 }

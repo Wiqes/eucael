@@ -22,6 +22,7 @@ export class LoginService extends AuthBaseService {
       { username: email, password },
       (res) => this.onLoginSuccess(res, email),
       () => this.handleError(MESSAGES.LOGIN_FAILED),
+      false, // Disable regular loading for login to avoid conflicts with the auth token service
     );
   }
 

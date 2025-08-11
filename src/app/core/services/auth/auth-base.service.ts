@@ -16,12 +16,16 @@ export abstract class AuthBaseService {
     payload: any,
     onSuccess: (response: any) => void,
     onError: () => void,
+    isRegularLoading: boolean = true,
   ): void {
     this.isLoading.set(true);
 
     this.http.post<any>(`${environment.API_URL}${endpoint}`, payload).subscribe({
       next: (response) => {
         onSuccess(response);
+        if (isRegularLoading) {
+          this.isLoading.set(false);
+        }
       },
       error: () => {
         onError();

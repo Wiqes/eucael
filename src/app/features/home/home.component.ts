@@ -29,7 +29,6 @@ export class HomeComponent {
         } catch (e) {
           this.messageService.sendMessage(MESSAGES.STORAGE_ERROR);
         }
-        this.messageService.sendMessage(MESSAGES.LOGIN_SUCCESS);
         this.location.replaceState(this.router.url.split('?')[0]);
       } else if (!this.authService.getStoredToken()) {
         this.router.navigate(['']);
