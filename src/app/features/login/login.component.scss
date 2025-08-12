@@ -72,7 +72,7 @@
       z-index: 2;
       text-align: center;
       color: white;
-      top: 122px;
+      top: 182px;
       padding: 40px 30px;
       animation: slideInFromLeft 0.8s ease-out;
 
@@ -80,13 +80,13 @@
         font-family: 'Uncial Antiqua', cursive;
 
         .title {
-          font-size: 4vw;
+          font-size: 6vw;
           font-weight: 700;
           @extend %text-animated-gradient;
         }
 
         .sub-title {
-          font-size: 2vw;
+          font-size: 2.5vw;
           color: rgba(255, 255, 255, 0.9);
           font-weight: 300;
           padding: 0;
@@ -94,6 +94,20 @@
           opacity: 0;
           animation: fadeInUp 1s ease-out 0.9s forwards;
         }
+
+        @media (max-width: 770px) {
+          .title {
+            font-size: 3rem;
+          }
+
+          .sub-title {
+            font-size: 1.3rem;
+          }
+        }
+      }
+
+      @media (max-width: 1600px) {
+        top: 122px;
       }
     }
   }
@@ -211,18 +225,6 @@
       .google-button-container {
         opacity: 0;
         animation: fadeInUp 1s ease-out 1s forwards;
-      }
-    }
-  }
-
-  @media (max-width: 1200px) {
-    .welcome-text {
-      .title {
-        font-size: 3rem;
-      }
-
-      .sub-title {
-        font-size: 1.3rem;
       }
     }
   }
