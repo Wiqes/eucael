@@ -144,7 +144,14 @@
         .display-name {
           font-size: 2.5rem;
           margin: 0 0 0.5rem 0;
-          @extend %text-animated-gradient;
+          font-weight: 700;
+          background: white;
+          background-size: 200% 200%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-shadow: 0 4px 8px rgba(52, 211, 153, 0.3);
+          filter: drop-shadow(0 2px 4px rgba(52, 211, 153, 0.3));
         }
 
         .email {
@@ -391,8 +398,6 @@
 
   @media (max-width: 768px) {
     .profile-header {
-      padding: 1rem 1rem 0;
-
       .profile-card {
         .profile-info .display-name {
           font-size: 2rem;
