@@ -68,25 +68,24 @@
     }
 
     .image-content {
-      position: relative;
+      position: absolute;
       z-index: 2;
       text-align: center;
       color: white;
-      top: 182px;
-      padding: 40px 30px;
+      bottom: 24px;
       animation: slideInFromLeft 0.8s ease-out;
 
       .welcome-text {
         font-family: 'Uncial Antiqua', cursive;
 
         .title {
-          font-size: 6vw;
+          font-size: 8.4vw;
           font-weight: 700;
           @extend %text-animated-gradient;
         }
 
         .sub-title {
-          font-size: 2.5vw;
+          font-size: 3.2vw;
           color: rgba(255, 255, 255, 0.9);
           font-weight: 300;
           padding: 0;
@@ -95,7 +94,7 @@
           animation: fadeInUp 1s ease-out 0.9s forwards;
         }
 
-        @media (max-width: 770px) {
+        @media (max-width: 870px) {
           .title {
             font-size: 3rem;
           }
@@ -104,14 +103,6 @@
             font-size: 1.3rem;
           }
         }
-      }
-
-      @media (max-width: 1600px) {
-        top: 122px;
-      }
-
-      @media (max-width: 480px) {
-        top: 100px;
       }
     }
   }
@@ -150,13 +141,7 @@
 
         h2 {
           font-size: 2.2rem;
-          font-weight: 600;
-          color: $text-color;
-          margin-bottom: 10px;
-          background: linear-gradient(135deg, #ffffff 0%, #34d399 100%);
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          @extend %text-gradient;
         }
 
         .form-subtitle {
