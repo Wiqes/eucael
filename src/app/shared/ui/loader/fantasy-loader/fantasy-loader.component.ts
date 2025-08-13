@@ -24,7 +24,6 @@ import { CosmicDustComponent } from '../effects/cosmic-dust/cosmic-dust.componen
 })
 export class FantasyLoaderComponent implements OnInit, OnDestroy {
   @Input() text: string = 'Loading...';
-  @Input() size: 'extra-small' | 'small' | 'medium' | 'large' = 'medium';
   @Input() showText: boolean = true;
   @Input() theme: 'emerald' | 'sapphire' | 'ruby' | 'amethyst' = 'emerald';
   @Input() intensity: 'low' | 'medium' | 'high' | 'epic' = 'high';

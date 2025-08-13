@@ -49,34 +49,6 @@
   min-height: 120px;
   overflow: visible;
 
-  // Size Variants with Enhanced Scaling
-  &.size-extra-small {
-    min-height: 80px;
-    padding-bottom: 15px;
-
-    .loading-text {
-      font-size: 0.6rem;
-    }
-  }
-
-  &.size-small {
-    .loading-text {
-      font-size: 0.7rem;
-    }
-  }
-
-  &.size-medium {
-    .loading-text {
-      font-size: 0.9rem;
-    }
-  }
-
-  &.size-large {
-    .loading-text {
-      font-size: 1.1rem;
-    }
-  }
-
   // Epic mode global effects
   &.intensity-epic {
     &::before {
@@ -111,6 +83,7 @@
 .loading-text {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 500;
+  font-size: 1.1rem;
   letter-spacing: 1px;
   text-align: center;
   position: relative;
@@ -233,40 +206,5 @@
   50% {
     opacity: 0.6;
     transform: scale(1.1) rotate(180deg);
-  }
-}
-
-@keyframes cosmicFloat {
-  0% {
-    transform: translateY(0px) translateX(0px) scale(0.5);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.8;
-    transform: translateY(-20px) translateX(10px) scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(-100px) translateX(30px) scale(1.2);
-  }
-  90% {
-    opacity: 0.8;
-    transform: translateY(-180px) translateX(50px) scale(0.8);
-  }
-  100% {
-    transform: translateY(-200px) translateX(60px) scale(0.3);
-    opacity: 0;
-  }
-}
-
-@keyframes dustGlow {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.5);
   }
 }
