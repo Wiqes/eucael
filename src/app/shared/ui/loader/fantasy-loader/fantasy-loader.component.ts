@@ -6,7 +6,6 @@ import {
   RunesContainerComponent,
   ConstellationComponent,
   EnergyWavesComponent,
-  PowerSurgeComponent,
 } from '../effects';
 
 @Component({
@@ -19,7 +18,6 @@ import {
     RunesContainerComponent,
     ConstellationComponent,
     EnergyWavesComponent,
-    PowerSurgeComponent,
   ],
   templateUrl: './fantasy-loader.component.html',
   styleUrls: ['./fantasy-loader.component.scss'],
