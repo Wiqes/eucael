@@ -12,11 +12,10 @@
     background: var(--icon-color, #10b981);
     border-radius: 50%;
     opacity: 0;
-    animation-play-state: running;
     animation-duration: 3s;
     animation-timing-function: ease-out;
     animation-iteration-count: infinite;
-    animation-play-state: paused;
+    animation-play-state: running;
     animation-fill-mode: forwards;
     filter: blur(0.5px);
 
