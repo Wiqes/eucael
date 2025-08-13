@@ -45,7 +45,7 @@
     z-index: 2;
     text-align: center;
     color: white;
-    bottom: 24px;
+    bottom: 88px;
     animation: slideInFromLeft 0.8s ease-out;
 
     .welcome-text {
@@ -55,16 +55,6 @@
         font-size: 8.4vw;
         font-weight: 700;
         @extend %text-animated-gradient;
-      }
-
-      .sub-title {
-        font-size: 3.2vw;
-        color: rgba(255, 255, 255, 0.9);
-        font-weight: 300;
-        padding: 0;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        animation: fadeInUp 1s ease-out 0.9s forwards;
       }
 
       @media (max-width: 870px) {
@@ -84,6 +74,7 @@
 
     .image-content {
       padding: 20px;
+      bottom: 22px;
 
       .welcome-text {
         h1 {
