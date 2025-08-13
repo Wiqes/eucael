@@ -1,10 +1,11 @@
 import { Component, computed, input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconService } from '../../../core/services/icon.service';
+import { IconParticlesComponent } from './icon-particles/icon-particles.component';
 
 @Component({
   selector: 'app-icon-container',
-  imports: [CommonModule],
+  imports: [CommonModule, IconParticlesComponent],
   templateUrl: './icon-container.component.html',
   styleUrls: ['./icon-container.component.scss'],
 })
