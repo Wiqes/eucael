@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ICreature } from '../../../core/models/entities/card.model';
 import { ImageComponent } from '../image/image.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { CardNameComponent } from './card-name/card-name.component';
 
 @Component({
   selector: 'app-card',
-  imports: [CommonModule, ImageComponent, TranslateModule],
+  imports: [CommonModule, ImageComponent, TranslateModule, CardNameComponent],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
