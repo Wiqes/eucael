@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://wiqes.com/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /api/
+
+# Allow important game content
+Allow: /home
+Allow: /embodiments
+Allow: /login
+Allow: /profile
+
+# Crawl delay to be respectful
+Crawl-delay: 1

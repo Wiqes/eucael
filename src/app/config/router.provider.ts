@@ -18,14 +18,6 @@ const routes: Routes = [
       import('../features/embodiments/embodiments.component').then((m) => m.EmbodimentsComponent),
   },
   {
-    path: 'case-creation',
-    canActivate: [AuthGuard],
-    loadComponent: () =>
-      import('../features/case-creation/case-creation.component').then(
-        (m) => m.CaseCreationComponent,
-      ),
-  },
-  {
     path: 'profile',
     canActivate: [AuthGuard],
     loadComponent: () =>
@@ -47,11 +39,6 @@ const routes: Routes = [
     path: 'embodiments',
     loadComponent: () =>
       import('../features/embodiments/embodiments.component').then((m) => m.EmbodimentsComponent),
-  },
-  {
-    path: 'loader-demo',
-    loadComponent: () =>
-      import('../features/loader-demo/loader-demo.component').then((m) => m.LoaderDemoComponent),
   },
 ];
 
