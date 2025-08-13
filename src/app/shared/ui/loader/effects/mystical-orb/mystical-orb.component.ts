@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OrbParticleComponent } from './orb-particle/orb-particle.component';
 
 @Component({
   selector: 'app-mystical-orb',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, OrbParticleComponent],
   templateUrl: './mystical-orb.component.html',
   styleUrls: ['./mystical-orb.component.scss'],
 })
@@ -12,10 +13,6 @@ export class MysticalOrbComponent {
   @Input() intensity: 'low' | 'medium' | 'high' | 'epic' = 'high';
   @Input() animationSpeed: number = 1;
   @Input() particleCount: number = 8;
-
-  get showCoreEnergy() {
-    return this.intensity === 'epic' || this.intensity === 'high';
-  }
 
   get ringCount() {
     switch (this.intensity) {
