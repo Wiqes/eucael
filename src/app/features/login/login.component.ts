@@ -12,11 +12,11 @@ import { MESSAGES } from '../../core/constants/messages';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { ForgotPasswordButtonComponent } from '../../shared/ui/forgot-password-button/forgot-password-button.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { LogoComponent } from '../../shared/ui/logo.component';
 import { LoginService } from '../../core/services/auth/login.service';
 import { StateService } from '../../core/services/state.service';
 import { Router } from '@angular/router';
 import { LoginImageComponent } from './login-image/login-image.component';
+import { LogoContainerComponent } from './logo-container/logo-container.component';
 
 @Component({
   selector: 'app-login',
@@ -32,8 +32,8 @@ import { LoginImageComponent } from './login-image/login-image.component';
     GoogleButtonComponent,
     FormControlComponent,
     ForgotPasswordButtonComponent,
-    LogoComponent,
     LoginImageComponent,
+    LogoContainerComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],

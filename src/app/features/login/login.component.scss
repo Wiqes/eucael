@@ -4,22 +4,6 @@
   position: relative;
 }
 
-.logo-container {
-  position: absolute;
-  z-index: 2;
-  padding: 12px 20px;
-  animation: slideInFromLeft 0.8s ease-out;
-
-  .logo {
-    opacity: 0;
-    animation: fadeInUp 1s ease-out 0.3s forwards;
-
-    app-logo {
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-    }
-  }
-}
-
 .auth-container {
   display: flex;
   min-height: 100vh;
