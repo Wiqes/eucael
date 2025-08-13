@@ -1,0 +1,5 @@
+<div class="cosmic-dust">
+  @for (dustParticle of [1,2,3,4,5]; track dustParticle) {
+  <div class="dust-particle" [style.--delay]="dustParticle * 0.1 + 's'"></div>
+  }
+</div>

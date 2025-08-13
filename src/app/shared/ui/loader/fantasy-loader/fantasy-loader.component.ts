@@ -1,23 +1,23 @@
 import { Component, Input, OnInit, OnDestroy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  PortalEffectComponent,
   MysticalOrbComponent,
   RunesContainerComponent,
   ConstellationComponent,
   EnergyWavesComponent,
 } from '../effects';
+import { CosmicDustComponent } from '../effects/cosmic-dust/cosmic-dust.component';
 
 @Component({
   selector: 'app-fantasy-loader',
   standalone: true,
   imports: [
     CommonModule,
-    PortalEffectComponent,
     MysticalOrbComponent,
     RunesContainerComponent,
     ConstellationComponent,
     EnergyWavesComponent,
+    CosmicDustComponent,
   ],
   templateUrl: './fantasy-loader.component.html',
   styleUrls: ['./fantasy-loader.component.scss'],

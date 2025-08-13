@@ -5,25 +5,10 @@
 >
   <!-- Epic Background Effects -->
   @if (intensity === 'medium') {
-  <div class="epic-background">
-    <!-- Cosmic Dust -->
-    <div class="cosmic-dust">
-      @for (dustParticle of [1,2,3,4,5]; track dustParticle) {
-      <div class="dust-particle" [style.--delay]="dustParticle * 0.1 + 's'"></div>
-      }
-    </div>
-  </div>
+  <app-cosmic-dust />
   }
 
   <div class="loader-container">
-    <!-- Portal Effect (Epic Mode) -->
-    @if (intensity === 'epic') {
-    <app-portal-effect
-      [intensity]="intensity"
-      [animationSpeed]="currentSpeed()"
-    ></app-portal-effect>
-    }
-
     <!-- Main Mystical Orb -->
     <app-mystical-orb
       [intensity]="intensity"
