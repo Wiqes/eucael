@@ -15,27 +15,20 @@ $gallery-gap: 1vw;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 4px 8px rgba(52, 211, 153, 0.3);
+  text-shadow: 0 4px 8px rgba(52, 211, 187, 0.3);
 }
 
 %text-animated-gradient {
   font-weight: 700;
-  background: linear-gradient(
-    135deg,
-    #34d399 0%,
-    #34d3ab 25%,
-    #34d3cc 50%,
-    #34d3ab 75%,
-    #34d399 100%
-  );
+  background: $primary-color;
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   opacity: 0;
   animation: mysticFlow 6s ease infinite, fadeInUp 1s ease-out 0.6s forwards;
-  text-shadow: 0 4px 8px rgba(52, 211, 153, 0.3);
-  filter: drop-shadow(0 2px 4px rgba(52, 211, 153, 0.3));
+  text-shadow: 0 4px 8px rgba(52, 211, 187, 0.3);
+  filter: drop-shadow(0 2px 4px rgba(52, 211, 187, 0.3));
 
   @keyframes mysticFlow {
     0% {
