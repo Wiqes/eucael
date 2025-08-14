@@ -48,15 +48,6 @@ form {
   z-index: 1;
 }
 
-// Enhance content visibility with subtle backdrop
-.content-backdrop {
-  background: rgba(21, 21, 23, 0.8);
-  backdrop-filter: blur(5px);
-  border-radius: 8px;
-  padding: 20px;
-  margin: 20px 0;
-}
-
 // Style scrollbar to match the dark theme
 ::-webkit-scrollbar {
   width: 8px;
@@ -81,10 +72,6 @@ form {
   .p-card,
   .p-dialog {
     background: rgba(24, 24, 27, 0.95) !important;
-  }
-
-  .content-backdrop {
-    background: rgba(21, 21, 23, 0.95);
   }
 }
 
@@ -113,56 +100,5 @@ body::before {
 @keyframes fadeInBackground {
   to {
     opacity: 1;
-  }
-}
-
-// Ensure text remains readable
-.text-light {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.text-muted {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-// Utility classes for content over background
-.glass-panel {
-  background: rgba(24, 24, 27, 0.8);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.glass-card {
-  background: rgba(24, 24, 27, 0.6);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-}
-
-// Page container for consistent spacing
-.page-container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-@media (max-width: 768px) {
-  .page-container {
-    padding: 16px;
-  }
-
-  .glass-panel {
-    padding: 20px;
-    border-radius: 8px;
-  }
-
-  .glass-card {
-    padding: 12px;
-    border-radius: 6px;
   }
 }

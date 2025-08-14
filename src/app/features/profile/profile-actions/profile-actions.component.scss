@@ -21,7 +21,14 @@
     overflow: hidden;
 
     &.primary {
-      background: linear-gradient(135deg, #34d399 0%, #34d3cc 100%);
+      background: linear-gradient(
+        135deg,
+        #34d399 0%,
+        #34d3aa 25%,
+        #34d3bb 50%,
+        #34d3aa 75%,
+        #34d399 100%
+      );
       color: #18181b;
       box-shadow: 0 8px 25px rgba(52, 211, 153, 0.3);
 
