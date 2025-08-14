@@ -7,6 +7,10 @@
   border-radius: 50%;
   isolation: isolate;
 
+  .icon-particles {
+    display: block;
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -46,6 +50,10 @@
   &:hover {
     &::before {
       animation: spin 4s linear infinite;
+    }
+
+    .icon-particles {
+      display: block;
     }
   }
 
