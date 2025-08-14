@@ -38,7 +38,7 @@
     border-radius: 50%;
     background: black;
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 1;
     z-index: 2;
   }
 
@@ -48,8 +48,13 @@
   }
 
   &:hover {
+    filter: contrast(1.8);
     &::before {
       animation: spin 4s linear infinite;
+    }
+
+    &::after {
+      opacity: 0.5;
     }
 
     .icon-particles {
@@ -62,8 +67,6 @@
       animation: none;
     }
   }
-
-  filter: brightness(1.2) contrast(1.1);
 
   .icon-wrapper {
     width: 38%;
