@@ -1,0 +1,117 @@
+// Custom PrimeNG Theme - Override primary colors
+// This file customizes the Aura theme to use our custom primary color
+
+:root {
+  // Primary color palette based on #34d3bb
+  --p-primary-50: #ecfdf5;
+  --p-primary-100: #d1fae5;
+  --p-primary-200: #a7f3d0;
+  --p-primary-300: #6ee7b7;
+  --p-primary-400: #34d3bb; // Our custom primary color
+  --p-primary-500: #10b981;
+  --p-primary-600: #059669;
+  --p-primary-700: #047857;
+  --p-primary-800: #065f46;
+  --p-primary-900: #064e3b;
+  --p-primary-950: #022c22;
+
+  // Surface colors for dark mode
+  --p-surface-0: #ffffff;
+  --p-surface-50: #f8fafc;
+  --p-surface-100: #f1f5f9;
+  --p-surface-200: #e2e8f0;
+  --p-surface-300: #cbd5e1;
+  --p-surface-400: #94a3b8;
+  --p-surface-500: #64748b;
+  --p-surface-600: #475569;
+  --p-surface-700: #334155;
+  --p-surface-800: #1e293b;
+  --p-surface-900: #0f172a;
+  --p-surface-950: #020617;
+
+  // Content colors
+  --p-content-border-radius: 6px;
+}
+
+// Dark mode overrides
+.wiqes-app-dark {
+  --p-surface-ground: #18181b;
+  --p-surface-section: #18181b;
+  --p-surface-card: #18181b;
+  --p-surface-overlay: #18181b;
+  --p-surface-border: #52525b;
+  --p-surface-hover: #27272a;
+
+  --p-content-border-color: #52525b;
+  --p-text-color: #ffffff;
+  --p-text-muted-color: #a1a1aa;
+  --p-text-hover-color: #ffffff;
+  --p-text-hover-muted-color: #d4d4d8;
+}
+
+// Specific component customizations
+.p-button {
+  &.p-button-primary {
+    background: var(--p-primary-400);
+    border-color: var(--p-primary-400);
+
+    &:hover {
+      background: var(--p-primary-500);
+      border-color: var(--p-primary-500);
+    }
+
+    &:active {
+      background: var(--p-primary-600);
+      border-color: var(--p-primary-600);
+    }
+  }
+}
+
+.p-inputtext {
+  &:focus {
+    border-color: var(--p-primary-400);
+    box-shadow: 0 0 0 0.2rem rgba(52, 211, 187, 0.2);
+  }
+}
+
+.p-checkbox {
+  .p-checkbox-box {
+    &.p-highlight {
+      background: var(--p-primary-400);
+      border-color: var(--p-primary-400);
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba(52, 211, 187, 0.2);
+    }
+  }
+}
+
+.p-toast {
+  .p-toast-message {
+    &.p-toast-message-success {
+      background: rgba(52, 211, 187, 0.1);
+      border: 1px solid rgba(52, 211, 187, 0.3);
+      color: #34d3bb;
+
+      .p-toast-icon {
+        color: #34d3bb;
+      }
+    }
+  }
+}
+
+.p-progressbar {
+  .p-progressbar-value {
+    background: var(--p-primary-400);
+  }
+}
+
+.p-menu {
+  .p-menuitem {
+    &.p-highlight {
+      background: rgba(52, 211, 187, 0.1);
+      color: #34d3bb;
+    }
+  }
+}
