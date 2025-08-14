@@ -16,5 +16,19 @@
   z-index: 9999;
 }
 
-// Remove the old header styling since we're handling it in the header component itself
-// The header component now handles its own positioning and background
+::ng-deep p-button {
+  flex: 1;
+
+  .p-button {
+    width: 100%;
+    padding: 12px 20px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(52, 211, 187, 0.3);
+    }
+  }
+}
