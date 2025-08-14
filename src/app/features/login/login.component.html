@@ -71,7 +71,7 @@
             icon="pi pi-user"
             type="submit"
             (onClick)="login()"
-            [disabled]="form.invalid || loadingLogin() || loadingRegistration()"
+            [disabled]="loadingLogin() || loadingRegistration()"
             [loading]="loadingLogin()"
           />
           <p-button
