@@ -19,6 +19,30 @@
     box-shadow: 0 0 20px rgba($primary-color, 0.3), 0 0 40px rgba($primary-color, 0.1),
       0 8px 32px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba($primary-color, 0.8),
+        transparent,
+        rgba(#60a5fa, 0.8),
+        transparent,
+        rgba(#a78bfa, 0.8),
+        transparent
+      );
+      background-size: 300% 300%;
+      border-radius: 22px;
+      z-index: -2;
+      opacity: 0.7;
+      filter: blur(1px);
+    }
+
     &:hover {
       transform: translateY(-12px) rotateX(8deg) scale(1.02);
 
@@ -28,6 +52,12 @@
       box-shadow: 0 0 30px rgba($primary-color, 0.6), 0 0 60px rgba($primary-color, 0.3),
         0 0 100px rgba($primary-color, 0.1), 0 20px 60px rgba(0, 0, 0, 0.4),
         inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+
+      &::before {
+        opacity: 1;
+        animation: borderFlow 1.5s linear 0.5;
+        filter: blur(0px);
+      }
 
       .image-overlay {
         opacity: 0.15;
@@ -184,6 +214,25 @@
   }
   100% {
     transform: translateY(-12px) rotateX(8deg) scale(1.02);
+  }
+}
+
+@keyframes borderFlow {
+  0% {
+    background-position: 0% 50%;
+    transform: rotate(0deg);
+  }
+  33% {
+    background-position: 100% 25%;
+    transform: rotate(120deg);
+  }
+  66% {
+    background-position: 0% 75%;
+    transform: rotate(240deg);
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: rotate(360deg);
   }
 }
 
