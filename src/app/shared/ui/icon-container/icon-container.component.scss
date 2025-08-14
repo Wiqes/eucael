@@ -1,10 +1,6 @@
-:host {
-  padding: 40px;
-}
-
 .icon-container {
   position: relative;
-  border-radius: 50%;
+  border-radius: 8px;
   isolation: isolate;
 
   .icon-particles {
@@ -14,8 +10,8 @@
   &::before {
     content: '';
     position: absolute;
-    inset: -64px;
-    border-radius: 50%;
+    inset: -94px;
+    border-radius: 8px;
     background: conic-gradient(
       from 180deg,
       var(--icon-color, #10b981) 0deg,
@@ -27,19 +23,8 @@
       var(--icon-color, #10b981) 360deg
     );
     filter: blur(1px);
-    opacity: 0.5;
+    opacity: 0.3;
     z-index: -1;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 70px;
-    border-radius: 50%;
-    background: black;
-    pointer-events: none;
-    opacity: 1;
-    z-index: 2;
   }
 
   &:active {
@@ -97,15 +82,6 @@ svg {
   }
   to {
     transform: rotate(360deg);
-  }
-}
-
-// Responsive design
-@media (max-width: 768px) {
-  .icon-container {
-    &:hover {
-      transform: scale(1.05) rotate(3deg);
-    }
   }
 }
 

@@ -23,7 +23,7 @@ export class IconContainerComponent {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '240px',
+    height: '342px',
     width: '240px',
     '--icon-color': this.color(),
     position: 'relative',
