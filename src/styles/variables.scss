@@ -186,7 +186,7 @@ $gallery-gap: 1vw;
   }
 
   input.regular-input.ng-valid:focus {
-    border: 1px solid #34d399 !important;
+    border: 1px solid $primary-color !important;
     outline: none;
   }
 

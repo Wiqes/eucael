@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 .profile-header {
   position: relative;
   padding: 2rem 2rem 0;
@@ -109,7 +111,7 @@
           bottom: -10px;
           border: 3px solid transparent;
           border-radius: 50%;
-          background: linear-gradient(45deg, #34d399, #34d3cc, #2dd4bf) border-box;
+          background: $primary-color border-box;
           mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
           mask-composite: exclude;
         }
@@ -149,7 +151,7 @@
         font-size: 1rem;
 
         i {
-          color: #34d399;
+          color: $primary-color;
         }
       }
     }
