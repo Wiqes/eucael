@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 :host {
   display: flex;
   gap: 1rem;
@@ -21,15 +23,8 @@
     overflow: hidden;
 
     &.primary {
-      background: linear-gradient(
-        135deg,
-        #34d399 0%,
-        #34d3aa 25%,
-        #34d3bb 50%,
-        #34d3aa 75%,
-        #34d399 100%
-      );
-      color: #18181b;
+      background: $primary-color;
+      color: $surface-ground;
       box-shadow: 0 8px 25px rgba(52, 211, 153, 0.3);
 
       &:hover {

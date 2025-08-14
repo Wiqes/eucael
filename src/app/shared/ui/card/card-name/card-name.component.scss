@@ -25,8 +25,8 @@
 
   .name-text {
     font-family: 'Cinzel', 'Times New Roman', serif;
-    background: linear-gradient(135deg, #34d399 0%, #22d3ee 100%);
-    color: #000;
+    background: $primary-color;
+    color: $surface-ground;
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 12px;

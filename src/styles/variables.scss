@@ -3,21 +3,14 @@ $surface-border: #dfe7ef;
 $surface-section: #18181b;
 $text-color: white;
 $text-color-secondary: white;
-$primary-color: #34d399;
+$primary-color: #34d3bb;
 $main-black: #3f3f46;
 $red-color: #8b0000;
 $gallery-gap: 1vw;
 
 %text-gradient {
   font-weight: 700;
-  background: linear-gradient(
-    135deg,
-    #34d399 0%,
-    #34d3aa 25%,
-    #34d3bb 50%,
-    #34d3aa 75%,
-    #34d399 100%
-  );
+  background: $primary-color;
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
