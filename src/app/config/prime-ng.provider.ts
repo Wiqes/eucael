@@ -11,7 +11,7 @@ const CustomAura = definePreset(Aura, {
       50: '#ecfdf5',
       100: '#d1fae5',
       200: '#a7f3d0',
-      300: '#6ee7b7',
+      300: '#34f5dd',
       400: '#34d3bb', // Our custom primary color
       500: '#10b981',
       600: '#059669',
