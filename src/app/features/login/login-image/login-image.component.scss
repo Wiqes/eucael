@@ -61,11 +61,13 @@
         .title {
           font-size: 3rem;
         }
-
-        .sub-title {
-          font-size: 1.3rem;
-        }
       }
+    }
+  }
+
+  @media (max-width: 870px) {
+    .image-content {
+      bottom: 188px;
     }
   }
 
@@ -75,32 +77,6 @@
     .image-content {
       padding: 20px;
       bottom: 22px;
-
-      .welcome-text {
-        h1 {
-          font-size: 2.5rem;
-        }
-
-        p {
-          font-size: 1.1rem;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 480px) {
-    flex: 0 0 35vh;
-
-    .image-content {
-      .welcome-text {
-        h1 {
-          font-size: 2rem;
-        }
-
-        p {
-          font-size: 1rem;
-        }
-      }
     }
   }
 }
