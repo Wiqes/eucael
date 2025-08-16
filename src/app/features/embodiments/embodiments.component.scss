@@ -45,12 +45,16 @@
   .totem-switcher {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
     gap: 10px;
+    flex-shrink: 0;
 
     .label {
       font-size: 22px;
-      margin-bottom: 4px;
+      margin-bottom: 0;
       text-align: center;
+      white-space: nowrap;
       @extend %text-gradient;
     }
 
@@ -94,6 +98,18 @@
 @media screen and (max-width: 845px) {
   .embodiments-container {
     max-width: 500px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    gap: 20px;
+
+    .totem-switcher {
+      justify-content: center;
+      width: 100%;
+    }
   }
 }
 
