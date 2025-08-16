@@ -3,7 +3,7 @@
 :host ::ng-deep .p-menu {
   min-width: 175px !important;
   width: auto !important;
-  margin-top: 12px !important;
+  margin-top: 0 !important; /* Remove margin since we're setting explicit position */
 
   .p-menu-item-content:hover {
     color: $primary-color !important;

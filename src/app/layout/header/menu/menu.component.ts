@@ -1,6 +1,7 @@
-import { Component, computed, inject, OnDestroy } from '@angular/core';
+import { Component, computed, inject, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { SkeletonModule } from 'primeng/skeleton';
 import { MenuModule } from 'primeng/menu';
+import { Menu } from 'primeng/menu';
 import { NgIf } from '@angular/common';
 import { ChevronDownIconComponent } from '../../../shared/ui/chevron-down-icon.component';
 import { StateService } from '../../../core/services/state.service';
@@ -15,7 +16,8 @@ import { LoginService } from '../../../core/services/auth/login.service';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
 })
-export class MenuComponent implements OnDestroy {
+export class MenuComponent implements OnDestroy, AfterViewInit {
+  @ViewChild('menu') menu!: Menu;
   private langChangeSub: Subscription;
   private router = inject(Router);
   private stateService = inject(StateService);
@@ -59,5 +61,31 @@ export class MenuComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.langChangeSub.unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    // Override the menu's positioning to ensure it always appears with top: 0 relative to fixed header
+    if (this.menu) {
+      // Store original toggle method
+      const originalToggle = this.menu.toggle.bind(this.menu);
+
+      // Override toggle method to fix positioning after menu opens
+      this.menu.toggle = (event: Event) => {
+        originalToggle(event);
+
+        // Fix positioning after menu is shown
+        setTimeout(() => {
+          const menuElement = document.querySelector('.p-menu') as HTMLElement;
+          if (menuElement && this.menu.visible) {
+            // Force top position to be relative to the fixed header (64px header height)
+            const rect = (event.target as HTMLElement).getBoundingClientRect();
+            menuElement.style.top = '76px'; // Header height (64px) + margin (12px)
+            menuElement.style.position = 'fixed';
+            // Align with the button horizontally
+            menuElement.style.right = '20px'; // Match header padding
+          }
+        }, 0);
+      };
+    }
   }
 }
