@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   height: 342px;
-  width: 240px;
+  width: 228px;
   position: relative;
   border-radius: 20px;
   isolation: isolate;
@@ -65,6 +65,11 @@
     height: 38%;
     z-index: 3;
     filter: drop-shadow(0 0 20px var(--icon-color, #10b981));
+  }
+
+  @media (max-width: 510px) {
+    height: 268px;
+    width: 172px;
   }
 }
 
