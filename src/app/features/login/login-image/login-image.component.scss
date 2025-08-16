@@ -65,6 +65,12 @@
     }
   }
 
+  @media (max-width: 1200px) {
+    .image-content {
+      bottom: 180px;
+    }
+  }
+
   @media (max-width: 870px) {
     .image-content {
       bottom: 204px;
