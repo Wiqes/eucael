@@ -21,5 +21,6 @@ export class IconContainerComponent {
 
   containerStyle = computed(() => ({
     '--icon-color': this.color(),
+    border: `4px solid ${this.color()}`,
   }));
 }
