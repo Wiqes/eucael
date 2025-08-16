@@ -1,7 +1,14 @@
 .icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 342px;
+  width: 240px;
   position: relative;
-  border-radius: 8px;
+  border-radius: 20px;
   isolation: isolate;
+  cursor: pointer;
+  overflow: hidden;
 
   .icon-particles {
     display: none;

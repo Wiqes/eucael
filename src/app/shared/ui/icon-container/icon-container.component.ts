@@ -20,14 +20,6 @@ export class IconContainerComponent {
   });
 
   containerStyle = computed(() => ({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '342px',
-    width: '240px',
     '--icon-color': this.color(),
-    position: 'relative',
-    cursor: 'pointer',
-    overflow: 'hidden',
   }));
 }
