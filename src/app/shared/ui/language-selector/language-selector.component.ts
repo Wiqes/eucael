@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MenuModule } from 'primeng/menu';
+import { Menu, MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { LanguageService } from '../../../core/services/language.service';
@@ -16,6 +16,7 @@ import { Language } from '../../../core/models/language.model';
   styleUrls: ['./language-selector.component.scss'],
 })
 export class LanguageSelectorComponent {
+  @ViewChild('langMenu') menu!: Menu;
   private readonly languageService = inject(LanguageService);
 
   selectedLanguage: string = this.languageService.getCurrentLanguage();
@@ -33,5 +34,22 @@ export class LanguageSelectorComponent {
   onLanguageChange(languageCode: string): void {
     this.selectedLanguage = languageCode;
     this.languageService.setLanguage(languageCode);
+  }
+
+  ngAfterViewInit() {
+    if (this.menu) {
+      const originalToggle = this.menu.toggle.bind(this.menu);
+      this.menu.toggle = (event: Event) => {
+        originalToggle(event);
+        setTimeout(() => {
+          const menuElement = document.querySelector('.p-menu') as HTMLElement;
+          if (menuElement && this.menu.visible) {
+            menuElement.style.top = '76px';
+            menuElement.style.position = 'fixed';
+            menuElement.style.right = '20px';
+          }
+        }, 0);
+      };
+    }
   }
 }
