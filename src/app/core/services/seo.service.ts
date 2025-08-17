@@ -55,11 +55,12 @@ export class SeoService {
 
   getDefaultSeoData(): SeoData {
     return {
-      title: "Don't Age - Collect Shadows, Transform Heroes | Strategy Game by Wiqes",
+      title:
+        'Eucalyptus: Shadow Of Turnskin - Collect Shadows, Transform Heroes | Strategy Game by Wiqes',
       description:
-        "Don't Age is an immersive strategy game where you collect shadows and transform them into rare heroes. Build your extensive hero collection and master the art of strategic gameplay.",
+        'Eucalyptus: Shadow Of Turnskin is an immersive strategy game where you collect shadows and transform them into rare heroes. Build your extensive hero collection and master the art of strategic gameplay.',
       keywords:
-        "Don't Age, strategy game, hero collection, shadows, Wiqes, RPG, gaming, heroes, collection game, strategic gameplay",
+        'Eucalyptus: Shadow Of Turnskin, strategy game, hero collection, shadows, Wiqes, RPG, gaming, heroes, collection game, strategic gameplay',
       image: '/assets/images/og-image.jpg',
       type: 'website',
     };
@@ -72,17 +73,17 @@ export class SeoService {
       case 'home':
         return {
           ...baseData,
-          title: "Don't Age - Home | Collect Shadows & Transform Heroes",
+          title: 'Eucalyptus: Shadow Of Turnskin - Home | Collect Shadows & Transform Heroes',
           description:
-            "Welcome to Don't Age! Start your journey in the ultimate strategy game where shadows become legendary heroes. Join thousands of players building their hero collections.",
+            'Welcome to Eucalyptus: Shadow Of Turnskin! Start your journey in the ultimate strategy game where shadows become legendary heroes. Join thousands of players building their hero collections.',
         };
 
       case 'embodiments':
         return {
           ...baseData,
-          title: "Hero Embodiments | Don't Age - Transform Your Collection",
+          title: 'Hero Embodiments | Eucalyptus: Shadow Of Turnskin - Transform Your Collection',
           description:
-            "Discover all hero embodiments in Don't Age. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.",
+            'Discover all hero embodiments in Eucalyptus: Shadow Of Turnskin. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
           keywords:
             baseData.keywords +
             ', embodiments, hero transformations, rare heroes, character builds',
@@ -91,26 +92,26 @@ export class SeoService {
       case 'admin':
         return {
           ...baseData,
-          title: "Admin Panel | Don't Age Management",
+          title: 'Admin Panel | Eucalyptus: Shadow Of Turnskin Management',
           description:
-            "Administrative interface for Don't Age game management and player oversight.",
+            'Administrative interface for Eucalyptus: Shadow Of Turnskin game management and player oversight.',
         };
 
       case 'profile':
         return {
           ...baseData,
-          title: "Player Profile | Don't Age - Your Hero Collection",
+          title: 'Player Profile | Eucalyptus: Shadow Of Turnskin - Your Hero Collection',
           description:
-            "View your Don't Age player profile, hero collection statistics, and achievement progress.",
+            'View your Eucalyptus: Shadow Of Turnskin player profile, hero collection statistics, and achievement progress.',
           keywords: baseData.keywords + ', player profile, achievements, statistics',
         };
 
       case 'login':
         return {
           ...baseData,
-          title: "Login | Don't Age - Access Your Hero Collection",
+          title: 'Login | Eucalyptus: Shadow Of Turnskin - Access Your Hero Collection',
           description:
-            "Login to Don't Age to access your hero collection, continue your shadow gathering journey, and compete with players worldwide.",
+            'Login to Eucalyptus: Shadow Of Turnskin to access your hero collection, continue your shadow gathering journey, and compete with players worldwide.',
         };
 
       default:
