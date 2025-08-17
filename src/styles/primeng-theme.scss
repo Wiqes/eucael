@@ -2,12 +2,12 @@
 // This file customizes the Aura theme to use our custom primary color
 
 :root {
-  // Primary color palette based on #34d3bb
+  // Primary color palette based on #34d3b6
   --p-primary-50: #ecfdf5;
   --p-primary-100: #d1fae5;
   --p-primary-200: #a7f3d0;
   --p-primary-300: #34d3cc;
-  --p-primary-400: #34d3bb; // Our custom primary color
+  --p-primary-400: #34d3b6; // Our custom primary color
   --p-primary-500: #10b981;
   --p-primary-600: #059669;
   --p-primary-700: #047857;
@@ -70,7 +70,7 @@
 .p-inputtext {
   &:focus {
     border-color: var(--p-primary-400);
-    box-shadow: 0 0 0 0.2rem rgba(52, 211, 187, 0.2);
+    box-shadow: 0 0 0 0.2rem rgba(52, 211, 182, 0.2);
   }
 }
 
@@ -82,7 +82,7 @@
     }
 
     &:focus {
-      box-shadow: 0 0 0 0.2rem rgba(52, 211, 187, 0.2);
+      box-shadow: 0 0 0 0.2rem rgba(52, 211, 182, 0.2);
     }
   }
 }
@@ -90,12 +90,12 @@
 .p-toast {
   .p-toast-message {
     &.p-toast-message-success {
-      background: rgba(52, 211, 187, 0.1);
-      border: 1px solid rgba(52, 211, 187, 0.3);
-      color: #34d3bb;
+      background: rgba(52, 211, 182, 0.1);
+      border: 1px solid rgba(52, 211, 182, 0.3);
+      color: #34d3b6;
 
       .p-toast-icon {
-        color: #34d3bb;
+        color: #34d3b6;
       }
     }
   }
@@ -110,8 +110,8 @@
 .p-menu {
   .p-menuitem {
     &.p-highlight {
-      background: rgba(52, 211, 187, 0.1);
-      color: #34d3bb;
+      background: rgba(52, 211, 182, 0.1);
+      color: #34d3b6;
     }
   }
 }

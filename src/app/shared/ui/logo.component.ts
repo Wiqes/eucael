@@ -220,7 +220,7 @@ M347.500000,96.986824
 z"
       />
       <path
-        fill="#34d3bb"
+        fill="#34d3b6"
         opacity="1.000000"
         stroke="none"
         d="
@@ -404,7 +404,7 @@ M144.990692,83.631416
 z"
       />
       <path
-        fill="#4ED6A0"
+        fill="#34D3B6"
         opacity="1.000000"
         stroke="none"
         d="
@@ -415,7 +415,7 @@ M267.133301,15.034332
 z"
       />
       <path
-        fill="#4ED6A0"
+        fill="#34D3B6"
         opacity="1.000000"
         stroke="none"
         d="
@@ -425,7 +425,7 @@ M265.336578,20.017040
 z"
       />
       <path
-        fill="#90E1BC"
+        fill="#34D3B6"
         opacity="1.000000"
         stroke="none"
         d="

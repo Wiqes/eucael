@@ -213,13 +213,13 @@ export class AvatarUploadDialogComponent {
     ctx.restore();
 
     // Draw crop area border
-    ctx.strokeStyle = '#34D3BB';
+    ctx.strokeStyle = '#34d3b6';
     ctx.lineWidth = 2;
     ctx.strokeRect(this.cropArea.x, this.cropArea.y, this.cropArea.size, this.cropArea.size);
 
     // Draw corner handles
     const handleSize = 8;
-    ctx.fillStyle = '#34D3BB';
+    ctx.fillStyle = '#34d3b6';
 
     // Top-left corner
     ctx.fillRect(

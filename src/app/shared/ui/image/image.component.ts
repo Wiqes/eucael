@@ -120,7 +120,7 @@ export class ImageComponent {
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 4px;
-        color: #34d3bb;
+        color: #34d3b6;
         cursor: pointer;
         font-size: 1.2rem;
         display: flex;
