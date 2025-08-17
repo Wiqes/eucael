@@ -172,5 +172,11 @@
   "Hati": "Hati",
   "Fenrir": "Fenrir",
   "Select Animals": "Select Animals",
-  "Edit Profile": "Edit Profile"
+  "Edit Profile": "Edit Profile",
+  "Upload Avatar": "Upload Avatar",
+  "Drop your image here or click to browse": "Drop your image here or click to browse",
+  "Supported formats: JPG, PNG, WebP (Max 5MB)": "Supported formats: JPG, PNG, WebP (Max 5MB)",
+  "Drag to adjust the crop area. Avatar will be cropped to a square.": "Drag to adjust the crop area. Avatar will be cropped to a square.",
+  "Uploading your avatar...": "Uploading your avatar...",
+  "Cancel": "Cancel"
 }

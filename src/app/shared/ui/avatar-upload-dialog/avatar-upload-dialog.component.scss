@@ -1,0 +1,137 @@
+@use 'variables' as *;
+
+.avatar-upload-content {
+  .upload-section {
+    .file-drop-zone {
+      border: 2px dashed rgba(52, 211, 187, 0.4);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(52, 211, 187, 0.05);
+
+      &:hover {
+        border-color: rgba(52, 211, 187, 0.6);
+        background: rgba(52, 211, 187, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .upload-icon {
+        font-size: 3rem;
+        color: $primary-color;
+        margin-bottom: 1rem;
+      }
+
+      h3 {
+        margin: 1rem 0 0.5rem;
+        color: white;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      &.drag-over {
+        border-color: $primary-color;
+        background: rgba(52, 211, 187, 0.15);
+        transform: scale(1.02);
+      }
+    }
+  }
+
+  .crop-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    .image-preview {
+      position: relative;
+      border: 2px solid rgba(52, 211, 187, 0.3);
+      border-radius: 12px;
+      overflow: hidden;
+
+      canvas {
+        display: block;
+        cursor: crosshair;
+      }
+    }
+
+    .crop-instructions {
+      text-align: center;
+
+      p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .upload-progress {
+    text-align: center;
+    padding: 2rem;
+
+    p {
+      margin: 1rem 0 0;
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  .error-message {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    border-radius: 8px;
+    color: #ff6b7d;
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+// Custom dialog styling
+:host ::ng-deep .p-dialog {
+  .p-dialog-header {
+    background: rgba(24, 24, 27, 0.95);
+    border-bottom: 1px solid rgba(52, 211, 187, 0.2);
+
+    .p-dialog-title {
+      color: white;
+      font-weight: 600;
+    }
+
+    .p-dialog-header-icon {
+      color: rgba(255, 255, 255, 0.7);
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+
+  .p-dialog-content {
+    background: rgba(24, 24, 27, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 2rem;
+  }
+
+  .p-dialog-footer {
+    background: rgba(24, 24, 27, 0.95);
+    border-top: 1px solid rgba(52, 211, 187, 0.2);
+  }
+}

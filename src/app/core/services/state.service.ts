@@ -33,4 +33,18 @@ export class StateService {
       complete: () => this.isDataLoading.set(false),
     });
   }
+
+  updateUserProfile(profileUpdates: Partial<IUser['profile']>) {
+    const currentUser = this.user();
+    if (currentUser && currentUser.profile) {
+      const updatedUser = {
+        ...currentUser,
+        profile: {
+          ...currentUser.profile,
+          ...profileUpdates,
+        },
+      };
+      this.user.set(updatedUser);
+    }
+  }
 }

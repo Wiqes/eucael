@@ -1,3 +1,9 @@
 <div class="button-container">
-  <p-button [label]="'Edit Profile' | translate" icon="pi pi-pencil" />
+  <p-button [label]="'Edit Profile' | translate" icon="pi pi-pencil" (onClick)="onEditProfile()" />
 </div>
+
+<app-avatar-upload-dialog
+  (onUploadSuccess)="onAvatarUploadSuccess($event)"
+  (onUploadError)="onAvatarUploadError($event)"
+  #avatarDialog
+/>
