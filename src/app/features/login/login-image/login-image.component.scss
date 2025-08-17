@@ -49,11 +49,18 @@
     animation: slideInFromLeft 0.8s ease-out;
 
     .welcome-text {
-      font-family: 'Uncial Antiqua', cursive;
+      font-family: 'Cinzel', cursive;
 
       .title {
         font-size: 8.4vw;
         font-weight: 700;
+        @extend %text-animated-gradient;
+      }
+
+      .sub-title {
+        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 300;
         @extend %text-animated-gradient;
       }
 
