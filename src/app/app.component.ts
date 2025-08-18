@@ -6,12 +6,13 @@ import { LanguageService } from './core/services/language.service';
 import { LoginService } from './core/services/auth/login.service';
 import { AuthService } from './core/services/auth/auth.service';
 import { StateService } from './core/services/state.service';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
+import { LoaderComponent } from './shared/ui/loader/loader.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, ToastComponent, NgClass],
+  imports: [RouterOutlet, FormsModule, ToastComponent, NgClass, LoaderComponent, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

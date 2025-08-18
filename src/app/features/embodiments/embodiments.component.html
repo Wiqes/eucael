@@ -1,6 +1,4 @@
-@if(isDataLoading()) {
-<app-loader />
-} @else {
+@if(!isDataLoading()) {
 <div class="filters">
   <p-multiselect
     [options]="animals()"

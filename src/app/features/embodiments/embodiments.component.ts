@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { NgClass } from '@angular/common';
-import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 import { AnimalComponent } from './animal/animal.component';
 import { IAnimal } from '../../core/models/entities/animal.model';
 import { IconService } from '../../core/services/icon.service';
@@ -21,7 +20,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     ToggleSwitch,
     FormsModule,
     NgClass,
-    LoaderComponent,
     AnimalComponent,
     MultiSelectModule,
     CommonModule,
