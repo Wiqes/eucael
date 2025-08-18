@@ -1,6 +1,6 @@
-<app-logo-container />
+<app-logo-container *ngIf="!isDataLoading()" />
 
-<div class="auth-container">
+<div *ngIf="!isDataLoading()" class="auth-container">
   <app-login-image />
 
   <!-- Form Section -->

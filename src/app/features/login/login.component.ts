@@ -17,6 +17,7 @@ import { StateService } from '../../core/services/state.service';
 import { Router } from '@angular/router';
 import { LoginImageComponent } from './login-image/login-image.component';
 import { LogoContainerComponent } from './logo-container/logo-container.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +35,7 @@ import { LogoContainerComponent } from './logo-container/logo-container.componen
     ForgotPasswordButtonComponent,
     LoginImageComponent,
     LogoContainerComponent,
+    NgIf,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
@@ -50,16 +52,12 @@ export class LoginComponent {
   isLoggedIn = computed(() => this.loginService.isLoggedIn());
   user = computed(() => this.stateService.user());
   isDataLoading = computed(() => this.stateService.isDataLoading());
-  isHidden = computed(() => this.user() || this.isDataLoading());
 
   loadingLogin = computed(() => this.authService.isLoadingLogin());
   loadingRegistration = computed(() => this.authService.isLoadingRegistration());
   otpRequested = computed(() => this.authService.isOtpRequested());
   passwordConfirmationRequested = computed(() =>
     this.authService.isPasswordConfirmationRequested(),
-  );
-  isVisible = computed(
-    () => !this.isHidden() && (!this.isLoggedIn() || !this.authService.getStoredToken()),
   );
 
   form = this.formBuilder.group({
