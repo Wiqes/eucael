@@ -100,6 +100,7 @@
     text-align: center;
     color: white;
     max-width: 500px;
+    overflow: hidden;
 
     .display-name {
       font-size: 2.75rem;
@@ -108,6 +109,10 @@
       @extend %text-secondary;
       line-height: 1.2;
       letter-spacing: -0.02em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 100%;
     }
 
     .location {
@@ -118,6 +123,8 @@
       font-size: 1.1rem;
       font-weight: 500;
       padding: 0.5rem 1rem;
+      overflow: hidden;
+      max-width: 100%;
 
       i {
         font-size: 1rem;
@@ -130,6 +137,10 @@
         font-weight: 500;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         letter-spacing: 0.02em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 200px;
       }
     }
   }
@@ -138,26 +149,12 @@
 // Media queries for responsive design
 @media (max-width: 768px) {
   .profile-header {
-    .header-background {
-      padding: 1.5rem;
-      border-radius: 15px;
-    }
-
     .profile-card {
-      .avatar-section .avatar-wrapper .profile-avatar {
-        width: 120px !important;
-        height: 120px !important;
-      }
-
       .profile-info {
+        max-width: 300px;
+
         .display-name {
           font-size: 2.2rem;
-        }
-
-        .location {
-          font-size: 1rem;
-          gap: 0.5rem;
-          padding: 0.4rem 0.8rem;
         }
       }
     }
@@ -166,35 +163,12 @@
 
 @media (max-width: 480px) {
   .profile-header {
-    .header-background {
-      padding: 1rem;
-      border-radius: 12px;
-    }
-
     .profile-card {
-      .avatar-section {
-        margin-bottom: 1.5rem;
-
-        .avatar-wrapper .profile-avatar {
-          width: 100px !important;
-          height: 100px !important;
-        }
-      }
-
       .profile-info {
+        max-width: 200px;
+
         .display-name {
           font-size: 1.8rem;
-        }
-
-        .location {
-          font-size: 0.9rem;
-          flex-direction: column;
-          gap: 0.3rem;
-          padding: 0.5rem;
-
-          i {
-            font-size: 0.9rem;
-          }
         }
       }
     }
