@@ -70,7 +70,7 @@
 .p-inputtext {
   &:focus {
     border-color: var(--p-primary-400);
-    box-shadow: 0 0 0 0.2rem rgba(52, 211, 182, 0.2);
+    box-shadow: 0 0 0 0.2rem rgba(52, 245, 221, 0.2);
   }
 }
 
@@ -82,7 +82,7 @@
     }
 
     &:focus {
-      box-shadow: 0 0 0 0.2rem rgba(52, 211, 182, 0.2);
+      box-shadow: 0 0 0 0.2rem rgba(52, 245, 221, 0.2);
     }
   }
 }
@@ -90,8 +90,8 @@
 .p-toast {
   .p-toast-message {
     &.p-toast-message-success {
-      background: rgba(52, 211, 182, 0.1);
-      border: 1px solid rgba(52, 211, 182, 0.3);
+      background: rgba(52, 245, 221, 0.1);
+      border: 1px solid rgba(52, 245, 221, 0.3);
       color: #34d3b6;
 
       .p-toast-icon {
@@ -110,7 +110,7 @@
 .p-menu {
   .p-menuitem {
     &.p-highlight {
-      background: rgba(52, 211, 182, 0.1);
+      background: rgba(52, 245, 221, 0.1);
       color: #34d3b6;
     }
   }

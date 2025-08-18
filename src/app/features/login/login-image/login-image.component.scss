@@ -54,7 +54,7 @@
       .title {
         font-size: 12vw;
         font-weight: 700;
-        @extend %text-animated-gradient;
+        @extend %text-primary-light;
       }
 
       .sub-title {
@@ -67,8 +67,8 @@
         color: $primary-color-light;
         opacity: 0;
         animation: fadeInUp 1s ease-out 1s forwards;
-        text-shadow: 0 4px 8px rgba(52, 211, 182, 0.3);
-        filter: drop-shadow(0 2px 4px rgba(52, 211, 182, 0.3));
+        text-shadow: 0 4px 8px rgba(52, 245, 221, 0.3);
+        filter: drop-shadow(0 2px 4px rgba(52, 245, 221, 0.3));
       }
     }
   }

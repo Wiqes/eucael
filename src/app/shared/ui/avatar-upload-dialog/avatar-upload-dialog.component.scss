@@ -3,17 +3,17 @@
 .avatar-upload-content {
   .upload-section {
     .file-drop-zone {
-      border: 2px dashed rgba(52, 211, 182, 0.4);
+      border: 2px dashed rgba(52, 245, 221, 0.4);
       border-radius: 12px;
       padding: 3rem 2rem;
       text-align: center;
       cursor: pointer;
       transition: all 0.3s ease;
-      background: rgba(52, 211, 182, 0.05);
+      background: rgba(52, 245, 221, 0.05);
 
       &:hover {
-        border-color: rgba(52, 211, 182, 0.6);
-        background: rgba(52, 211, 182, 0.1);
+        border-color: rgba(52, 245, 221, 0.6);
+        background: rgba(52, 245, 221, 0.1);
         transform: translateY(-2px);
       }
 
@@ -37,7 +37,7 @@
 
       &.drag-over {
         border-color: $primary-color;
-        background: rgba(52, 211, 182, 0.15);
+        background: rgba(52, 245, 221, 0.15);
         transform: scale(1.02);
       }
     }
@@ -51,7 +51,7 @@
 
     .image-preview {
       position: relative;
-      border: 2px solid rgba(52, 211, 182, 0.3);
+      border: 2px solid rgba(52, 245, 221, 0.3);
       border-radius: 12px;
       overflow: hidden;
 
@@ -108,7 +108,7 @@
 :host ::ng-deep .p-dialog {
   .p-dialog-header {
     background: rgba(24, 24, 27, 0.95);
-    border-bottom: 1px solid rgba(52, 211, 182, 0.2);
+    border-bottom: 1px solid rgba(52, 245, 221, 0.2);
 
     .p-dialog-title {
       color: white;
@@ -132,6 +132,6 @@
 
   .p-dialog-footer {
     background: rgba(24, 24, 27, 0.95);
-    border-top: 1px solid rgba(52, 211, 182, 0.2);
+    border-top: 1px solid rgba(52, 245, 221, 0.2);
   }
 }

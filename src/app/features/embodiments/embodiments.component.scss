@@ -55,7 +55,7 @@
       margin-bottom: 0;
       text-align: center;
       white-space: nowrap;
-      @extend %text-gradient;
+      @extend %text-primary-light;
     }
 
     p-toggleswitch {
