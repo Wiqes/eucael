@@ -54,7 +54,7 @@
       .title {
         font-size: 12vw;
         font-weight: 700;
-        @extend %text-animated-gradient;
+        @extend %text-gradient;
       }
 
       .sub-title {
