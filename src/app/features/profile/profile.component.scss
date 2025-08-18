@@ -87,8 +87,8 @@
           h3 {
             margin: 0;
             font-size: 1.3rem;
-            font-weight: 600;
-            color: white;
+            @extend %text-primary;
+            font-weight: 300;
           }
         }
 
