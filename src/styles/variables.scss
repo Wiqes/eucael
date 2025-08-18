@@ -15,6 +15,16 @@ $gallery-gap: 1vw;
   text-shadow: 0 4px 8px rgba(52, 245, 221, 0.3);
 }
 
+%text-secondary {
+  background: white;
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 8px rgba(52, 245, 221, 0.3);
+  filter: drop-shadow(0 2px 4px rgba(52, 245, 221, 0.3));
+}
+
 %auth-base {
   display: flex;
   justify-content: center;
