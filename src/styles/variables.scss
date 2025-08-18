@@ -19,37 +19,6 @@ $gallery-gap: 1vw;
   text-shadow: 0 4px 8px rgba(52, 211, 182, 0.3);
 }
 
-%text-animated-gradient {
-  font-weight: 700;
-  background: linear-gradient(
-    135deg,
-    #34d3b6 0%,
-    #34e4c7 25%,
-    #fff5dd 50%,
-    #34e4c7 75%,
-    #34d3b6 100%
-  );
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  opacity: 0;
-  animation: mysticFlow 6s ease infinite, fadeInUp 1s ease-out 0.6s forwards;
-  text-shadow: 0 4px 8px rgba(52, 211, 182, 0.3);
-  filter: drop-shadow(0 2px 4px rgba(52, 211, 182, 0.3));
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
-
 %auth-base {
   display: flex;
   justify-content: center;
