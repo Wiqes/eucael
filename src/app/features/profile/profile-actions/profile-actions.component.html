@@ -1,5 +1,8 @@
 <div class="button-container">
-  <p-button [label]="'Edit Profile' | translate" icon="pi pi-pencil" (onClick)="onEditProfile()" />
+  <button class="edit-profile-btn" (click)="onEditProfile()" [title]="'Edit Profile' | translate">
+    <i class="pi pi-pencil"></i>
+    <span>{{ 'Edit Profile' | translate }}</span>
+  </button>
 </div>
 
 <app-avatar-upload-dialog
