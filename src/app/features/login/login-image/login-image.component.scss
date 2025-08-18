@@ -75,13 +75,13 @@
 
   @media (max-width: 1200px) {
     .image-content {
-      bottom: 180px;
+      bottom: 144px;
     }
   }
 
   @media (max-width: 870px) {
     .image-content {
-      bottom: 204px;
+      bottom: 144px;
     }
   }
 
@@ -91,19 +91,6 @@
     .image-content {
       padding: 20px;
       bottom: 22px;
-
-      .welcome-text {
-        .title {
-          font-size: 16vw;
-          font-weight: 700;
-        }
-
-        .sub-title {
-          top: -14vw;
-          left: -16vw;
-          font-size: 2vw;
-        }
-      }
     }
   }
 }
