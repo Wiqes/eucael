@@ -1,24 +1,26 @@
 <div class="profile-header">
-  <div class="header-background"></div>
-  <div class="profile-card">
-    <div class="avatar-section">
-      <div class="avatar-wrapper">
-        <p-avatar
-          [image]="photoURL()"
-          size="xlarge"
-          shape="circle"
-          class="profile-avatar"
-        ></p-avatar>
-        <div class="avatar-ring"></div>
-        <div class="status-indicator"></div>
+  <div class="header-background">
+    <app-profile-actions />
+    <div class="profile-card">
+      <div class="avatar-section">
+        <div class="avatar-wrapper">
+          <p-avatar
+            [image]="photoURL()"
+            size="xlarge"
+            shape="circle"
+            class="profile-avatar"
+          ></p-avatar>
+          <div class="avatar-ring"></div>
+          <div class="status-indicator"></div>
+        </div>
       </div>
-    </div>
 
-    <div class="profile-info">
-      <h1 class="display-name">{{ displayName() }}</h1>
-      <div class="location">
-        <i class="pi pi-map-marker"></i>
-        <span class="location">{{ country() || 'Unknown Location' }}</span>
+      <div class="profile-info">
+        <h1 class="display-name">{{ displayName() }}</h1>
+        <div class="location">
+          <i class="pi pi-map-marker"></i>
+          <span class="location">{{ country() || 'Unknown Location' }}</span>
+        </div>
       </div>
     </div>
   </div>

@@ -1,10 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
 import { StateService } from '../../../core/services/state.service';
+import { ProfileActionsComponent } from '../profile-actions/profile-actions.component';
 
 @Component({
   selector: 'app-profile-header',
-  imports: [AvatarModule],
+  imports: [AvatarModule, ProfileActionsComponent],
   templateUrl: './profile-header.component.html',
   styleUrl: './profile-header.component.scss',
 })

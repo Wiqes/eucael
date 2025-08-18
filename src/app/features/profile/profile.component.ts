@@ -2,11 +2,10 @@ import { Component, computed, inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { StateService } from '../../core/services/state.service';
 import { ProfileHeaderComponent } from './profile-header/profile-header.component';
-import { ProfileActionsComponent } from './profile-actions/profile-actions.component';
 
 @Component({
   selector: 'app-profile',
-  imports: [TranslateModule, ProfileHeaderComponent, ProfileActionsComponent],
+  imports: [TranslateModule, ProfileHeaderComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
