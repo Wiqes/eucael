@@ -78,15 +78,15 @@ export class SeoService {
             'Welcome to Euqael: Shadow Of Turnskin! Start your journey in the ultimate strategy game where shadows become legendary Turnskins. Join thousands of players building their hero collections.',
         };
 
-      case 'embodiments':
+      case 'Turnskins':
         return {
           ...baseData,
-          title: 'Hero Embodiments | Euqael: Shadow Of Turnskin - Transform Your Collection',
+          title: 'Hero Turnskins | Euqael: Shadow Of Turnskin - Transform Your Collection',
           description:
-            'Discover all hero embodiments in Euqael: Shadow Of Turnskin. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
+            'Discover all hero Turnskins in Euqael: Shadow Of Turnskin. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
           keywords:
             baseData.keywords +
-            ', embodiments, hero transformations, rare Turnskins, character builds',
+            ', Turnskins, hero transformations, rare Turnskins, character builds',
         };
 
       case 'admin':

@@ -66,7 +66,7 @@
   }
 }
 
-.embodiments-container {
+.Turnskins-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -90,13 +90,13 @@
 }
 
 @media screen and (max-width: 1680px) {
-  .embodiments-container {
+  .Turnskins-container {
     max-width: 1000px;
   }
 }
 
 @media screen and (max-width: 845px) {
-  .embodiments-container {
+  .Turnskins-container {
     max-width: 500px;
   }
 }
@@ -114,7 +114,7 @@
 }
 
 @media screen and (max-width: 502px) {
-  .embodiments-container {
+  .Turnskins-container {
     padding: 10px;
   }
 

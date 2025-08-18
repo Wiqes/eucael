@@ -15,7 +15,7 @@ import { IconService } from '../../core/services/icon.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-embodiments',
+  selector: 'app-Turnskins',
   imports: [
     NgFor,
     ToggleSwitch,
@@ -27,10 +27,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     CommonModule,
     TranslateModule,
   ],
-  templateUrl: './embodiments.component.html',
-  styleUrl: './embodiments.component.scss',
+  templateUrl: './turnskins.component.html',
+  styleUrl: './turnskins.component.scss',
 })
-export class EmbodimentsComponent extends HomeComponent implements OnInit {
+export class TurnskinsComponent extends HomeComponent implements OnInit {
   private readonly stateService = inject(StateService);
   private translate = inject(TranslateService);
   private newLanguageSignal = toSignal(this.translate.onLangChange.asObservable());
@@ -56,7 +56,7 @@ export class EmbodimentsComponent extends HomeComponent implements OnInit {
 
   override ngOnInit(): void {
     super.ngOnInit();
-    // Update SEO metadata for the embodiments page
-    this.seoService.updateSeoData(this.seoService.getPageSeoData('embodiments'));
+    // Update SEO metadata for the Turnskins page
+    this.seoService.updateSeoData(this.seoService.getPageSeoData('Turnskins'));
   }
 }
