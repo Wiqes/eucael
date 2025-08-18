@@ -15,7 +15,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadComponent: () =>
-      import('../features/turnskins/turnskins.component').then((m) => m.TurnskinsComponent),
+      import('../features/embodiments/embodiments.component').then((m) => m.EmbodimentsComponent),
   },
   {
     path: 'profile',
@@ -36,9 +36,9 @@ const routes: Routes = [
     loadComponent: () => import('../features/admin/admin.component').then((m) => m.AdminComponent),
   },
   {
-    path: 'turnskins',
+    path: 'embodiments',
     loadComponent: () =>
-      import('../features/turnskins/turnskins.component').then((m) => m.TurnskinsComponent),
+      import('../features/embodiments/embodiments.component').then((m) => m.EmbodimentsComponent),
   },
 ];
 

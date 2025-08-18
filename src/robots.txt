@@ -10,7 +10,7 @@ Disallow: /api/
 
 # Allow important game content
 Allow: /home
-Allow: /Turnskins
+Allow: /embodiments
 Allow: /login
 Allow: /profile
 

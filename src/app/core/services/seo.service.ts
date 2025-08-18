@@ -58,9 +58,9 @@ export class SeoService {
       title:
         'Euqael: Shadow Of Turnskin - Collect Shadows, Transform Turnskins | Strategy Game by Wiqes',
       description:
-        'Euqael: Shadow Of Turnskin is an immersive strategy game where you collect shadows and transform them into rare Turnskins. Build your extensive Turnskin collection and master the art of strategic gameplay.',
+        'Euqael: Shadow Of Turnskin is an immersive strategy game where you collect shadows and transform them into rare Turnskins. Build your extensive hero collection and master the art of strategic gameplay.',
       keywords:
-        'Euqael: Shadow Of Turnskin, strategy game, Turnskin collection, shadows, Wiqes, RPG, gaming, Turnskins, collection game, strategic gameplay',
+        'Euqael: Shadow Of Turnskin, strategy game, hero collection, shadows, Wiqes, RPG, gaming, Turnskins, collection game, strategic gameplay',
       image: '/assets/images/og-image.jpg',
       type: 'website',
     };
@@ -75,18 +75,18 @@ export class SeoService {
           ...baseData,
           title: 'Euqael: Shadow Of Turnskin - Home | Collect Shadows & Transform Turnskins',
           description:
-            'Welcome to Euqael: Shadow Of Turnskin! Start your journey in the ultimate strategy game where shadows become legendary Turnskins. Join thousands of players building their Turnskin collections.',
+            'Welcome to Euqael: Shadow Of Turnskin! Start your journey in the ultimate strategy game where shadows become legendary Turnskins. Join thousands of players building their hero collections.',
         };
 
-      case 'Turnskins':
+      case 'embodiments':
         return {
           ...baseData,
-          title: 'Turnskins | Euqael: Shadow Of Turnskin - Transform Your Collection',
+          title: 'Hero Embodiments | Euqael: Shadow Of Turnskin - Transform Your Collection',
           description:
-            'Discover all Turnskins in Euqael: Shadow Of Turnskin. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
+            'Discover all hero embodiments in Euqael: Shadow Of Turnskin. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
           keywords:
             baseData.keywords +
-            ', Turnskins, Turnskin transformations, rare Turnskins, character builds',
+            ', embodiments, hero transformations, rare Turnskins, character builds',
         };
 
       case 'admin':
@@ -100,18 +100,18 @@ export class SeoService {
       case 'profile':
         return {
           ...baseData,
-          title: 'Player Profile | Euqael: Shadow Of Turnskin - Your Turnskin Collection',
+          title: 'Player Profile | Euqael: Shadow Of Turnskin - Your Hero Collection',
           description:
-            'View your Euqael: Shadow Of Turnskin player profile, Turnskin collection statistics, and achievement progress.',
+            'View your Euqael: Shadow Of Turnskin player profile, hero collection statistics, and achievement progress.',
           keywords: baseData.keywords + ', player profile, achievements, statistics',
         };
 
       case 'login':
         return {
           ...baseData,
-          title: 'Login | Euqael: Shadow Of Turnskin - Access Your Turnskin Collection',
+          title: 'Login | Euqael: Shadow Of Turnskin - Access Your Hero Collection',
           description:
-            'Login to Euqael: Shadow Of Turnskin to access your Turnskin collection, continue your shadow gathering journey, and compete with players worldwide.',
+            'Login to Euqael: Shadow Of Turnskin to access your hero collection, continue your shadow gathering journey, and compete with players worldwide.',
         };
 
       default:

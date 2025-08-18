@@ -44,8 +44,8 @@ export class MenuComponent implements OnDestroy, AfterViewInit {
       },
       {
         icon: 'pi pi-prime',
-        label: this.translate.instant('Turnskins'),
-        command: () => this.router.navigate(['/turnskins']),
+        label: this.translate.instant('Embodiments'),
+        command: () => this.router.navigate(['/embodiments']),
       },
       {
         icon: 'pi pi-sign-out',
