@@ -25,9 +25,9 @@
 
   .name-text {
     font-size: 12px;
-    font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     @extend %text-primary;
+    font-weight: 900 !important;
   }
 }
