@@ -3,7 +3,7 @@
   @if(isLoggedIn() || authService.getStoredToken()) {
   <router-outlet name="header"></router-outlet>
   }
-  <main class="main-content" [ngClass]="{ 'loading-overlay': isDataLoading }">
+  <main class="main-content" [ngClass]="{ 'loading-overlay': isDataLoading() }">
     <router-outlet />
   </main>
 </div>
