@@ -1,7 +1,7 @@
 @use 'variables' as *;
 
 .profile-header {
-  padding-top: 60px;
+  padding: 60px 60px 0 60px;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -128,8 +128,8 @@
 
       i {
         font-size: 1rem;
-        color: $primary-color;
-        filter: drop-shadow(0 0 4px rgba(52, 245, 221, 0.5));
+        color: white;
+        filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.3));
       }
 
       .location-text {

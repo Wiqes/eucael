@@ -1,5 +1,21 @@
 @use 'variables' as *;
 
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.95;
+  background: radial-gradient(circle, rgba(52, 245, 221, 0.1) 0%, transparent 70%),
+    linear-gradient(135deg, rgba(24, 24, 27, 0.9) 0%, rgba(24, 24, 27, 0.95) 100%);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .profile-container {
   min-height: 100vh;
   position: relative;
@@ -19,7 +35,7 @@
   }
 
   .profile-content {
-    padding: 3rem 2rem 2rem;
+    padding: 0 2rem;
     position: relative;
     z-index: 1;
 
@@ -87,6 +103,7 @@
           .info-item {
             display: flex;
             justify-content: space-between;
+            gap: 22px;
             align-items: center;
             padding: 1rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -105,39 +122,13 @@
               color: white;
             }
           }
-
-          .stat-item {
-            text-align: center;
-            padding: 1rem 0;
-
-            .stat-value {
-              font-size: 2.5rem;
-              @extend %text-primary;
-              margin-bottom: 0.5rem;
-            }
-
-            .stat-label {
-              color: rgba(255, 255, 255, 0.7);
-              font-size: 0.9rem;
-              text-transform: uppercase;
-              letter-spacing: 0.5px;
-            }
-          }
         }
-      }
-
-      .account-stats .card-content {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
       }
     }
   }
 
   @media (max-width: 768px) {
     .profile-content {
-      padding: 2rem 1rem;
-
       .info-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;

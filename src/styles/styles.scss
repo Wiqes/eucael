@@ -256,19 +256,7 @@ body {
 
 // Spectacular loading state
 .loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.95;
-  background: radial-gradient(circle, rgba(52, 245, 221, 0.1) 0%, transparent 70%),
-    linear-gradient(135deg, rgba(24, 24, 27, 0.9) 0%, rgba(24, 24, 27, 0.95) 100%);
-  backdrop-filter: blur(10px);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @extend %blured-overlay;
 }
 
 // Media queries for responsive spectacular effects
