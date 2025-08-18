@@ -21,7 +21,14 @@ $gallery-gap: 1vw;
 
 %text-animated-gradient {
   font-weight: 700;
-  background: $primary-color;
+  background: linear-gradient(
+    135deg,
+    #34d3b6 0%,
+    #34e4c7 25%,
+    #fff5dd 50%,
+    #34e4c7 75%,
+    #34d3b6 100%
+  );
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
