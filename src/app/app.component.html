@@ -1,5 +1,5 @@
 <div class="app-container" [ngClass]="{ 'loading-overlay': isDataLoading() }">
-  <app-toast />
+  <app-toast position="top-center" />
   <app-loader *ngIf="isDataLoading()" />
   @if(isLoggedIn() || authService.getStoredToken()) {
   <router-outlet name="header"></router-outlet>
