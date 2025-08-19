@@ -1,6 +1,7 @@
 @use 'variables' as *;
 
 .avatar-upload-content {
+  margin-top: 2px;
   .upload-section {
     .file-drop-zone {
       border: 2px dashed rgba(52, 245, 221, 0.4);
