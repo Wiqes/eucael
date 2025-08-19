@@ -172,16 +172,18 @@
         flex-direction: column;
         align-items: center;
 
-        label {
-          display: none;
-        }
-
         .crop-controls {
           flex-direction: row;
-          gap: 2rem;
-          align-items: center;
+          gap: 4px;
+          align-items: flex-start;
           justify-content: center;
           width: 100%;
+          flex-wrap: wrap-reverse;
+
+          .zoom-controls,
+          .reset-controls {
+            width: 40%;
+          }
         }
       }
     }
@@ -211,6 +213,10 @@
           border-radius: 6px;
           border: 1px solid rgba(52, 245, 221, 0.1);
         }
+      }
+
+      @media (max-width: 768px) {
+        display: none;
       }
     }
 
