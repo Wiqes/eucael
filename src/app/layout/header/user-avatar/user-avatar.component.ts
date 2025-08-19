@@ -12,6 +12,6 @@ import { StateService } from '../../../core/services/state.service';
 })
 export class UserAvatarComponent {
   private stateService = inject(StateService);
-  photoURL = computed(() => this.stateService.user()?.photoURL || '');
+  photoURL = computed(() => this.stateService.profile()?.avatarUrl || '');
   isDataLoading = computed(() => this.stateService.isDataLoading());
 }

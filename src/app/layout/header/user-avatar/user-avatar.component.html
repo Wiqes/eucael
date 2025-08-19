@@ -4,6 +4,7 @@
 <ng-template #userAvatar>
   <p-avatar
     icon="pi pi-user"
+    shape="circle"
     [image]="photoURL() || undefined"
     [icon]="!photoURL() ? 'pi pi-user' : undefined"
   />
