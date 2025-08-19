@@ -53,7 +53,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "链接已发送",
         "detail": "密码重置链接已发送到您的邮箱地址。"
       },

@@ -26,6 +26,7 @@ export class ProfileActionsComponent {
       severity: 'success',
       summary: 'Profile Updated',
       detail: message,
+      life: 7000,
     });
   }
 

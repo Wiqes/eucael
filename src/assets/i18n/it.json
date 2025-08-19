@@ -91,7 +91,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "Link inviato",
         "detail": "Un link per reimpostare la password è stato inviato al tuo indirizzo email."
       },

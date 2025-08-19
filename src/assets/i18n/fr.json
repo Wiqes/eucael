@@ -91,7 +91,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "Lien envoyé",
         "detail": "Un lien de réinitialisation du mot de passe a été envoyé à votre adresse e-mail."
       },

@@ -91,7 +91,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "Link gesendet",
         "detail": "Ein Link zum Zurücksetzen des Passworts wurde an Ihre E-Mail-Adresse gesendet."
       },

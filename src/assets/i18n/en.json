@@ -53,7 +53,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "Link Sent",
         "detail": "A password reset link has been sent to your email address."
       },

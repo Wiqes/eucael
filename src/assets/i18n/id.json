@@ -53,7 +53,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "Tautan Terkirim",
         "detail": "Tautan reset kata sandi telah dikirim ke alamat email Anda."
       },

@@ -53,7 +53,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "Link Enviado",
         "detail": "Um link de redefinição de senha foi enviado para o seu endereço de e-mail."
       },

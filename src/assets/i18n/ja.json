@@ -53,7 +53,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "リンク送信済み",
         "detail": "パスワードリセットリンクがメールアドレスに送信されました。"
       },

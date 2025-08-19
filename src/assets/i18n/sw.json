@@ -53,7 +53,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "Kiungo Kimetumwa",
         "detail": "Kiungo cha kubadili nywila kimetumwa kwenye anuani yako ya barua pepe."
       },

@@ -53,7 +53,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "Liên kết đã được gửi",
         "detail": "Liên kết đặt lại mật khẩu đã được gửi đến địa chỉ email của bạn."
       },

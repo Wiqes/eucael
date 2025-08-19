@@ -43,9 +43,9 @@ export const MESSAGES = {
     detail: 'messages.password.mismatch.detail',
   },
   FORGOT_PASSWORD_INFO: {
-    severity: 'info',
-    summary: 'messages.forgotPassword.info.summary',
-    detail: 'messages.forgotPassword.info.detail',
+    severity: 'success',
+    summary: 'messages.forgotPassword.success.summary',
+    detail: 'messages.forgotPassword.success.detail',
     life: 7000,
   },
   FORGOT_PASSWORD_ERROR: {

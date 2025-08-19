@@ -359,11 +359,6 @@ export class AvatarUploadDialogComponent {
               this.stateService.updateUserProfile({ avatarUrl: event.publicUrl });
             }
 
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Avatar uploaded successfully!',
-            });
             this.onUploadSuccess.emit('Avatar uploaded successfully');
             this.hide();
           }
@@ -372,11 +367,6 @@ export class AvatarUploadDialogComponent {
           console.error('Upload error:', error);
           const errorMsg = error.error?.message || 'Failed to upload avatar. Please try again.';
           this.errorMessage.set(errorMsg);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Upload Failed',
-            detail: errorMsg,
-          });
           this.onUploadError.emit(errorMsg);
         },
         complete: () => {

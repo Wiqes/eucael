@@ -53,7 +53,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "Bağlantı Gönderildi",
         "detail": "E-posta adresinize şifre sıfırlama bağlantısı gönderildi."
       },

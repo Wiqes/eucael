@@ -53,7 +53,7 @@
       }
     },
     "forgotPassword": {
-      "info": {
+      "success": {
         "summary": "Enlace Enviado",
         "detail": "Se ha enviado un enlace de restablecimiento de contraseña a tu dirección de correo electrónico."
       },
