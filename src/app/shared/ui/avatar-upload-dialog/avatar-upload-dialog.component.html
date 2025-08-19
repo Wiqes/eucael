@@ -3,11 +3,13 @@
   [modal]="true"
   [visible]="visible()"
   [closable]="true"
+  [closeOnEscape]="true"
   [draggable]="false"
   [resizable]="false"
   [style]="{ width: '450px', maxWidth: '90vw' }"
   [appendTo]="'body'"
   (onHide)="onDialogClose()"
+  (visibleChange)="visible.set($event)"
 >
   <div class="avatar-upload-content">
     <!-- File Input Section -->
