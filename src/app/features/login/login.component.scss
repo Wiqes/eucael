@@ -180,3 +180,7 @@
   padding-block: 2px !important;
   padding-inline: 8px !important;
 }
+
+:host ::ng-deep p-button {
+  flex: 1;
+}

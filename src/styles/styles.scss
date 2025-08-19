@@ -222,11 +222,6 @@ form {
   box-shadow: 0 8px 24px rgba(52, 245, 221, 0.3), 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.p-inputtext:focus,
-.p-dropdown:focus {
-  box-shadow: 0 0 0 2px rgba(52, 245, 221, 0.3), 0 4px 16px rgba(52, 245, 221, 0.15);
-}
-
 // Enhanced text rendering
 body {
   text-rendering: optimizeLegibility;
@@ -245,13 +240,6 @@ body {
   background: rgba(52, 245, 221, 0.3);
   color: white;
   text-shadow: 0 0 8px rgba(52, 245, 221, 0.5);
-}
-
-// Enhanced focus states for accessibility and beauty
-*:focus {
-  outline: 2px solid rgba(52, 245, 221, 0.6);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(52, 245, 221, 0.2);
 }
 
 // Spectacular loading state

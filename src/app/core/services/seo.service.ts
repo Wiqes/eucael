@@ -56,11 +56,11 @@ export class SeoService {
   getDefaultSeoData(): SeoData {
     return {
       title:
-        'Euqael: Shadow Of Turnskin - Collect Shadows, Transform Turnskins | Strategy Game by Wiqes',
+        'Eucael: Shadow Of Turnskin - Collect Shadows, Transform Turnskins | Strategy Game by Wiqes',
       description:
-        'Euqael: Shadow Of Turnskin is an immersive strategy game where you collect shadows and transform them into rare Turnskins. Build your extensive Turnskin collection and master the art of strategic gameplay.',
+        'Eucael: Shadow Of Turnskin is an immersive strategy game where you collect shadows and transform them into rare Turnskins. Build your extensive Turnskin collection and master the art of strategic gameplay.',
       keywords:
-        'Euqael: Shadow Of Turnskin, strategy game, Turnskin collection, shadows, Wiqes, RPG, gaming, Turnskins, collection game, strategic gameplay',
+        'Eucael: Shadow Of Turnskin, strategy game, Turnskin collection, shadows, Wiqes, RPG, gaming, Turnskins, collection game, strategic gameplay',
       image: '/assets/images/og-image.jpg',
       type: 'website',
     };
@@ -73,17 +73,17 @@ export class SeoService {
       case 'home':
         return {
           ...baseData,
-          title: 'Euqael: Shadow Of Turnskin - Home | Collect Shadows & Transform Turnskins',
+          title: 'Eucael: Shadow Of Turnskin - Home | Collect Shadows & Transform Turnskins',
           description:
-            'Welcome to Euqael: Shadow Of Turnskin! Start your journey in the ultimate strategy game where shadows become legendary Turnskins. Join thousands of players building their Turnskin collections.',
+            'Welcome to Eucael: Shadow Of Turnskin! Start your journey in the ultimate strategy game where shadows become legendary Turnskins. Join thousands of players building their Turnskin collections.',
         };
 
       case 'embodiments':
         return {
           ...baseData,
-          title: 'Turnskin Embodiments | Euqael: Shadow Of Turnskin - Transform Your Collection',
+          title: 'Turnskin Embodiments | Eucael: Shadow Of Turnskin - Transform Your Collection',
           description:
-            'Discover all Turnskin embodiments in Euqael: Shadow Of Turnskin. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
+            'Discover all Turnskin embodiments in Eucael: Shadow Of Turnskin. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
           keywords:
             baseData.keywords +
             ', embodiments, Turnskin transformations, rare Turnskins, character builds',
@@ -92,26 +92,26 @@ export class SeoService {
       case 'admin':
         return {
           ...baseData,
-          title: 'Admin Panel | Euqael: Shadow Of Turnskin Management',
+          title: 'Admin Panel | Eucael: Shadow Of Turnskin Management',
           description:
-            'Administrative interface for Euqael: Shadow Of Turnskin game management and player oversight.',
+            'Administrative interface for Eucael: Shadow Of Turnskin game management and player oversight.',
         };
 
       case 'profile':
         return {
           ...baseData,
-          title: 'Player Profile | Euqael: Shadow Of Turnskin - Your Turnskin Collection',
+          title: 'Player Profile | Eucael: Shadow Of Turnskin - Your Turnskin Collection',
           description:
-            'View your Euqael: Shadow Of Turnskin player profile, Turnskin collection statistics, and achievement progress.',
+            'View your Eucael: Shadow Of Turnskin player profile, Turnskin collection statistics, and achievement progress.',
           keywords: baseData.keywords + ', player profile, achievements, statistics',
         };
 
       case 'login':
         return {
           ...baseData,
-          title: 'Login | Euqael: Shadow Of Turnskin - Access Your Turnskin Collection',
+          title: 'Login | Eucael: Shadow Of Turnskin - Access Your Turnskin Collection',
           description:
-            'Login to Euqael: Shadow Of Turnskin to access your Turnskin collection, continue your shadow gathering journey, and compete with players worldwide.',
+            'Login to Eucael: Shadow Of Turnskin to access your Turnskin collection, continue your shadow gathering journey, and compete with players worldwide.',
         };
 
       default:
