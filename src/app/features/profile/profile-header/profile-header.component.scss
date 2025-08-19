@@ -155,42 +155,12 @@
       .profile-avatar {
         width: 140px !important;
         height: 140px !important;
-        border: 4px solid rgba(255, 255, 255, 0.9);
+        border: 4px solid rgba(52, 245, 221, 0.6);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(52, 245, 221, 0.2);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
-        z-index: 2;
-        opacity: 1;
-        visibility: visible;
-
-        // Firefox-specific fixes
-        @-moz-document url-prefix() {
-          border-radius: 50%;
-          overflow: hidden;
-        }
-      }
-
-      .avatar-ring {
-        position: absolute;
-        top: -12px;
-        left: -12px;
-        right: -12px;
-        bottom: -12px;
-        border: 2px solid transparent;
-        border-radius: 50%;
-        z-index: 1;
-
-        // Modern mask approach with Firefox fallback
-        background: linear-gradient(45deg, $primary-color, rgba(52, 245, 221, 0.6));
-        mask: radial-gradient(circle, transparent 50px, black 52px);
-        -webkit-mask: radial-gradient(circle, transparent 50px, black 52px);
-
-        // Firefox fallback - simple border approach
-        @supports not (mask: radial-gradient(circle, transparent 50px, black 52px)) {
-          background: transparent;
-          border: 2px solid $primary-color;
-          opacity: 0.6;
-        }
+        isolation: isolate;
+        transform: translateZ(2px);
       }
     }
   }
