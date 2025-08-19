@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IUploadAvatarRequest, PresignedUrlResponse } from '../models/api-requests.model';
-import { environment } from '../../../environments/environment.prod';
 import { Observable, switchMap, map } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
