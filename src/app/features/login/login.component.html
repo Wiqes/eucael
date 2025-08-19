@@ -78,7 +78,7 @@
             [label]="'Sign Up' | translate"
             icon="pi pi-user-plus"
             (onClick)="requestPasswordConfirmation()"
-            [disabled]="form.invalid || loadingLogin() || loadingRegistration()"
+            [disabled]="loadingLogin() || loadingRegistration()"
             [loading]="loadingRegistration()"
             severity="secondary"
           />
