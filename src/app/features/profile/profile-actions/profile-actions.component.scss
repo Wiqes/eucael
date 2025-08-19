@@ -33,6 +33,11 @@
     box-shadow: 0 5px 15px rgba(52, 245, 221, 0.2);
   }
 
+  &:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: none;
+  }
+
   i {
     font-size: 1rem;
     color: $primary-color;
