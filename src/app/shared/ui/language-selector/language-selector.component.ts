@@ -42,7 +42,7 @@ export class LanguageSelectorComponent {
       this.langMenu.toggle = (event: Event) => {
         originalToggle(event);
         setTimeout(() => {
-          const menuElement = document.querySelector('.p-menu') as HTMLElement;
+          const menuElement = document.querySelector('.p-menu.language-menu') as HTMLElement;
           if (menuElement && this.langMenu.visible) {
             menuElement.style.top = '76px';
             menuElement.style.position = 'fixed';

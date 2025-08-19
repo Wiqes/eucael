@@ -69,7 +69,7 @@ export class MenuComponent implements OnDestroy, AfterViewInit {
       this.menu.toggle = (event: Event) => {
         originalToggle(event);
         setTimeout(() => {
-          const menuElement = document.querySelector('.p-menu') as HTMLElement;
+          const menuElement = document.querySelector('.p-menu.user-menu') as HTMLElement;
           if (menuElement && this.menu.visible) {
             menuElement.style.top = '76px';
             menuElement.style.position = 'fixed';

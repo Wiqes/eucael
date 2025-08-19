@@ -1,4 +1,4 @@
-<p-menu #menu [model]="items" [popup]="true"></p-menu>
+<p-menu #menu [model]="items" [popup]="true" styleClass="user-menu"></p-menu>
 <div class="menu" (click)="menu.toggle($event)">
   <ng-container *ngIf="displayName(); else loadingName">
     <div class="label">{{ displayName() }}</div>
