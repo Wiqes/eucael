@@ -176,20 +176,6 @@
   }
 }
 
-// Custom PrimeNG button overrides
-:host ::ng-deep .p-button {
-  &.p-button-secondary {
-    background: transparent !important;
-    border: 2px solid rgba(255, 255, 255, 0.3) !important;
-    color: white !important;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.1) !important;
-      border-color: rgba(255, 255, 255, 0.5) !important;
-    }
-  }
-}
-
 :host ::ng-deep .forgot-password-button .p-button {
   padding-block: 2px !important;
   padding-inline: 8px !important;
