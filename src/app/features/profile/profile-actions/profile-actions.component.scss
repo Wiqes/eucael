@@ -1,20 +1,17 @@
 @use 'variables' as *;
 
 :host {
-  display: flex !important;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   padding-top: 20px;
-  visibility: visible;
-  z-index: 3;
 }
 
 .button-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  visibility: visible;
 }
 
 .edit-profile-btn {
@@ -26,35 +23,14 @@
   border-radius: 25px;
   background: rgba(52, 245, 221, 0.1);
   backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(52, 245, 221, 0.2);
   cursor: pointer;
   transition: all 0.3s ease;
-
-  // Firefox fallback - solid background when backdrop-filter not supported
-  @supports not (backdrop-filter: blur(5px)) {
-    background: rgba(24, 24, 27, 0.8);
-    border: 1px solid rgba(52, 245, 221, 0.4);
-  }
-
-  // Mozilla-specific fixes
-  @-moz-document url-prefix() {
-    opacity: 1;
-    visibility: visible;
-    display: flex !important;
-    transform: translateZ(0);
-  }
 
   &:hover {
     background: rgba(52, 245, 221, 0.15);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(52, 245, 221, 0.2);
-
-    // Firefox fallback for hover
-    @supports not (backdrop-filter: blur(5px)) {
-      background: rgba(24, 24, 27, 0.9);
-      border-color: rgba(52, 245, 221, 0.6);
-    }
   }
 
   &:active {
@@ -66,10 +42,6 @@
     font-size: 1rem;
     color: $primary-color;
     filter: drop-shadow(0 0 4px rgba(52, 245, 221, 0.5));
-    // Firefox fallback for filter
-    @supports not (filter: drop-shadow(0 0 4px rgba(52, 245, 221, 0.5))) {
-      text-shadow: 0 0 4px rgba(52, 245, 221, 0.5);
-    }
   }
 
   span {
