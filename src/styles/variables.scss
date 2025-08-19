@@ -31,6 +31,12 @@ $gallery-gap: 1vw;
   text-shadow: 0 4px 8px rgba(52, 245, 221, 0.3);
 }
 
+%text-small-primary {
+  color: $primary-color;
+  font-weight: 400;
+  text-shadow: 0 2px 4px rgba(52, 245, 221, 0.3);
+}
+
 %text-secondary {
   background: white;
   background-size: 200% 200%;

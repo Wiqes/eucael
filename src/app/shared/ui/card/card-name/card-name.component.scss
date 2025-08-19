@@ -27,7 +27,7 @@
     font-size: 18px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    @extend %text-primary;
+    @extend %text-small-primary;
     font-weight: 900 !important;
 
     // Ellipsis styling
