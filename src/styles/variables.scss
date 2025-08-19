@@ -23,6 +23,7 @@ $gallery-gap: 1vw;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 %text-primary {
