@@ -44,7 +44,7 @@ export class AvatarUploadDialogComponent {
 
   // Canvas for image cropping
   cropCanvas = viewChild<ElementRef<HTMLCanvasElement>>('cropCanvas');
-  cropCanvasSize = 350;
+  cropCanvasSize = 280;
 
   // Crop state
   private sourceImage: HTMLImageElement | null = null;
