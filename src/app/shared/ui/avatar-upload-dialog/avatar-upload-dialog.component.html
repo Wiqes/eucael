@@ -6,7 +6,7 @@
   [closeOnEscape]="true"
   [draggable]="false"
   [resizable]="false"
-  [style]="{ width: '450px', maxWidth: '90vw' }"
+  [style]="{ width: '600px', maxWidth: '95vw' }"
   [appendTo]="'body'"
   (onHide)="onDialogClose()"
   (visibleChange)="visible.set($event)"
@@ -40,20 +40,80 @@
     <!-- Image Preview and Crop Section -->
     @if (selectedFile() && !isUploading()) {
     <div class="crop-section">
-      <div class="image-preview">
-        <canvas
-          #cropCanvas
-          [width]="cropCanvasSize"
-          [height]="cropCanvasSize"
-          (mousedown)="startCrop($event)"
-          (mousemove)="updateCrop($event)"
-          (mouseup)="endCrop()"
-          (mouseleave)="endCrop()"
-        ></canvas>
+      <div class="crop-container">
+        <div class="image-preview">
+          <canvas
+            #cropCanvas
+            [width]="cropCanvasSize"
+            [height]="cropCanvasSize"
+            [style.cursor]="currentCursor()"
+            (mousedown)="onMouseDown($event)"
+            (mousemove)="onMouseMove($event)"
+            (mouseup)="onMouseUp()"
+            (mouseleave)="onMouseLeave()"
+            (wheel)="onWheel($event)"
+            (touchstart)="onTouchStart($event)"
+            (touchmove)="onTouchMove($event)"
+            (touchend)="onTouchEnd($event)"
+          ></canvas>
+        </div>
+
+        <div class="crop-controls">
+          <div class="zoom-controls">
+            <label>{{ 'Zoom' | translate }}</label>
+            <div class="zoom-buttons">
+              <p-button
+                icon="pi pi-minus"
+                size="small"
+                severity="secondary"
+                [disabled]="zoom <= 0.5"
+                (onClick)="adjustZoom(-0.2)"
+              />
+              <span class="zoom-level">{{ zoom * 100 | number : '1.0-0' }}%</span>
+              <p-button
+                icon="pi pi-plus"
+                size="small"
+                severity="secondary"
+                [disabled]="zoom >= 3"
+                (onClick)="adjustZoom(0.2)"
+              />
+            </div>
+          </div>
+
+          <div class="reset-controls">
+            <p-button
+              [label]="'Reset Crop' | translate"
+              icon="pi pi-refresh"
+              size="small"
+              severity="secondary"
+              (onClick)="resetCrop()"
+            />
+          </div>
+
+          @if (previewImage()) {
+          <div class="crop-preview">
+            <label>{{ 'Preview' | translate }}</label>
+            <div class="preview-container">
+              <img [src]="previewImage()" alt="Preview" class="preview-image" />
+            </div>
+          </div>
+          }
+        </div>
       </div>
 
       <div class="crop-instructions">
-        <p>{{ 'Drag to adjust the crop area. Avatar will be cropped to a square.' | translate }}</p>
+        <p>
+          {{
+            'Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.'
+              | translate
+          }}
+        </p>
+        <p class="crop-hint">
+          {{ 'The image will be cropped to a square for your avatar.' | translate }}
+        </p>
+        <p class="keyboard-shortcuts">
+          {{ 'Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset' | translate }}
+        </p>
       </div>
     </div>
     }
