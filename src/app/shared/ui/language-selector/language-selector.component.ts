@@ -16,7 +16,7 @@ import { Language } from '../../../core/models/language.model';
   styleUrls: ['./language-selector.component.scss'],
 })
 export class LanguageSelectorComponent {
-  @ViewChild('langMenu') menu!: Menu;
+  @ViewChild('langMenu') langMenu!: Menu;
   private readonly languageService = inject(LanguageService);
 
   selectedLanguage: string = this.languageService.getCurrentLanguage();
@@ -37,13 +37,13 @@ export class LanguageSelectorComponent {
   }
 
   ngAfterViewInit() {
-    if (this.menu) {
-      const originalToggle = this.menu.toggle.bind(this.menu);
-      this.menu.toggle = (event: Event) => {
+    if (this.langMenu) {
+      const originalToggle = this.langMenu.toggle.bind(this.langMenu);
+      this.langMenu.toggle = (event: Event) => {
         originalToggle(event);
         setTimeout(() => {
           const menuElement = document.querySelector('.p-menu') as HTMLElement;
-          if (menuElement && this.menu.visible) {
+          if (menuElement && this.langMenu.visible) {
             menuElement.style.top = '76px';
             menuElement.style.position = 'fixed';
             menuElement.style.right = '20px';
