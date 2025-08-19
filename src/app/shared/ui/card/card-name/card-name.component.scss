@@ -29,5 +29,15 @@
     letter-spacing: 0.5px;
     @extend %text-primary;
     font-weight: 900 !important;
+
+    // Ellipsis styling
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 190px;
+
+    @media (max-width: 520px) {
+      max-width: 150px;
+    }
   }
 }
