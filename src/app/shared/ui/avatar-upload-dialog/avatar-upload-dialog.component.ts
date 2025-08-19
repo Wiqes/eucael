@@ -303,14 +303,31 @@ export class AvatarUploadDialogComponent {
   }
 
   private drawCropOverlay(ctx: CanvasRenderingContext2D) {
-    // Draw semi-transparent overlay
+    // Draw semi-transparent overlay in four rectangles around the crop area
     ctx.save();
     ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
-    ctx.fillRect(0, 0, this.cropCanvasSize, this.cropCanvasSize);
 
-    // Cut out the crop area
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillRect(this.cropArea.x, this.cropArea.y, this.cropArea.size, this.cropArea.size);
+    // Top rectangle
+    ctx.fillRect(0, 0, this.cropCanvasSize, this.cropArea.y);
+
+    // Bottom rectangle
+    ctx.fillRect(
+      0,
+      this.cropArea.y + this.cropArea.size,
+      this.cropCanvasSize,
+      this.cropCanvasSize - (this.cropArea.y + this.cropArea.size),
+    );
+
+    // Left rectangle
+    ctx.fillRect(0, this.cropArea.y, this.cropArea.x, this.cropArea.size);
+
+    // Right rectangle
+    ctx.fillRect(
+      this.cropArea.x + this.cropArea.size,
+      this.cropArea.y,
+      this.cropCanvasSize - (this.cropArea.x + this.cropArea.size),
+      this.cropArea.size,
+    );
 
     ctx.restore();
 
