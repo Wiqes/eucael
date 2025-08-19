@@ -105,33 +105,44 @@
 }
 
 // Custom dialog styling
-:host ::ng-deep .p-dialog {
-  .p-dialog-header {
-    background: rgba(24, 24, 27, 0.95);
-    border-bottom: 1px solid rgba(52, 245, 221, 0.2);
+:host ::ng-deep {
+  .p-dialog-mask {
+    z-index: 9999 !important;
+    position: fixed !important;
+  }
 
-    .p-dialog-title {
-      color: white;
-      font-weight: 600;
-    }
+  .p-dialog {
+    // Ensure the dialog is above all other elements and not constrained by parent containers
+    z-index: 10000 !important;
+    position: fixed !important;
 
-    .p-dialog-header-icon {
-      color: rgba(255, 255, 255, 0.7);
+    .p-dialog-header {
+      background: rgba(24, 24, 27, 0.95);
+      border-bottom: 1px solid rgba(52, 245, 221, 0.2);
 
-      &:hover {
-        color: $primary-color;
+      .p-dialog-title {
+        color: white;
+        font-weight: 600;
+      }
+
+      .p-dialog-header-icon {
+        color: rgba(255, 255, 255, 0.7);
+
+        &:hover {
+          color: $primary-color;
+        }
       }
     }
-  }
 
-  .p-dialog-content {
-    background: rgba(24, 24, 27, 0.95);
-    backdrop-filter: blur(20px);
-    padding: 2rem;
-  }
+    .p-dialog-content {
+      background: rgba(24, 24, 27, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 2rem;
+    }
 
-  .p-dialog-footer {
-    background: rgba(24, 24, 27, 0.95);
-    border-top: 1px solid rgba(52, 245, 221, 0.2);
+    .p-dialog-footer {
+      background: rgba(24, 24, 27, 0.95);
+      border-top: 1px solid rgba(52, 245, 221, 0.2);
+    }
   }
 }

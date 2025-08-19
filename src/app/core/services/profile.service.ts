@@ -27,7 +27,7 @@ export class ProfileService {
     let publicUrl: string;
 
     return this.getPresignedAvatarUrl({
-      filename: file.name,
+      filename: 'avatar',
       contentType: file.type,
     }).pipe(
       switchMap((res) => {
