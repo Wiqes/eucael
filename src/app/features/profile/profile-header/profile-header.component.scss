@@ -1,7 +1,7 @@
 @use 'variables' as *;
 
 .profile-header {
-  padding: 60px 60px 0 60px;
+  padding: 60px 2rem 0 2rem;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -9,11 +9,10 @@
   position: relative;
 
   .header-background {
-    width: auto;
+    width: 100%;
     min-width: 300px;
-    padding: 2rem;
     border-radius: 20px;
-    margin: 2rem 1rem;
+    margin: 2rem 0 1rem 0;
     position: relative;
 
     // Enhanced gradient background with animated effects
