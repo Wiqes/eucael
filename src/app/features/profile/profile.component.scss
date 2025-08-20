@@ -12,12 +12,6 @@
   }
 }
 
-.overlay {
-  @extend %blured-overlay;
-  z-index: -1;
-  opacity: 0.7;
-}
-
 .profile-container {
   min-height: 100vh;
   position: relative;
@@ -55,7 +49,6 @@
         border: 1px solid rgba(52, 245, 221, 0.2);
         border-radius: 1.5rem;
         padding: 2rem;
-        backdrop-filter: blur(20px);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 
         .card-header {
