@@ -25,12 +25,12 @@
       >
         <i class="pi pi-cloud-upload upload-icon"></i>
         <h3>{{ 'Drop your image here or click to browse' | translate }}</h3>
-        <p>{{ 'Supported formats: JPG, PNG, WebP (Max 5MB)' | translate }}</p>
+        <p>{{ 'Supported formats: JPG, JPEG, PNG, WebP (Max 5MB)' | translate }}</p>
       </div>
       <input
         #fileInput
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/jpg,image/png,image/webp"
         (change)="onFileSelected($event)"
         style="display: none"
       />

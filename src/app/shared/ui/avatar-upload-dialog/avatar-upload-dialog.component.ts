@@ -118,9 +118,10 @@ export class AvatarUploadDialogComponent {
   }
 
   private handleFileSelection(file: File) {
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      this.errorMessage.set('Please select a valid image file.');
+    // Validate file type - only allow specific image formats, exclude SVG
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type.toLowerCase())) {
+      this.errorMessage.set('Please select a valid image file. Supported formats: JPG, PNG, WebP.');
       return;
     }
 
