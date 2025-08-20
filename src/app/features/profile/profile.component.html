@@ -15,7 +15,9 @@
           </div>
           <div class="info-item">
             <label>{{ 'Registration Date' | translate }}</label>
-            <span>{{ registrationDate() ? (registrationDate() | date) : 'Not provided' }}</span>
+            <span>
+              {{ registrationDate() ? (registrationDate() | date) : 'Not provided' }}
+            </span>
           </div>
           <div class="info-item">
             <label>{{ 'Country' | translate }}</label>
