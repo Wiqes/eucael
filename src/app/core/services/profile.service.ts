@@ -38,8 +38,10 @@ export class ProfileService {
 
       // Start actual upload after fake progress
       setTimeout(() => {
+        const extension = file.name.split('.').pop();
+        const fileName = extension ? `avatar.${extension}` : 'avatar';
         this.getPresignedAvatarUrl({
-          filename: 'avatar',
+          filename: fileName,
           contentType: file.type,
         })
           .pipe(
