@@ -11,7 +11,7 @@ import { ProfileActionsComponent } from '../profile-actions/profile-actions.comp
 })
 export class ProfileHeaderComponent {
   private stateService = inject(StateService);
-  photoURL = computed(() => this.stateService.profile()?.avatarUrl || '');
+  photoURL = computed(() => this.stateService.avatarUrl());
   displayName = computed(() => this.stateService.displayName());
   country = computed(() => this.stateService.profile()?.country || '');
 }

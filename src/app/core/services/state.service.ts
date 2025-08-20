@@ -3,6 +3,7 @@ import { IUser } from '../models/entities/user.model';
 import { DataAccessService } from './data-access/data-access.service';
 import { IAnimal } from '../models/entities/animal.model';
 import { forkJoin } from 'rxjs';
+import { DEFAULT_AVATAR_URL } from '../constants/default-values';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ export class StateService {
   readonly isDataLoading = signal<boolean>(false);
   private readonly dataAccessService = inject(DataAccessService);
   readonly profile = computed(() => this.user()?.profile);
+  readonly avatarUrl = computed(() => this.profile()?.avatarUrl || DEFAULT_AVATAR_URL);
   readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
 
   addBackendDataToState() {

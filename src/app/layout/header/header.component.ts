@@ -35,7 +35,6 @@ export class HeaderComponent implements OnInit {
 
   private isHeaderVisible = signal(true);
 
-  readonly photoURL = computed(() => this.stateService.user()?.photoURL || '');
   readonly displayName = computed(() => this.stateService.displayName());
   readonly isDataLoading = computed(() => this.stateService.isDataLoading());
   readonly user = computed(() => this.stateService.user());
