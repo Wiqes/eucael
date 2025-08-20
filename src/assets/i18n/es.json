@@ -77,6 +77,16 @@
         "summary": "Restablecimiento de Contraseña Fallido",
         "detail": "Error al restablecer la contraseña. Token inválido o expirado."
       }
+    },
+    "avatar": {
+      "success": {
+        "summary": "Avatar Subido",
+        "detail": "Tu avatar ha sido subido exitosamente."
+      },
+      "error": {
+        "summary": "Error al Subir Avatar",
+        "detail": "Error al subir el avatar. Por favor inténtalo de nuevo."
+      }
     }
   },
   "primeng": {

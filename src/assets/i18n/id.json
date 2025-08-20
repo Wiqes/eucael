@@ -77,6 +77,16 @@
         "summary": "Reset Kata Sandi Gagal",
         "detail": "Gagal reset kata sandi. Token tidak valid atau kedaluwarsa."
       }
+    },
+    "avatar": {
+      "success": {
+        "summary": "Avatar Diunggah",
+        "detail": "Avatar Anda berhasil diunggah."
+      },
+      "error": {
+        "summary": "Gagal Unggah Avatar",
+        "detail": "Gagal mengunggah avatar. Silakan coba lagi."
+      }
     }
   },
   "primeng": {

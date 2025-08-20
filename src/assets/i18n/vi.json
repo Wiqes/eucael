@@ -77,6 +77,16 @@
         "summary": "Đặt lại mật khẩu thất bại",
         "detail": "Không thể đặt lại mật khẩu. Token không hợp lệ hoặc đã hết hạn."
       }
+    },
+    "avatar": {
+      "success": {
+        "summary": "Tải lên avatar thành công",
+        "detail": "Avatar của bạn đã được tải lên thành công."
+      },
+      "error": {
+        "summary": "Tải lên avatar thất bại",
+        "detail": "Không thể tải lên avatar. Vui lòng thử lại."
+      }
     }
   },
   "primeng": {

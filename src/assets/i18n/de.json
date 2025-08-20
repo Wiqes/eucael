@@ -115,6 +115,16 @@
         "summary": "Passwort-Reset fehlgeschlagen",
         "detail": "Fehler beim Zurücksetzen des Passworts. Ungültiger oder abgelaufener Token."
       }
+    },
+    "avatar": {
+      "success": {
+        "summary": "Avatar hochgeladen",
+        "detail": "Ihr Avatar wurde erfolgreich hochgeladen."
+      },
+      "error": {
+        "summary": "Avatar-Upload fehlgeschlagen",
+        "detail": "Fehler beim Hochladen des Avatars. Bitte versuchen Sie es erneut."
+      }
     }
   },
   "Find address...": "Adresse finden...",

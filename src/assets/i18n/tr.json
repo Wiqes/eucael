@@ -77,6 +77,16 @@
         "summary": "Şifre Sıfırlama Başarısız",
         "detail": "Şifre sıfırlama başarısız. Geçersiz veya süresi dolmuş token."
       }
+    },
+    "avatar": {
+      "success": {
+        "summary": "Avatar Yüklendi",
+        "detail": "Avatarınız başarıyla yüklendi."
+      },
+      "error": {
+        "summary": "Avatar Yükleme Başarısız",
+        "detail": "Avatar yükleme başarısız. Lütfen tekrar deneyin."
+      }
     }
   },
   "primeng": {

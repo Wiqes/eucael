@@ -77,6 +77,16 @@
         "summary": "Redefinição de Senha Falhou",
         "detail": "Falha ao redefinir a senha. Token inválido ou expirado."
       }
+    },
+    "avatar": {
+      "success": {
+        "summary": "Avatar Enviado",
+        "detail": "Seu avatar foi enviado com sucesso."
+      },
+      "error": {
+        "summary": "Falha ao Enviar Avatar",
+        "detail": "Falha ao enviar o avatar. Por favor, tente novamente."
+      }
     }
   },
   "primeng": {

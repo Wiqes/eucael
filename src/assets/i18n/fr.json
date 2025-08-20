@@ -115,6 +115,16 @@
         "summary": "Échec de la réinitialisation du mot de passe",
         "detail": "Échec de la réinitialisation du mot de passe. Jeton invalide ou expiré."
       }
+    },
+    "avatar": {
+      "success": {
+        "summary": "Avatar téléchargé",
+        "detail": "Votre avatar a été téléchargé avec succès."
+      },
+      "error": {
+        "summary": "Échec du téléchargement de l'avatar",
+        "detail": "Échec du téléchargement de l'avatar. Veuillez réessayer."
+      }
     }
   },
   "Find address...": "Trouver une adresse...",

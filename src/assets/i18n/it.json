@@ -115,6 +115,16 @@
         "summary": "Reimpostazione password fallita",
         "detail": "Reimpostazione password fallita. Token non valido o scaduto."
       }
+    },
+    "avatar": {
+      "success": {
+        "summary": "Avatar caricato",
+        "detail": "Il tuo avatar è stato caricato con successo."
+      },
+      "error": {
+        "summary": "Caricamento avatar fallito",
+        "detail": "Caricamento avatar fallito. Riprova di nuovo."
+      }
     }
   },
   "Find address...": "Trova un indirizzo...",

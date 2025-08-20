@@ -77,6 +77,16 @@
         "summary": "Kubadili Nywila Kumeshindwa",
         "detail": "Kubadili nywila kumeshindwa. Alama ni batili au imeisha."
       }
+    },
+    "avatar": {
+      "success": {
+        "summary": "Avatar Imepakiwa",
+        "detail": "Avatar yako imepakiwa kwa ufanisi."
+      },
+      "error": {
+        "summary": "Kupakia Avatar Kumeshindwa",
+        "detail": "Kupakia avatar kumeshindwa. Tafadhali jaribu tena."
+      }
     }
   },
   "primeng": {

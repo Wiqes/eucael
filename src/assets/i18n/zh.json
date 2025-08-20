@@ -77,6 +77,16 @@
         "summary": "密码重置失败",
         "detail": "重置密码失败。令牌无效或已过期。"
       }
+    },
+    "avatar": {
+      "success": {
+        "summary": "头像上传成功",
+        "detail": "您的头像已成功上传。"
+      },
+      "error": {
+        "summary": "头像上传失败",
+        "detail": "头像上传失败。请重试。"
+      }
     }
   },
   "primeng": {
