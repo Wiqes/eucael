@@ -44,8 +44,17 @@
   border: 1px solid $primary-color !important;
   color: $primary-color-light !important;
 
+  .p-button-label {
+    color: rgba(255, 255, 255, 0.9);
+    filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.3));
+  }
+
   &:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: rgb(16, 41, 38) !important;
     border-color: $primary-color-light !important;
+
+    .p-button-label {
+      color: $primary-color-light !important;
+    }
   }
 }
