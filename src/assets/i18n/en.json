@@ -77,6 +77,16 @@
         "summary": "Password Reset Failed",
         "detail": "Failed to reset password. Invalid or expired token."
       }
+    },
+    "avatar": {
+      "success": {
+        "summary": "Avatar Uploaded",
+        "detail": "Your avatar has been uploaded successfully."
+      },
+      "error": {
+        "summary": "Avatar Upload Failed",
+        "detail": "Failed to upload avatar. Please try again."
+      }
     }
   },
   "primeng": {

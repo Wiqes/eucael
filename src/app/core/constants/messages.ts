@@ -68,4 +68,15 @@ export const MESSAGES = {
     summary: 'messages.passwordReset.failed.summary',
     detail: 'messages.passwordReset.failed.detail',
   },
+  AVATAR_UPLOAD_SUCCESS: {
+    severity: 'success',
+    summary: 'messages.avatar.success.summary',
+    detail: 'messages.avatar.success.detail',
+    life: 7000,
+  },
+  AVATAR_UPLOAD_FAILED: {
+    severity: 'error',
+    summary: 'messages.avatar.error.summary',
+    detail: 'messages.avatar.error.detail',
+  },
 };

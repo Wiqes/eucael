@@ -1,14 +1,4 @@
-import {
-  Component,
-  computed,
-  ElementRef,
-  inject,
-  output,
-  signal,
-  viewChild,
-  ViewChild,
-  HostListener,
-} from '@angular/core';
+import { Component, ElementRef, inject, signal, viewChild, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { DialogModule } from 'primeng/dialog';
@@ -17,6 +7,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { ProfileService } from '../../../core/services/profile.service';
 import { StateService } from '../../../core/services/state.service';
 import { HttpEventType } from '@angular/common/http';
+import { MessageService } from '../../../core/services/message.service';
+import { MESSAGES } from '../../../core/constants/messages';
 
 @Component({
   selector: 'app-avatar-upload-dialog',
@@ -25,6 +17,7 @@ import { HttpEventType } from '@angular/common/http';
   styleUrl: './avatar-upload-dialog.component.scss',
 })
 export class AvatarUploadDialogComponent {
+  private messageService = inject(MessageService);
   private profileService = inject(ProfileService);
   private stateService = inject(StateService);
 
@@ -60,10 +53,6 @@ export class AvatarUploadDialogComponent {
   // Visual feedback
   currentCursor = signal<string>('default');
   previewImage = signal<string | null>(null);
-
-  // Output events
-  onUploadSuccess = output<string>();
-  onUploadError = output<string>();
 
   show() {
     this.visible.set(true);
@@ -802,7 +791,7 @@ export class AvatarUploadDialogComponent {
               this.stateService.updateUserProfile({ avatarUrl: event.publicUrl });
             }
 
-            this.onUploadSuccess.emit('Avatar uploaded successfully');
+            this.messageService.sendMessage(MESSAGES.AVATAR_UPLOAD_SUCCESS);
             this.hide();
           }
         },
@@ -810,7 +799,7 @@ export class AvatarUploadDialogComponent {
           console.error('Upload error:', error);
           const errorMsg = error.error?.message || 'Failed to upload avatar. Please try again.';
           this.errorMessage.set(errorMsg);
-          this.onUploadError.emit(errorMsg);
+          this.messageService.sendMessage(MESSAGES.AVATAR_UPLOAD_FAILED);
         },
         complete: () => {
           this.isUploading.set(false);
