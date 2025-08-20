@@ -10,12 +10,12 @@
         </div>
         <div class="card-content">
           <div class="info-item">
-            <label>{{ 'Display Name' | translate }}</label>
+            <label>{{ 'Name' | translate }}</label>
             <span>{{ displayName() || 'Not provided' }}</span>
           </div>
           <div class="info-item">
-            <label>{{ 'Email Address' | translate }}</label>
-            <span>{{ email() || 'Not provided' }}</span>
+            <label>{{ 'Registration Date' | translate }}</label>
+            <span>{{ registrationDate() ? (registrationDate() | date) : 'Not provided' }}</span>
           </div>
           <div class="info-item">
             <label>{{ 'Country' | translate }}</label>

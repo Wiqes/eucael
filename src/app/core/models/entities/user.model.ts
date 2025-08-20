@@ -6,4 +6,5 @@ export interface IUser {
   photoURL?: string;
   locale: string;
   profile: IProfile;
+  createdAt: string;
 }
