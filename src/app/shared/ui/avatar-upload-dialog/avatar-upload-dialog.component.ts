@@ -14,7 +14,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { MessageService } from 'primeng/api';
 import { ProfileService } from '../../../core/services/profile.service';
 import { StateService } from '../../../core/services/state.service';
 import { HttpEventType } from '@angular/common/http';
@@ -27,7 +26,6 @@ import { HttpEventType } from '@angular/common/http';
 })
 export class AvatarUploadDialogComponent {
   private profileService = inject(ProfileService);
-  private messageService = inject(MessageService);
   private stateService = inject(StateService);
 
   // Dialog state
