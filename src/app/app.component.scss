@@ -80,8 +80,6 @@
   border-color: #52525b !important;
 }
 
-::ng-deep .p-inputwrapper-focus {
-  p-password.ng-invalid.ng-dirty .p-inputtext {
-    border-color: $primary-color !important;
-  }
+::ng-deep p-password.ng-invalid.ng-dirty .p-inputtext:focus {
+  border-color: $primary-color !important;
 }
