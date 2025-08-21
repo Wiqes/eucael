@@ -28,19 +28,16 @@ $gallery-gap: 1vw;
 %text-primary {
   color: $primary-color;
   font-weight: 600;
-  text-shadow: 0 4px 8px rgba(52, 245, 221, 0.3);
 }
 
 %text-small-primary {
   color: $primary-color;
   font-weight: 400;
-  text-shadow: 0 2px 4px rgba(52, 245, 221, 0.3);
 }
 
 %text-white {
   color: $text-color;
-  font-weight: 400;
-  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
+  font-weight: 600;
 }
 
 %text-secondary {
