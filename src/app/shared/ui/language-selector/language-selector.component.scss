@@ -7,3 +7,20 @@
 .menu {
   @extend %menu-base;
 }
+
+::ng-deep .language-menu {
+  max-height: 294px;
+  overflow-y: auto;
+
+  /* Webkit browsers (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+  }
+
+  /* Firefox */
+  scrollbar-width: thin;
+}
