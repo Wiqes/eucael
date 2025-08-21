@@ -58,3 +58,30 @@
     }
   }
 }
+
+::ng-deep .ng-submitted {
+  .ng-invalid.ng-touched {
+    border: 1px solid $red-color !important;
+    border-radius: 6px;
+    box-shadow: none;
+  }
+
+  input.regular-input.ng-invalid:focus {
+    border: 1px solid $red-color !important;
+    outline: none;
+  }
+
+  p-password.ng-invalid.ng-dirty .p-inputtext {
+    border-color: $red-color !important;
+  }
+}
+
+::ng-deep p-password.ng-invalid.ng-dirty .p-inputtext {
+  border-color: #52525b !important;
+}
+
+::ng-deep .p-inputwrapper-focus {
+  p-password.ng-invalid.ng-dirty .p-inputtext {
+    border-color: $primary-color !important;
+  }
+}

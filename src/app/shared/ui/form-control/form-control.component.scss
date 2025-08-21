@@ -42,7 +42,3 @@ p-select {
   border: none;
   height: 31px;
 }
-
-:host ::ng-deep p-password.ng-invalid.ng-dirty .p-inputtext {
-  border-color: $red-color !important;
-}

@@ -174,25 +174,14 @@ $gallery-gap: 1vw;
     flex-grow: 0;
   }
 
-  input.regular-input.ng-valid:focus {
+  input.regular-input:focus {
     border: 1px solid $primary-color !important;
-    outline: none;
-  }
-
-  input.regular-input.ng-invalid:focus {
-    border: 1px solid $red-color !important;
     outline: none;
   }
 
   .p-datepicker,
   .p-password {
     width: 100%;
-  }
-
-  .ng-invalid.ng-touched {
-    border: 1px solid $red-color !important;
-    border-radius: 6px;
-    box-shadow: none;
   }
 
   p-password.ng-invalid.ng-touched {
