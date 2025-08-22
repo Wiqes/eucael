@@ -9,10 +9,9 @@
             shape="circle"
             class="profile-avatar"
           ></p-avatar>
-          <div class="avatar-ring"></div>
+          <app-profile-actions />
         </div>
       </div>
-
       <div class="profile-info">
         <h1 class="display-name">{{ displayName() }}</h1>
         <div class="location">
@@ -20,8 +19,6 @@
           <span class="location-text">{{ country() || 'Unknown' }}</span>
         </div>
       </div>
-
-      <app-profile-actions />
     </div>
   </div>
 </div>
