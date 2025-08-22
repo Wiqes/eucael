@@ -1,4 +1,13 @@
-import { Component, ElementRef, inject, signal, viewChild, HostListener } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  signal,
+  viewChild,
+  HostListener,
+  input,
+  effect,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { DialogModule } from 'primeng/dialog';
@@ -25,7 +34,7 @@ export class AvatarUploadDialogComponent {
   visible = signal(false);
 
   // File handling
-  selectedFile = signal<File | null>(null);
+  selectedFile = input<File | null>(null);
   errorMessage = signal<string | null>(null);
 
   // Upload state
@@ -54,6 +63,15 @@ export class AvatarUploadDialogComponent {
   currentCursor = signal<string>('default');
   previewImage = signal<string | null>(null);
 
+  constructor() {
+    effect(() => {
+      const selectedFile = this.selectedFile();
+      if (selectedFile) {
+        this.loadImageForCropping(selectedFile);
+      }
+    });
+  }
+
   show() {
     this.visible.set(true);
     this.resetState();
@@ -73,7 +91,6 @@ export class AvatarUploadDialogComponent {
   }
 
   private resetState() {
-    this.selectedFile.set(null);
     this.errorMessage.set(null);
     this.isUploading.set(false);
     this.uploadProgress.set(0);
@@ -85,57 +102,6 @@ export class AvatarUploadDialogComponent {
     this.zoom = 1;
     this.currentCursor.set('default');
     this.previewImage.set(null);
-  }
-
-  onDragOver(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.isDragOver.set(true);
-  }
-
-  onDragLeave(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.isDragOver.set(false);
-  }
-
-  onDrop(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.isDragOver.set(false);
-
-    const files = event.dataTransfer?.files;
-    if (files && files.length > 0) {
-      this.handleFileSelection(files[0]);
-    }
-  }
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.handleFileSelection(input.files[0]);
-    }
-  }
-
-  private handleFileSelection(file: File) {
-    // Validate file type - only allow specific image formats, exclude SVG
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-    if (!allowedTypes.includes(file.type.toLowerCase())) {
-      this.errorMessage.set('Please select a valid image file. Supported formats: JPG, PNG, WebP.');
-      return;
-    }
-
-    // Validate file size (5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
-      this.errorMessage.set('File size must be less than 5MB.');
-      return;
-    }
-
-    this.selectedFile.set(file);
-    this.errorMessage.set(null);
-
-    // Load image for preview and cropping
-    this.loadImageForCropping(file);
   }
 
   private loadImageForCropping(file: File) {

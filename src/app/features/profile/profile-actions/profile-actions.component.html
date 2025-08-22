@@ -1,8 +1,16 @@
 <div class="button-container">
-  <button class="edit-profile-btn" (click)="onEditProfile()">
+  <button class="edit-profile-btn" (click)="fileInput.click()">
     <i class="pi pi-upload"></i>
     <span>{{ 'Upload' | translate }}</span>
   </button>
 </div>
 
-<app-avatar-upload-dialog #avatarDialog />
+<input
+  #fileInput
+  type="file"
+  accept="image/jpeg,image/jpg,image/png,image/webp"
+  (change)="onFileSelected($event)"
+  style="display: none"
+/>
+
+<app-avatar-upload-dialog #avatarDialog [selectedFile]="selectedFile()" />

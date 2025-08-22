@@ -12,31 +12,6 @@
   (visibleChange)="visible.set($event)"
 >
   <div class="avatar-upload-content">
-    <!-- File Input Section -->
-    @if (!selectedFile()) {
-    <div class="upload-section">
-      <div
-        class="file-drop-zone"
-        [class.drag-over]="isDragOver()"
-        (click)="fileInput.click()"
-        (dragover)="onDragOver($event)"
-        (dragleave)="onDragLeave($event)"
-        (drop)="onDrop($event)"
-      >
-        <i class="pi pi-cloud-upload upload-icon"></i>
-        <h3>{{ 'Drop your image here or click to browse' | translate }}</h3>
-        <p>{{ 'Supported formats: JPG, JPEG, PNG, WebP (Max 5MB)' | translate }}</p>
-      </div>
-      <input
-        #fileInput
-        type="file"
-        accept="image/jpeg,image/jpg,image/png,image/webp"
-        (change)="onFileSelected($event)"
-        style="display: none"
-      />
-    </div>
-    }
-
     <!-- Image Preview and Crop Section -->
     @if (selectedFile() && !isUploading()) {
     <div class="crop-section">
