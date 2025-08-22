@@ -190,20 +190,21 @@ body {
   @extend %blured-overlay;
 }
 
-// Media queries for responsive spectacular effects
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-  }
-}
+// ===== SPECTACULAR CONTRAST BUTTONS =====
+.p-button.p-button-contrast {
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  font-weight: 900;
+  background: transparent;
+  padding: 4px;
 
-@media (max-width: 768px) {
-  body::before,
-  body::after {
-    background-size: cover;
-  }
-
-  .atmosphere-layer {
-    background-size: 100px 100px, 75px 75px, 100% 100%;
+  &:hover {
+    border: 2px solid #ffffff !important;
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    background: transparent !important;
+    box-shadow: 0 0 20px rgba(52, 245, 221, 0.4), 0 0 40px rgba(52, 245, 221, 0.2),
+      0 8px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   }
 }
