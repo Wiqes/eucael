@@ -125,6 +125,12 @@
         "summary": "Avatar-Upload fehlgeschlagen",
         "detail": "Fehler beim Hochladen des Avatars. Bitte versuchen Sie es erneut."
       }
+    },
+    "fileSize": {
+      "error": {
+        "summary": "Dateigröße überschritten",
+        "detail": "Die Dateigröße muss weniger als 5MB betragen. Bitte wählen Sie eine kleinere Datei."
+      }
     }
   },
   "Find address...": "Adresse finden...",

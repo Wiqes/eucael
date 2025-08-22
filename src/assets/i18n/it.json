@@ -125,6 +125,12 @@
         "summary": "Caricamento avatar fallito",
         "detail": "Caricamento avatar fallito. Riprova di nuovo."
       }
+    },
+    "fileSize": {
+      "error": {
+        "summary": "Dimensione file superata",
+        "detail": "La dimensione del file deve essere inferiore a 5MB. Seleziona un file più piccolo."
+      }
     }
   },
   "Find address...": "Trova un indirizzo...",

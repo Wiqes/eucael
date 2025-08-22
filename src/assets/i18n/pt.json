@@ -87,6 +87,12 @@
         "summary": "Falha ao Enviar Avatar",
         "detail": "Falha ao enviar o avatar. Por favor, tente novamente."
       }
+    },
+    "fileSize": {
+      "error": {
+        "summary": "Tamanho do Arquivo Excedido",
+        "detail": "O tamanho do arquivo deve ser menor que 5MB. Por favor, escolha um arquivo menor."
+      }
     }
   },
   "primeng": {

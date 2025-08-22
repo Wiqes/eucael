@@ -87,6 +87,12 @@
         "summary": "Kupakia Avatar Kumeshindwa",
         "detail": "Kupakia avatar kumeshindwa. Tafadhali jaribu tena."
       }
+    },
+    "fileSize": {
+      "error": {
+        "summary": "Ukubwa wa Faili Umezidi",
+        "detail": "Ukubwa wa faili lazima uwe chini ya 5MB. Tafadhali chagua faili ndogo."
+      }
     }
   },
   "primeng": {

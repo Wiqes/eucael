@@ -87,6 +87,12 @@
         "summary": "Gagal Unggah Avatar",
         "detail": "Gagal mengunggah avatar. Silakan coba lagi."
       }
+    },
+    "fileSize": {
+      "error": {
+        "summary": "Ukuran File Melebihi Batas",
+        "detail": "Ukuran file harus kurang dari 5MB. Silakan pilih file yang lebih kecil."
+      }
     }
   },
   "primeng": {

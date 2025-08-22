@@ -87,6 +87,12 @@
         "summary": "Error al Subir Avatar",
         "detail": "Error al subir el avatar. Por favor inténtalo de nuevo."
       }
+    },
+    "fileSize": {
+      "error": {
+        "summary": "Tamaño de Archivo Excedido",
+        "detail": "El tamaño del archivo debe ser menor a 5MB. Por favor elige un archivo más pequeño."
+      }
     }
   },
   "primeng": {

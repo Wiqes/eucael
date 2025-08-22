@@ -87,6 +87,12 @@
         "summary": "头像上传失败",
         "detail": "头像上传失败。请重试。"
       }
+    },
+    "fileSize": {
+      "error": {
+        "summary": "文件大小超出限制",
+        "detail": "文件大小必须小于5MB。请选择一个更小的文件。"
+      }
     }
   },
   "primeng": {
