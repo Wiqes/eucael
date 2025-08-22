@@ -29,7 +29,7 @@ export const primeNGProvider = () => [
       preset: CustomAura,
       options: {
         prefix: 'p',
-        darkModeSelector: '.wiqes-app-dark',
+        darkModeSelector: '.Eucael-app-dark',
         cssLayer: false,
       },
     },

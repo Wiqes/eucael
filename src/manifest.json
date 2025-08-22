@@ -1,7 +1,7 @@
 {
-  "name": "Wiqes",
-  "short_name": "Wiqes",
-  "description": "Eucael: Shadow Of Turnskin",
+  "name": "Eucael",
+  "short_name": "Eucael",
+  "description": "Eucael: Shadow of Totem",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

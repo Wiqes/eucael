@@ -55,12 +55,11 @@ export class SeoService {
 
   getDefaultSeoData(): SeoData {
     return {
-      title:
-        'Eucael: Shadow Of Turnskin - Collect Shadows, Transform Turnskins | Strategy Game by Wiqes',
+      title: 'Eucael: Shadow of Totem - Produce Shadows, Summon the Shapeshifters | Strategy Game',
       description:
-        'Eucael: Shadow Of Turnskin is an immersive strategy game where you collect shadows and transform them into rare Turnskins. Build your extensive Turnskin collection and master the art of strategic gameplay.',
+        'Eucael: Shadow of Totem is an immersive strategy game where you Produce Shadows and transform them into rare Shapeshifters. Build your extensive Card collection and master the art of strategic gameplay.',
       keywords:
-        'Eucael: Shadow Of Turnskin, strategy game, Turnskin collection, shadows, Wiqes, RPG, gaming, Turnskins, collection game, strategic gameplay',
+        'Eucael: Shadow of Totem, strategy game, Card collection, shadows, Eucael, RPG, gaming, Shapeshifters, collection game, strategic gameplay',
       image: '/assets/images/og-image.jpg',
       type: 'website',
     };
@@ -73,45 +72,45 @@ export class SeoService {
       case 'home':
         return {
           ...baseData,
-          title: 'Eucael: Shadow Of Turnskin - Home | Collect Shadows & Transform Turnskins',
+          title: 'Eucael: Shadow of Totem - Home | Produce Shadows & Summon the Shapeshifters',
           description:
-            'Welcome to Eucael: Shadow Of Turnskin! Start your journey in the ultimate strategy game where shadows become legendary Turnskins. Join thousands of players building their Turnskin collections.',
+            'Welcome to Eucael: Shadow of Totem! Start your journey in the ultimate strategy game where shadows become legendary Shapeshifters. Join thousands of players building their Card collections.',
         };
 
       case 'embodiments':
         return {
           ...baseData,
-          title: 'Turnskin Embodiments | Eucael: Shadow Of Turnskin - Transform Your Collection',
+          title: 'Shapeshifter Embodiments | Eucael: Shadow of Totem - Transform Your Collection',
           description:
-            'Discover all Turnskin embodiments in Eucael: Shadow Of Turnskin. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
+            'Discover all Shapeshifter embodiments in Eucael: Shadow of Totem. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
           keywords:
             baseData.keywords +
-            ', embodiments, Turnskin transformations, rare Turnskins, character builds',
+            ', embodiments, Shapeshifter summonings, rare Shapeshifters, character builds',
         };
 
       case 'admin':
         return {
           ...baseData,
-          title: 'Admin Panel | Eucael: Shadow Of Turnskin Management',
+          title: 'Admin Panel | Eucael: Shadow of Totem Management',
           description:
-            'Administrative interface for Eucael: Shadow Of Turnskin game management and player oversight.',
+            'Administrative interface for Eucael: Shadow of Totem game management and player oversight.',
         };
 
       case 'profile':
         return {
           ...baseData,
-          title: 'Player Profile | Eucael: Shadow Of Turnskin - Your Turnskin Collection',
+          title: 'Player Profile | Eucael: Shadow of Totem - Your Card collection',
           description:
-            'View your Eucael: Shadow Of Turnskin player profile, Turnskin collection statistics, and achievement progress.',
+            'View your Eucael: Shadow of Totem player profile, Card collection statistics, and achievement progress.',
           keywords: baseData.keywords + ', player profile, achievements, statistics',
         };
 
       case 'login':
         return {
           ...baseData,
-          title: 'Login | Eucael: Shadow Of Turnskin - Access Your Turnskin Collection',
+          title: 'Login | Eucael: Shadow of Totem - Access Your Card collection',
           description:
-            'Login to Eucael: Shadow Of Turnskin to access your Turnskin collection, continue your shadow gathering journey, and compete with players worldwide.',
+            'Login to Eucael: Shadow of Totem to access your Card collection, continue your shadow gathering journey, and compete with players worldwide.',
         };
 
       default:
