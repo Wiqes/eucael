@@ -3,6 +3,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { AvatarUploadDialogComponent } from '../../../shared/ui/avatar-upload-dialog/avatar-upload-dialog.component';
 import { AvatarService } from '../../../core/services/avatar.service';
+import { MESSAGES } from '../../../core/constants/messages';
+import { MessageService } from '../../../core/services/message.service';
 
 @Component({
   selector: 'app-profile-actions',
@@ -13,6 +15,7 @@ import { AvatarService } from '../../../core/services/avatar.service';
 export class ProfileActionsComponent {
   avatarDialog = viewChild<AvatarUploadDialogComponent>('avatarDialog');
   private readonly avatarService = inject(AvatarService);
+  private readonly messageService = inject(MessageService);
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -25,7 +28,7 @@ export class ProfileActionsComponent {
     console.log(file, 'sdf');
     // Validate file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
-      console.log('File size must be less than 5MB.');
+      this.messageService.sendMessage(MESSAGES.FILE_SIZE_ERROR);
       return;
     }
 

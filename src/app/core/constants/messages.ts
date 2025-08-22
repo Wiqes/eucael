@@ -79,4 +79,9 @@ export const MESSAGES = {
     summary: 'messages.avatar.error.summary',
     detail: 'messages.avatar.error.detail',
   },
+  FILE_SIZE_ERROR: {
+    severity: 'error',
+    summary: 'messages.fileSize.error.summary',
+    detail: 'messages.fileSize.error.detail',
+  },
 };

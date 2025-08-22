@@ -87,6 +87,12 @@
         "summary": "Avatar Upload Failed",
         "detail": "Failed to upload avatar. Please try again."
       }
+    },
+    "fileSize": {
+      "error": {
+        "summary": "File Size Exceeded",
+        "detail": "File size must be less than 5MB. Please choose a smaller file."
+      }
     }
   },
   "primeng": {
