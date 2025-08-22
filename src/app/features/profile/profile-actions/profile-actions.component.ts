@@ -1,7 +1,8 @@
-import { Component, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { AvatarUploadDialogComponent } from '../../../shared/ui/avatar-upload-dialog/avatar-upload-dialog.component';
+import { AvatarService } from '../../../core/services/avatar.service';
 
 @Component({
   selector: 'app-profile-actions',
@@ -11,7 +12,7 @@ import { AvatarUploadDialogComponent } from '../../../shared/ui/avatar-upload-di
 })
 export class ProfileActionsComponent {
   avatarDialog = viewChild<AvatarUploadDialogComponent>('avatarDialog');
-  selectedFile = signal<File | null>(null);
+  private readonly avatarService = inject(AvatarService);
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -28,7 +29,7 @@ export class ProfileActionsComponent {
       return;
     }
 
-    this.selectedFile.set(file);
+    this.avatarService.selectedFile.set(file);
     this.avatarDialog()?.show();
   }
 }

@@ -7,6 +7,7 @@ import {
   HostListener,
   input,
   effect,
+  computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -18,6 +19,7 @@ import { StateService } from '../../../core/services/state.service';
 import { HttpEventType } from '@angular/common/http';
 import { MessageService } from '../../../core/services/message.service';
 import { MESSAGES } from '../../../core/constants/messages';
+import { AvatarService } from '../../../core/services/avatar.service';
 
 @Component({
   selector: 'app-avatar-upload-dialog',
@@ -29,12 +31,12 @@ export class AvatarUploadDialogComponent {
   private messageService = inject(MessageService);
   private profileService = inject(ProfileService);
   private stateService = inject(StateService);
+  private avatarService = inject(AvatarService);
+  selectedFile = computed(() => this.avatarService.selectedFile());
 
   // Dialog state
   visible = signal(false);
 
-  // File handling
-  selectedFile = input<File | null>(null);
   errorMessage = signal<string | null>(null);
 
   // Upload state
@@ -84,6 +86,7 @@ export class AvatarUploadDialogComponent {
 
   onDialogClose() {
     this.hide();
+    this.avatarService.selectedFile.set(null);
   }
 
   onCancel() {
