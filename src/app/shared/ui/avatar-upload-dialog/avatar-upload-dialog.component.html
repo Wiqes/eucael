@@ -40,7 +40,7 @@
               <p-button
                 icon="pi pi-minus"
                 size="small"
-                severity="secondary"
+                severity="contrast"
                 [disabled]="zoom <= 0.5"
                 (onClick)="adjustZoom(-0.2)"
               />
@@ -48,7 +48,7 @@
               <p-button
                 icon="pi pi-plus"
                 size="small"
-                severity="secondary"
+                severity="contrast"
                 [disabled]="zoom >= 3"
                 (onClick)="adjustZoom(0.2)"
               />
@@ -60,7 +60,7 @@
               [label]="'Reset' | translate"
               icon="pi pi-refresh"
               size="small"
-              severity="secondary"
+              severity="contrast"
               (onClick)="resetCrop()"
             />
           </div>

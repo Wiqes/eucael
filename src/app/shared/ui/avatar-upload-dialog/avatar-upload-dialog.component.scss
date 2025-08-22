@@ -174,7 +174,7 @@
 
         .crop-controls {
           flex-direction: row;
-          gap: 22px;
+          gap: 44px;
           align-items: center;
           justify-content: center;
           width: 100%;
@@ -184,6 +184,12 @@
           .crop-preview {
             label {
               display: none;
+            }
+          }
+
+          .zoom-controls {
+            .zoom-buttons {
+              gap: 0.2rem;
             }
           }
         }
