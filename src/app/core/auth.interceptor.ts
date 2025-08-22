@@ -6,7 +6,7 @@ import { AuthTokenService } from './services/auth/auth-token.service';
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
   const authTokenService = inject(AuthTokenService);
 
-  const s3Host = 'https://eucael-images.s3.us-east-1.amazonaws.com';
+  const s3Host = 'https://wiqes-images.s3.us-east-1.amazonaws.com';
   if (req.url.includes(s3Host)) {
     return next(req);
   }
