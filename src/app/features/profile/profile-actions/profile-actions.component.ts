@@ -22,10 +22,11 @@ export class ProfileActionsComponent {
     if (input.files && input.files.length > 0) {
       this.handleFileSelection(input.files[0]);
     }
+    // Reset the input value to allow selecting the same file again
+    input.value = '';
   }
 
   private handleFileSelection(file: File) {
-    console.log(file, 'sdf');
     // Validate file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
       this.messageService.sendMessage(MESSAGES.FILE_SIZE_ERROR);
