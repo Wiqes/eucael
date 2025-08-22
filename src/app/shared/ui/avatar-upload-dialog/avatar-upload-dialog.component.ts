@@ -93,6 +93,13 @@ export class AvatarUploadDialogComponent {
     this.hide();
   }
 
+  onVisibleChange(event: boolean) {
+    this.visible.set(event);
+    if (!event) {
+      this.avatarService.selectedFile.set(null);
+    }
+  }
+
   private resetState() {
     this.errorMessage.set(null);
     this.isUploading.set(false);

@@ -174,15 +174,17 @@
 
         .crop-controls {
           flex-direction: row;
-          gap: 4px;
-          align-items: flex-start;
+          gap: 22px;
+          align-items: center;
           justify-content: center;
           width: 100%;
-          flex-wrap: wrap-reverse;
+          flex-wrap: wrap;
 
           .zoom-controls,
-          .reset-controls {
-            width: 40%;
+          .crop-preview {
+            label {
+              display: none;
+            }
           }
         }
       }
@@ -331,10 +333,11 @@
       background: rgba(24, 24, 27, 0.95);
       padding: 2rem;
     }
-
-    .p-dialog-footer {
-      background: rgba(24, 24, 27, 0.95);
-      border-top: 1px solid rgba(52, 245, 221, 0.2);
-    }
   }
+}
+
+::ng-deep .p-dialog-footer {
+  background: rgba(24, 24, 27, 0.95);
+  border-top: 1px solid rgba(52, 245, 221, 0.2);
+  padding: 1.25rem !important;
 }

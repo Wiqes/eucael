@@ -9,7 +9,7 @@
   [style]="{ width: '600px', maxWidth: '95vw' }"
   [appendTo]="'body'"
   (onHide)="onDialogClose()"
-  (visibleChange)="visible.set($event)"
+  (visibleChange)="onVisibleChange($event)"
 >
   <div class="avatar-upload-content">
     <!-- Image Preview and Crop Section -->
