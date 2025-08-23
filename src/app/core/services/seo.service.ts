@@ -55,7 +55,7 @@ export class SeoService {
 
   getDefaultSeoData(): SeoData {
     return {
-      title: 'Eucael: Shadow of Totem - Produce Shadows, Summon the Shapeshifters | Strategy Game',
+      title: 'Eucael',
       description:
         'Eucael: Shadow of Totem is an immersive strategy game where you Produce Shadows and transform them into rare Shapeshifters. Build your extensive Card collection and master the art of strategic gameplay.',
       keywords:
@@ -72,7 +72,7 @@ export class SeoService {
       case 'home':
         return {
           ...baseData,
-          title: 'Eucael: Shadow of Totem - Home | Produce Shadows & Summon the Shapeshifters',
+          title: 'Eucael',
           description:
             'Welcome to Eucael: Shadow of Totem! Start your journey in the ultimate strategy game where shadows become legendary Shapeshifters. Join thousands of players building their Card collections.',
         };
@@ -80,7 +80,7 @@ export class SeoService {
       case 'embodiments':
         return {
           ...baseData,
-          title: 'Shapeshifter Embodiments | Eucael: Shadow of Totem - Transform Your Collection',
+          title: 'Eucael',
           description:
             'Discover all Shapeshifter embodiments in Eucael: Shadow of Totem. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
           keywords:
@@ -91,7 +91,7 @@ export class SeoService {
       case 'admin':
         return {
           ...baseData,
-          title: 'Admin Panel | Eucael: Shadow of Totem Management',
+          title: 'Admin Panel | Eucael',
           description:
             'Administrative interface for Eucael: Shadow of Totem game management and player oversight.',
         };
@@ -99,7 +99,7 @@ export class SeoService {
       case 'profile':
         return {
           ...baseData,
-          title: 'Player Profile | Eucael: Shadow of Totem - Your Card collection',
+          title: 'Eucael',
           description:
             'View your Eucael: Shadow of Totem player profile, Card collection statistics, and achievement progress.',
           keywords: baseData.keywords + ', player profile, achievements, statistics',
@@ -108,7 +108,7 @@ export class SeoService {
       case 'login':
         return {
           ...baseData,
-          title: 'Login | Eucael: Shadow of Totem - Access Your Card collection',
+          title: 'Eucael',
           description:
             'Login to Eucael: Shadow of Totem to access your Card collection, continue your shadow gathering journey, and compete with players worldwide.',
         };
