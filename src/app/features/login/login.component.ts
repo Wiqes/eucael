@@ -16,7 +16,6 @@ import { LoginService } from '../../core/services/auth/login.service';
 import { StateService } from '../../core/services/state.service';
 import { Router } from '@angular/router';
 import { LoginImageComponent } from './login-image/login-image.component';
-import { LogoContainerComponent } from './logo-container/logo-container.component';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -34,7 +33,6 @@ import { NgIf } from '@angular/common';
     FormControlComponent,
     ForgotPasswordButtonComponent,
     LoginImageComponent,
-    LogoContainerComponent,
     NgIf,
   ],
   templateUrl: './login.component.html',
