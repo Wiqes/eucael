@@ -104,6 +104,10 @@ export class ProfileComponent {
     this.editProfileForm.reset();
   }
 
+  onVisibleChange(event: boolean) {
+    this.isDialogVisible.set(event);
+  }
+
   onSubmit(): void {
     if (this.editProfileForm.invalid) {
       // Mark all form controls as touched to display validation errors

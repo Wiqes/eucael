@@ -42,6 +42,7 @@
     [resizable]="false"
     [style]="{ width: '500px', maxWidth: '95vw' }"
     (onHide)="onDialogHide()"
+    (visibleChange)="onVisibleChange($event)"
   >
     <div class="edit-profile-dialog">
       <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" #profileForm="ngForm">
