@@ -57,7 +57,7 @@ export class SeoService {
     return {
       title: 'Eucael',
       description:
-        'Eucael: Shadow of Totem is an immersive strategy game where you Produce Shadows and transform them into rare Shapeshifters. Build your extensive Card collection and master the art of strategic gameplay.',
+        'Eucael: Shadow of Totem is an immersive strategy game where you produce shadows and transform them into rare Shapeshifters. Build your extensive Card collection and master the art of strategic gameplay.',
       keywords:
         'Eucael: Shadow of Totem, strategy game, Card collection, shadows, Eucael, RPG, gaming, Shapeshifters, collection game, strategic gameplay',
       image: '/assets/images/og-image.jpg',
