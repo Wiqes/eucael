@@ -195,5 +195,11 @@
   "Drag to adjust the crop area. Avatar will be cropped to a square.": "Drag to adjust the crop area. Avatar will be cropped to a square.",
   "Uploading your avatar...": "Uploading your avatar...",
   "Cancel": "Cancel",
-  "Edit": "Edit"
+  "Edit": "Edit",
+  "Name": "Name",
+  "Country": "Country",
+  "Save": "Save",
+  "Enter your name": "Enter your name",
+  "Enter your country": "Enter your country",
+  "Value is required": "Value is required"
 }

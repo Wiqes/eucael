@@ -1,26 +1,62 @@
 <div *ngIf="!isDataLoading()" class="profile-container">
   <app-profile-header />
-
   <div class="profile-content">
     <div class="info-grid">
       <div class="info-card personal-info">
         <div class="card-header">
           <h3>{{ 'Personal Information' | translate }}</h3>
-          <i class="pi pi-pencil edit-button"></i>
+          <i class="pi pi-pencil edit-button" (click)="openEditMode()" *ngIf="!isEditMode()"></i>
         </div>
-        <div class="card-content">
+
+        <!-- View Mode -->
+        <div class="card-content" *ngIf="!isEditMode()">
           <div class="info-item">
             <label>{{ 'Name' | translate }}</label>
             <span>{{ displayName() || 'Not provided' }}</span>
           </div>
           <div class="info-item">
-            <label>{{ 'Registration' | translate }}</label>
-            <span>{{ formattedRegistrationDate() || 'Not provided' }}</span>
-          </div>
-          <div class="info-item">
             <label>{{ 'Country' | translate }}</label>
             <span>{{ country() || 'Not specified' }}</span>
           </div>
+          <div class="info-item">
+            <label>{{ 'Email' | translate }}</label>
+            <span>{{ email() || 'Not provided' }}</span>
+          </div>
+          <div class="info-item">
+            <label>{{ 'Registration' | translate }}</label>
+            <span>{{ formattedRegistrationDate() || 'Not provided' }}</span>
+          </div>
+        </div>
+
+        <!-- Edit Mode -->
+        <div class="card-content edit-form" *ngIf="isEditMode()">
+          <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <app-form-control label="Name" [control]="formControls['name']" />
+            </div>
+
+            <div class="form-group">
+              <app-form-control label="Country" [control]="formControls['country']" />
+            </div>
+
+            <div class="form-actions">
+              <p-button
+                label="{{ 'Cancel' | translate }}"
+                severity="secondary"
+                [outlined]="true"
+                (onClick)="cancelEdit()"
+                type="button"
+              ></p-button>
+
+              <p-button
+                label="{{ 'Save' | translate }}"
+                icon="pi pi-save"
+                type="submit"
+                [disabled]="isUpdating()"
+                [loading]="isUpdating()"
+              ></p-button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

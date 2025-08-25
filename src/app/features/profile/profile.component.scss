@@ -17,6 +17,10 @@
   position: relative;
   overflow: hidden;
 
+  .margin-top-93 {
+    margin-top: 93px;
+  }
+
   .profile-content {
     padding: 0 2rem;
     position: relative;
@@ -110,6 +114,17 @@
               text-align: right;
               flex: 1;
               overflow-wrap: break-word;
+            }
+          }
+
+          // Edit form styles
+          &.edit-form {
+            .form-actions {
+              display: flex;
+              gap: 1rem;
+              justify-content: flex-end;
+              padding-top: 1.5rem;
+              border-top: 1px solid rgba(255, 255, 255, 0.1);
             }
           }
         }

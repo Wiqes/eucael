@@ -1,29 +1,65 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { StateService } from '../../core/services/state.service';
 import { LanguageService } from '../../core/services/language.service';
+import { ProfileService } from '../../core/services/profile.service';
 import { ProfileHeaderComponent } from './profile-header/profile-header.component';
 import { NgIf } from '@angular/common';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  FormControl,
+} from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
 
 @Component({
   selector: 'app-profile',
-  imports: [TranslateModule, ProfileHeaderComponent, NgIf],
+  imports: [
+    TranslateModule,
+    ProfileHeaderComponent,
+    NgIf,
+    ReactiveFormsModule,
+    ButtonModule,
+    InputTextModule,
+    DropdownModule,
+    FormControlComponent,
+    ToastModule,
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
   private stateService = inject(StateService);
   private languageService = inject(LanguageService);
+  private profileService = inject(ProfileService);
+  private fb = inject(FormBuilder);
+  private messageService = inject(MessageService);
+
+  isEditMode = signal(false);
+  isUpdating = signal(false);
+
+  editProfileForm: FormGroup;
+  formControls: { [key: string]: FormControl };
 
   displayName = computed(() => this.stateService.displayName());
   email = computed(() => this.stateService.profile()?.email || '');
   country = computed(() => this.stateService.profile()?.country || '');
   isDataLoading = computed(() => this.stateService.isDataLoading());
   locale = computed(() => this.languageService.locale());
+
   registrationDate = computed(() => {
     const date = new Date(this.stateService.user()?.createdAt || '');
     return isNaN(date.getTime()) ? '' : date;
   });
+
   formattedRegistrationDate = computed(() => {
     const date = this.registrationDate();
     const locale = this.locale();
@@ -34,4 +70,62 @@ export class ProfileComponent {
       day: 'numeric',
     }).format(date);
   });
+
+  constructor() {
+    this.editProfileForm = this.fb.group({
+      name: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+    });
+
+    this.formControls = this.editProfileForm.controls as { [key: string]: FormControl };
+  }
+
+  openEditMode(): void {
+    this.isEditMode.set(true);
+    // Pre-fill the form with current values
+    this.editProfileForm.patchValue({
+      name: this.displayName(),
+      country: this.country() || 'Unknown',
+    });
+  }
+
+  cancelEdit(): void {
+    this.isEditMode.set(false);
+    this.editProfileForm.reset();
+  }
+
+  onSubmit(): void {
+    if (this.editProfileForm.invalid) {
+      return;
+    }
+
+    if (!this.isUpdating()) {
+      this.isUpdating.set(true);
+
+      const updateData = this.editProfileForm.value;
+
+      this.profileService.updateProfile(updateData).subscribe({
+        next: (updatedProfile) => {
+          // Update the state with the new profile data
+          this.stateService.updateUserProfile(updatedProfile);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Profile updated successfully',
+          });
+          this.isEditMode.set(false);
+          this.isUpdating.set(false);
+        },
+        error: (error) => {
+          console.error('Error updating profile:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update profile. Please try again.',
+          });
+          this.isUpdating.set(false);
+        },
+      });
+    }
+  }
 }
