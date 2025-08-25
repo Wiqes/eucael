@@ -5,11 +5,11 @@
       <div class="info-card personal-info">
         <div class="card-header">
           <h3>{{ 'Personal Information' | translate }}</h3>
-          <i class="pi pi-pencil edit-button" (click)="openEditMode()" *ngIf="!isEditMode()"></i>
+          <i class="pi pi-pencil edit-button" (click)="openEditMode()"></i>
         </div>
 
         <!-- View Mode -->
-        <div class="card-content" *ngIf="!isEditMode()">
+        <div class="card-content">
           <div class="info-item">
             <label>{{ 'Name' | translate }}</label>
             <span>{{ displayName() || 'Not provided' }}</span>
@@ -27,38 +27,51 @@
             <span>{{ formattedRegistrationDate() || 'Not provided' }}</span>
           </div>
         </div>
-
-        <!-- Edit Mode -->
-        <div class="card-content edit-form" *ngIf="isEditMode()">
-          <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-              <app-form-control label="Name" [control]="formControls['name']" />
-            </div>
-
-            <div class="form-group">
-              <app-form-control label="Country" [control]="formControls['country']" />
-            </div>
-
-            <div class="form-actions">
-              <p-button
-                label="{{ 'Cancel' | translate }}"
-                severity="secondary"
-                [outlined]="true"
-                (onClick)="cancelEdit()"
-                type="button"
-              ></p-button>
-
-              <p-button
-                label="{{ 'Save' | translate }}"
-                icon="pi pi-save"
-                type="submit"
-                [disabled]="isUpdating()"
-                [loading]="isUpdating()"
-              ></p-button>
-            </div>
-          </form>
-        </div>
       </div>
     </div>
   </div>
+
+  <!-- Edit Profile Dialog -->
+  <p-dialog
+    [header]="'Edit Profile' | translate"
+    [modal]="true"
+    [visible]="isDialogVisible()"
+    [closable]="true"
+    [closeOnEscape]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '500px', maxWidth: '95vw' }"
+    (onHide)="onDialogHide()"
+  >
+    <div class="edit-profile-dialog">
+      <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <app-form-control label="Name" [control]="formControls['name']" />
+        </div>
+
+        <div class="form-group">
+          <app-form-control label="Country" [control]="formControls['country']" />
+        </div>
+      </form>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <div class="dialog-footer">
+        <p-button
+          [label]="'Cancel' | translate"
+          icon="pi pi-times"
+          severity="secondary"
+          (onClick)="cancelEdit()"
+          [disabled]="isUpdating()"
+        />
+        <p-button
+          [label]="'Save' | translate"
+          icon="pi pi-save"
+          (onClick)="onSubmit()"
+          [disabled]="isUpdating()"
+          [loading]="isUpdating()"
+        />
+      </div>
+    </ng-template>
+  </p-dialog>
 </div>

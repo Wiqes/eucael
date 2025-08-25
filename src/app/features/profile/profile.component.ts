@@ -16,6 +16,7 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
+import { DialogModule } from 'primeng/dialog';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
@@ -30,6 +31,7 @@ import { FormControlComponent } from '../../shared/ui/form-control/form-control.
     ButtonModule,
     InputTextModule,
     DropdownModule,
+    DialogModule,
     FormControlComponent,
     ToastModule,
   ],
@@ -43,7 +45,7 @@ export class ProfileComponent {
   private fb = inject(FormBuilder);
   private messageService = inject(MessageService);
 
-  isEditMode = signal(false);
+  isDialogVisible = signal(false);
   isUpdating = signal(false);
 
   editProfileForm: FormGroup;
@@ -81,7 +83,7 @@ export class ProfileComponent {
   }
 
   openEditMode(): void {
-    this.isEditMode.set(true);
+    this.isDialogVisible.set(true);
     // Pre-fill the form with current values
     this.editProfileForm.patchValue({
       name: this.displayName(),
@@ -90,7 +92,12 @@ export class ProfileComponent {
   }
 
   cancelEdit(): void {
-    this.isEditMode.set(false);
+    this.isDialogVisible.set(false);
+    this.editProfileForm.reset();
+  }
+
+  onDialogHide(): void {
+    this.isDialogVisible.set(false);
     this.editProfileForm.reset();
   }
 
@@ -113,7 +120,7 @@ export class ProfileComponent {
             summary: 'Success',
             detail: 'Profile updated successfully',
           });
-          this.isEditMode.set(false);
+          this.isDialogVisible.set(false);
           this.isUpdating.set(false);
         },
         error: (error) => {

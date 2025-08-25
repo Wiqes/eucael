@@ -12,6 +12,12 @@
   }
 }
 
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
 .profile-container {
   min-height: 100vh;
   position: relative;
