@@ -53,27 +53,24 @@
         <div class="form-group">
           <app-form-control label="Country" [control]="formControls['country']" />
         </div>
+        <div class="dialog-footer">
+          <p-button
+            [label]="'Cancel' | translate"
+            icon="pi pi-times"
+            severity="secondary"
+            (onClick)="cancelEdit()"
+            [disabled]="isUpdating()"
+          />
+          <p-button
+            [label]="'Save' | translate"
+            icon="pi pi-save"
+            type="submit"
+            (onClick)="onSubmit()"
+            [disabled]="isUpdating()"
+            [loading]="isUpdating()"
+          />
+        </div>
       </form>
     </div>
-
-    <ng-template pTemplate="footer">
-      <div class="dialog-footer">
-        <p-button
-          [label]="'Cancel' | translate"
-          icon="pi pi-times"
-          severity="secondary"
-          (onClick)="cancelEdit()"
-          [disabled]="isUpdating()"
-        />
-        <p-button
-          [label]="'Save' | translate"
-          icon="pi pi-save"
-          type="submit"
-          (onClick)="onSubmit()"
-          [disabled]="isUpdating()"
-          [loading]="isUpdating()"
-        />
-      </div>
-    </ng-template>
   </p-dialog>
 </div>
