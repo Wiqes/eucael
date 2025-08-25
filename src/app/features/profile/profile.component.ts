@@ -4,7 +4,7 @@ import { StateService } from '../../core/services/state.service';
 import { LanguageService } from '../../core/services/language.service';
 import { ProfileService } from '../../core/services/profile.service';
 import { ProfileHeaderComponent } from './profile-header/profile-header.component';
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -26,7 +26,7 @@ import { FormControlComponent } from '../../shared/ui/form-control/form-control.
   imports: [
     TranslateModule,
     ProfileHeaderComponent,
-    NgIf,
+    CommonModule,
     ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
@@ -79,7 +79,10 @@ export class ProfileComponent {
       country: ['', [Validators.required]],
     });
 
-    this.formControls = this.editProfileForm.controls as { [key: string]: FormControl };
+    this.formControls = {
+      name: this.editProfileForm.get('name') as FormControl,
+      country: this.editProfileForm.get('country') as FormControl,
+    };
   }
 
   openEditMode(): void {
@@ -103,6 +106,8 @@ export class ProfileComponent {
 
   onSubmit(): void {
     if (this.editProfileForm.invalid) {
+      // Mark all form controls as touched to display validation errors
+      this.editProfileForm.markAllAsTouched();
       return;
     }
 

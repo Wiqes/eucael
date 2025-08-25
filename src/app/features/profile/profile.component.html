@@ -44,7 +44,7 @@
     (onHide)="onDialogHide()"
   >
     <div class="edit-profile-dialog">
-      <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" #profileForm="ngForm">
         <div class="form-group">
           <app-form-control label="Name" [control]="formControls['name']" />
         </div>
@@ -67,6 +67,7 @@
         <p-button
           [label]="'Save' | translate"
           icon="pi pi-save"
+          type="submit"
           (onClick)="onSubmit()"
           [disabled]="isUpdating()"
           [loading]="isUpdating()"
