@@ -16,3 +16,8 @@ export interface IUploadAvatarRequest {
   filename: string;
   contentType: string;
 }
+
+export interface IUpdateProfileDto {
+  name?: string;
+  country?: string;
+}

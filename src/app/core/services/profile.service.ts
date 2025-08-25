@@ -1,8 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
-import { IUploadAvatarRequest, PresignedUrlResponse } from '../models/api-requests.model';
+import {
+  IUploadAvatarRequest,
+  PresignedUrlResponse,
+  IUpdateProfileDto,
+} from '../models/api-requests.model';
 import { Observable, switchMap, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { IProfile } from '../models/entities/profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -67,5 +72,9 @@ export class ProfileService {
           });
       }, 100);
     });
+  }
+
+  updateProfile(updateProfileDto: IUpdateProfileDto): Observable<IProfile> {
+    return this.http.put<IProfile>(`${environment.API_URL}/profiles`, updateProfileDto);
   }
 }
