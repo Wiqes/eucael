@@ -57,6 +57,13 @@
       cursor: pointer;
       display: flex;
       align-items: center;
+
+      .logo {
+        font-family: 'Uncial Antiqua', cursive;
+        font-size: 22px;
+        color: $primary-color;
+        font-weight: bold;
+      }
     }
 
     .divider {

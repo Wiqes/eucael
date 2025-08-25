@@ -1,6 +1,5 @@
 import { Component, computed, inject, OnInit, HostListener, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { LogoComponent } from '../../shared/ui/logo.component';
 import { StateService } from '../../core/services/state.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgIf, NgClass } from '@angular/common';
@@ -14,7 +13,6 @@ import { LanguageSelectorComponent } from '../../shared/ui/language-selector/lan
   standalone: true,
   imports: [
     ButtonModule,
-    LogoComponent,
     TranslateModule,
     NgIf,
     NgClass,
