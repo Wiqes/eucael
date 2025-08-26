@@ -55,12 +55,11 @@ export class SeoService {
 
   getDefaultSeoData(): SeoData {
     return {
-      title:
-        'Eucael: Shadow of Totem - Produce Shadows, Summon the Mythological Creatures | Strategy Game"',
+      title: 'Eucael: Shadows of the Totem – Summon the Creatures',
       description:
-        'Eucael: Shadow of Totem is an immersive strategy game where you produce shadows and transform them into rare Mythological creatures. Build your extensive Creature collection and master the art of strategic gameplay.',
+        'Eucael: Shadows of the Totem is an immersive strategy game where you produce shadows and transform them into rare Mythological creatures. Build your extensive Creature collection and master the art of strategic gameplay.',
       keywords:
-        'Eucael: Shadow of Totem, strategy game, Creature collection, shadows, Eucael, RPG, gaming, Mythological creatures, collection game, strategic gameplay',
+        'Eucael: Shadows of the Totem, strategy game, Creature collection, shadows, Eucael, RPG, gaming, Mythological creatures, collection game, strategic gameplay',
       image: '/assets/images/og-image.jpg',
       type: 'website',
     };
@@ -73,18 +72,17 @@ export class SeoService {
       case 'home':
         return {
           ...baseData,
-          title:
-            'Eucael: Shadow of Totem - Produce Shadows, Summon the Mythological Creatures | Strategy Game"',
+          title: 'Eucael: Shadows of the Totem – Summon the Creatures',
           description:
-            'Welcome to Eucael: Shadow of Totem! Start your journey in the ultimate strategy game where shadows become legendary Mythological creatures. Join thousands of players building their Creature collections.',
+            'Welcome to Eucael: Shadows of the Totem! Start your journey in the ultimate strategy game where shadows become legendary Mythological creatures. Join thousands of players building their Creature collections.',
         };
 
       case 'embodiments':
         return {
           ...baseData,
-          title: 'Eucael',
+          title: 'Eucael: Shadows of the Totem – Summon the Creatures',
           description:
-            'Discover all Mythological creature embodiments in Eucael: Shadow of Totem. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
+            'Discover all Mythological creature embodiments in Eucael: Shadows of the Totem. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
           keywords:
             baseData.keywords +
             ', embodiments, Mythological creature summonings, rare Mythological creatures, character builds',
@@ -93,28 +91,26 @@ export class SeoService {
       case 'admin':
         return {
           ...baseData,
-          title: 'Admin Panel | Eucael',
+          title: 'Eucael: Shadows of the Totem – Summon the Creatures',
           description:
-            'Administrative interface for Eucael: Shadow of Totem game management and player oversight.',
+            'Administrative interface for Eucael: Shadows of the Totem game management and player oversight.',
         };
 
       case 'profile':
         return {
           ...baseData,
-          title:
-            'Eucael: Shadow of Totem - Produce Shadows, Summon the Mythological Creatures | Strategy Game"',
+          title: 'Eucael: Shadows of the Totem – Summon the Creatures',
           description:
-            'View your Eucael: Shadow of Totem player profile, Creature collection statistics, and achievement progress.',
+            'View your Eucael: Shadows of the Totem player profile, Creature collection statistics, and achievement progress.',
           keywords: baseData.keywords + ', player profile, achievements, statistics',
         };
 
       case 'login':
         return {
           ...baseData,
-          title:
-            'Eucael: Shadow of Totem - Produce Shadows, Summon the Mythological Creatures | Strategy Game"',
+          title: 'Eucael: Shadows of the Totem – Summon the Creatures',
           description:
-            'Login to Eucael: Shadow of Totem to access your Creature collection, continue your shadow gathering journey, and compete with players worldwide.',
+            'Login to Eucael: Shadows of the Totem to access your Creature collection, continue your shadow gathering journey, and compete with players worldwide.',
         };
 
       default:
