@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 export interface SeoData {
   title: string;
@@ -14,7 +16,11 @@ export interface SeoData {
   providedIn: 'root',
 })
 export class SeoService {
-  constructor(private meta: Meta, private titleService: Title) {}
+  constructor(
+    private meta: Meta,
+    private titleService: Title,
+    @Inject(DOCUMENT) private document: Document,
+  ) {}
 
   updateSeoData(seoData: SeoData): void {
     // Update title
@@ -27,6 +33,9 @@ export class SeoService {
     if (seoData.keywords) {
       this.meta.updateTag({ name: 'keywords', content: seoData.keywords });
     }
+
+    // Update canonical URL
+    this.updateCanonicalUrl(seoData.url);
 
     // Update Open Graph tags
     this.meta.updateTag({ property: 'og:title', content: seoData.title });
@@ -53,6 +62,21 @@ export class SeoService {
     }
   }
 
+  private updateCanonicalUrl(url?: string): void {
+    // Remove existing canonical link
+    const existingCanonical = this.document.querySelector('link[rel="canonical"]');
+    if (existingCanonical) {
+      existingCanonical.remove();
+    }
+
+    // Add new canonical link
+    const canonicalUrl = url || environment.DOMAIN;
+    const link = this.document.createElement('link');
+    link.setAttribute('rel', 'canonical');
+    link.setAttribute('href', canonicalUrl);
+    this.document.head.appendChild(link);
+  }
+
   getDefaultSeoData(): SeoData {
     return {
       title: 'Eucael: Shadows of the Totem – Summon the Creatures',
@@ -67,6 +91,7 @@ export class SeoService {
 
   getPageSeoData(page: string): SeoData {
     const baseData = this.getDefaultSeoData();
+    const baseUrl = environment.production ? 'https://www.eucael.com' : 'http://localhost:4200';
 
     switch (page) {
       case 'home':
@@ -75,6 +100,7 @@ export class SeoService {
           title: 'Eucael: Shadows of the Totem – Summon the Creatures',
           description:
             'Welcome to Eucael: Shadows of the Totem! Start your journey in the ultimate strategy game where shadows become legendary Mythological creatures. Join thousands of players building their Creature collections.',
+          url: `${baseUrl}/home`,
         };
 
       case 'embodiments':
@@ -86,35 +112,42 @@ export class SeoService {
           keywords:
             baseData.keywords +
             ', embodiments, Mythological creature summonings, rare Mythological creatures, character builds',
-        };
-
-      case 'admin':
-        return {
-          ...baseData,
-          title: 'Eucael: Shadows of the Totem – Summon the Creatures',
-          description:
-            'Administrative interface for Eucael: Shadows of the Totem game management and player oversight.',
-        };
-
-      case 'profile':
-        return {
-          ...baseData,
-          title: 'Eucael: Shadows of the Totem – Summon the Creatures',
-          description:
-            'View your Eucael: Shadows of the Totem player profile, Creature collection statistics, and achievement progress.',
-          keywords: baseData.keywords + ', player profile, achievements, statistics',
+          url: `${baseUrl}/embodiments`,
         };
 
       case 'login':
+      case '': // root path
         return {
           ...baseData,
-          title: 'Eucael: Shadows of the Totem – Summon the Creatures',
+          title: 'Eucael: Shadows of the Totem – Login & Start Playing',
           description:
             'Login to Eucael: Shadows of the Totem to access your Creature collection, continue your shadow gathering journey, and compete with players worldwide.',
+          url: baseUrl,
+        };
+
+      case 'reset-password':
+        return {
+          ...baseData,
+          title: 'Reset Password - Eucael: Shadows of the Totem',
+          description:
+            'Reset your Eucael: Shadows of the Totem account password to regain access to your creature collection and gaming progress.',
+          url: `${baseUrl}/reset-password`,
+        };
+
+      // Protected pages - minimal SEO data (optional, for edge cases)
+      case 'admin':
+      case 'profile':
+        return {
+          title: 'Eucael: Shadows of the Totem', // Minimal title for tab display
+          description: 'Game management interface',
+          // No URL, keywords, or other SEO data needed
         };
 
       default:
-        return baseData;
+        return {
+          ...baseData,
+          url: baseUrl,
+        };
     }
   }
 }
