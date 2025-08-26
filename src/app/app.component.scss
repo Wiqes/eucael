@@ -83,3 +83,8 @@
 ::ng-deep p-password.ng-invalid.ng-dirty .p-inputtext:focus {
   border-color: $primary-color !important;
 }
+
+::ng-deep .p-dialog-title {
+  color: $primary-color !important;
+  font-weight: 900 !important;
+}
