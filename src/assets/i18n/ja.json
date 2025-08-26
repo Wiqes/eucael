@@ -189,5 +189,19 @@
   "Fenrir": "フェンリル",
   "Select Animals": "動物を選択",
   "Edit Profile": "プロフィールを編集",
-  "Edit": "編集"
+  "Edit": "編集",
+  "Name": "名前",
+  "Country": "国",
+  "Save": "保存",
+  "Upload": "アップロード",
+  "Cancel": "キャンセル",
+  "Personal Information": "個人情報",
+  "Registration": "登録",
+  "Upload Avatar": "アバターをアップロード",
+  "Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.": "クロップエリアをドラッグして移動します。角のハンドルを使ってサイズを変更します。スクロールでズームします。",
+  "Preview": "プレビュー",
+  "Reset": "リセット",
+  "Zoom": "ズーム",
+  "The image will be cropped to a square for your avatar.": "画像はアバター用に正方形にクロップされます。",
+  "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "キーボード: 矢印キーで移動、Ctrl +/-でズーム、Ctrl+0でリセット"
 }

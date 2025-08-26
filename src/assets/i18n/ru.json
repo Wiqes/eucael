@@ -189,5 +189,19 @@
   "Fenrir": "Фенрир",
   "Select Animals": "Выбрать животных",
   "Edit Profile": "Редактировать профиль",
-  "Edit": "Редактировать"
+  "Edit": "Редактировать",
+  "Name": "Имя",
+  "Country": "Страна",
+  "Save": "Сохранить",
+  "Upload": "Загрузить",
+  "Cancel": "Отменить",
+  "Personal Information": "Личная информация",
+  "Registration": "Регистрация",
+  "Upload Avatar": "Загрузить аватар",
+  "Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.": "Перетащите область обрезки, чтобы переместить её. Используйте угловые ручки для изменения размера. Прокрутите для увеличения.",
+  "Preview": "Предпросмотр",
+  "Reset": "Сбросить",
+  "Zoom": "Масштаб",
+  "The image will be cropped to a square for your avatar.": "Изображение будет обрезано до квадрата для вашего аватара.",
+  "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "Клавиатура: стрелки для перемещения, Ctrl +/- для масштабирования, Ctrl+0 для сброса"
 }

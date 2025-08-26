@@ -189,5 +189,19 @@
   "Fenrir": "Fenrir",
   "Select Animals": "Hayvanları Seç",
   "Edit Profile": "Profili Düzenle",
-  "Edit": "Düzenle"
+  "Edit": "Düzenle",
+  "Name": "İsim",
+  "Country": "Ülke",
+  "Save": "Kaydet",
+  "Upload": "Yükle",
+  "Cancel": "İptal",
+  "Personal Information": "Kişisel Bilgiler",
+  "Registration": "Kayıt",
+  "Upload Avatar": "Avatar Yükle",
+  "Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.": "Kırpma alanını hareket ettirmek için sürükleyin. Yeniden boyutlandırmak için köşe tutamaçlarını kullanın. Yakınlaştırmak için kaydırın.",
+  "Preview": "Önizleme",
+  "Reset": "Sıfırla",
+  "Zoom": "Yakınlaştır",
+  "The image will be cropped to a square for your avatar.": "Resim avatar'ınız için kare olarak kırpılacak.",
+  "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "Klavye: Hareket etmek için ok tuşları, yakınlaştırmak için Ctrl +/-, sıfırlamak için Ctrl+0"
 }

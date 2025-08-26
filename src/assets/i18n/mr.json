@@ -189,5 +189,19 @@
   "Fenrir": "फेनरिर",
   "Select Animals": "पशु निवडा",
   "Edit Profile": "प्रोफाइल संपादित करा",
-  "Edit": "संपादित करा"
+  "Edit": "संपादित करा",
+  "Name": "नाव",
+  "Country": "देश",
+  "Save": "सेव्ह करा",
+  "Upload": "अपलोड",
+  "Cancel": "रद्द करा",
+  "Personal Information": "व्यक्तिगत माहिती",
+  "Registration": "नोंदणी",
+  "Upload Avatar": "अवतार अपलोड करा",
+  "Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.": "क्रॉप एरिया हलविण्यासाठी ओढा. आकार बदलण्यासाठी कोपऱ्याचे हँडल वापरा. झूम करण्यासाठी स्क्रोल करा.",
+  "Preview": "पूर्वावलोकन",
+  "Reset": "रीसेट",
+  "Zoom": "झूम",
+  "The image will be cropped to a square for your avatar.": "तुमच्या अवतारासाठी प्रतिमा चौकोनात कापली जाईल.",
+  "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "कीबोर्ड: हलविण्यासाठी बाण की, झूम करण्यासाठी Ctrl +/-, रीसेट करण्यासाठी Ctrl+0"
 }

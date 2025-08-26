@@ -189,5 +189,19 @@
   "Fenrir": "பென்ரிர்",
   "Select Animals": "பசு தேர்ந்தெடுக்கவும்",
   "Edit Profile": "பராமரிப்பு சுயவிவரம்",
-  "Edit": "செய்திகளைத் திருத்தவும்"
+  "Edit": "செய்திகளைத் திருத்தவும்",
+  "Name": "பெயர்",
+  "Country": "நாடு",
+  "Save": "சேமிக்கவும்",
+  "Upload": "பதிவேற்றவும்",
+  "Cancel": "ரத்துசெய்யவும்",
+  "Personal Information": "தனிப்பட்ட தகவல்",
+  "Registration": "பதிவு",
+  "Upload Avatar": "அவதாரம் பதிவேற்றவும்",
+  "Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.": "கிராப் பகுதியை நகர்த்த இழுக்கவும். அளவு மாற்ற மூலை கைப்பிடிகளை பயன்படுத்தவும். ஜூம் செய்ய ஸ்கிரால் செய்யவும்.",
+  "Preview": "மாதிரிக்காட்சி",
+  "Reset": "மறுஒருங்கிணைவு",
+  "Zoom": "ஜூம்",
+  "The image will be cropped to a square for your avatar.": "உங்கள் அவதாரத்திற்கு படம் சதுரமாக வெட்டப்படும்.",
+  "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "கீபோர்ட்: நகர்த்த அரோ கீஸ், ஜூம் செய்ய Ctrl +/-, மீட்டமைக்க Ctrl+0"
 }

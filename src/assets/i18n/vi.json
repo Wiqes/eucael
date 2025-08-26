@@ -189,5 +189,19 @@
   "Fenrir": "Fenrir",
   "Select Animals": "Chọn động vật",
   "Edit Profile": "Chỉnh sửa hồ sơ",
-  "Edit": "Chỉnh sửa"
+  "Edit": "Chỉnh sửa",
+  "Name": "Tên",
+  "Country": "Quốc gia",
+  "Save": "Lưu",
+  "Upload": "Tải lên",
+  "Cancel": "Hủy",
+  "Personal Information": "Thông tin cá nhân",
+  "Registration": "Đăng ký",
+  "Upload Avatar": "Tải lên avatar",
+  "Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.": "Kéo vùng cắt để di chuyển nó. Sử dụng các tay cầm góc để thay đổi kích thước. Cuộn để phóng to.",
+  "Preview": "Xem trước",
+  "Reset": "Đặt lại",
+  "Zoom": "Phóng to",
+  "The image will be cropped to a square for your avatar.": "Hình ảnh sẽ được cắt thành hình vuông cho avatar của bạn.",
+  "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "Bàn phím: Phím mũi tên để di chuyển, Ctrl +/- để phóng to, Ctrl+0 để đặt lại"
 }

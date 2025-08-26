@@ -189,5 +189,19 @@
   "Fenrir": "ਫੇਨਰਿਰ",
   "Select Animals": "ਪਸ਼ੂ ਚੁਣੋ",
   "Edit Profile": "ਪ੍ਰੋਫਾਈਲ ਸੰਪਾਦਿਤ ਕਰੋ",
-  "Edit": "ਸंपादित करें"
+  "Edit": "ਸंपादित करें",
+  "Name": "ਨਾਮ",
+  "Country": "ਦੇਸ਼",
+  "Save": "ਸੇਵ ਕਰੋ",
+  "Upload": "ਅਪਲੋਡ",
+  "Cancel": "ਰੱਦ ਕਰੋ",
+  "Personal Information": "ਵਿਅਕਤਿਗਤ ਜਾਣਕਾਰੀ",
+  "Registration": "ਪੰਜੀਕਰਣ",
+  "Upload Avatar": "ਅਵਤਾਰ ਅਪਲੋਡ ਕਰੋ",
+  "Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.": "ਕ੍ਰੌਪ ਏਰੀਆ ਨੂੰ ਹਿਲਾਉਣ ਲਈ ਖਿੱਚੋ। ਰੀਸਾਈਜ਼ ਕਰਨ ਲਈ ਕੋਨੇ ਦੇ ਹੈਂਡਲ ਵਰਤੋ। ਜ਼ੂਮ ਕਰਨ ਲਈ ਸਕ੍ਰੌਲ ਕਰੋ।",
+  "Preview": "ਪੂਰਵਦਰਸ਼ਨ",
+  "Reset": "ਰੀਸੈੱਟ",
+  "Zoom": "ਜ਼ੂਮ",
+  "The image will be cropped to a square for your avatar.": "ਤੁਹਾਡੇ ਅਵਤਾਰ ਲਈ ਚਿੱਤਰ ਵਰਗਾਕਾਰ ਵਿੱਚ ਕੱਟਿਆ ਜਾਵੇਗਾ।",
+  "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "ਕੀਬੋਰਡ: ਹਿਲਾਉਣ ਲਈ ਤੀਰ ਕੀਜ਼, ਜ਼ੂਮ ਕਰਨ ਲਈ Ctrl +/-, ਰੀਸੈੱਟ ਕਰਨ ਲਈ Ctrl+0"
 }

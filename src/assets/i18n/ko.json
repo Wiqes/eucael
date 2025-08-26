@@ -189,5 +189,19 @@
   "Fenrir": "펜리르",
   "Select Animals": "동물 선택",
   "Edit Profile": "프로필 편집",
-  "Edit": "편집"
+  "Edit": "편집",
+  "Name": "이름",
+  "Country": "국가",
+  "Save": "저장",
+  "Upload": "업로드",
+  "Cancel": "취소",
+  "Personal Information": "개인 정보",
+  "Registration": "등록",
+  "Upload Avatar": "아바타 업로드",
+  "Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.": "자르기 영역을 드래그하여 이동시킵니다. 모서리 핸들을 사용하여 크기를 조정합니다. 스크롤하여 확대합니다.",
+  "Preview": "미리보기",
+  "Reset": "재설정",
+  "Zoom": "확대",
+  "The image will be cropped to a square for your avatar.": "이미지는 아바타를 위해 정사각형으로 자를 예정입니다.",
+  "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "키보드: 화살표 키로 이동, Ctrl +/-로 확대/축소, Ctrl+0으로 재설정"
 }
