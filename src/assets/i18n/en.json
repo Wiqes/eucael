@@ -204,5 +204,14 @@
   "Country": "Country",
   "Save": "Save",
   "Upload": "Upload",
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
+  "Personal Information": "Personal Information",
+  "Registration": "Registration",
+  "Upload Avatar": "Upload Avatar",
+  "Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.": "Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.",
+  "Preview": "Preview",
+  "Reset": "Reset",
+  "Zoom": "Zoom",
+  "The image will be cropped to a square for your avatar.": "The image will be cropped to a square for your avatar.",
+  "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset"
 }
