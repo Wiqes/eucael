@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal, OnInit } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { StateService } from '../../core/services/state.service';
 import { NgFor } from '@angular/common';
@@ -28,7 +28,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   templateUrl: './embodiments.component.html',
   styleUrl: './embodiments.component.scss',
 })
-export class EmbodimentsComponent extends HomeComponent implements OnInit {
+export class EmbodimentsComponent extends HomeComponent {
   private readonly stateService = inject(StateService);
   private translate = inject(TranslateService);
   private newLanguageSignal = toSignal(this.translate.onLangChange.asObservable());
@@ -51,10 +51,4 @@ export class EmbodimentsComponent extends HomeComponent implements OnInit {
   filteredAnimals = computed(() => {
     return this.selectedAnimals().length ? this.selectedAnimals() : this.animals();
   });
-
-  override ngOnInit(): void {
-    super.ngOnInit();
-    // Update SEO metadata for the embodiments page
-    this.seoService.updateSeoData(this.seoService.getPageSeoData('embodiments'));
-  }
 }

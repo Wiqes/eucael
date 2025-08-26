@@ -4,7 +4,6 @@ import { MessageService } from '../../core/services/message.service';
 import { MESSAGES } from '../../core/constants/messages';
 import { Location } from '@angular/common';
 import { AuthService } from '../../core/services/auth/auth.service';
-import { SeoService } from '../../core/services/seo.service';
 
 @Component({
   selector: 'app-home',
@@ -12,13 +11,12 @@ import { SeoService } from '../../core/services/seo.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private location = inject(Location);
   private messageService = inject(MessageService);
   private authService = inject(AuthService);
-  protected seoService = inject(SeoService);
 
   constructor() {
     // Check for Google OAuth token in URL
@@ -35,10 +33,5 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['']);
       }
     });
-  }
-
-  ngOnInit(): void {
-    // Update SEO metadata for the home page
-    this.seoService.updateSeoData(this.seoService.getPageSeoData('home'));
   }
 }
