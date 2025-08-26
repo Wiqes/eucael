@@ -84,4 +84,14 @@ export const MESSAGES = {
     summary: 'messages.fileSize.error.summary',
     detail: 'messages.fileSize.error.detail',
   },
+  PROFILE_UPDATE_SUCCESS: {
+    severity: 'success',
+    summary: 'messages.profile.success.summary',
+    detail: 'messages.profile.success.detail',
+  },
+  PROFILE_UPDATE_FAILED: {
+    severity: 'error',
+    summary: 'messages.profile.failed.summary',
+    detail: 'messages.profile.failed.detail',
+  },
 };

@@ -10,16 +10,16 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  AbstractControl,
   FormControl,
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
-import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
+import { MessageService } from '../../core/services/message.service';
+import { MESSAGES } from '../../core/constants/messages';
 
 @Component({
   selector: 'app-profile',
@@ -124,21 +124,12 @@ export class ProfileComponent {
         next: (updatedProfile) => {
           // Update the state with the new profile data
           this.stateService.updateUserProfile(updatedProfile);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Profile updated successfully',
-          });
+          this.messageService.sendMessage(MESSAGES.PROFILE_UPDATE_SUCCESS);
           this.isDialogVisible.set(false);
           this.isUpdating.set(false);
         },
         error: (error) => {
-          console.error('Error updating profile:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Failed to update profile. Please try again.',
-          });
+          this.messageService.sendMessage(MESSAGES.PROFILE_UPDATE_FAILED);
           this.isUpdating.set(false);
         },
       });
