@@ -95,35 +95,6 @@
         }
 
         .card-content {
-          .info-item {
-            display: flex;
-            justify-content: space-between;
-            gap: 22px;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            min-height: 44px; // Minimum touch target size
-            word-break: break-word;
-
-            &:last-child {
-              border-bottom: none;
-            }
-
-            label {
-              font-weight: 500;
-              color: rgba(255, 255, 255, 0.7);
-              flex-shrink: 0;
-            }
-
-            span {
-              font-weight: 600;
-              color: white;
-              text-align: right;
-              flex: 1;
-              overflow-wrap: break-word;
-            }
-          }
-
           // Edit form styles
           &.edit-form {
             .form-actions {
@@ -172,23 +143,6 @@
 
         .info-card {
           padding: 1.5rem;
-
-          .card-content {
-            .info-item {
-              flex-direction: column;
-              align-items: flex-start;
-              gap: 0.5rem;
-              padding: 0.75rem 0;
-
-              label {
-                font-size: 0.9rem;
-              }
-
-              span {
-                font-size: 1rem;
-              }
-            }
-          }
         }
       }
     }
@@ -212,20 +166,6 @@
 
             h3 {
               font-size: 1.1rem;
-            }
-          }
-
-          .card-content {
-            .info-item {
-              padding: 0.5rem 0;
-
-              label {
-                font-size: 0.85rem;
-              }
-
-              span {
-                font-size: 0.95rem;
-              }
             }
           }
         }

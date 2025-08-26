@@ -10,22 +10,10 @@
 
         <!-- View Mode -->
         <div class="card-content">
-          <div class="info-item">
-            <label>{{ 'Name' | translate }}</label>
-            <span>{{ displayName() || 'Not provided' }}</span>
-          </div>
-          <div class="info-item">
-            <label>{{ 'Country' | translate }}</label>
-            <span>{{ country() || 'Not specified' }}</span>
-          </div>
-          <div class="info-item">
-            <label>{{ 'Email' | translate }}</label>
-            <span>{{ email() || 'Not provided' }}</span>
-          </div>
-          <div class="info-item">
-            <label>{{ 'Registration' | translate }}</label>
-            <span>{{ formattedRegistrationDate() || 'Not provided' }}</span>
-          </div>
+          <app-info-item label="Name" [value]="displayName()" />
+          <app-info-item label="Country" [value]="country()" />
+          <app-info-item label="Email" [value]="email()" />
+          <app-info-item label="Registration" [value]="formattedRegistrationDate()" />
         </div>
       </div>
     </div>

@@ -20,6 +20,7 @@ import { ToastModule } from 'primeng/toast';
 import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
 import { MessageService } from '../../core/services/message.service';
 import { MESSAGES } from '../../core/constants/messages';
+import { InfoItemComponent } from './info-item/info-item.component';
 
 @Component({
   selector: 'app-profile',
@@ -33,6 +34,7 @@ import { MESSAGES } from '../../core/constants/messages';
     DropdownModule,
     DialogModule,
     FormControlComponent,
+    InfoItemComponent,
     ToastModule,
   ],
   templateUrl: './profile.component.html',
