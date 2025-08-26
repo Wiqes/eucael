@@ -20,10 +20,18 @@ import { HttpEventType } from '@angular/common/http';
 import { MessageService } from '../../../core/services/message.service';
 import { MESSAGES } from '../../../core/constants/messages';
 import { AvatarService } from '../../../core/services/avatar.service';
+import { CropInstructionsComponent } from './crop-instructions/crop-instructions.component';
 
 @Component({
   selector: 'app-avatar-upload-dialog',
-  imports: [CommonModule, TranslateModule, DialogModule, ButtonModule, ProgressBarModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    DialogModule,
+    ButtonModule,
+    ProgressBarModule,
+    CropInstructionsComponent,
+  ],
   templateUrl: './avatar-upload-dialog.component.html',
   styleUrl: './avatar-upload-dialog.component.scss',
 })

@@ -76,20 +76,7 @@
         </div>
       </div>
 
-      <div class="crop-instructions">
-        <p>
-          {{
-            'Drag the crop area to move it. Use the corner handles to resize. Scroll to zoom.'
-              | translate
-          }}
-        </p>
-        <p class="crop-hint">
-          {{ 'The image will be cropped to a square for your avatar.' | translate }}
-        </p>
-        <p class="keyboard-shortcuts">
-          {{ 'Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset' | translate }}
-        </p>
-      </div>
+      <app-crop-instructions />
     </div>
     }
 
