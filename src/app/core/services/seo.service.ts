@@ -55,11 +55,12 @@ export class SeoService {
 
   getDefaultSeoData(): SeoData {
     return {
-      title: 'Eucael',
+      title:
+        'Eucael: Shadow of Totem - Produce Shadows, Summon the Mythological Creatures | Strategy Game"',
       description:
-        'Eucael: Shadow of Totem is an immersive strategy game where you produce shadows and transform them into rare Shapeshifters. Build your extensive Card collection and master the art of strategic gameplay.',
+        'Eucael: Shadow of Totem is an immersive strategy game where you produce shadows and transform them into rare Mythological creatures. Build your extensive Creature collection and master the art of strategic gameplay.',
       keywords:
-        'Eucael: Shadow of Totem, strategy game, Card collection, shadows, Eucael, RPG, gaming, Shapeshifters, collection game, strategic gameplay',
+        'Eucael: Shadow of Totem, strategy game, Creature collection, shadows, Eucael, RPG, gaming, Mythological creatures, collection game, strategic gameplay',
       image: '/assets/images/og-image.jpg',
       type: 'website',
     };
@@ -72,9 +73,10 @@ export class SeoService {
       case 'home':
         return {
           ...baseData,
-          title: 'Eucael',
+          title:
+            'Eucael: Shadow of Totem - Produce Shadows, Summon the Mythological Creatures | Strategy Game"',
           description:
-            'Welcome to Eucael: Shadow of Totem! Start your journey in the ultimate strategy game where shadows become legendary Shapeshifters. Join thousands of players building their Card collections.',
+            'Welcome to Eucael: Shadow of Totem! Start your journey in the ultimate strategy game where shadows become legendary Mythological creatures. Join thousands of players building their Creature collections.',
         };
 
       case 'embodiments':
@@ -82,10 +84,10 @@ export class SeoService {
           ...baseData,
           title: 'Eucael',
           description:
-            'Discover all Shapeshifter embodiments in Eucael: Shadow of Totem. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
+            'Discover all Mythological creature embodiments in Eucael: Shadow of Totem. Learn about rare transformations, shadow requirements, and build the ultimate strategic team.',
           keywords:
             baseData.keywords +
-            ', embodiments, Shapeshifter summonings, rare Shapeshifters, character builds',
+            ', embodiments, Mythological creature summonings, rare Mythological creatures, character builds',
         };
 
       case 'admin':
@@ -99,18 +101,20 @@ export class SeoService {
       case 'profile':
         return {
           ...baseData,
-          title: 'Eucael',
+          title:
+            'Eucael: Shadow of Totem - Produce Shadows, Summon the Mythological Creatures | Strategy Game"',
           description:
-            'View your Eucael: Shadow of Totem player profile, Card collection statistics, and achievement progress.',
+            'View your Eucael: Shadow of Totem player profile, Creature collection statistics, and achievement progress.',
           keywords: baseData.keywords + ', player profile, achievements, statistics',
         };
 
       case 'login':
         return {
           ...baseData,
-          title: 'Eucael',
+          title:
+            'Eucael: Shadow of Totem - Produce Shadows, Summon the Mythological Creatures | Strategy Game"',
           description:
-            'Login to Eucael: Shadow of Totem to access your Card collection, continue your shadow gathering journey, and compete with players worldwide.',
+            'Login to Eucael: Shadow of Totem to access your Creature collection, continue your shadow gathering journey, and compete with players worldwide.',
         };
 
       default:
