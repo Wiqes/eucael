@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://eucael.com/sitemap.xml
+Sitemap: https://www.eucael.com/sitemap.xml
 
 # Disallow admin areas
 Disallow: /admin/
