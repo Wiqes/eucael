@@ -93,6 +93,16 @@
         "summary": "Dosya Boyutu Aşıldı",
         "detail": "Dosya boyutu 5MB'den küçük olmalıdır. Lütfen daha küçük bir dosya seçin."
       }
+    },
+    "profile": {
+      "success": {
+        "summary": "Profil Güncellendi",
+        "detail": "Profiliniz başarıyla güncellendi."
+      },
+      "failed": {
+        "summary": "Profil Güncellemesi Başarısız",
+        "detail": "Profil güncellenemedi. Lütfen tekrar deneyin."
+      }
     }
   },
   "primeng": {

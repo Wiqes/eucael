@@ -93,6 +93,16 @@
         "summary": "Tamaño de Archivo Excedido",
         "detail": "El tamaño del archivo debe ser menor a 5MB. Por favor elige un archivo más pequeño."
       }
+    },
+    "profile": {
+      "success": {
+        "summary": "Perfil Actualizado",
+        "detail": "Tu perfil ha sido actualizado exitosamente."
+      },
+      "failed": {
+        "summary": "Falló Actualización de Perfil",
+        "detail": "Error al actualizar el perfil. Por favor inténtalo de nuevo."
+      }
     }
   },
   "primeng": {

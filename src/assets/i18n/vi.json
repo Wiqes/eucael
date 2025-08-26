@@ -93,6 +93,16 @@
         "summary": "Kích thước tệp vượt quá giới hạn",
         "detail": "Kích thước tệp phải nhỏ hơn 5MB. Vui lòng chọn tệp nhỏ hơn."
       }
+    },
+    "profile": {
+      "success": {
+        "summary": "Hồ sơ đã được cập nhật",
+        "detail": "Hồ sơ của bạn đã được cập nhật thành công."
+      },
+      "failed": {
+        "summary": "Cập nhật hồ sơ thất bại",
+        "detail": "Không thể cập nhật hồ sơ. Vui lòng thử lại."
+      }
     }
   },
   "primeng": {

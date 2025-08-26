@@ -131,6 +131,16 @@
         "summary": "Dateigröße überschritten",
         "detail": "Die Dateigröße muss weniger als 5MB betragen. Bitte wählen Sie eine kleinere Datei."
       }
+    },
+    "profile": {
+      "success": {
+        "summary": "Profil aktualisiert",
+        "detail": "Ihr Profil wurde erfolgreich aktualisiert."
+      },
+      "failed": {
+        "summary": "Profil-Update fehlgeschlagen",
+        "detail": "Fehler beim Aktualisieren des Profils. Bitte versuchen Sie es erneut."
+      }
     }
   },
   "Find address...": "Adresse finden...",

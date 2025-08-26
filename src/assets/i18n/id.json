@@ -93,6 +93,16 @@
         "summary": "Ukuran File Melebihi Batas",
         "detail": "Ukuran file harus kurang dari 5MB. Silakan pilih file yang lebih kecil."
       }
+    },
+    "profile": {
+      "success": {
+        "summary": "Profil Diperbarui",
+        "detail": "Profil Anda telah berhasil diperbarui."
+      },
+      "failed": {
+        "summary": "Pembaruan Profil Gagal",
+        "detail": "Gagal memperbarui profil. Silakan coba lagi."
+      }
     }
   },
   "primeng": {

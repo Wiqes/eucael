@@ -93,6 +93,16 @@
         "summary": "文件大小超出限制",
         "detail": "文件大小必须小于5MB。请选择一个更小的文件。"
       }
+    },
+    "profile": {
+      "success": {
+        "summary": "个人资料已更新",
+        "detail": "您的个人资料已成功更新。"
+      },
+      "failed": {
+        "summary": "个人资料更新失败",
+        "detail": "更新个人资料失败。请重试。"
+      }
     }
   },
   "primeng": {

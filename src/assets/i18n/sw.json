@@ -93,6 +93,16 @@
         "summary": "Ukubwa wa Faili Umezidi",
         "detail": "Ukubwa wa faili lazima uwe chini ya 5MB. Tafadhali chagua faili ndogo."
       }
+    },
+    "profile": {
+      "success": {
+        "summary": "Profaili Imesasishwa",
+        "detail": "Profaili yako imesasishwa kwa mafanikio."
+      },
+      "failed": {
+        "summary": "Kusasisha Profaili Kumeshindwa",
+        "detail": "Kusasisha profaili kumeshindwa. Tafadhali jaribu tena."
+      }
     }
   },
   "primeng": {

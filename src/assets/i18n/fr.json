@@ -131,6 +131,16 @@
         "summary": "Taille de fichier dépassée",
         "detail": "La taille du fichier doit être inférieure à 5 Mo. Veuillez choisir un fichier plus petit."
       }
+    },
+    "profile": {
+      "success": {
+        "summary": "Profil Mis à Jour",
+        "detail": "Votre profil a été mis à jour avec succès."
+      },
+      "failed": {
+        "summary": "Échec de la Mise à Jour du Profil",
+        "detail": "Échec de la mise à jour du profil. Veuillez réessayer."
+      }
     }
   },
   "Find address...": "Trouver une adresse...",
