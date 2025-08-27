@@ -32,48 +32,13 @@
             (touchend)="onTouchEnd($event)"
           ></canvas>
         </div>
-
-        <div class="crop-controls">
-          <div class="zoom-controls">
-            <label>{{ 'Zoom' | translate }}</label>
-            <div class="zoom-buttons">
-              <p-button
-                icon="pi pi-minus"
-                size="small"
-                severity="contrast"
-                [disabled]="zoom <= 0.5"
-                (onClick)="adjustZoom(-0.2)"
-              />
-              <span class="zoom-level">{{ zoom * 100 | number : '1.0-0' }}%</span>
-              <p-button
-                icon="pi pi-plus"
-                size="small"
-                severity="contrast"
-                [disabled]="zoom >= 3"
-                (onClick)="adjustZoom(0.2)"
-              />
-            </div>
-          </div>
-
-          <div class="reset-controls">
-            <p-button
-              [label]="'Reset' | translate"
-              icon="pi pi-refresh"
-              size="small"
-              severity="contrast"
-              (onClick)="resetCrop()"
-            />
-          </div>
-
-          @if (previewImage()) {
-          <div class="crop-preview">
-            <label>{{ 'Preview' | translate }}</label>
-            <div class="preview-container">
-              <img [src]="previewImage()" alt="Preview" class="preview-image" />
-            </div>
-          </div>
-          }
-        </div>
+        <app-crop-controls
+          [zoom]="zoom"
+          [previewImage]="previewImage()"
+          (zoomIn)="adjustZoom(0.2)"
+          (zoomOut)="adjustZoom(-0.2)"
+          (resetCrop)="resetCrop()"
+        />
       </div>
 
       <app-crop-instructions />

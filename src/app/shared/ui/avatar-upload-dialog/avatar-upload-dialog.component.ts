@@ -21,6 +21,7 @@ import { MessageService } from '../../../core/services/message.service';
 import { MESSAGES } from '../../../core/constants/messages';
 import { AvatarService } from '../../../core/services/avatar.service';
 import { CropInstructionsComponent } from './crop-instructions/crop-instructions.component';
+import { CropControlsComponent } from './crop-controls/crop-controls.component';
 
 @Component({
   selector: 'app-avatar-upload-dialog',
@@ -31,6 +32,7 @@ import { CropInstructionsComponent } from './crop-instructions/crop-instructions
     ButtonModule,
     ProgressBarModule,
     CropInstructionsComponent,
+    CropControlsComponent
   ],
   templateUrl: './avatar-upload-dialog.component.html',
   styleUrl: './avatar-upload-dialog.component.scss',
