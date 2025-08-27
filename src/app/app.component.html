@@ -4,7 +4,7 @@
   @if(isLoggedIn() || authService.getStoredToken()) {
   <router-outlet name="header"></router-outlet>
   }
-  <main class="main-content">
+  <main *ngIf="!isDataLoading()" class="main-content">
     <router-outlet />
   </main>
 </div>
