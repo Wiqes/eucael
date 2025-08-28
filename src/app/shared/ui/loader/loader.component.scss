@@ -7,8 +7,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 95vh;
-  width: 95vw;
+  height: auto;
+  width: auto;
   max-width: 170vh;
   position: relative;
   overflow: hidden;
@@ -31,6 +31,7 @@
   border: 1px solid rgba(52, 245, 221, 0.8);
   box-shadow: 0 0 30px rgba(52, 245, 221, 0.3), inset 0 0 50px rgba(52, 245, 221, 0.1);
   flex-direction: row;
+  padding: 80px 80px 40px 80px;
 }
 
 .loader-showcase::before {
