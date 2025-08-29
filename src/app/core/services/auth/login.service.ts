@@ -6,6 +6,7 @@ import { ICredentials } from '../../models/credentials.model';
 import { AuthBaseService } from './auth-base.service';
 import { AuthTokenService } from './auth-token.service';
 import { FingerprintService } from '../fingerprint.service';
+import { ITokenData } from '../../models/token-data.model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,19 +28,20 @@ export class LoginService extends AuthBaseService {
     this.makeAuthRequest(
       '/auth/login',
       { username: email, password, fingerprint },
-      (res) => this.onLoginSuccess(res, email),
+      (res) => this.onLoginSuccess(res),
       () => this.handleError(MESSAGES.LOGIN_FAILED),
       false, // Disable regular loading for login to avoid conflicts with the auth token service
     );
   }
 
-  private onLoginSuccess(res: any, email?: string): void {
+  private onLoginSuccess(res: ITokenData): void {
     this.authTokenService.isLoggedIn.set(true);
     // Try to save token in a more robust way
     try {
       if (res?.access_token) {
         window.localStorage.setItem('token', res.access_token);
       }
+      window.localStorage.setItem('expires_in', res.expires_in.toString());
     } catch (e) {
       this.messageService.sendMessage(MESSAGES.STORAGE_ERROR);
     }

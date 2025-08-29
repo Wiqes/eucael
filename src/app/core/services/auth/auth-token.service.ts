@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { StateService } from '../state.service';
 import { AuthBaseService } from './auth-base.service';
 import { FingerprintService } from '../fingerprint.service';
+import { ITokenData } from '../../models/token-data.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,14 +30,26 @@ export class AuthTokenService extends AuthBaseService {
     return this.fingerprintService.getFingerprint();
   }
 
-  request() {
+  request(): void {
     const fingerprint = this.getFingerprint();
 
     this.makeAuthRequest(
       '/auth/refresh',
       { fingerprint },
-      () => this.handleSuccess(null),
+      (tokenData: ITokenData) => this.onRefreshSuccess(tokenData),
       () => this.handleError(null),
     );
+  }
+
+  private onRefreshSuccess(tokenData: ITokenData): void {
+    // Try to save token in a more robust way
+    try {
+      if (tokenData?.access_token) {
+        window.localStorage.setItem('token', tokenData.access_token);
+      }
+      window.localStorage.setItem('expires_in', tokenData.expires_in.toString());
+    } catch (e) {
+      console.error('Error saving token:', e);
+    }
   }
 }
