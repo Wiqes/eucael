@@ -41,7 +41,6 @@ export class LoginService extends AuthBaseService {
       if (res?.access_token) {
         window.localStorage.setItem('token', res.access_token);
       }
-      window.localStorage.setItem('expires_in', res.expires_in.toString());
     } catch (e) {
       this.messageService.sendMessage(MESSAGES.STORAGE_ERROR);
     }

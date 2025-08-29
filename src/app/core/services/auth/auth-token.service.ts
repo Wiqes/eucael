@@ -16,6 +16,7 @@ import { FingerprintService } from '../fingerprint.service';
 import { ITokenData } from '../../models/token-data.model';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -32,13 +33,29 @@ export class AuthTokenService {
   private isRefreshing = new BehaviorSubject<boolean>(false);
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
+  constructor() {
+    // Clean up any legacy expires_in entries from localStorage
+    this.cleanupLegacyStorage();
+  }
+
+  private cleanupLegacyStorage(): void {
+    try {
+      // Remove any existing expires_in entries from previous versions
+      if (window.localStorage.getItem('expires_in')) {
+        window.localStorage.removeItem('expires_in');
+        console.log('Cleaned up legacy expires_in from localStorage');
+      }
+    } catch (e) {
+      console.warn('Could not clean up legacy storage:', e);
+    }
+  }
+
   logout(): void {
     this.isLoggedIn.set(false);
     this.isRefreshing.next(false);
     this.refreshTokenSubject.next(null);
     try {
       window.localStorage.removeItem('token');
-      window.localStorage.removeItem('expires_in');
       this.stateService.user.set(null);
       this.router.navigate(['']);
     } catch (e) {
@@ -54,24 +71,56 @@ export class AuthTokenService {
     }
   }
 
-  isTokenExpired(): boolean {
-    const expiresIn = localStorage.getItem('expires_in');
-    if (!expiresIn) return true;
+  private getTokenExpiration(): number | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decodedToken: any = jwtDecode(token);
+      return decodedToken.exp || null;
+    } catch (e) {
+      console.error('Error decoding token:', e);
+      return null;
+    }
+  }
+
+  getTokenExpirationInfo(): {
+    expired: boolean;
+    expiresAt: Date | null;
+    timeUntilExpiry: number | null;
+  } {
+    const exp = this.getTokenExpiration();
+    if (!exp) {
+      return { expired: true, expiresAt: null, timeUntilExpiry: null };
+    }
 
     const currentTime = Math.floor(Date.now() / 1000);
-    const expirationTime = parseInt(expiresIn, 10);
+    const expiresAt = new Date(exp * 1000);
+    const timeUntilExpiry = exp - currentTime;
 
-    return currentTime >= expirationTime;
+    return {
+      expired: currentTime >= exp,
+      expiresAt,
+      timeUntilExpiry,
+    };
+  }
+
+  isTokenExpired(): boolean {
+    const exp = this.getTokenExpiration();
+    if (!exp) return true;
+
+    const currentTime = Math.floor(Date.now() / 1000);
+    return currentTime >= exp;
   }
 
   isTokenExpiringSoon(bufferSeconds: number = 60): boolean {
-    const expiresIn = localStorage.getItem('expires_in');
-    if (!expiresIn) return true;
+    const exp = this.getTokenExpiration();
+    if (!exp) return true;
 
     const currentTime = Math.floor(Date.now() / 1000);
-    const expirationTime = parseInt(expiresIn, 10);
+    console.log('Token expiration check:', { currentTime, exp });
 
-    return currentTime + bufferSeconds >= expirationTime;
+    return currentTime + bufferSeconds >= exp;
   }
 
   private getFingerprint(): string {
@@ -133,7 +182,6 @@ export class AuthTokenService {
       if (tokenData?.access_token) {
         window.localStorage.setItem('token', tokenData.access_token);
       }
-      window.localStorage.setItem('expires_in', tokenData.expires_in.toString());
     } catch (e) {
       console.error('Error saving token:', e);
     }
