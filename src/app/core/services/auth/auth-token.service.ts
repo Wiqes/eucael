@@ -34,16 +34,19 @@ export class AuthTokenService {
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   logout(): void {
-    this.isLoggedIn.set(false);
-    this.isRefreshing.next(false);
-    this.refreshTokenSubject.next(null);
-    try {
-      window.localStorage.removeItem('token');
-      this.stateService.user.set(null);
-      this.router.navigate(['']);
-    } catch (e) {
-      console.error('Error during logout:', e);
-    }
+    this.http.post<any>(`${environment.API_URL}/auth/logout`, {}).subscribe({
+      next: () => {
+        this.isLoggedIn.set(false);
+        this.isRefreshing.next(false);
+        this.refreshTokenSubject.next(null);
+        window.localStorage.removeItem('token');
+        this.stateService.user.set(null);
+        this.router.navigate(['']);
+      },
+      error: (error) => {
+        console.error('Error during logout:', error);
+      },
+    });
   }
 
   getToken(): string | null {
