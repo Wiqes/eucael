@@ -44,6 +44,8 @@ export abstract class AuthBaseService {
   }
 
   protected handleError(message: any): void {
-    this.messageService.sendMessage(message);
+    if (message) {
+      this.messageService.sendMessage(message);
+    }
   }
 }
