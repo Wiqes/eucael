@@ -34,7 +34,10 @@ export class AuthTokenService {
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   logout(): void {
-    this.http.post<any>(`${environment.API_URL}/auth/logout`, {}).subscribe({
+    const token = this.getToken();
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+    this.http.post<any>(`${environment.API_URL}/auth/logout`, {}, { headers }).subscribe({
       next: () => {
         this.isLoggedIn.set(false);
         this.isRefreshing.next(false);
