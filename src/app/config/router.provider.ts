@@ -5,23 +5,54 @@ import { AuthGuard } from '../core/guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('../features/login/login.component').then((m) => m.LoginComponent),
-  },
-  {
-    path: '',
-    outlet: 'header',
-    loadComponent: () => import('../layout/header/header.component').then((m) => m.HeaderComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/login/login.component').then((m) => m.LoginComponent),
+      },
+      {
+        path: '',
+        outlet: 'header',
+        loadComponent: () =>
+          import('../layout/header/header.component').then((m) => m.HeaderComponent),
+      },
+    ],
   },
   {
     path: 'home',
-    loadComponent: () =>
-      import('../features/embodiments/embodiments.component').then((m) => m.EmbodimentsComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/embodiments/embodiments.component').then(
+            (m) => m.EmbodimentsComponent,
+          ),
+      },
+      {
+        path: '',
+        outlet: 'header',
+        loadComponent: () =>
+          import('../layout/header/header.component').then((m) => m.HeaderComponent),
+      },
+    ],
   },
   {
     path: 'profile',
     canActivate: [AuthGuard],
-    loadComponent: () =>
-      import('../features/profile/profile.component').then((m) => m.ProfileComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/profile/profile.component').then((m) => m.ProfileComponent),
+      },
+      {
+        path: '',
+        outlet: 'header',
+        loadComponent: () =>
+          import('../layout/header/header.component').then((m) => m.HeaderComponent),
+      },
+    ],
   },
   {
     path: 'reset-password',
@@ -33,12 +64,37 @@ const routes: Routes = [
   {
     path: 'admin',
     canActivate: [AdminGuard],
-    loadComponent: () => import('../features/admin/admin.component').then((m) => m.AdminComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/admin/admin.component').then((m) => m.AdminComponent),
+      },
+      {
+        path: '',
+        outlet: 'header',
+        loadComponent: () =>
+          import('../layout/header/header.component').then((m) => m.HeaderComponent),
+      },
+    ],
   },
   {
     path: 'embodiments',
-    loadComponent: () =>
-      import('../features/embodiments/embodiments.component').then((m) => m.EmbodimentsComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/embodiments/embodiments.component').then(
+            (m) => m.EmbodimentsComponent,
+          ),
+      },
+      {
+        path: '',
+        outlet: 'header',
+        loadComponent: () =>
+          import('../layout/header/header.component').then((m) => m.HeaderComponent),
+      },
+    ],
   },
 ];
 
