@@ -14,13 +14,13 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   const token = localStorage.getItem('token');
   let authReq = req;
 
-  if (token) {
-    authReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
+  // Clone the request to include credentials (cookies)
+  authReq = req.clone({
+    setHeaders: token ? {
+      Authorization: `Bearer ${token}`,
+    } : {},
+    withCredentials: true // This ensures cookies are sent with requests
+  });
 
   return next(authReq).pipe(
     catchError((error) => {
