@@ -35,9 +35,9 @@ export class AuthTokenService {
 
   logout(): void {
     const token = this.getToken();
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const options = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
-    this.http.post<any>(`${environment.API_URL}/auth/logout`, {}, { headers }).subscribe({
+    this.http.post<any>(`${environment.API_URL}/auth/logout`, {}, options).subscribe({
       next: () => {
         this.isLoggedIn.set(false);
         this.isRefreshing.next(false);
