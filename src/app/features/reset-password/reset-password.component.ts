@@ -34,7 +34,6 @@ export class ResetPasswordComponent {
   constructor() {
     this.route.queryParams.subscribe((params) => {
       const token = params['token'];
-      console.log('Reset Password Token:', token);
       if (token) {
         this.token.set(token);
         this.location.replaceState(this.router.url.split('?')[0]);

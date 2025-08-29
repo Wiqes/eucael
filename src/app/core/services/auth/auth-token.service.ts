@@ -33,23 +33,6 @@ export class AuthTokenService {
   private isRefreshing = new BehaviorSubject<boolean>(false);
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
-  constructor() {
-    // Clean up any legacy expires_in entries from localStorage
-    this.cleanupLegacyStorage();
-  }
-
-  private cleanupLegacyStorage(): void {
-    try {
-      // Remove any existing expires_in entries from previous versions
-      if (window.localStorage.getItem('expires_in')) {
-        window.localStorage.removeItem('expires_in');
-        console.log('Cleaned up legacy expires_in from localStorage');
-      }
-    } catch (e) {
-      console.warn('Could not clean up legacy storage:', e);
-    }
-  }
-
   logout(): void {
     this.isLoggedIn.set(false);
     this.isRefreshing.next(false);
@@ -118,7 +101,6 @@ export class AuthTokenService {
     if (!exp) return true;
 
     const currentTime = Math.floor(Date.now() / 1000);
-    console.log('Token expiration check:', { currentTime, exp });
 
     return currentTime + bufferSeconds >= exp;
   }
