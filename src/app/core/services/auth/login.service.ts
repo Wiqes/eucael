@@ -5,6 +5,7 @@ import { StateService } from '../state.service';
 import { ICredentials } from '../../models/credentials.model';
 import { AuthBaseService } from './auth-base.service';
 import { AuthTokenService } from './auth-token.service';
+import { FingerprintService } from '../fingerprint.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,13 +14,19 @@ export class LoginService extends AuthBaseService {
   private router = inject(Router);
   private stateService = inject(StateService);
   private authTokenService = inject(AuthTokenService);
+  private fingerprintService = inject(FingerprintService);
 
   isLoggedIn = computed(() => this.authTokenService.isLoggedIn());
 
+  private getFingerprint(): string {
+    return this.fingerprintService.getFingerprint();
+  }
+
   request({ email, password }: ICredentials) {
+    const fingerprint = this.getFingerprint();
     this.makeAuthRequest(
       '/auth/login',
-      { username: email, password },
+      { username: email, password, fingerprint },
       (res) => this.onLoginSuccess(res, email),
       () => this.handleError(MESSAGES.LOGIN_FAILED),
       false, // Disable regular loading for login to avoid conflicts with the auth token service
