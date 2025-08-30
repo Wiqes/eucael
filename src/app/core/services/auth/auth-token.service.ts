@@ -98,14 +98,6 @@ export class AuthTokenService {
     };
   }
 
-  isTokenExpired(): boolean {
-    const exp = this.getTokenExpiration();
-    if (!exp) return true;
-
-    const currentTime = Math.floor(Date.now() / 1000);
-    return currentTime >= exp;
-  }
-
   isTokenExpiringSoon(bufferSeconds: number = 60): boolean {
     const exp = this.getTokenExpiration();
     if (!exp) return true;
