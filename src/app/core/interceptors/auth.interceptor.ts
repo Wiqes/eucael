@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError, switchMap, filter, take } from 'rxjs';
-import { AuthTokenService } from './services/auth/auth-token.service';
+import { AuthTokenService } from '../services/auth/auth-token.service';
 
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
   const authTokenService = inject(AuthTokenService);
@@ -20,7 +20,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   // Skip authentication for auth endpoints to prevent infinite loops
   const isAuthRequest = req.url.includes('/auth/');
   if (isAuthRequest) {
-    return next(req.clone({ withCredentials: true }));
+    return next(req);
   }
 
   return handleRequest(req, next, authTokenService);
@@ -91,6 +91,5 @@ function addTokenToRequest(req: HttpRequest<any>, token: string | null): HttpReq
           Authorization: `Bearer ${token}`,
         }
       : {},
-    withCredentials: true, // Ensure cookies (refresh token) are always sent
   });
 }

@@ -4,7 +4,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { translationProvider } from './translation.provider';
 import { primeNGProvider } from './prime-ng.provider';
 import { routerProvider } from './router.provider';
-import { authInterceptor } from '../core/auth.interceptor';
+import { authInterceptor } from '../core/interceptors/auth.interceptor';
+import { withCredentialsInterceptor } from '../core/interceptors/credentials.interceptor';
 
 import localeEnUS from '@angular/common/locales/en';
 import localeEsES from '@angular/common/locales/es';
@@ -57,7 +58,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimationsAsync(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([withCredentialsInterceptor, authInterceptor])),
     routerProvider(),
     translationProvider(),
     ...primeNGProvider(),
