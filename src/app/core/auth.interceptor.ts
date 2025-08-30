@@ -54,13 +54,11 @@ function handleRequest(
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
       // Handle 401 errors with token refresh retry
-      if (error.status === 401 && token && !authTokenService.isTokenExpired()) {
-        return handle401Error(req, next, authTokenService);
-      }
-
-      // For other errors or if token is already expired, just logout
       if (error.status === 401) {
-        authTokenService.logout();
+        if (token) {
+          return handle401Error(req, next, authTokenService);
+        }
+        authTokenService.moveToLogin();
       }
 
       return throwError(() => error);
@@ -80,7 +78,7 @@ function handle401Error(
     }),
     catchError((refreshError) => {
       // If refresh fails, logout and return the original error
-      authTokenService.logout();
+      authTokenService.moveToLogin();
       return throwError(() => refreshError);
     }),
   );

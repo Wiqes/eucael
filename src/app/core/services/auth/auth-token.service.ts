@@ -39,17 +39,21 @@ export class AuthTokenService {
 
     this.http.post<any>(`${environment.API_URL}/auth/logout`, {}, options).subscribe({
       next: () => {
-        this.isLoggedIn.set(false);
         this.isRefreshing.next(false);
         this.refreshTokenSubject.next(null);
-        window.localStorage.removeItem('token');
-        this.stateService.user.set(null);
-        this.router.navigate(['']);
+        this.moveToLogin();
       },
-      error: (error) => {
-        console.error('Error during logout:', error);
+      error: () => {
+        this.moveToLogin();
       },
     });
+  }
+
+  moveToLogin(): void {
+    this.isLoggedIn.set(false);
+    window.localStorage.removeItem('token');
+    this.stateService.user.set(null);
+    this.router.navigate(['']);
   }
 
   getToken(): string | null {
@@ -152,10 +156,7 @@ export class AuthTokenService {
         }),
         catchError((error) => {
           this.refreshTokenSubject.next(null);
-          // If refresh fails, it likely means the refresh token is invalid
-          if (error.status === 401 || error.status === 403) {
-            this.logout();
-          }
+          this.moveToLogin();
           return throwError(() => error);
         }),
         finalize(() => {
