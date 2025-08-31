@@ -54,6 +54,7 @@ export class AuthTokenService {
     window.localStorage.removeItem('token');
     this.stateService.user.set(null);
     this.router.navigate(['']);
+    this.stateService.isDataLoading.set(false);
   }
 
   getToken(): string | null {
