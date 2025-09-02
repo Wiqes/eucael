@@ -5,6 +5,10 @@
   border: 1px solid $primary-color !important;
 }
 
+:host ::ng-deep .p-button {
+  padding: 8px !important;
+}
+
 :host {
   width: 100%;
 }
