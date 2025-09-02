@@ -7,6 +7,7 @@
 html {
   height: 100%;
   background-color: #0a0a0b; // Enhanced fallback color
+  overscroll-behavior: none;
 }
 
 body {
@@ -14,7 +15,7 @@ body {
   font-family: Inter, sans-serif;
   min-height: 100vh;
   position: relative;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
   touch-action: pan-x pan-y;
   overflow-x: hidden;
 
