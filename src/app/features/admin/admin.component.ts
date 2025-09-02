@@ -11,10 +11,11 @@ import { IAnimal } from '../../core/models/entities/animal.model';
 import { ICard } from '../../core/models/entities/card.model';
 import { IColor } from '../../core/models/option.model';
 import { DataAccessService } from '../../core/services/data-access/data-access.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-admin',
-  imports: [NgIf, ReactiveFormsModule, FormControlComponent],
+  imports: [NgIf, ReactiveFormsModule, FormControlComponent, ButtonModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
 })

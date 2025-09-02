@@ -12,13 +12,6 @@
       optionValue="id"
     ></app-form-control>
 
-    <div
-      *ngIf="selectedAnimalControl.invalid && selectedAnimalControl.touched"
-      class="error-message"
-    >
-      Animal selection is required
-    </div>
-
     <app-form-control
       type="select"
       label="Select Color"
@@ -28,10 +21,6 @@
       optionValue="id"
     ></app-form-control>
 
-    <div *ngIf="selectedColorControl.invalid && selectedColorControl.touched" class="error-message">
-      Color selection is required
-    </div>
-
     <app-form-control
       type="select"
       label="Entity Type"
@@ -40,19 +29,34 @@
       [options]="entityTypeOptions"
       optionValue="value"
     ></app-form-control>
-
-    <div *ngIf="entityTypeControl.invalid && entityTypeControl.touched" class="error-message">
-      Entity type selection is required
-    </div>
   </form>
 
   <!-- File Upload Section -->
   <div class="upload-section">
     <h3>File Upload</h3>
-    <input type="file" (change)="onFileSelected($event)" accept="image/*" />
-    <button (click)="onUpload()" [disabled]="!selectedFile || isUploading || adminForm.invalid">
-      {{ isUploading ? 'Uploading...' : 'Upload Image' }}
-    </button>
+
+    <p-button
+      icon="pi pi-upload"
+      [label]="'Choose'"
+      (onClick)="fileInput.click()"
+      severity="secondary"
+    />
+    <input
+      #fileInput
+      type="file"
+      accept="image/*"
+      (change)="onFileSelected($event)"
+      style="display: none"
+    />
+
+    <div>{{ selectedFile?.name }}</div>
+
+    <p-button
+      [label]="'Upload'"
+      (onClick)="onUpload()"
+      [disabled]="!selectedFile || isUploading || adminForm.invalid"
+      [loading]="isUploading"
+    />
 
     <div *ngIf="uploadProgress > 0">
       <progress [value]="uploadProgress" max="100"></progress>
