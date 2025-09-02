@@ -12,6 +12,7 @@ import { AnimalComponent } from './animal/animal.component';
 import { IAnimal } from '../../core/models/entities/animal.model';
 import { IconService } from '../../core/services/icon.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AuthService } from '../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-embodiments',
@@ -30,9 +31,9 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 })
 export class EmbodimentsComponent extends HomeComponent {
   private readonly stateService = inject(StateService);
+  protected iconService = inject(IconService);
   private translate = inject(TranslateService);
   private newLanguageSignal = toSignal(this.translate.onLangChange.asObservable());
-  protected iconService = inject(IconService);
   animals = computed(() => {
     const newLanguage = this.newLanguageSignal();
     return this.stateService.animals().map((animal) => {

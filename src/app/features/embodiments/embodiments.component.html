@@ -1,4 +1,6 @@
-@if(!isDataLoading()) {
+@if(isAdmin()) {
+<div class="eucael-version">1.0.0</div>
+} @if(!isDataLoading()) {
 <div class="filters">
   <p-multiselect
     [options]="animals()"

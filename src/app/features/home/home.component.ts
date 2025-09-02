@@ -1,9 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../../core/services/message.service';
 import { MESSAGES } from '../../core/constants/messages';
 import { Location } from '@angular/common';
 import { AuthService } from '../../core/services/auth/auth.service';
+import { Role } from '../../core/constants/role';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ export class HomeComponent {
   private location = inject(Location);
   private messageService = inject(MessageService);
   private authService = inject(AuthService);
+  isAdmin = computed(() => this.authService.hasRole(Role.Admin));
 
   constructor() {
     // Check for Google OAuth token in URL
