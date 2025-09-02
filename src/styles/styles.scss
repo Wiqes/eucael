@@ -14,6 +14,8 @@ body {
   font-family: Inter, sans-serif;
   min-height: 100vh;
   position: relative;
+  overscroll-behavior: contain;
+  touch-action: pan-x pan-y;
   overflow-x: hidden;
 
   // Multi-layered spectacular background
