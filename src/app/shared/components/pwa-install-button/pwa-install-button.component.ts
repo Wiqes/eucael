@@ -13,7 +13,6 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
       [label]="'Install App'"
       icon="pi pi-download"
       [rounded]="true"
-      [outlined]="true"
       size="small"
       (onClick)="installPwa()"
       styleClass="install-button"
@@ -22,20 +21,16 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
   `,
   styles: [
     `
-      .install-button {
+      :host {
         position: fixed;
+        padding: 12px 16px;
         bottom: 20px;
-        right: 20px;
         z-index: 1000;
-        backdrop-filter: blur(10px);
-        background: rgba(52, 245, 221, 0.1) !important;
-        border: 1px solid rgba(52, 245, 221, 0.3) !important;
+        width: 100%;
       }
 
-      .install-button:hover {
-        background: rgba(52, 245, 221, 0.2) !important;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(52, 245, 221, 0.3);
+      :host ::ng-deep .p-button {
+        background: blue;
       }
 
       @media (max-width: 768px) {
