@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { translationProvider } from './translation.provider';
@@ -32,6 +32,7 @@ import localeUkUA from '@angular/common/locales/uk';
 import { registerLocaleData } from '@angular/common';
 import { environment } from '../../environments/environment';
 import { provideSocketIo, SocketIoConfig } from 'ngx-socket-io';
+import { provideServiceWorker } from '@angular/service-worker';
 
 registerLocaleData(localeEnUS, 'en-US');
 registerLocaleData(localeEsES, 'es-ES');
@@ -66,6 +67,9 @@ export const appConfig: ApplicationConfig = {
     routerProvider(),
     provideSocketIo(socketConfig),
     translationProvider(),
-    ...primeNGProvider(),
+    ...primeNGProvider(), provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          }),
   ],
 };

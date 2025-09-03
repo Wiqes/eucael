@@ -8,11 +8,20 @@ import { AuthService } from './core/services/auth/auth.service';
 import { StateService } from './core/services/state.service';
 import { NgClass, NgIf } from '@angular/common';
 import { LoaderComponent } from './shared/ui/loader/loader.component';
+import { PwaInstallButtonComponent } from './shared/components/pwa-install-button/pwa-install-button.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, ToastComponent, NgClass, LoaderComponent, NgIf],
+  imports: [
+    RouterOutlet,
+    FormsModule,
+    ToastComponent,
+    NgClass,
+    LoaderComponent,
+    NgIf,
+    PwaInstallButtonComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
