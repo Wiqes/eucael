@@ -27,7 +27,6 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
         bottom: 20px;
         z-index: 1000;
         width: 100%;
-        background: rgba(24, 24, 27, 0.42);
         display: none;
 
         @media (max-width: 768px) {
