@@ -24,16 +24,16 @@ interface Message {
     // or if you use ActivatedRoute, but these are typically provided by `provideRouter`
   ],
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css'],
+  styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  @Input() currentUserId: string = 'your-logged-in-user-id';
-  @Input() receiverId: string;
+  @Input() currentUserId: string = '1';
+  @Input() receiverId = '';
 
   messages: Message[] = [];
   newMessageContent: string = '';
-  private messageSubscription: Subscription;
-  private previousMessagesSubscription: Subscription;
+  private messageSubscription!: Subscription;
+  private previousMessagesSubscription!: Subscription;
 
   constructor(private chatService: ChatService, private route: ActivatedRoute) {}
 
@@ -45,6 +45,15 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.joinChatRoom();
         this.subscribeToMessages();
       }
+    });
+  }
+  /**
+   * Subscribes to incoming messages using ChatService and updates the messages array.
+   */
+  subscribeToMessages(): void {
+    this.messageSubscription = this.chatService.onReceiveMessage().subscribe((message: any) => {
+      // Optionally, you can map/transform the message to Message type if needed
+      this.messages.push(message);
     });
   }
 

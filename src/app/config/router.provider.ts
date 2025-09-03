@@ -96,6 +96,21 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'chat',
+    children: [
+      {
+        path: ':receiverId',
+        loadComponent: () => import('../features/chat/chat.component').then((m) => m.ChatComponent),
+      },
+      {
+        path: '',
+        outlet: 'header',
+        loadComponent: () =>
+          import('../layout/header/header.component').then((m) => m.HeaderComponent),
+      },
+    ],
+  },
 ];
 
 export const routerProvider = () => provideRouter(routes);
