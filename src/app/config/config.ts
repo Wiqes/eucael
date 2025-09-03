@@ -56,7 +56,7 @@ registerLocaleData(localeMrIN, 'mr-IN');
 registerLocaleData(localeTeIN, 'te-IN');
 registerLocaleData(localeUkUA, 'uk-UA');
 
-const socketConfig: SocketIoConfig = { url: environment.WS_URL, options: {} };
+const socketConfig: SocketIoConfig = { url: environment.API_URL, options: {} };
 
 export const appConfig: ApplicationConfig = {
   providers: [
