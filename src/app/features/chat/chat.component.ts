@@ -1,10 +1,12 @@
 // src/app/chat/chat.component.ts
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, inject, computed } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Needed for *ngFor, *ngIf etc.
 import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
 import { ChatService } from '../../core/services/chat.service';
+import { StateService } from '../../core/services/state.service';
+import { Button } from 'primeng/button';
 
 interface Message {
   id: string;
@@ -20,6 +22,7 @@ interface Message {
   imports: [
     CommonModule, // Required for common Angular directives like *ngFor, *ngIf
     FormsModule, // Required for ngModel
+    Button,
     // If ChatComponent is directly used in routing, RouterLink, RouterOutlet might be needed
     // or if you use ActivatedRoute, but these are typically provided by `provideRouter`
   ],
@@ -27,7 +30,11 @@ interface Message {
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  @Input() currentUserId: string = '1';
+  private chatService = inject(ChatService);
+  private route = inject(ActivatedRoute);
+  private stateService = inject(StateService);
+  currentUserId = computed(() => this.stateService.user()?.id || '');
+
   @Input() receiverId = '';
 
   messages: Message[] = [];
@@ -35,16 +42,15 @@ export class ChatComponent implements OnInit, OnDestroy {
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
 
-  constructor(private chatService: ChatService, private route: ActivatedRoute) {}
-
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.receiverId = params.get('receiverId') || '';
-      if (this.currentUserId && this.receiverId) {
+      if (this.currentUserId() && this.receiverId) {
         this.chatService.connect();
         this.joinChatRoom();
         this.subscribeToMessages();
       }
+      console.log('ChatComponent initialized with receiverId:', this.receiverId);
     });
   }
   /**
@@ -69,7 +75,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   joinChatRoom(): void {
     this.chatService
-      .joinChat(Number(this.currentUserId), Number(this.receiverId))
+      .joinChat(Number(this.currentUserId()), Number(this.receiverId))
       .subscribe((chatId) => {
         console.log(`Joined chat with ID: ${chatId}`);
       });
@@ -82,10 +88,10 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   sendMessage(): void {
-    if (this.newMessageContent.trim() && this.currentUserId && this.receiverId) {
+    if (this.newMessageContent.trim() && this.currentUserId() && this.receiverId) {
       this.chatService.sendMessage({
         content: this.newMessageContent,
-        senderId: Number(this.currentUserId),
+        senderId: Number(this.currentUserId()),
         receiverId: Number(this.receiverId),
       });
       this.newMessageContent = '';

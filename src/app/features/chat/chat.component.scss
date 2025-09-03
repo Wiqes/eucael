@@ -8,12 +8,13 @@
   flex-direction: column;
   height: 600px;
   overflow: hidden;
+  margin-top: 80px;
 }
 
 h2 {
   text-align: center;
   padding: 10px;
-  background-color: #f0f0f0;
+  background: rgba(24, 24, 27, 0.42);
   margin: 0;
   border-bottom: 1px solid #eee;
 }
@@ -22,12 +23,13 @@ h2 {
   flex-grow: 1;
   padding: 10px;
   overflow-y: auto;
-  background-color: #f9f9f9;
+  background: rgba(24, 24, 27, 0.42);
 }
 
 .message {
   margin-bottom: 8px;
   display: flex;
+  color: black;
 }
 
 .message div {

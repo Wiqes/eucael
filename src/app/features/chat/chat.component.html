@@ -5,11 +5,11 @@
   <div class="messages">
     <div *ngFor="let message of messages" class="message">
       <div
-        [class.sender]="message.sender.id === currentUserId"
-        [class.receiver]="message.sender.id !== currentUserId"
+        [class.sender]="message.sender.id === currentUserId()"
+        [class.receiver]="message.sender.id !== currentUserId()"
       >
         <strong>
-          {{ message.sender.id === currentUserId ? 'You' : message.sender.username }}:
+          {{ message.sender.id === currentUserId() ? 'You' : message.sender.username }}:
         </strong>
         {{ message.content }}
         <small>{{ message.timestamp | date : 'shortTime' }}</small>
@@ -24,6 +24,6 @@
       (keyup.enter)="sendMessage()"
       placeholder="Type your message..."
     />
-    <button (click)="sendMessage()">Send</button>
+    <p-button [label]="'Send'" (onClick)="sendMessage()" />
   </div>
 </div>
