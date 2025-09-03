@@ -30,6 +30,8 @@ import localeMrIN from '@angular/common/locales/mr';
 import localeTeIN from '@angular/common/locales/te';
 import localeUkUA from '@angular/common/locales/uk';
 import { registerLocaleData } from '@angular/common';
+import { environment } from '../../environments/environment';
+import { provideSocketIo, SocketIoConfig } from 'ngx-socket-io';
 
 registerLocaleData(localeEnUS, 'en-US');
 registerLocaleData(localeEsES, 'es-ES');
@@ -54,12 +56,15 @@ registerLocaleData(localeMrIN, 'mr-IN');
 registerLocaleData(localeTeIN, 'te-IN');
 registerLocaleData(localeUkUA, 'uk-UA');
 
+const socketConfig: SocketIoConfig = { url: environment.WS_URL, options: {} };
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimationsAsync(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withInterceptors([withCredentialsInterceptor, authInterceptor])),
     routerProvider(),
+    provideSocketIo(socketConfig),
     translationProvider(),
     ...primeNGProvider(),
   ],
