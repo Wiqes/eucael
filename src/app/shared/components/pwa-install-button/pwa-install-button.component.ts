@@ -27,16 +27,11 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
         bottom: 20px;
         z-index: 1000;
         width: 100%;
-      }
+        background: rgba(24, 24, 27, 0.42);
+        display: none;
 
-      :host ::ng-deep .p-button {
-        background: blue;
-      }
-
-      @media (max-width: 768px) {
-        .install-button {
-          bottom: 80px; // Above mobile navigation if you have one
-          right: 16px;
+        @media (max-width: 768px) {
+          display: block;
         }
       }
     `,
