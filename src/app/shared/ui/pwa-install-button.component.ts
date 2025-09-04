@@ -37,7 +37,14 @@ import { PwaInstallService } from '../../core/services/pwa-install.service';
       }
 
       :host ::ng-deep p-button {
-        background: black;
+        border-radius: 4px;
+        background: #000000aa;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      :host ::ng-deep .p-button.p-button-contrast {
+        border: 1px solid yellow;
+        color: yellow;
       }
     `,
   ],
