@@ -111,6 +111,22 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'messages',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/messages/messages.component').then((m) => m.MessagesComponent),
+      },
+      {
+        path: '',
+        outlet: 'header',
+        loadComponent: () =>
+          import('../layout/header/header.component').then((m) => m.HeaderComponent),
+      },
+    ],
+  },
 ];
 
 export const routerProvider = () => provideRouter(routes);

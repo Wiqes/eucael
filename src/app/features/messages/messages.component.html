@@ -1,0 +1,8 @@
+<div *ngFor="let chat of interlocutors()">
+  @if(chat.profile.avatarUrl) {
+  <img [src]="chat.profile.avatarUrl" alt="Profile Image" />
+  } @else {
+  <div class="placeholder-image"></div>
+  }
+  <div>{{ chat.profile.name }}</div>
+</div>
