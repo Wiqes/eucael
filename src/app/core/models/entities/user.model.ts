@@ -1,3 +1,4 @@
+import { IChat } from '../chat.model';
 import { IProfile } from './profile.model';
 
 export interface IUser {
@@ -7,4 +8,6 @@ export interface IUser {
   locale: string;
   profile: IProfile;
   createdAt: string;
+  chatsAsParticipant1: IChat[];
+  chatsAsParticipant2: IChat[];
 }
