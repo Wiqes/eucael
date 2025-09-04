@@ -25,9 +25,9 @@
 
       background-size: 200% 200%;
       animation: borderPulse 2s ease-in-out infinite;
-
-      box-shadow: 0 0 30px rgba($primary-color, 0.6), 0 0 60px rgba($primary-color, 0.3),
-        0 0 100px rgba($primary-color, 0.1), 0 20px 60px rgba(0, 0, 0, 0.4),
+      background: $secondary-color;
+      box-shadow: 0 0 30px rgba($secondary-color, 0.6), 0 0 60px rgba($secondary-color, 0.3),
+        0 0 100px rgba($secondary-color, 0.1), 0 20px 60px rgba(0, 0, 0, 0.4),
         inset 0 0 0 2px rgba(255, 255, 255, 0.2);
 
       .image-overlay {
