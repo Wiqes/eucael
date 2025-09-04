@@ -7,7 +7,7 @@
   background: $surface-ground;
   color: $text-color;
   overflow: hidden;
-  margin-top: 100px;
+  margin-top: 64px;
 }
 
 .messages-header {
@@ -61,13 +61,27 @@
   border-bottom: 1px solid rgba($primary-color, 0.05);
   position: relative;
 
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: $primary-color;
+    transition: width 0.2s ease-in-out;
+  }
+
   &:hover {
     background: linear-gradient(
       90deg,
       rgba($primary-color, 0.08) 0%,
       rgba($primary-color, 0.03) 100%
     );
-    border-left: 3px solid $primary-color;
+
+    &::before {
+      width: 3px;
+    }
   }
 
   &:last-child {
