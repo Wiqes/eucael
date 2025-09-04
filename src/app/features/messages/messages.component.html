@@ -1,8 +1,52 @@
-<div *ngFor="let chat of interlocutors()">
-  @if(chat.profile.avatarUrl) {
-  <img [src]="chat.profile.avatarUrl" alt="Profile Image" />
-  } @else {
-  <div class="placeholder-image"></div>
-  }
-  <div>{{ chat.profile.name }}</div>
+<div class="messages-container">
+  <div class="messages-header">
+    <h2 class="messages-title">Messages</h2>
+    <div class="messages-count">{{ interlocutors().length }} conversations</div>
+  </div>
+
+  <div class="chat-list">
+    <div *ngFor="let chat of interlocutors(); trackBy: trackByFn" class="chat-item" pRipple>
+      <div class="chat-avatar">
+        <p-avatar
+          *ngIf="chat.profile.avatarUrl; else avatarPlaceholder"
+          [image]="chat.profile.avatarUrl"
+          [size]="'large'"
+          shape="circle"
+          class="avatar-image"
+        ></p-avatar>
+        <ng-template #avatarPlaceholder>
+          <p-avatar
+            [label]="getInitials(chat.profile.name)"
+            [size]="'large'"
+            shape="circle"
+            class="avatar-placeholder"
+            [style]="{ 'background-color': getAvatarColor(chat.profile.name) }"
+          ></p-avatar>
+        </ng-template>
+        <div class="online-indicator"></div>
+      </div>
+
+      <div class="chat-content">
+        <div class="chat-header">
+          <div class="chat-name">{{ chat.profile.name }}</div>
+          <div class="chat-time">2 min ago</div>
+        </div>
+        <div class="chat-preview">
+          <span class="last-message">Hey! How are you doing today?</span>
+          <p-badge
+            *ngIf="getUnreadCount(chat.chatId) > 0"
+            [value]="getUnreadCount(chat.chatId).toString()"
+            severity="info"
+            class="unread-badge"
+          ></p-badge>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="interlocutors().length === 0" class="empty-state">
+    <div class="empty-icon">💬</div>
+    <h3>No conversations yet</h3>
+    <p>Start a new conversation to see it here</p>
+  </div>
 </div>
