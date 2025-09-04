@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { PwaInstallService } from '../../../core/services/pwa-install.service';
+import { PwaInstallService } from '../../core/services/pwa-install.service';
 
 @Component({
   selector: 'app-pwa-install-button',
@@ -12,6 +12,7 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
     pwaService.showFallbackButton()) {
     <p-button
       [label]="'Install App'"
+      severity="contrast"
       icon="pi pi-download"
       [rounded]="true"
       size="small"
@@ -24,7 +25,7 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
     `
       :host {
         position: fixed;
-        padding: 12px 16px;
+        padding: 12px;
         bottom: 20px;
         z-index: 1000;
         width: 100%;
@@ -33,6 +34,10 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
         @media (max-width: 768px) {
           display: block;
         }
+      }
+
+      :host ::ng-deep p-button {
+        background: black;
       }
     `,
   ],
