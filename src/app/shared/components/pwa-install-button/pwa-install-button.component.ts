@@ -8,7 +8,8 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
   standalone: true,
   imports: [CommonModule, ButtonModule],
   template: `
-    @if (pwaService.isInstallable() && !pwaService.isInstalled()) {
+    @if ((pwaService.isInstallable() && !pwaService.isInstalled()) ||
+    pwaService.showFallbackButton()) {
     <p-button
       [label]="'Install App'"
       icon="pi pi-download"
