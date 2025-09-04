@@ -29,16 +29,9 @@
       <div class="chat-content">
         <div class="chat-header">
           <div class="chat-name">{{ chat.profile.name }}</div>
-          <div class="chat-time">2 min ago</div>
         </div>
         <div class="chat-preview">
           <span class="last-message">Hey! How are you doing today?</span>
-          <p-badge
-            *ngIf="getUnreadCount(chat.chatId) > 0"
-            [value]="getUnreadCount(chat.chatId).toString()"
-            severity="info"
-            class="unread-badge"
-          ></p-badge>
         </div>
       </div>
     </div>
