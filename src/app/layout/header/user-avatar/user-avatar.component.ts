@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { SkeletonModule } from 'primeng/skeleton';
 import { AvatarModule } from 'primeng/avatar';
 import { NgIf } from '@angular/common';
-import { StateService } from '../../../core/services/state.service';
+import { StateService } from '../../../core/services/state/state.service';
 
 @Component({
   selector: 'app-user-avatar',

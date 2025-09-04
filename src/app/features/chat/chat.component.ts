@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Needed for *ngFor, *ngIf etc.
 import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
 import { ChatService } from '../../core/services/chat.service';
-import { StateService } from '../../core/services/state.service';
+import { StateService } from '../../core/services/state/state.service';
 import { Button } from 'primeng/button';
 
 interface Message {

@@ -5,7 +5,7 @@ import { ToastComponent } from './shared/ui/toast/toast.component';
 import { LanguageService } from './core/services/language.service';
 import { LoginService } from './core/services/auth/login.service';
 import { AuthService } from './core/services/auth/auth.service';
-import { StateService } from './core/services/state.service';
+import { StateService } from './core/services/state/state.service';
 import { NgClass, NgIf } from '@angular/common';
 import { LoaderComponent } from './shared/ui/loader/loader.component';
 import { PwaInstallButtonComponent } from './shared/ui/pwa-install-button.component';

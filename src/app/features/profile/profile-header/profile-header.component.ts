@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
-import { StateService } from '../../../core/services/state.service';
+import { StateService } from '../../../core/services/state/state.service';
 import { ProfileActionsComponent } from '../profile-actions/profile-actions.component';
 
 @Component({

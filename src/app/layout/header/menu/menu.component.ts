@@ -4,7 +4,7 @@ import { MenuModule } from 'primeng/menu';
 import { Menu } from 'primeng/menu';
 import { NgIf } from '@angular/common';
 import { ChevronDownIconComponent } from '../../../shared/ui/chevron-down-icon.component';
-import { StateService } from '../../../core/services/state.service';
+import { StateService } from '../../../core/services/state/state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Router } from '@angular/router';

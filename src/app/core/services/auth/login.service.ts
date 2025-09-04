@@ -1,7 +1,7 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MESSAGES } from '../../constants/messages';
-import { StateService } from '../state.service';
+import { StateService } from '../state/state.service';
 import { ICredentials } from '../../models/credentials.model';
 import { AuthBaseService } from './auth-base.service';
 import { AuthTokenService } from './auth-token.service';

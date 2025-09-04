@@ -4,7 +4,7 @@ import { finalize, switchMap } from 'rxjs';
 import { UploadService } from '../../core/services/data-access/upload.service';
 import { NgIf } from '@angular/common';
 import { EntityType } from '../../core/constants/entity-type';
-import { StateService } from '../../core/services/state.service';
+import { StateService } from '../../core/services/state/state.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormControlComponent } from '../../shared/ui/form-control/form-control.component';
 import { IAnimal } from '../../core/models/entities/animal.model';

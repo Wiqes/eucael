@@ -1,9 +1,9 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { IUser } from '../models/entities/user.model';
-import { DataAccessService } from './data-access/data-access.service';
-import { IAnimal } from '../models/entities/animal.model';
+import { IUser } from '../../models/entities/user.model';
+import { DataAccessService } from '../data-access/data-access.service';
+import { IAnimal } from '../../models/entities/animal.model';
 import { forkJoin } from 'rxjs';
-import { DEFAULT_AVATAR_URL } from '../constants/default-values';
+import { DEFAULT_AVATAR_URL } from '../../constants/default-values';
 
 @Injectable({
   providedIn: 'root',

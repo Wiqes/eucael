@@ -15,7 +15,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProfileService } from '../../../core/services/profile.service';
-import { StateService } from '../../../core/services/state.service';
+import { StateService } from '../../../core/services/state/state.service';
 import { HttpEventType } from '@angular/common/http';
 import { MessageService } from '../../../core/services/message.service';
 import { MESSAGES } from '../../../core/constants/messages';
@@ -32,7 +32,7 @@ import { CropControlsComponent } from './crop-controls/crop-controls.component';
     ButtonModule,
     ProgressBarModule,
     CropInstructionsComponent,
-    CropControlsComponent
+    CropControlsComponent,
   ],
   templateUrl: './avatar-upload-dialog.component.html',
   styleUrl: './avatar-upload-dialog.component.scss',

@@ -13,7 +13,7 @@ import { AuthService } from '../../core/services/auth/auth.service';
 import { ForgotPasswordButtonComponent } from '../../shared/ui/forgot-password-button/forgot-password-button.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoginService } from '../../core/services/auth/login.service';
-import { StateService } from '../../core/services/state.service';
+import { StateService } from '../../core/services/state/state.service';
 import { Router } from '@angular/router';
 import { LoginImageComponent } from './login-image/login-image.component';
 import { NgIf } from '@angular/common';

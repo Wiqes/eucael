@@ -11,7 +11,7 @@ import {
   switchMap,
   finalize,
 } from 'rxjs';
-import { StateService } from '../state.service';
+import { StateService } from '../state/state.service';
 import { FingerprintService } from '../fingerprint.service';
 import { ITokenData } from '../../models/token-data.model';
 import { environment } from '../../../../environments/environment';

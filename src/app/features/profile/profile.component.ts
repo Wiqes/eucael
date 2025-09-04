@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { StateService } from '../../core/services/state.service';
+import { StateService } from '../../core/services/state/state.service';
 import { LanguageService } from '../../core/services/language.service';
 import { ProfileService } from '../../core/services/profile.service';
 import { ProfileHeaderComponent } from './profile-header/profile-header.component';

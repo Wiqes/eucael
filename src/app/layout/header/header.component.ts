@@ -1,6 +1,6 @@
 import { Component, computed, inject, OnInit, HostListener, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { StateService } from '../../core/services/state.service';
+import { StateService } from '../../core/services/state/state.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgIf, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
