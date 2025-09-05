@@ -12,7 +12,7 @@ import { PwaInstallService } from '../../core/services/pwa-install.service';
     pwaService.showFallbackButton()) {
     <p-button
       [label]="'Install App'"
-      severity="contrast"
+      severity="secondary"
       icon="pi pi-download"
       [rounded]="true"
       size="small"
@@ -29,6 +29,7 @@ import { PwaInstallService } from '../../core/services/pwa-install.service';
         bottom: 20px;
         z-index: 1000;
         width: 100%;
+        text-align: center;
         display: none;
 
         @media (max-width: 768px) {
@@ -37,14 +38,22 @@ import { PwaInstallService } from '../../core/services/pwa-install.service';
       }
 
       :host ::ng-deep p-button {
+        width: auto !important;
         border-radius: 4px;
-        background: #000000aa;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
 
-      :host ::ng-deep .p-button.p-button-contrast {
-        border: 1px solid yellow;
-        color: yellow;
+      :host ::ng-deep .p-button {
+        width: auto !important;
+        background: #000000aa !important;
+        border: 4px solid yellow !important;
+        padding: 14px;
+        color: yellow !important;
+        font-size: 22px;
+
+        span {
+          font-size: 22px;
+        }
       }
     `,
   ],
