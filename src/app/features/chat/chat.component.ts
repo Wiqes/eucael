@@ -17,14 +17,7 @@ import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
 import { ChatService } from '../../core/services/chat.service';
 import { StateService } from '../../core/services/state/state.service';
 import { Button } from 'primeng/button';
-
-interface Message {
-  id: string;
-  content: string;
-  timestamp: Date;
-  sender: { id: string; username: string };
-  receiver: { id: string; username: string };
-}
+import { IChat, IChatMessages, IChatMessage } from '../../core/models/chat.model';
 
 @Component({
   selector: 'app-chat',
@@ -49,7 +42,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @Input() receiverId = '';
 
-  messages: Message[] = [];
+  messages: IChatMessage[] = [];
   newMessageContent: string = '';
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
@@ -114,8 +107,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     this.previousMessagesSubscription = this.chatService
       .onPreviousMessages()
-      .subscribe((prevMessages: Message[]) => {
-        this.messages = prevMessages;
+      .subscribe(({ messages, chat }: IChatMessages) => {
+        console.log('Joined chat room:', chat);
+        this.messages = messages;
         this.shouldScrollToBottom = true;
       });
   }

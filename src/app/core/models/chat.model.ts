@@ -1,4 +1,5 @@
 import { IProfile } from './entities/profile.model';
+import { IUser } from './entities/user.model';
 
 export interface IChat {
   id: string;
@@ -11,4 +12,17 @@ export interface IChat {
 export interface IParticipant {
   chatId: string;
   profile: IProfile;
+}
+
+export interface IChatMessage {
+  id: string;
+  content: string;
+  timestamp: Date;
+  sender: IUser;
+  receiver: IUser;
+}
+
+export interface IChatMessages {
+  messages: IChatMessage[];
+  chat: IChat;
 }

@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io'; // Still import Socket from ngx-socket-io
 import { Observable } from 'rxjs';
+import { IChat, IChatMessages } from '../models/chat.model';
 // environment is still needed for the URL in main.ts, but not directly in the service's constructor anymore
 // because the 'Socket' instance is now injected.
 
@@ -45,7 +46,7 @@ export class ChatService {
   }
 
   // Listen for previous messages when joining a chat
-  onPreviousMessages(): Observable<any[]> {
+  onPreviousMessages(): Observable<IChatMessages> {
     return this.socket.fromEvent('previousMessages');
   }
 
