@@ -10,14 +10,16 @@
   height: 600px;
   overflow: hidden;
   margin-top: 80px;
-}
 
-h2 {
-  text-align: center;
-  padding: 10px;
-  background: rgba(24, 24, 27, 0.42);
-  margin: 0;
-  border-bottom: 1px solid #eee;
+  .chat-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 10px;
+    background: rgba(24, 24, 27, 0.42);
+    margin: 0;
+    border-bottom: 1px solid #eee;
+  }
 }
 
 .messages {

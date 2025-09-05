@@ -1,0 +1,31 @@
+@use 'variables' as *;
+
+:host {
+  position: relative;
+  margin-right: 1rem;
+  flex-shrink: 0;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    margin-right: 0.75rem;
+  }
+}
+
+.avatar-image,
+.avatar-placeholder {
+  box-shadow: 0 2px 8px rgba($primary-color, 0.2);
+  border: 2px solid rgba($primary-color, 0.3);
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $primary-color;
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+  }
+}
+
+.avatar-placeholder {
+  background: linear-gradient(135deg, $primary-color-light, $primary-color) !important;
+  color: $surface-ground !important;
+  font-weight: 700;
+  font-size: 1.1rem;
+}

@@ -11,24 +11,7 @@
       pRipple
       (click)="openChat(chat.profile.userId)"
     >
-      <div class="chat-avatar">
-        <p-avatar
-          *ngIf="chat.profile?.avatarUrl; else avatarPlaceholder"
-          [image]="chat.profile.avatarUrl"
-          [size]="'large'"
-          shape="circle"
-          class="avatar-image"
-        ></p-avatar>
-        <ng-template #avatarPlaceholder>
-          <p-avatar
-            [label]="getInitials(chat.profile)"
-            [size]="'large'"
-            shape="circle"
-            class="avatar-placeholder"
-            [style]="{ 'background-color': getAvatarColor(chat.profile) }"
-          ></p-avatar>
-        </ng-template>
-      </div>
+      <app-chat-avatar [profile]="chat.profile" />
 
       <div class="chat-content">
         <div class="chat-header">

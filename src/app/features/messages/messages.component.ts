@@ -1,16 +1,16 @@
 import { Component, computed, inject } from '@angular/core';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
-import { JsonPipe, NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { IParticipant } from '../../core/models/chat.model';
 import { AvatarModule } from 'primeng/avatar';
 import { RippleModule } from 'primeng/ripple';
 import { BadgeModule } from 'primeng/badge';
 import { Router } from '@angular/router';
-import { IProfile } from '../../core/models/entities/profile.model';
+import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
 
 @Component({
   selector: 'app-messages',
-  imports: [NgFor, NgIf, AvatarModule, RippleModule, BadgeModule],
+  imports: [NgFor, NgIf, AvatarModule, RippleModule, BadgeModule, ChatAvatarComponent],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.scss',
 })
@@ -33,37 +33,6 @@ export class MessagesComponent {
 
   openChat(chatId: string): void {
     this.router.navigate(['chat', chatId]);
-  }
-
-  getInitials(profile: IProfile | null): string {
-    const name = profile?.name || '';
-    if (!name) return '?';
-    const words = name.trim().split(' ');
-    if (words.length === 1) {
-      return words[0].charAt(0).toUpperCase();
-    }
-    return (words[0].charAt(0) + words[words.length - 1].charAt(0)).toUpperCase();
-  }
-
-  getAvatarColor(profile: IProfile | null): string {
-    const name = profile?.name || 'Unknown';
-    const colors = [
-      '#FF6B6B',
-      '#4ECDC4',
-      '#45B7D1',
-      '#96CEB4',
-      '#FFEAA7',
-      '#DDA0DD',
-      '#98D8C8',
-      '#F7DC6F',
-      '#BB8FCE',
-      '#85C1E9',
-    ];
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-      hash = name.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return colors[Math.abs(hash) % colors.length];
   }
 
   getUnreadCount(chatId: string): number {

@@ -19,6 +19,7 @@ import { ChatService } from '../../core/services/chat.service';
 import { StateService } from '../../core/services/state/state.service';
 import { Button } from 'primeng/button';
 import { IChat, IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';
+import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
 
 @Component({
   selector: 'app-chat',
@@ -27,8 +28,7 @@ import { IChat, IChatMessages, IChatMessage, IParticipant } from '../../core/mod
     CommonModule, // Required for common Angular directives like *ngFor, *ngIf
     FormsModule, // Required for ngModel
     Button,
-    // If ChatComponent is directly used in routing, RouterLink, RouterOutlet might be needed
-    // or if you use ActivatedRoute, but these are typically provided by `provideRouter`
+    ChatAvatarComponent,
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
@@ -43,7 +43,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   interlocutorName = computed(
     () => this.interlocutorProfile()?.name || this.interlocutorProfile()?.email || 'Unknown',
   );
-  interlocutorAvatarUrl = computed(() => this.interlocutorProfile()?.avatarUrl || '');
 
   @ViewChild('messagesContainer', { static: false }) private messagesContainer!: ElementRef;
 
