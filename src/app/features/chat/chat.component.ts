@@ -35,7 +35,7 @@ import { LoaderComponent } from '../../shared/ui/loader/loader.component';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class ChatComponent implements OnInit, OnDestroy {
   private chatService = inject(ChatService);
   private route = inject(ActivatedRoute);
   private stateService = inject(StateService);
@@ -46,15 +46,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     () => this.interlocutorProfile()?.name || this.interlocutorProfile()?.email || 'Unknown',
   );
 
-  @ViewChild('messagesContainer', { static: false }) private messagesContainer!: ElementRef;
-
   @Input() receiverId = '';
 
   messages: IChatMessage[] = [];
   newMessageContent: string = '';
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
-  private shouldScrollToBottom = true;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -74,26 +71,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.messageSubscription = this.chatService.onReceiveMessage().subscribe((message: any) => {
       // Optionally, you can map/transform the message to Message type if needed
       this.messages.push(message);
-      this.shouldScrollToBottom = true;
     });
-  }
-
-  ngAfterViewChecked(): void {
-    if (this.shouldScrollToBottom) {
-      this.scrollToBottom();
-      this.shouldScrollToBottom = false;
-    }
-  }
-
-  private scrollToBottom(): void {
-    try {
-      if (this.messagesContainer) {
-        this.messagesContainer.nativeElement.scrollTop =
-          this.messagesContainer.nativeElement.scrollHeight;
-      }
-    } catch (err) {
-      console.error('Error scrolling to bottom:', err);
-    }
   }
 
   ngOnDestroy(): void {
@@ -123,7 +101,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
         console.log('Joined chat room:', chat);
         this.messages = messages;
-        this.shouldScrollToBottom = true;
       });
   }
 
@@ -135,7 +112,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         receiverId: Number(this.receiverId),
       });
       this.newMessageContent = '';
-      this.shouldScrollToBottom = true;
     }
   }
 }
