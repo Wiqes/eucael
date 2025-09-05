@@ -20,6 +20,7 @@ import { StateService } from '../../core/services/state/state.service';
 import { Button } from 'primeng/button';
 import { IChat, IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';
 import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
+import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 
 @Component({
   selector: 'app-chat',
@@ -29,6 +30,7 @@ import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.com
     FormsModule, // Required for ngModel
     Button,
     ChatAvatarComponent,
+    LoaderComponent,
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],

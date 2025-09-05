@@ -1,5 +1,8 @@
-<!-- src/app/chat/chat.component.html -->
 <div class="chat-container">
+  <div *ngIf="!interlocutorProfile()" class="loader-container">
+    <app-loader />
+  </div>
+  @if(interlocutorProfile()) {
   <div class="chat-header">
     <app-chat-avatar [profile]="interlocutorProfile()" />
     <h2>{{ interlocutorName() }}</h2>
@@ -29,4 +32,5 @@
     />
     <p-button [label]="'Send'" (onClick)="sendMessage()" />
   </div>
+  }
 </div>
