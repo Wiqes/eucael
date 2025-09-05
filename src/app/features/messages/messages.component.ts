@@ -15,7 +15,7 @@ import { BadgeModule } from 'primeng/badge';
 export class MessagesComponent {
   private chatStateService = inject(ChatStateService);
   interlocutors = computed<IParticipant[]>(() =>
-    this.chatStateService.chats().map(
+    [...this.chatStateService.chats(), ...this.chatStateService.chats()].map(
       (chat) =>
         ({
           chatId: chat.id,
