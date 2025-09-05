@@ -25,6 +25,16 @@
         </div>
       </div>
     </div>
+
+    <!-- Scroll to bottom button -->
+    <button
+      *ngIf="showScrollToBottom()"
+      class="scroll-to-bottom-btn"
+      (click)="scrollToBottomManual()"
+      title="Scroll to bottom"
+    >
+      <i class="pi pi-chevron-down"></i>
+    </button>
   </div>
 
   <div class="message-input">

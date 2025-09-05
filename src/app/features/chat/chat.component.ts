@@ -54,10 +54,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   newMessageContent: string = '';
   isLoading = signal(false);
   isTyping = signal(false);
+  showScrollToBottom = signal(false);
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
-  private shouldScrollToBottom = true;
+  private shouldScrollToBottom = false;
   private typingTimeout: any;
+  private scrollTimeout: any;
+  private isUserScrolling = false;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -73,14 +76,31 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    if (this.shouldScrollToBottom) {
-      this.scrollToBottom();
+    if (this.shouldScrollToBottom && !this.isUserScrolling) {
+      this.scrollToBottomSmooth();
       this.shouldScrollToBottom = false;
     }
   }
 
   /**
-   * Scrolls the messages container to the bottom to show the latest message
+   * Scrolls the messages container to the bottom smoothly
+   */
+  private scrollToBottomSmooth(): void {
+    try {
+      if (this.messagesContainer?.nativeElement) {
+        const element = this.messagesContainer.nativeElement;
+        element.scrollTo({
+          top: element.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
+    } catch (err) {
+      console.warn('Could not scroll to bottom:', err);
+    }
+  }
+
+  /**
+   * Scrolls the messages container to the bottom instantly
    */
   private scrollToBottom(): void {
     try {
@@ -94,16 +114,42 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   /**
+   * Checks if the user is near the bottom of the scroll area
+   */
+  private isNearBottom(): boolean {
+    if (!this.messagesContainer?.nativeElement) return false;
+
+    const element = this.messagesContainer.nativeElement;
+    const threshold = 100; // pixels from bottom
+    return element.scrollTop + element.clientHeight >= element.scrollHeight - threshold;
+  }
+
+  /**
    * Handles scroll events to determine if auto-scroll should be enabled
    */
   onScroll(): void {
-    if (this.messagesContainer?.nativeElement) {
-      const element = this.messagesContainer.nativeElement;
-      const threshold = 150; // pixels from bottom
-      const isNearBottom =
-        element.scrollTop + element.clientHeight >= element.scrollHeight - threshold;
-      this.shouldScrollToBottom = isNearBottom;
+    // Mark that user is actively scrolling
+    this.isUserScrolling = true;
+
+    // Clear any existing timeout
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout);
     }
+
+    // Check if user is near bottom
+    const nearBottom = this.isNearBottom();
+
+    // Update scroll to bottom button visibility
+    this.showScrollToBottom.set(!nearBottom);
+
+    // Set timeout to detect when user stops scrolling
+    this.scrollTimeout = setTimeout(() => {
+      this.isUserScrolling = false;
+      // Only enable auto-scroll if user is near bottom when they stop scrolling
+      if (nearBottom) {
+        this.shouldScrollToBottom = true;
+      }
+    }, 150); // 150ms delay after user stops scrolling
   }
 
   /**
@@ -130,10 +176,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
    */
   subscribeToMessages(): void {
     this.messageSubscription = this.chatService.onReceiveMessage().subscribe((message: any) => {
+      // Check if user was near bottom before adding message
+      const wasNearBottom = this.isNearBottom();
+
       // Add the new message to the array
       this.messages.push(message);
-      // Enable auto-scroll for new messages
-      this.shouldScrollToBottom = true;
+
+      // Only auto-scroll if user was near bottom or if it's their own message
+      if (wasNearBottom || message.sender.id === this.currentUserId()) {
+        this.shouldScrollToBottom = true;
+      }
 
       // Play notification sound or show notification if window is not focused
       this.handleNewMessageNotification(message);
@@ -169,6 +221,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout);
     }
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout);
+    }
     this.chatService.disconnect();
   }
 
@@ -190,8 +245,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         console.log('Joined chat room:', chat);
         this.messages = messages;
         this.isLoading.set(false);
-        // Scroll to bottom after loading messages
-        this.shouldScrollToBottom = true;
+
+        // Scroll to bottom after loading messages (use instant scroll for initial load)
+        setTimeout(() => {
+          this.scrollToBottom();
+          // Hide the scroll to bottom button initially
+          this.showScrollToBottom.set(false);
+        }, 100);
 
         // Request notification permission
         this.requestNotificationPermission();
@@ -227,7 +287,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         receiverId: Number(this.receiverId),
       });
 
-      // Enable auto-scroll for sent messages
+      // Always auto-scroll for sent messages
       this.shouldScrollToBottom = true;
 
       // Focus back to input for continuous typing
@@ -269,5 +329,15 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
    */
   trackByMessageId(index: number, message: IChatMessage): any {
     return message.id || index;
+  }
+
+  /**
+   * Manual scroll to bottom method (can be called from template if needed)
+   */
+  scrollToBottomManual(): void {
+    this.isUserScrolling = false;
+    this.shouldScrollToBottom = true;
+    this.showScrollToBottom.set(false);
+    this.scrollToBottomSmooth();
   }
 }

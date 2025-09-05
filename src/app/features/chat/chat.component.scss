@@ -57,12 +57,13 @@
 }
 
 .messages {
-  flex-grow: 1;
+  flex: 1;
   padding: 15px;
-  height: 50vh;
   overflow-y: auto;
+  overflow-x: hidden;
   background: rgba(24, 24, 27, 0.42);
-  scroll-behavior: smooth;
+  scroll-behavior: auto; // Remove smooth scroll to prevent conflicts
+  position: relative; // For positioning the scroll button
 
   @extend %small-scrollbar;
 
@@ -82,6 +83,40 @@
     &:hover {
       background: rgba(255, 255, 255, 0.5);
     }
+  }
+}
+
+.scroll-to-bottom-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 123, 255, 0.9);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  z-index: 10;
+  animation: fadeInUp 0.3s ease-out;
+
+  &:hover {
+    background: rgba(0, 123, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  i {
+    font-size: 16px;
   }
 }
 
@@ -244,6 +279,17 @@
   }
   50% {
     opacity: 0.5;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
