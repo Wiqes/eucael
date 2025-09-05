@@ -53,12 +53,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   messages: IChatMessage[] = [];
   newMessageContent: string = '';
   isLoading = signal(false);
-  isTyping = signal(false);
   showScrollToBottom = signal(false);
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
   private shouldScrollToBottom = false;
-  private typingTimeout: any;
   private scrollTimeout: any;
   private isUserScrolling = false;
 
@@ -151,26 +149,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
     }, 150); // 150ms delay after user stops scrolling
   }
-
-  /**
-   * Handles input changes for typing indicators
-   */
-  onInputChange(): void {
-    if (!this.isTyping()) {
-      this.isTyping.set(true);
-      // Here you could emit typing status to other users via socket
-    }
-
-    // Clear existing timeout
-    if (this.typingTimeout) {
-      clearTimeout(this.typingTimeout);
-    }
-
-    // Set timeout to stop typing indicator
-    this.typingTimeout = setTimeout(() => {
-      this.isTyping.set(false);
-    }, 1000);
-  }
   /**
    * Subscribes to incoming messages using ChatService and updates the messages array.
    */
@@ -195,9 +173,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
     if (this.previousMessagesSubscription) {
       this.previousMessagesSubscription.unsubscribe();
-    }
-    if (this.typingTimeout) {
-      clearTimeout(this.typingTimeout);
     }
     if (this.scrollTimeout) {
       clearTimeout(this.scrollTimeout);
@@ -239,12 +214,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       // Clear the input immediately for better UX
       this.newMessageContent = '';
-
-      // Stop typing indicator
-      this.isTyping.set(false);
-      if (this.typingTimeout) {
-        clearTimeout(this.typingTimeout);
-      }
 
       // Send the message
       this.chatService.sendMessage({

@@ -7,7 +7,6 @@
     <app-chat-avatar [profile]="interlocutorProfile()" />
     <div class="header-info">
       <h2>{{ interlocutorName() }}</h2>
-      <span *ngIf="isTyping()" class="typing-indicator">typing...</span>
     </div>
   </div>
 
@@ -41,7 +40,6 @@
     <textarea
       #messageInput
       [(ngModel)]="newMessageContent"
-      (input)="onInputChange()"
       (keydown)="onKeyPress($event)"
       placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)"
       rows="1"
