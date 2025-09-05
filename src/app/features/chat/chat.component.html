@@ -6,7 +6,7 @@
   <div class="chat-header">
     <app-chat-avatar [profile]="interlocutorProfile()" />
     <div class="header-info">
-      <h2>{{ interlocutorName() }}</h2>
+      {{ interlocutorName() }}
     </div>
   </div>
 
@@ -20,8 +20,11 @@
           {{ message.content }}
         </div>
         <div class="message-meta">
-          <small>{{ formatMessageTime(message.timestamp) }}</small>
+          <small>
+            {{ formatMessageTime(message.timestamp) }}
+          </small>
         </div>
+        <app-chat-avatar [profile]="interlocutorProfile()" />
       </div>
     </div>
   </div>

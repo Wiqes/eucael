@@ -2,13 +2,8 @@
 
 :host {
   position: relative;
-  margin-right: 1rem;
   flex-shrink: 0;
   cursor: pointer;
-
-  @media (max-width: 768px) {
-    margin-right: 0.75rem;
-  }
 }
 
 .avatar-image,

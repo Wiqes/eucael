@@ -39,12 +39,8 @@
     .header-info {
       margin-left: 10px;
       flex-grow: 1;
-
-      h2 {
-        margin: 0;
-        font-size: 1.1rem;
-        font-weight: 600;
-      }
+      font-weight: 900;
+      font-size: 28px;
     }
   }
 }
@@ -116,6 +112,9 @@
 }
 
 .sender {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   background: linear-gradient(135deg, #dcf8c6 0%, #c8e6c9 100%);
   align-self: flex-end;
   margin-left: auto;
