@@ -35,7 +35,7 @@ import { LoaderComponent } from '../../shared/ui/loader/loader.component';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private chatService = inject(ChatService);
   private route = inject(ActivatedRoute);
   private stateService = inject(StateService);
@@ -47,16 +47,23 @@ export class ChatComponent implements OnInit, OnDestroy {
   );
 
   @Input() receiverId = '';
+  @ViewChild('messagesContainer', { static: false }) messagesContainer!: ElementRef;
+  @ViewChild('messageInput', { static: false }) messageInput!: ElementRef;
 
   messages: IChatMessage[] = [];
   newMessageContent: string = '';
+  isLoading = signal(false);
+  isTyping = signal(false);
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
+  private shouldScrollToBottom = true;
+  private typingTimeout: any;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.receiverId = params.get('receiverId') || '';
       if (this.currentUserId() && this.receiverId) {
+        this.isLoading.set(true);
         this.chatService.connect();
         this.joinChatRoom();
         this.subscribeToMessages();
@@ -64,14 +71,92 @@ export class ChatComponent implements OnInit, OnDestroy {
       console.log('ChatComponent initialized with receiverId:', this.receiverId);
     });
   }
+
+  ngAfterViewChecked(): void {
+    if (this.shouldScrollToBottom) {
+      this.scrollToBottom();
+      this.shouldScrollToBottom = false;
+    }
+  }
+
+  /**
+   * Scrolls the messages container to the bottom to show the latest message
+   */
+  private scrollToBottom(): void {
+    try {
+      if (this.messagesContainer?.nativeElement) {
+        const element = this.messagesContainer.nativeElement;
+        element.scrollTop = element.scrollHeight;
+      }
+    } catch (err) {
+      console.warn('Could not scroll to bottom:', err);
+    }
+  }
+
+  /**
+   * Handles scroll events to determine if auto-scroll should be enabled
+   */
+  onScroll(): void {
+    if (this.messagesContainer?.nativeElement) {
+      const element = this.messagesContainer.nativeElement;
+      const threshold = 150; // pixels from bottom
+      const isNearBottom =
+        element.scrollTop + element.clientHeight >= element.scrollHeight - threshold;
+      this.shouldScrollToBottom = isNearBottom;
+    }
+  }
+
+  /**
+   * Handles input changes for typing indicators
+   */
+  onInputChange(): void {
+    if (!this.isTyping()) {
+      this.isTyping.set(true);
+      // Here you could emit typing status to other users via socket
+    }
+
+    // Clear existing timeout
+    if (this.typingTimeout) {
+      clearTimeout(this.typingTimeout);
+    }
+
+    // Set timeout to stop typing indicator
+    this.typingTimeout = setTimeout(() => {
+      this.isTyping.set(false);
+    }, 1000);
+  }
   /**
    * Subscribes to incoming messages using ChatService and updates the messages array.
    */
   subscribeToMessages(): void {
     this.messageSubscription = this.chatService.onReceiveMessage().subscribe((message: any) => {
-      // Optionally, you can map/transform the message to Message type if needed
+      // Add the new message to the array
       this.messages.push(message);
+      // Enable auto-scroll for new messages
+      this.shouldScrollToBottom = true;
+
+      // Play notification sound or show notification if window is not focused
+      this.handleNewMessageNotification(message);
     });
+  }
+
+  /**
+   * Handles notifications for new messages
+   */
+  private handleNewMessageNotification(message: IChatMessage): void {
+    // Only show notification if the message is from the other user
+    if (message.sender.id !== this.currentUserId()) {
+      // You can add sound notification or browser notification here
+      if (!document.hasFocus()) {
+        // Browser notification when window is not focused
+        if (Notification.permission === 'granted') {
+          new Notification(`New message from ${message.sender.username}`, {
+            body: message.content,
+            icon: '/assets/icons/icon-192x192.png',
+          });
+        }
+      }
+    }
   }
 
   ngOnDestroy(): void {
@@ -80,6 +165,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
     if (this.previousMessagesSubscription) {
       this.previousMessagesSubscription.unsubscribe();
+    }
+    if (this.typingTimeout) {
+      clearTimeout(this.typingTimeout);
     }
     this.chatService.disconnect();
   }
@@ -101,17 +189,85 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
         console.log('Joined chat room:', chat);
         this.messages = messages;
+        this.isLoading.set(false);
+        // Scroll to bottom after loading messages
+        this.shouldScrollToBottom = true;
+
+        // Request notification permission
+        this.requestNotificationPermission();
       });
+  }
+
+  /**
+   * Requests notification permission from the user
+   */
+  private requestNotificationPermission(): void {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
   }
 
   sendMessage(): void {
     if (this.newMessageContent.trim() && this.currentUserId() && this.receiverId) {
+      const messageContent = this.newMessageContent.trim();
+
+      // Clear the input immediately for better UX
+      this.newMessageContent = '';
+
+      // Stop typing indicator
+      this.isTyping.set(false);
+      if (this.typingTimeout) {
+        clearTimeout(this.typingTimeout);
+      }
+
+      // Send the message
       this.chatService.sendMessage({
-        content: this.newMessageContent,
+        content: messageContent,
         senderId: Number(this.currentUserId()),
         receiverId: Number(this.receiverId),
       });
-      this.newMessageContent = '';
+
+      // Enable auto-scroll for sent messages
+      this.shouldScrollToBottom = true;
+
+      // Focus back to input for continuous typing
+      setTimeout(() => {
+        if (this.messageInput?.nativeElement) {
+          this.messageInput.nativeElement.focus();
+        }
+      }, 0);
     }
+  }
+
+  /**
+   * Handles Enter key press with Shift+Enter for new lines
+   */
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
+    }
+  }
+
+  /**
+   * Formats timestamp for display
+   */
+  formatMessageTime(timestamp: string | Date): string {
+    const date = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
+    const now = new Date();
+    const diffInHours = Math.abs(now.getTime() - date.getTime()) / (1000 * 60 * 60);
+
+    if (diffInHours < 24) {
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else {
+      return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+    }
+  }
+
+  /**
+   * TrackBy function for message list optimization
+   */
+  trackByMessageId(index: number, message: IChatMessage): any {
+    return message.id || index;
   }
 }

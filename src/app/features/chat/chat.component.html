@@ -1,36 +1,48 @@
 <div class="chat-container">
-  <div *ngIf="!interlocutorProfile()" class="loader-container">
+  <div *ngIf="!interlocutorProfile() || isLoading()" class="loader-container">
     <app-loader />
   </div>
-  @if(interlocutorProfile()) {
+  @if(interlocutorProfile() && !isLoading()) {
   <div class="chat-header">
     <app-chat-avatar [profile]="interlocutorProfile()" />
-    <h2>{{ interlocutorName() }}</h2>
+    <div class="header-info">
+      <h2>{{ interlocutorName() }}</h2>
+      <span *ngIf="isTyping()" class="typing-indicator">typing...</span>
+    </div>
   </div>
 
-  <div class="messages">
-    <div *ngFor="let message of messages" class="message">
+  <div class="messages" #messagesContainer (scroll)="onScroll()">
+    <div *ngFor="let message of messages; trackBy: trackByMessageId" class="message">
       <div
         [class.sender]="message.sender.id === currentUserId()"
         [class.receiver]="message.sender.id !== currentUserId()"
       >
-        <strong>
-          {{ message.sender.id === currentUserId() ? 'You' : message.sender.username }}:
-        </strong>
-        {{ message.content }}
-        <small>{{ message.timestamp | date : 'shortTime' }}</small>
+        <div class="message-content">
+          {{ message.content }}
+        </div>
+        <div class="message-meta">
+          <small>{{ formatMessageTime(message.timestamp) }}</small>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="message-input">
-    <input
-      type="text"
+    <textarea
+      #messageInput
       [(ngModel)]="newMessageContent"
-      (keyup.enter)="sendMessage()"
-      placeholder="Type your message..."
+      (input)="onInputChange()"
+      (keydown)="onKeyPress($event)"
+      placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)"
+      rows="1"
+      maxlength="1000"
+    ></textarea>
+    <p-button
+      [label]="'Send'"
+      (onClick)="sendMessage()"
+      [disabled]="!newMessageContent.trim()"
+      icon="pi pi-send"
     />
-    <p-button [label]="'Send'" (onClick)="sendMessage()" />
   </div>
   }
 </div>
