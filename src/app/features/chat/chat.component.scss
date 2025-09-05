@@ -1,7 +1,8 @@
 @use 'variables' as *;
 
 .chat-container {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   margin: 20px auto;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -33,6 +34,7 @@
 .messages {
   flex-grow: 1;
   padding: 10px;
+  height: 50vh;
   overflow-y: auto;
   background: rgba(24, 24, 27, 0.42);
 
@@ -85,6 +87,7 @@
   flex-grow: 1;
   padding: 8px;
   border: 1px solid #ccc;
+  border-radius: 8px;
   margin-right: 10px;
 }
 
