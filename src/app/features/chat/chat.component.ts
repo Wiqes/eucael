@@ -1,5 +1,15 @@
 // src/app/chat/chat.component.ts
-import { Component, OnInit, OnDestroy, Input, inject, computed } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  inject,
+  computed,
+  ViewChild,
+  ElementRef,
+  AfterViewChecked,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Needed for *ngFor, *ngIf etc.
@@ -29,11 +39,13 @@ interface Message {
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private chatService = inject(ChatService);
   private route = inject(ActivatedRoute);
   private stateService = inject(StateService);
   currentUserId = computed(() => this.stateService.user()?.id || '');
+
+  @ViewChild('messagesContainer', { static: false }) private messagesContainer!: ElementRef;
 
   @Input() receiverId = '';
 
@@ -41,6 +53,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   newMessageContent: string = '';
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
+  private shouldScrollToBottom = true;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -60,7 +73,26 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.messageSubscription = this.chatService.onReceiveMessage().subscribe((message: any) => {
       // Optionally, you can map/transform the message to Message type if needed
       this.messages.push(message);
+      this.shouldScrollToBottom = true;
     });
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.shouldScrollToBottom) {
+      this.scrollToBottom();
+      this.shouldScrollToBottom = false;
+    }
+  }
+
+  private scrollToBottom(): void {
+    try {
+      if (this.messagesContainer) {
+        this.messagesContainer.nativeElement.scrollTop =
+          this.messagesContainer.nativeElement.scrollHeight;
+      }
+    } catch (err) {
+      console.error('Error scrolling to bottom:', err);
+    }
   }
 
   ngOnDestroy(): void {
@@ -84,6 +116,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       .onPreviousMessages()
       .subscribe((prevMessages: Message[]) => {
         this.messages = prevMessages;
+        this.shouldScrollToBottom = true;
       });
   }
 
@@ -95,6 +128,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         receiverId: Number(this.receiverId),
       });
       this.newMessageContent = '';
+      this.shouldScrollToBottom = true;
     }
   }
 }
