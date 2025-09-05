@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
 import { ChatService } from '../../core/services/chat.service';
 import { StateService } from '../../core/services/state/state.service';
 import { Button } from 'primeng/button';
-import { IChat, IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';
+import { IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';
 import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 
