@@ -186,29 +186,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (wasNearBottom || message.sender.id === this.currentUserId()) {
         this.shouldScrollToBottom = true;
       }
-
-      // Play notification sound or show notification if window is not focused
-      this.handleNewMessageNotification(message);
     });
-  }
-
-  /**
-   * Handles notifications for new messages
-   */
-  private handleNewMessageNotification(message: IChatMessage): void {
-    // Only show notification if the message is from the other user
-    if (message.sender.id !== this.currentUserId()) {
-      // You can add sound notification or browser notification here
-      if (!document.hasFocus()) {
-        // Browser notification when window is not focused
-        if (Notification.permission === 'granted') {
-          new Notification(`New message from ${message.sender.username}`, {
-            body: message.content,
-            icon: '/assets/icons/icon-192x192.png',
-          });
-        }
-      }
-    }
   }
 
   ngOnDestroy(): void {
@@ -252,19 +230,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           // Hide the scroll to bottom button initially
           this.showScrollToBottom.set(false);
         }, 100);
-
-        // Request notification permission
-        this.requestNotificationPermission();
       });
-  }
-
-  /**
-   * Requests notification permission from the user
-   */
-  private requestNotificationPermission(): void {
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
-    }
   }
 
   sendMessage(): void {
