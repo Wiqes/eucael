@@ -12,6 +12,7 @@ import { NgForOf, NgIf } from '@angular/common';
 export class ChatAvatarComponent {
   profile = input<IProfile | null>(null);
   avatarUrl = computed(() => this.profile()?.avatarUrl || '');
+  isSmall = input<boolean>(false);
 
   getInitials(): string {
     const name = this.profile()?.name || '';

@@ -10,6 +10,7 @@ import {
   ElementRef,
   AfterViewChecked,
   signal,
+  input,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';

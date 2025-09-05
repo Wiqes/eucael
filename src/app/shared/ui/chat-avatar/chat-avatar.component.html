@@ -4,6 +4,8 @@
   [size]="'large'"
   shape="circle"
   class="avatar-image"
+  [style.width.px]="isSmall() ? 30 : 48"
+  [style.height.px]="isSmall() ? 30 : 48"
 ></p-avatar>
 <ng-template #avatarPlaceholder>
   <p-avatar
