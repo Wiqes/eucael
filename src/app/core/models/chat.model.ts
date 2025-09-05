@@ -10,6 +10,7 @@ export interface IChat {
 }
 
 export interface IParticipant {
+  id: string;
   chatId: string;
   profile: IProfile;
 }

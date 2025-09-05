@@ -9,6 +9,7 @@ import {
   ViewChild,
   ElementRef,
   AfterViewChecked,
+  signal,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +18,7 @@ import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
 import { ChatService } from '../../core/services/chat.service';
 import { StateService } from '../../core/services/state/state.service';
 import { Button } from 'primeng/button';
-import { IChat, IChatMessages, IChatMessage } from '../../core/models/chat.model';
+import { IChat, IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';
 
 @Component({
   selector: 'app-chat',
@@ -37,6 +38,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private route = inject(ActivatedRoute);
   private stateService = inject(StateService);
   currentUserId = computed(() => this.stateService.user()?.id || '');
+  interlocutor = signal<IParticipant | null>(null);
+  interlocutorProfile = computed(() => this.interlocutor()?.profile || null);
+  interlocutorName = computed(
+    () => this.interlocutorProfile()?.name || this.interlocutorProfile()?.email || 'Unknown',
+  );
+  interlocutorAvatarUrl = computed(() => this.interlocutorProfile()?.avatarUrl || '');
 
   @ViewChild('messagesContainer', { static: false }) private messagesContainer!: ElementRef;
 
@@ -108,6 +115,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.previousMessagesSubscription = this.chatService
       .onPreviousMessages()
       .subscribe(({ messages, chat }: IChatMessages) => {
+        const participant =
+          chat.participant1?.id === this.currentUserId() ? chat.participant2 : chat.participant1;
+        if (participant) {
+          this.interlocutor.set(participant);
+        }
         console.log('Joined chat room:', chat);
         this.messages = messages;
         this.shouldScrollToBottom = true;
