@@ -4,19 +4,29 @@
   display: flex;
   width: 100%;
   justify-content: flex-end;
+
+  @media (max-width: 800px) {
+    justify-content: center;
+
+    .messages-container {
+      right: 0;
+      max-width: 100%;
+    }
+  }
 }
 
 .messages-container {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: rgba(24, 24, 27, 0.42);
+  background: rgba(24, 24, 27, 0.8);
   color: $text-color;
   overflow: hidden;
   position: relative;
   top: 92px;
   right: 2rem;
   max-width: 320px;
+  border: 1px solid rgba(52, 245, 221, 0.2);
   border-radius: 1.5rem;
 }
 
@@ -233,22 +243,5 @@
         max-width: 65%;
       }
     }
-  }
-}
-
-// Dark theme enhancements
-:host-context(.dark-theme) {
-  .chat-item {
-    &:hover {
-      background: linear-gradient(
-        90deg,
-        rgba($primary-color, 0.12) 0%,
-        rgba($primary-color, 0.06) 100%
-      );
-    }
-  }
-
-  .messages-header {
-    background: linear-gradient(135deg, rgba($primary-color, 0.08) 0%, transparent 100%);
   }
 }
