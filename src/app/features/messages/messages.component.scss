@@ -55,22 +55,7 @@
   max-height: 50vh;
   padding: 0.5rem 0 1.5rem 0;
 
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba($primary-color, 0.3);
-    border-radius: 4px;
-
-    &:hover {
-      background: rgba($primary-color, 0.5);
-    }
-  }
+  @extend %small-scrollbar;
 }
 
 .chat-item {
