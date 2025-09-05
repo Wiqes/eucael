@@ -12,19 +12,20 @@ $gallery-gap: 1vw;
 
 %small-scrollbar {
   &::-webkit-scrollbar {
-    width: 4px;
+    width: 6px;
   }
 
   &::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba($primary-color, 0.3);
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
 
     &:hover {
-      background: rgba($primary-color, 0.5);
+      background: rgba(255, 255, 255, 0.5);
     }
   }
 }
