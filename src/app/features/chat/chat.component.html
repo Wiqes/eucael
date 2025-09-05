@@ -24,16 +24,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Scroll to bottom button -->
-    <button
-      *ngIf="showScrollToBottom()"
-      class="scroll-to-bottom-btn"
-      (click)="scrollToBottomManual()"
-      title="Scroll to bottom"
-    >
-      <i class="pi pi-chevron-down"></i>
-    </button>
   </div>
 
   <div class="message-input">
@@ -41,16 +31,25 @@
       #messageInput
       [(ngModel)]="newMessageContent"
       (keydown)="onKeyPress($event)"
-      placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)"
+      placeholder="Type your message..."
       rows="1"
       maxlength="1000"
     ></textarea>
     <p-button
       [label]="'Send'"
+      severity="secondary"
       (onClick)="sendMessage()"
       [disabled]="!newMessageContent.trim()"
       icon="pi pi-send"
     />
   </div>
+  <button
+    *ngIf="showScrollToBottom()"
+    class="scroll-to-bottom-btn"
+    (click)="scrollToBottomManual()"
+    title="Scroll to bottom"
+  >
+    <i class="pi pi-chevron-down"></i>
+  </button>
   }
 </div>
