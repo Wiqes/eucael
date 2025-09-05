@@ -52,6 +52,7 @@
 .chat-list {
   flex: 1;
   overflow-y: auto;
+  max-height: 50vh;
   padding: 0.5rem 0 1.5rem 0;
 
   &::-webkit-scrollbar {
@@ -131,18 +132,6 @@
     color: $surface-ground !important;
     font-weight: 700;
     font-size: 1.1rem;
-  }
-
-  .online-indicator {
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    width: 12px;
-    height: 12px;
-    background: #00ff88;
-    border: 2px solid $surface-ground;
-    border-radius: 50%;
-    box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
   }
 }
 

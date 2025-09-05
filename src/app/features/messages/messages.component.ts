@@ -1,10 +1,12 @@
 import { Component, computed, inject } from '@angular/core';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
-import { NgFor, NgIf } from '@angular/common';
+import { JsonPipe, NgFor, NgIf } from '@angular/common';
 import { IParticipant } from '../../core/models/chat.model';
 import { AvatarModule } from 'primeng/avatar';
 import { RippleModule } from 'primeng/ripple';
 import { BadgeModule } from 'primeng/badge';
+import { Router } from '@angular/router';
+import { IProfile } from '../../core/models/entities/profile.model';
 
 @Component({
   selector: 'app-messages',
@@ -13,13 +15,14 @@ import { BadgeModule } from 'primeng/badge';
   styleUrl: './messages.component.scss',
 })
 export class MessagesComponent {
-  private chatStateService = inject(ChatStateService);
+  protected chatStateService = inject(ChatStateService);
+  private router = inject(Router);
   interlocutors = computed<IParticipant[]>(() =>
-    [...this.chatStateService.chats(), ...this.chatStateService.chats()].map(
+    this.chatStateService.chats().map(
       (chat) =>
         ({
           chatId: chat.id,
-          profile: chat.participant2?.profile || chat.participant2?.profile || null,
+          profile: chat.participant2?.profile || chat.participant1?.profile || null,
         } as IParticipant),
     ),
   );
@@ -28,7 +31,12 @@ export class MessagesComponent {
     return chat.chatId;
   }
 
-  getInitials(name: string): string {
+  openChat(chatId: string): void {
+    this.router.navigate(['chat', chatId]);
+  }
+
+  getInitials(profile: IProfile | null): string {
+    const name = profile?.name || '';
     if (!name) return '?';
     const words = name.trim().split(' ');
     if (words.length === 1) {
@@ -37,7 +45,8 @@ export class MessagesComponent {
     return (words[0].charAt(0) + words[words.length - 1].charAt(0)).toUpperCase();
   }
 
-  getAvatarColor(name: string): string {
+  getAvatarColor(profile: IProfile | null): string {
+    const name = profile?.name || 'Unknown';
     const colors = [
       '#FF6B6B',
       '#4ECDC4',

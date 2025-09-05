@@ -5,10 +5,15 @@
   </div>
 
   <div class="chat-list">
-    <div *ngFor="let chat of interlocutors(); trackBy: trackByFn" class="chat-item" pRipple>
+    <div
+      *ngFor="let chat of interlocutors(); trackBy: trackByFn"
+      class="chat-item"
+      pRipple
+      (click)="openChat(chat.profile.userId)"
+    >
       <div class="chat-avatar">
         <p-avatar
-          *ngIf="chat.profile.avatarUrl; else avatarPlaceholder"
+          *ngIf="chat.profile?.avatarUrl; else avatarPlaceholder"
           [image]="chat.profile.avatarUrl"
           [size]="'large'"
           shape="circle"
@@ -16,19 +21,18 @@
         ></p-avatar>
         <ng-template #avatarPlaceholder>
           <p-avatar
-            [label]="getInitials(chat.profile.name)"
+            [label]="getInitials(chat.profile)"
             [size]="'large'"
             shape="circle"
             class="avatar-placeholder"
-            [style]="{ 'background-color': getAvatarColor(chat.profile.name) }"
+            [style]="{ 'background-color': getAvatarColor(chat.profile) }"
           ></p-avatar>
         </ng-template>
-        <div class="online-indicator"></div>
       </div>
 
       <div class="chat-content">
         <div class="chat-header">
-          <div class="chat-name">{{ chat.profile.name }}</div>
+          <div *ngIf="chat.profile?.name" class="chat-name">{{ chat.profile.name }}</div>
         </div>
         <div class="chat-preview">
           <span class="last-message">Hey! How are you doing today?</span>
