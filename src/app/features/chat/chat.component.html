@@ -44,7 +44,8 @@
     <p-button
       [label]="'Send'"
       (onClick)="sendMessage()"
-      [disabled]="!newMessageContent.trim()"
+      [loading]="!isPristine()"
+      [disabled]="!isPristine()"
       icon="pi pi-send"
     />
   </div>
