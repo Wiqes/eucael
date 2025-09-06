@@ -10,7 +10,6 @@ import {
   ElementRef,
   AfterViewChecked,
   signal,
-  input,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -22,6 +21,7 @@ import { Button } from 'primeng/button';
 import { IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';
 import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
+import { IUser } from '../../core/models/entities/user.model';
 
 @Component({
   selector: 'app-chat',
@@ -53,6 +53,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('messageInput', { static: false }) messageInput!: ElementRef;
 
   messages: IChatMessage[] = [];
+  pristineMessages: IChatMessage[] = [];
   newMessageContent: string = '';
   isLoading = signal(false);
   showScrollToBottom = signal(false);
@@ -158,9 +159,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.messageSubscription = this.chatService.onReceiveMessage().subscribe((message: any) => {
       // Check if user was near bottom before adding message
       const wasNearBottom = this.isNearBottom();
+      console.log('Received message:', message);
 
-      // Add the new message to the array
-      this.messages.push(message);
+      this.messages = [...this.pristineMessages, message];
+      this.pristineMessages = [...this.messages];
 
       // Only auto-scroll if user was near bottom or if it's their own message
       if (wasNearBottom || message.sender.id === this.currentUserId()) {
@@ -216,6 +218,22 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       // Clear the input immediately for better UX
       this.newMessageContent = '';
+
+      this.pristineMessages = [...this.messages];
+
+      this.messages.push({
+        id: '',
+        content: messageContent,
+        timestamp: new Date(),
+        sender: {
+          id: this.currentUserId(),
+          profile: this.myProfile()!,
+        } as IUser,
+        receiver: {
+          id: this.receiverId,
+          profile: this.interlocutorProfile(),
+        } as IUser,
+      });
 
       // Send the message
       this.chatService.sendMessage({
