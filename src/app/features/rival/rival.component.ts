@@ -16,10 +16,9 @@ import { Subject, takeUntil } from 'rxjs';
 export class RivalComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private dataAccessService = inject(DataAccessService);
-  private stateService = inject(StateService);
   private destroy$ = new Subject<void>();
+  isDataLoading = signal(false);
 
-  isDataLoading = computed(() => this.stateService.isDataLoading());
   rivalProfile = signal<IProfile | null>(null);
   avatarUrl = computed(() => this.rivalProfile()?.avatarUrl || '');
   displayName = computed(
@@ -28,7 +27,7 @@ export class RivalComponent implements OnInit, OnDestroy {
   country = computed(() => this.rivalProfile()?.country || 'Unknown');
 
   ngOnInit(): void {
-    this.stateService.isDataLoading.set(true);
+    this.isDataLoading.set(true);
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       console.log('RivalComponent initialized with rivalId:', params.get('rivalId'));
       const rivalId = params.get('rivalId');
@@ -36,11 +35,11 @@ export class RivalComponent implements OnInit, OnDestroy {
         this.dataAccessService.getProfileByUserId(rivalId).subscribe(
           (profile) => {
             this.rivalProfile.set(profile);
-            this.stateService.isDataLoading.set(false);
+            this.isDataLoading.set(false);
           },
           (error) => {
             console.error('Error fetching rival profile:', error);
-            this.stateService.isDataLoading.set(false);
+            this.isDataLoading.set(false);
           },
         );
       }
