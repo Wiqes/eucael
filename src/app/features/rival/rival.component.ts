@@ -5,7 +5,7 @@ import { IProfile } from '../../core/models/entities/profile.model';
 import { NgIf } from '@angular/common';
 import { StateService } from '../../core/services/state/state.service';
 import { AvatarModule } from 'primeng/avatar';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, switchMap, of } from 'rxjs';
 
 @Component({
   selector: 'app-rival',
@@ -16,8 +16,10 @@ import { Subject, takeUntil } from 'rxjs';
 export class RivalComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private dataAccessService = inject(DataAccessService);
+  private stateService = inject(StateService);
+  isDataLoading = computed(() => this.stateService.isDataLoading());
   private destroy$ = new Subject<void>();
-  isDataLoading = signal(false);
+  isProfileLoading = signal(false);
 
   rivalProfile = signal<IProfile | null>(null);
   avatarUrl = computed(() => this.rivalProfile()?.avatarUrl || '');
@@ -27,23 +29,41 @@ export class RivalComponent implements OnInit, OnDestroy {
   country = computed(() => this.rivalProfile()?.country || 'Unknown');
 
   ngOnInit(): void {
-    this.isDataLoading.set(true);
-    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
-      console.log('RivalComponent initialized with rivalId:', params.get('rivalId'));
-      const rivalId = params.get('rivalId');
-      if (rivalId) {
-        this.dataAccessService.getProfileByUserId(rivalId).subscribe(
-          (profile) => {
+    if (!this.isDataLoading()) {
+      this.getRivalFromRouteId();
+    }
+  }
+
+  private getRivalFromRouteId(): void {
+    this.isProfileLoading.set(true);
+    this.route.paramMap
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((params) => {
+          if (this.rivalProfile()) return of(this.rivalProfile());
+
+          const rivalId = params.get('rivalId');
+          if (rivalId) {
+            return this.dataAccessService.getProfileByUserId(rivalId);
+          }
+          return of(null);
+        }),
+      )
+      .subscribe({
+        next: (profile) => {
+          if (profile) {
             this.rivalProfile.set(profile);
-            this.isDataLoading.set(false);
-          },
-          (error) => {
-            console.error('Error fetching rival profile:', error);
-            this.isDataLoading.set(false);
-          },
-        );
-      }
-    });
+          } else {
+            this.rivalProfile.set(null);
+          }
+          this.isProfileLoading.set(false);
+        },
+        error: (error) => {
+          console.error('Error fetching rival profile:', error);
+          this.rivalProfile.set(null);
+          this.isProfileLoading.set(false);
+        },
+      });
   }
 
   ngOnDestroy(): void {
