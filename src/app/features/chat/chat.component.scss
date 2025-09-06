@@ -220,13 +220,12 @@
     flex-grow: 1;
     padding: 4px;
     border: 1px solid #ddd;
-    color: black;
     resize: none;
     min-height: 44px;
     max-height: 120px;
     font-family: inherit;
     font-size: 14px;
-    background: white;
+    background: #00000044;
     transition: border-color 0.2s ease;
 
     &:focus {
