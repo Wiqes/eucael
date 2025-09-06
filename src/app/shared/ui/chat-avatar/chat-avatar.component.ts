@@ -1,7 +1,8 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
 import { IProfile } from '../../../core/models/entities/profile.model';
 import { NgForOf, NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-avatar',
@@ -10,9 +11,16 @@ import { NgForOf, NgIf } from '@angular/common';
   styleUrl: './chat-avatar.component.scss',
 })
 export class ChatAvatarComponent {
+  private router = inject(Router);
   profile = input<IProfile | null>(null);
   avatarUrl = computed(() => this.profile()?.avatarUrl || '');
   isSmall = input<boolean>(false);
+
+  onAvatarClick(event: MouseEvent): void {
+    event?.stopPropagation();
+    const userId = this.profile()?.userId || 'Unknown';
+    this.router.navigate(['profile', userId]);
+  }
 
   getInitials(): string {
     const name = this.profile()?.name || '';

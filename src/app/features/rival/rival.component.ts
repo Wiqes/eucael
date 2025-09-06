@@ -6,6 +6,7 @@ import { NgIf } from '@angular/common';
 import { StateService } from '../../core/services/state/state.service';
 import { AvatarModule } from 'primeng/avatar';
 import { Subject, takeUntil, switchMap, of } from 'rxjs';
+import { DEFAULT_AVATAR_URL } from '../../core/constants/default-values';
 
 @Component({
   selector: 'app-rival',
@@ -22,7 +23,7 @@ export class RivalComponent implements OnInit, OnDestroy {
   isProfileLoading = signal(false);
 
   rivalProfile = signal<IProfile | null>(null);
-  avatarUrl = computed(() => this.rivalProfile()?.avatarUrl || '');
+  avatarUrl = computed(() => this.rivalProfile()?.avatarUrl || DEFAULT_AVATAR_URL);
   displayName = computed(
     () => this.rivalProfile()?.name || this.rivalProfile()?.email || 'Unknown',
   );
