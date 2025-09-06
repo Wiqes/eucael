@@ -1,10 +1,11 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataAccessService } from '../../core/services/data-access/data-access.service';
 import { IProfile } from '../../core/models/entities/profile.model';
 import { NgIf } from '@angular/common';
 import { StateService } from '../../core/services/state/state.service';
 import { AvatarModule } from 'primeng/avatar';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-rival',
@@ -12,10 +13,12 @@ import { AvatarModule } from 'primeng/avatar';
   templateUrl: './rival.component.html',
   styleUrl: './rival.component.scss',
 })
-export class RivalComponent {
+export class RivalComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private dataAccessService = inject(DataAccessService);
   private stateService = inject(StateService);
+  private destroy$ = new Subject<void>();
+
   isDataLoading = computed(() => this.stateService.isDataLoading());
   rivalProfile = signal<IProfile | null>(null);
   avatarUrl = computed(() => this.rivalProfile()?.avatarUrl || '');
@@ -26,8 +29,8 @@ export class RivalComponent {
 
   ngOnInit(): void {
     this.stateService.isDataLoading.set(true);
-    this.route.paramMap.subscribe((params) => {
-      console.log('ChatComponent initialized with rivalId:', params.get('rivalId'));
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+      console.log('RivalComponent initialized with rivalId:', params.get('rivalId'));
       const rivalId = params.get('rivalId');
       if (rivalId) {
         this.dataAccessService.getProfileByUserId(rivalId).subscribe(
@@ -42,5 +45,10 @@ export class RivalComponent {
         );
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
