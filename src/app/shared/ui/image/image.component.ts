@@ -198,53 +198,65 @@ export class ImageComponent {
     });
 
     // Add touch support for mobile devices
-    img.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      if (e.touches.length === 1) {
-        isDragging = true;
-        dragStartX = e.touches[0].clientX;
-        dragStartY = e.touches[0].clientY;
-        dragStartTranslateX = translateX;
-        dragStartTranslateY = translateY;
-        // Ensure no transitions interfere with touch dragging
-        img.style.transition = 'none';
-      }
-    });
-
-    overlay.addEventListener('touchmove', (e) => {
-      if (isDragging && e.touches.length === 1) {
+    img.addEventListener(
+      'touchstart',
+      (e) => {
         e.preventDefault();
-        const deltaX = e.touches[0].clientX - dragStartX;
-        const deltaY = e.touches[0].clientY - dragStartY;
-        translateX = dragStartTranslateX + deltaX;
-        translateY = dragStartTranslateY + deltaY;
-        updateTransform();
-      }
-    });
+        if (e.touches.length === 1) {
+          isDragging = true;
+          dragStartX = e.touches[0].clientX;
+          dragStartY = e.touches[0].clientY;
+          dragStartTranslateX = translateX;
+          dragStartTranslateY = translateY;
+          // Ensure no transitions interfere with touch dragging
+          img.style.transition = 'none';
+        }
+      },
+      { passive: false },
+    );
+
+    overlay.addEventListener(
+      'touchmove',
+      (e) => {
+        if (isDragging && e.touches.length === 1) {
+          e.preventDefault();
+          const deltaX = e.touches[0].clientX - dragStartX;
+          const deltaY = e.touches[0].clientY - dragStartY;
+          translateX = dragStartTranslateX + deltaX;
+          translateY = dragStartTranslateY + deltaY;
+          updateTransform();
+        }
+      },
+      { passive: false },
+    );
 
     overlay.addEventListener('touchend', () => {
       isDragging = false;
     });
 
     // Add wheel zoom functionality
-    img.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
-      const newScale = Math.min(Math.max(scale * zoomFactor, 0.1), 5);
+    img.addEventListener(
+      'wheel',
+      (e) => {
+        e.preventDefault();
+        const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+        const newScale = Math.min(Math.max(scale * zoomFactor, 0.1), 5);
 
-      // Calculate zoom center point relative to image
-      const rect = img.getBoundingClientRect();
-      const centerX = e.clientX - rect.left - rect.width / 2;
-      const centerY = e.clientY - rect.top - rect.height / 2;
+        // Calculate zoom center point relative to image
+        const rect = img.getBoundingClientRect();
+        const centerX = e.clientX - rect.left - rect.width / 2;
+        const centerY = e.clientY - rect.top - rect.height / 2;
 
-      // Adjust translation to zoom towards cursor position
-      const scaleRatio = newScale / scale;
-      translateX = translateX - centerX * (scaleRatio - 1);
-      translateY = translateY - centerY * (scaleRatio - 1);
+        // Adjust translation to zoom towards cursor position
+        const scaleRatio = newScale / scale;
+        translateX = translateX - centerX * (scaleRatio - 1);
+        translateY = translateY - centerY * (scaleRatio - 1);
 
-      scale = newScale;
-      updateTransform();
-    });
+        scale = newScale;
+        updateTransform();
+      },
+      { passive: false },
+    );
 
     // Create control buttons
     const zoomInBtn = createButton('<i class="pi pi-search-plus"></i>', 'Zoom In', () => {
