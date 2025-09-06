@@ -24,10 +24,6 @@
             {{ formatMessageTime(message.timestamp) }}
           </small>
         </div>
-        <app-chat-avatar
-          [isSmall]="true"
-          [profile]="message.sender.id === currentUserId() ? myProfile() : interlocutorProfile()"
-        />
       </div>
     </div>
   </div>

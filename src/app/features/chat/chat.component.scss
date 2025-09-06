@@ -94,7 +94,7 @@
 .message {
   margin-bottom: 12px;
   display: flex;
-  color: black;
+  color: white;
 
   &:last-child {
     margin-bottom: 0;
@@ -102,11 +102,10 @@
 }
 
 .message div {
-  padding: 10px 14px;
+  padding: 6px 8px 0 4px;
   border-radius: 18px;
   word-wrap: break-word;
   position: relative;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .sender {
@@ -172,7 +171,7 @@
   margin-bottom: 4px;
   border: none !important;
   box-shadow: none !important;
-  padding: 0 4px !important;
+  padding: 0 8px 10px 8px !important;
 
   small {
     font-size: 0.7em;
