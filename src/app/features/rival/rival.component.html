@@ -1,0 +1,25 @@
+<div *ngIf="!isDataLoading()" class="profile-container">
+  <div class="profile-header">
+    <div class="header-background">
+      <div class="profile-card">
+        <div class="avatar-section">
+          <div class="avatar-wrapper">
+            <p-avatar
+              [image]="avatarUrl()"
+              size="xlarge"
+              shape="circle"
+              class="profile-avatar"
+            ></p-avatar>
+          </div>
+        </div>
+        <div class="profile-info">
+          <h1 class="display-name">{{ displayName() }}</h1>
+          <div class="location">
+            <i class="pi pi-map-marker"></i>
+            <span class="location-text">{{ country() || 'Unknown' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

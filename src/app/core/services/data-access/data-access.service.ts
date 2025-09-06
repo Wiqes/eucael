@@ -5,6 +5,7 @@ import { IUser } from '../../models/entities/user.model';
 import { catchError, Observable, of } from 'rxjs';
 import { IAnimal } from '../../models/entities/animal.model';
 import { IColor } from '../../models/option.model';
+import { IProfile } from '../../models/entities/profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +43,15 @@ export class DataAccessService {
       catchError((error) => {
         console.error('Error fetching colors:', error.status);
         throw new Error('Failed to fetch colors');
+      }),
+    );
+  }
+
+  getProfileByUserId(userId: string): Observable<IProfile> {
+    return this.http.get<IProfile>(`${environment.API_URL}/profiles/${userId}`).pipe(
+      catchError((error) => {
+        console.error('Error fetching profile by user ID:', error.status);
+        throw new Error('Failed to fetch profile by user ID');
       }),
     );
   }

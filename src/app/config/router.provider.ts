@@ -52,6 +52,11 @@ const routes: Routes = [
         loadComponent: () =>
           import('../layout/header/header.component').then((m) => m.HeaderComponent),
       },
+      {
+        path: ':rivalId',
+        loadComponent: () =>
+          import('../features/rival/rival.component').then((m) => m.RivalComponent),
+      },
     ],
   },
   {
