@@ -14,5 +14,7 @@
     shape="circle"
     class="avatar-placeholder"
     [style]="{ 'background-color': getAvatarColor() }"
+    [style.width.px]="isSmall() ? 30 : 48"
+    [style.height.px]="isSmall() ? 30 : 48"
   ></p-avatar>
 </ng-template>
