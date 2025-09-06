@@ -54,6 +54,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   messages: IChatMessage[] = [];
   pristineMessages: IChatMessage[] = [];
+  isPristine = signal(true);
   newMessageContent: string = '';
   isLoading = signal(false);
   showScrollToBottom = signal(false);
@@ -163,6 +164,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       this.messages = [...this.pristineMessages, message];
       this.pristineMessages = [...this.messages];
+      this.isPristine.set(true);
 
       // Only auto-scroll if user was near bottom or if it's their own message
       if (wasNearBottom || message.sender.id === this.currentUserId()) {
@@ -218,9 +220,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       // Clear the input immediately for better UX
       this.newMessageContent = '';
-
       this.pristineMessages = [...this.messages];
-
+      this.isPristine.set(false);
       this.messages.push({
         id: '',
         content: messageContent,

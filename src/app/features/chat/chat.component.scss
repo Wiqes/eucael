@@ -95,7 +95,6 @@
   margin-bottom: 12px;
   display: flex;
   color: black;
-  animation: messageSlideIn 0.3s ease-out;
 
   &:last-child {
     margin-bottom: 0;
@@ -237,28 +236,6 @@
     &::placeholder {
       color: #999;
     }
-  }
-}
-
-// Animations
-@keyframes messageSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
   }
 }
 
