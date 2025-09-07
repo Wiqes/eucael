@@ -102,7 +102,7 @@
 }
 
 .message div {
-  padding: 6px 8px 0 4px;
+  padding: 6px 8px 0 6px;
   border-radius: 18px;
   word-wrap: break-word;
   position: relative;
@@ -162,7 +162,7 @@
 .message-content {
   max-width: 240px;
   margin-bottom: 4px;
-  line-height: 1.4;
+  word-wrap: break-word;
 }
 
 .message-meta {
