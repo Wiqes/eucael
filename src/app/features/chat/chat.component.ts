@@ -215,9 +215,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   sendMessage(): void {
+    console.log('Attempting to send message:', this.newMessageContent);
     if (this.newMessageContent.trim() && this.currentUserId() && this.receiverId) {
       const messageContent = this.newMessageContent.trim();
-
+      console.log('Sending message:', `d${messageContent}`);
       // Clear the input immediately for better UX
       this.newMessageContent = '';
       this.pristineMessages = [...this.messages];
