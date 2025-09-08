@@ -24,7 +24,6 @@ $gallery-gap: 1vw;
       rgba(24, 24, 27, 0.3) 100%
     );
   border: 1px solid rgba(52, 245, 245, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 %green-glass {
@@ -41,7 +40,7 @@ $gallery-gap: 1vw;
       rgba(24, 24, 27, 0.3) 100%
     );
   border: 1px solid rgba(52, 245, 221, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
 }
 
 %small-scrollbar {
