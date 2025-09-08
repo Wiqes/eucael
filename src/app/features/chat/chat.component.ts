@@ -53,8 +53,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private chatStateService = inject(ChatStateService);
   private destroy$ = new Subject<void>();
 
-  currentUserId = computed(() => this.stateService.user()?.id || '');
-  myProfile = computed(() => this.stateService.user()?.profile || null);
+  currentUser = computed(() => this.stateService.user() || null);
+  currentUserId = computed(() => this.currentUser()?.id || '');
+  myProfile = computed(() => this.currentUser()?.profile || null);
   interlocutor = signal<IParticipant | null>(null);
   interlocutorProfile = computed(() => this.interlocutor()?.profile || null);
   interlocutorName = computed(

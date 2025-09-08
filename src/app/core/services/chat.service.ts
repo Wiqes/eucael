@@ -62,14 +62,13 @@ export class ChatService {
 
   // Connect to the chat with authentication
   connect(): void {
-    const user = this.stateService.user();
-    if (user) {
+    const token = this.authTokenService.getToken();
+    if (token) {
       // Add authentication and user data to socket connection
       this.socket.ioSocket.auth = {
-        token: this.authTokenService.getToken(),
-        userId: user.id,
-        username: user.username,
+        token,
       };
+      console.log('Connecting to chat as user:', this.socket.ioSocket.auth);
     }
     this.socket.connect();
   }
