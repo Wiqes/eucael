@@ -7,12 +7,18 @@ export interface IChat {
   participant2Id: number;
   participant1?: IParticipant;
   participant2?: IParticipant;
+  lastMessageAt?: Date;
+  unreadCount1?: number; // Unread messages for participant1
+  unreadCount2?: number; // Unread messages for participant2
 }
 
 export interface IParticipant {
   id: string;
   chatId: string;
   profile: IProfile;
+  userId?: string; // ID of the user for this participant
+  lastMessageAt?: Date;
+  unreadCount?: number;
 }
 
 export interface IChatMessage {
@@ -21,6 +27,10 @@ export interface IChatMessage {
   timestamp: Date;
   sender: IUser;
   receiver: IUser;
+  chatId?: string;
+  isRead?: boolean;
+  deliveredAt?: Date;
+  readAt?: Date;
 }
 
 export interface IChatMessages {

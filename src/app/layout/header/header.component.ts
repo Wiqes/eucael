@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { MenuComponent } from './menu/menu.component';
 import { LanguageSelectorComponent } from '../../shared/ui/language-selector/language-selector.component';
+import { NotificationComponent } from '../../shared/components/notification/notification.component';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +20,7 @@ import { LanguageSelectorComponent } from '../../shared/ui/language-selector/lan
     UserAvatarComponent,
     MenuComponent,
     LanguageSelectorComponent,
+    NotificationComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',

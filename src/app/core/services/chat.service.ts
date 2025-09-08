@@ -1,26 +1,76 @@
 // src/app/services/chat.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Socket } from 'ngx-socket-io'; // Still import Socket from ngx-socket-io
 import { Observable } from 'rxjs';
 import { IChat, IChatMessages } from '../models/chat.model';
-// environment is still needed for the URL in main.ts, but not directly in the service's constructor anymore
-// because the 'Socket' instance is now injected.
+import {
+  INotification,
+  IUserPresence,
+  ITypingIndicator,
+  IMessageRead,
+  INewMessageNotification,
+} from '../models/notification.model';
+import { AuthTokenService } from './auth/auth-token.service';
+import { StateService } from './state/state.service';
+import { NotificationService } from './notification.service';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
+  private authTokenService = inject(AuthTokenService);
+  private stateService = inject(StateService);
+  private notificationService = inject(NotificationService);
+  private presenceService = inject(PresenceService);
+
   // The Socket instance is now injected by Angular's DI system
   // because we provided it via provideSocketIo in appConfig.
   constructor(private socket: Socket) {
-    // No need to manually create new Socket({ url: ... }) here anymore.
-    // The injected 'socket' instance is already configured.
+    this.setupSocketListeners();
+  }
+
+  /**
+   * Setup all socket event listeners
+   */
+  private setupSocketListeners(): void {
+    // Notification listeners
+    this.socket.on('newMessageNotification', (notification: INewMessageNotification) => {
+      this.notificationService.handleNewMessageNotification(notification);
+    });
+
+    this.socket.on('unreadNotificationCount', ({ count }: { count: number }) => {
+      this.notificationService.updateUnreadCount(count);
+    });
+
+    this.socket.on('notifications', (notifications: INotification[]) => {
+      this.notificationService.notifications.set(notifications);
+    });
+
+    // Presence listeners
+    this.socket.on('userOnlineStatus', (presence: IUserPresence) => {
+      this.presenceService.updateUserPresence(presence);
+    });
+
+    // Error handling
+    this.socket.on('error', ({ message }: { message: string }) => {
+      console.error('Socket error:', message);
+    });
   }
 
   // ... rest of your ChatService methods remain the same ...
 
-  // Connect to the chat
+  // Connect to the chat with authentication
   connect(): void {
+    const user = this.stateService.user();
+    if (user) {
+      // Add authentication and user data to socket connection
+      this.socket.ioSocket.auth = {
+        token: this.authTokenService.getToken(),
+        userId: user.id,
+        username: user.username,
+      };
+    }
     this.socket.connect();
   }
 
@@ -43,6 +93,51 @@ export class ChatService {
   joinChat(participant1Id: number, participant2Id: number): Observable<string> {
     this.socket.emit('joinChat', { participant1Id, participant2Id });
     return this.socket.fromEvent('joinChatResponse');
+  }
+
+  // Leave a chat room
+  leaveChat(chatId: string): void {
+    this.socket.emit('leaveChat', { chatId });
+  }
+
+  // Mark message as read
+  markMessageAsRead(messageId: string): void {
+    this.socket.emit('markMessageAsRead', { messageId });
+  }
+
+  // Listen for message read confirmations
+  onMessageRead(): Observable<IMessageRead> {
+    return this.socket.fromEvent('messageRead');
+  }
+
+  // Send typing indicator
+  sendTypingIndicator(chatId: string, isTyping: boolean): void {
+    this.socket.emit('typing', { chatId, isTyping });
+  }
+
+  // Listen for typing indicators
+  onUserTyping(): Observable<ITypingIndicator> {
+    return this.socket.fromEvent('userTyping');
+  }
+
+  // Get notifications
+  getNotifications(unreadOnly: boolean = false): void {
+    this.socket.emit('getNotifications', { unreadOnly });
+  }
+
+  // Mark notification as read via socket
+  markNotificationAsRead(notificationId: number): void {
+    this.socket.emit('markNotificationAsRead', { notificationId });
+  }
+
+  // Get user's chat list
+  getUserChats(): void {
+    this.socket.emit('getUserChats');
+  }
+
+  // Listen for updated chat list
+  onUserChats(): Observable<IChat[]> {
+    return this.socket.fromEvent('userChats');
   }
 
   // Listen for previous messages when joining a chat

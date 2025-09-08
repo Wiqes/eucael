@@ -11,16 +11,22 @@ import {
   AfterViewChecked,
   signal,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject, takeUntil, debounceTime, distinctUntilChanged } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Needed for *ngFor, *ngIf etc.
 import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
 import { ChatService } from '../../core/services/chat.service';
 import { StateService } from '../../core/services/state/state.service';
+import { NotificationService } from '../../core/services/notification.service';
+import { PresenceService } from '../../core/services/presence.service';
+import { ChatStateService } from '../../core/services/state/chat-state.service';
 import { Button } from 'primeng/button';
 import { IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';
+import { ITypingIndicator, IMessageRead } from '../../core/models/notification.model';
 import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
+import { TypingIndicatorComponent } from '../../shared/components/typing-indicator/typing-indicator.component';
+import { OnlineStatusComponent } from '../../shared/components/online-status/online-status.component';
 import { IUser } from '../../core/models/entities/user.model';
 
 @Component({
@@ -32,6 +38,8 @@ import { IUser } from '../../core/models/entities/user.model';
     Button,
     ChatAvatarComponent,
     LoaderComponent,
+    TypingIndicatorComponent,
+    OnlineStatusComponent,
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
@@ -40,6 +48,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private chatService = inject(ChatService);
   private route = inject(ActivatedRoute);
   private stateService = inject(StateService);
+  private notificationService = inject(NotificationService);
+  private presenceService = inject(PresenceService);
+  private chatStateService = inject(ChatStateService);
+  private destroy$ = new Subject<void>();
+
   currentUserId = computed(() => this.stateService.user()?.id || '');
   myProfile = computed(() => this.stateService.user()?.profile || null);
   interlocutor = signal<IParticipant | null>(null);
@@ -58,6 +71,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   newMessageContent: string = '';
   isLoading = signal(false);
   showScrollToBottom = signal(false);
+
+  // New properties for enhanced features
+  activeChatId = signal<string>('');
+  isTyping = signal(false);
+  typingUsers = signal<ITypingIndicator[]>([]);
+  typingTimeout?: ReturnType<typeof setTimeout>;
+  readReceipts = signal<Map<string, IMessageRead>>(new Map());
+
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
   private shouldScrollToBottom = false;
@@ -72,9 +93,123 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.chatService.connect();
         this.joinChatRoom();
         this.subscribeToMessages();
+        this.setupEnhancedSocketListeners();
       }
       console.log('ChatComponent initialized with receiverId:', this.receiverId);
     });
+  }
+
+  /**
+   * Setup enhanced socket listeners for new features
+   */
+  private setupEnhancedSocketListeners(): void {
+    // Typing indicators
+    this.chatService
+      .onUserTyping()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((typingData: ITypingIndicator) => {
+        if (typingData.chatId === this.activeChatId()) {
+          this.updateTypingUsers(typingData);
+        }
+      });
+
+    // Message read receipts
+    this.chatService
+      .onMessageRead()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((readData: IMessageRead) => {
+        this.updateReadReceipts(readData);
+      });
+
+    // Chat list updates
+    this.chatService
+      .onUserChats()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((chats) => {
+        this.chatStateService.updateChats(chats);
+      });
+  }
+
+  /**
+   * Update typing users list
+   */
+  private updateTypingUsers(typingData: ITypingIndicator): void {
+    const currentUsers = this.typingUsers();
+
+    if (typingData.isTyping) {
+      // Add user to typing list if not already there
+      if (!currentUsers.find((u) => u.userId === typingData.userId)) {
+        this.typingUsers.set([...currentUsers, typingData]);
+      }
+    } else {
+      // Remove user from typing list
+      this.typingUsers.set(currentUsers.filter((u) => u.userId !== typingData.userId));
+    }
+  }
+
+  /**
+   * Update read receipts
+   */
+  private updateReadReceipts(readData: IMessageRead): void {
+    const receipts = this.readReceipts();
+    receipts.set(readData.messageId, readData);
+    this.readReceipts.set(new Map(receipts));
+  }
+
+  /**
+   * Get presence text for header
+   */
+  getPresenceText(): string {
+    return this.presenceService.getLastSeenText(this.receiverId);
+  }
+
+  /**
+   * Check if message is read
+   */
+  isMessageRead(messageId: string): boolean {
+    return this.readReceipts().has(messageId);
+  }
+
+  /**
+   * Get typing indicator visibility
+   */
+  getTypingIndicatorVisible(): boolean {
+    return (
+      this.typingUsers().length > 0 &&
+      !this.typingUsers().some((u) => u.userId === this.currentUserId())
+    );
+  }
+
+  /**
+   * Get typing username
+   */
+  getTypingUsername(): string | undefined {
+    const typingUser = this.typingUsers().find((u) => u.userId !== this.currentUserId());
+    return typingUser?.username;
+  }
+
+  /**
+   * Handle typing input
+   */
+  onTyping(): void {
+    if (this.activeChatId()) {
+      // Clear existing timeout
+      if (this.typingTimeout) {
+        clearTimeout(this.typingTimeout);
+      }
+
+      // Send typing indicator
+      if (!this.isTyping()) {
+        this.isTyping.set(true);
+        this.chatService.sendTypingIndicator(this.activeChatId(), true);
+      }
+
+      // Set timeout to stop typing indicator
+      this.typingTimeout = setTimeout(() => {
+        this.isTyping.set(false);
+        this.chatService.sendTypingIndicator(this.activeChatId(), false);
+      }, 1000);
+    }
   }
 
   ngAfterViewChecked(): void {
@@ -166,6 +301,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.pristineMessages = [...this.messages];
       this.isPristine.set(true);
 
+      // Mark message as read if chat is active and visible
+      if (document.visibilityState === 'visible' && this.activeChatId() === message.chatId) {
+        this.markMessageAsRead(message.id);
+      }
+
+      // Update chat unread count if message is from another user
+      if (message.sender.id !== this.currentUserId()) {
+        this.updateChatUnreadCount();
+      }
+
       // Only auto-scroll if user was near bottom or if it's their own message
       if (wasNearBottom || message.sender.id === this.currentUserId()) {
         this.shouldScrollToBottom = true;
@@ -174,15 +319,36 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnDestroy(): void {
+    // Stop typing indicator if active
+    if (this.isTyping()) {
+      this.chatService.sendTypingIndicator(this.activeChatId(), false);
+    }
+
+    // Clear timeouts
+    if (this.typingTimeout) {
+      clearTimeout(this.typingTimeout);
+    }
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout);
+    }
+
+    // Unsubscribe from all subscriptions
     if (this.messageSubscription) {
       this.messageSubscription.unsubscribe();
     }
     if (this.previousMessagesSubscription) {
       this.previousMessagesSubscription.unsubscribe();
     }
-    if (this.scrollTimeout) {
-      clearTimeout(this.scrollTimeout);
+
+    // Complete destroy subject
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    // Leave chat room
+    if (this.activeChatId()) {
+      this.chatService.leaveChat(this.activeChatId());
     }
+
     this.chatService.disconnect();
   }
 
@@ -191,6 +357,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       .joinChat(Number(this.currentUserId()), Number(this.receiverId))
       .subscribe((chatId) => {
         console.log(`Joined chat with ID: ${chatId}`);
+        this.activeChatId.set(chatId);
       });
 
     this.previousMessagesSubscription = this.chatService
@@ -204,6 +371,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         console.log('Joined chat room:', chat);
         this.messages = messages;
         this.isLoading.set(false);
+
+        // Set active chat ID
+        this.activeChatId.set(chat.id);
+
+        // Mark existing messages as read
+        messages.forEach((message) => {
+          if (message.sender.id !== this.currentUserId() && !message.isRead) {
+            this.markMessageAsRead(message.id);
+          }
+        });
 
         // Scroll to bottom after loading messages (use instant scroll for initial load)
         setTimeout(() => {
@@ -219,6 +396,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.newMessageContent.trim() && this.currentUserId() && this.receiverId) {
       const messageContent = this.newMessageContent.trim();
       console.log('Sending message:', `d${messageContent}`);
+
+      // Stop typing indicator when sending
+      if (this.isTyping()) {
+        this.isTyping.set(false);
+        this.chatService.sendTypingIndicator(this.activeChatId(), false);
+        if (this.typingTimeout) {
+          clearTimeout(this.typingTimeout);
+        }
+      }
+
       // Clear the input immediately for better UX
       this.newMessageContent = '';
       this.pristineMessages = [...this.messages];
@@ -253,6 +440,24 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.messageInput.nativeElement.focus();
         }
       }, 0);
+    }
+  }
+
+  /**
+   * Mark message as read
+   */
+  markMessageAsRead(messageId: string): void {
+    this.chatService.markMessageAsRead(messageId);
+  }
+
+  /**
+   * Update chat unread count
+   */
+  updateChatUnreadCount(): void {
+    // This would typically be handled by the backend
+    // but we can update the local state if needed
+    if (this.activeChatId()) {
+      this.chatStateService.markChatAsRead(this.activeChatId());
     }
   }
 

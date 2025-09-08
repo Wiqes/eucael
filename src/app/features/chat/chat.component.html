@@ -4,9 +4,19 @@
   </div>
   @if(interlocutorProfile() && !isLoading()) {
   <div class="chat-header">
-    <app-chat-avatar [profile]="interlocutorProfile()" />
+    <div class="header-avatar">
+      <app-chat-avatar [profile]="interlocutorProfile()" />
+      <app-online-status
+        [userId]="receiverId"
+        size="small"
+        class="status-indicator"
+      ></app-online-status>
+    </div>
     <div class="header-info">
-      {{ interlocutorName() }}
+      <div class="header-name">{{ interlocutorName() }}</div>
+      <div class="header-status">
+        {{ getPresenceText() }}
+      </div>
     </div>
   </div>
 
@@ -23,9 +33,21 @@
           <small>
             {{ formatMessageTime(message.timestamp) }}
           </small>
+          <div
+            *ngIf="message.sender.id === currentUserId() && isMessageRead(message.id)"
+            class="read-receipt"
+          >
+            <i class="pi pi-check" [class.read]="true"></i>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Typing Indicator -->
+    <app-typing-indicator
+      [isVisible]="getTypingIndicatorVisible()"
+      [username]="getTypingUsername()"
+    ></app-typing-indicator>
   </div>
 
   <div class="message-input">
@@ -33,6 +55,7 @@
       #messageInput
       [(ngModel)]="newMessageContent"
       (keydown)="onKeyPress($event)"
+      (input)="onTyping()"
       placeholder="Type your message..."
       rows="1"
       maxlength="322"

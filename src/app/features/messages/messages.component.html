@@ -1,24 +1,41 @@
 <div class="messages-container">
   <div class="messages-header">
     <h2 class="messages-title">Messages</h2>
-    <div class="messages-count">{{ interlocutors().length }} conversations</div>
+    <div class="messages-count">
+      {{ interlocutors().length }} conversations
+      <span *ngIf="totalUnreadCount() > 0" class="unread-indicator">
+        ({{ totalUnreadCount() }} unread)
+      </span>
+    </div>
   </div>
 
   <div class="chat-list">
     <div
       *ngFor="let chat of interlocutors(); trackBy: trackByFn"
       class="chat-item"
+      [class.has-unread]="chat.unreadCount && chat.unreadCount > 0"
       pRipple
-      (click)="openChat(chat.profile.userId)"
+      (click)="openChat(chat.userId!)"
     >
-      <app-chat-avatar [profile]="chat.profile" />
+      <div class="avatar-container">
+        <app-chat-avatar [profile]="chat.profile" />
+        <app-online-status
+          [userId]="chat.userId!"
+          size="small"
+          class="status-indicator"
+        ></app-online-status>
+      </div>
 
       <div class="chat-content">
         <div class="chat-header">
           <div *ngIf="chat.profile?.name" class="chat-name">{{ chat.profile.name }}</div>
+          <div class="chat-time">{{ formatLastMessageTime(chat.lastMessageAt) }}</div>
         </div>
         <div class="chat-preview">
-          <span class="last-message">Hey! How are you doing today?</span>
+          <span class="last-message">{{ getLastSeenText(chat.userId!) }}</span>
+          <div *ngIf="chat.unreadCount && chat.unreadCount > 0" class="unread-badge">
+            {{ chat.unreadCount }}
+          </div>
         </div>
       </div>
     </div>

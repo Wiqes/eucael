@@ -57,7 +57,13 @@ registerLocaleData(localeMrIN, 'mr-IN');
 registerLocaleData(localeTeIN, 'te-IN');
 registerLocaleData(localeUkUA, 'uk-UA');
 
-const socketConfig: SocketIoConfig = { url: environment.API_URL, options: {} };
+const socketConfig: SocketIoConfig = {
+  url: environment.API_URL,
+  options: {
+    autoConnect: false, // We'll connect manually with auth
+    transports: ['websocket', 'polling'],
+  },
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -67,9 +73,10 @@ export const appConfig: ApplicationConfig = {
     routerProvider(),
     provideSocketIo(socketConfig),
     translationProvider(),
-    ...primeNGProvider(), provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          }),
+    ...primeNGProvider(),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 };
