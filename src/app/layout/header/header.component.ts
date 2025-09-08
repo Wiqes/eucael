@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, HostListener, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, HostListener, signal, effect } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StateService } from '../../core/services/state/state.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,6 +8,8 @@ import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { MenuComponent } from './menu/menu.component';
 import { LanguageSelectorComponent } from '../../shared/ui/language-selector/language-selector.component';
 import { NotificationComponent } from '../../shared/components/notification/notification.component';
+import { ChatService } from '../../core/services/chat.service';
+import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 
 @Component({
   selector: 'app-header',
@@ -28,6 +30,8 @@ import { NotificationComponent } from '../../shared/components/notification/noti
 export class HeaderComponent implements OnInit {
   private router = inject(Router);
   private stateService = inject(StateService);
+  private chatService = inject(ChatService);
+  private authTokenService = inject(AuthTokenService);
 
   private lastScrollTop = 0;
   private readonly scrollThreshold = 5;
@@ -42,6 +46,18 @@ export class HeaderComponent implements OnInit {
   readonly headerVisibilityClass = computed(() =>
     this.isHeaderVisible() ? 'header-visible' : 'header-hidden',
   );
+
+  constructor() {
+    effect(() => {
+      const user = this.user();
+      if (user) {
+        const token = this.authTokenService.getToken();
+        if (token) {
+          this.chatService.connect(token);
+        }
+      }
+    });
+  }
 
   ngOnInit() {
     this.stateService.addBackendDataToState();

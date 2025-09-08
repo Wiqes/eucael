@@ -4,7 +4,6 @@ import { DataAccessService } from '../data-access/data-access.service';
 import { IAnimal } from '../../models/entities/animal.model';
 import { forkJoin } from 'rxjs';
 import { DEFAULT_AVATAR_URL } from '../../constants/default-values';
-import { ChatService } from '../chat.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +13,6 @@ export class StateService {
   readonly animals = signal<IAnimal[]>([]);
   readonly isDataLoading = signal<boolean>(false);
   private readonly dataAccessService = inject(DataAccessService);
-  private readonly chatService = inject(ChatService);
   readonly profile = computed(() => this.user()?.profile);
   readonly avatarUrl = computed(() => this.profile()?.avatarUrl || DEFAULT_AVATAR_URL);
   readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
@@ -32,7 +30,6 @@ export class StateService {
       next: ({ user, animals }) => {
         this.user.set(user);
         this.animals.set(animals);
-        this.chatService.connect();
       },
       error: () => this.isDataLoading.set(false),
       complete: () => this.isDataLoading.set(false),

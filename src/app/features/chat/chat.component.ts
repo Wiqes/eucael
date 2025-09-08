@@ -91,13 +91,22 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.receiverId = params.get('receiverId') || '';
       if (this.currentUserId() && this.receiverId) {
         this.isLoading.set(true);
-        this.chatService.connect();
-        this.joinChatRoom();
-        this.subscribeToMessages();
-        this.setupEnhancedSocketListeners();
+        if (this.chatService.isConnected()) {
+          this.startChatRoom();
+        } else {
+          this.chatService.onConnect().subscribe(() => {
+            this.startChatRoom();
+          });
+        }
       }
       console.log('ChatComponent initialized with receiverId:', this.receiverId);
     });
+  }
+
+  startChatRoom(): void {
+    this.joinChatRoom();
+    this.subscribeToMessages();
+    this.setupEnhancedSocketListeners();
   }
 
   /**

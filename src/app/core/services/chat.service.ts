@@ -10,8 +10,6 @@ import {
   IMessageRead,
   INewMessageNotification,
 } from '../models/notification.model';
-import { AuthTokenService } from './auth/auth-token.service';
-import { StateService } from './state/state.service';
 import { NotificationService } from './notification.service';
 import { PresenceService } from './presence.service';
 
@@ -19,8 +17,6 @@ import { PresenceService } from './presence.service';
   providedIn: 'root',
 })
 export class ChatService {
-  private authTokenService = inject(AuthTokenService);
-  private stateService = inject(StateService);
   private notificationService = inject(NotificationService);
   private presenceService = inject(PresenceService);
 
@@ -66,13 +62,12 @@ export class ChatService {
   }
 
   // Connect to the chat with authentication
-  connect(): void {
+  connect(token: string): void {
     // Avoid reconnecting if already connected
     if (this.isConnected()) {
       return;
     }
 
-    const token = this.authTokenService.getToken();
     if (token) {
       // Add authentication and user data to socket connection
       this.socket.ioSocket.auth = {
