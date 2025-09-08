@@ -60,8 +60,18 @@ export class ChatService {
 
   // ... rest of your ChatService methods remain the same ...
 
+  // Check if socket is connected
+  isConnected(): boolean {
+    return this.socket.ioSocket.connected;
+  }
+
   // Connect to the chat with authentication
   connect(): void {
+    // Avoid reconnecting if already connected
+    if (this.isConnected()) {
+      return;
+    }
+
     const token = this.authTokenService.getToken();
     if (token) {
       // Add authentication and user data to socket connection
@@ -126,11 +136,6 @@ export class ChatService {
   // Mark notification as read via socket
   markNotificationAsRead(notificationId: number): void {
     this.socket.emit('markNotificationAsRead', { notificationId });
-  }
-
-  // Get user's chat list
-  getUserChats(): void {
-    this.socket.emit('getUserChats');
   }
 
   // Listen for updated chat list

@@ -62,8 +62,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
   totalUnreadCount = computed(() => this.chatStateService.getTotalUnreadCount());
 
   ngOnInit(): void {
-    // Load user chats on component init
-    this.chatService.getUserChats();
+    // Connect to socket and load user chats on component init
+    this.chatService.connect();
 
     // Listen for chat updates
     this.chatService
@@ -72,11 +72,22 @@ export class MessagesComponent implements OnInit, OnDestroy {
       .subscribe((chats) => {
         this.chatStateService.updateChats(chats);
       });
+
+    // Handle connection errors
+    this.chatService
+      .onError()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((error) => {
+        console.error('Socket connection error in MessagesComponent:', error);
+      });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+
+    // Note: We don't disconnect the socket here as it might be used by other components
+    // The socket connection should be managed at a higher level (e.g., app level or auth service)
   }
 
   trackByFn(index: number, chat: IParticipant): string {
