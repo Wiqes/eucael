@@ -7,10 +7,11 @@ import { StateService } from '../../core/services/state/state.service';
 import { AvatarModule } from 'primeng/avatar';
 import { Subject, takeUntil, switchMap, of } from 'rxjs';
 import { DEFAULT_AVATAR_URL } from '../../core/constants/default-values';
+import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 
 @Component({
   selector: 'app-rival',
-  imports: [NgIf, AvatarModule],
+  imports: [NgIf, AvatarModule, LoaderComponent],
   templateUrl: './rival.component.html',
   styleUrl: './rival.component.scss',
 })

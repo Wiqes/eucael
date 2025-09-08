@@ -35,11 +35,20 @@
 
     @extend %blue-glass;
   }
+
+  .loader-container {
+    width: 100%;
+    min-width: 300px;
+    border-radius: 20px;
+    margin: 32px 0 16px 0;
+    position: relative;
+  }
 }
 
 .profile-card {
   position: relative;
   z-index: 3;
+  min-height: 363px;
   display: flex;
   flex-direction: column;
   align-items: center;

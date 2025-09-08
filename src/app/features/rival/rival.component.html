@@ -1,6 +1,6 @@
-<div *ngIf="!isProfileLoading()" class="profile-container">
+<div class="profile-container">
   <div class="profile-header">
-    <div class="header-background">
+    <div *ngIf="!isProfileLoading()" class="header-background">
       <div class="profile-card">
         <div class="avatar-section">
           <div class="avatar-wrapper">
@@ -20,6 +20,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="isProfileLoading()" class="loader-container">
+      <app-loader />
     </div>
   </div>
 </div>
