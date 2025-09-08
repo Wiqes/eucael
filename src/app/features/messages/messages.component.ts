@@ -62,9 +62,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
   totalUnreadCount = computed(() => this.chatStateService.getTotalUnreadCount());
 
   ngOnInit(): void {
-    // Connect to socket and load user chats on component init
-    this.chatService.connect();
-
     // Listen for chat updates
     this.chatService
       .onUserChats()
