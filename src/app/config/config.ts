@@ -60,7 +60,7 @@ registerLocaleData(localeUkUA, 'uk-UA');
 const socketConfig: SocketIoConfig = {
   url: environment.API_URL,
   options: {
-    autoConnect: false, // We'll connect manually with auth
+    autoConnect: false,
     transports: ['websocket', 'polling'],
   },
 };

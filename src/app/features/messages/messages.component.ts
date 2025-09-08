@@ -41,8 +41,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       .map((chat) => {
         const currentUserId = this.stateService.user()?.id;
         const otherParticipant =
-          chat.participant1Id.toString() === currentUserId ? chat.participant2 : chat.participant1;
-
+          chat.participant1Id === Number(currentUserId) ? chat.participant2 : chat.participant1;
         return {
           id: otherParticipant?.id || '',
           chatId: chat.id,
