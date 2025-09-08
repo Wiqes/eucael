@@ -68,7 +68,6 @@ export class ChatService {
       this.socket.ioSocket.auth = {
         token,
       };
-      console.log('Connecting to chat as user:', this.socket.ioSocket.auth);
     }
     this.socket.connect();
   }
