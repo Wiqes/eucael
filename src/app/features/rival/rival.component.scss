@@ -33,7 +33,7 @@
     margin: 32px 0 16px 0;
     position: relative;
 
-    @extend %blue-glass;
+    @extend %light-blue-glass;
   }
 
   .loader-container {
@@ -72,7 +72,7 @@
         position: relative;
         isolation: isolate;
         transform: translateZ(2px);
-        border: 2px solid rgba(52, 245, 221, 0.2);
+        border: 2px solid rgba(52, 152, 245, 0.2);
       }
     }
   }
