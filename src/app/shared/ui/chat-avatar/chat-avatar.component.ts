@@ -36,15 +36,19 @@ export class ChatAvatarComponent {
     const name = this.profile()?.name || 'Unknown';
     const colors = [
       '#FF6B6B',
-      '#4ECDC4',
-      '#45B7D1',
-      '#96CEB4',
       '#FFEAA7',
       '#DDA0DD',
-      '#98D8C8',
       '#F7DC6F',
       '#BB8FCE',
-      '#85C1E9',
+      '#6C5CE7',
+      '#FD79A8',
+      '#636E72',
+      '#FAB1A0',
+      '#74B9FF',
+      '#A29BFE',
+      '#E17055',
+      '#00BFFF',
+      '#FFD700',
     ];
     let hash = 0;
     for (let i = 0; i < name.length; i++) {
