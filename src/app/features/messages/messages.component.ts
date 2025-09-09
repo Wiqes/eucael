@@ -43,6 +43,7 @@ export class MessagesComponent implements OnDestroy {
           id: otherParticipant?.id || '',
           chatId: chat.id,
           userId: otherParticipant?.id || '',
+          isOnline: otherParticipant?.isOnline || false,
           profile: otherParticipant?.profile || null,
           lastMessageAt: chat.lastMessageAt,
           unreadCount: this.getUnreadCount(chat.id),

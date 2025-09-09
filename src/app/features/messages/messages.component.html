@@ -20,7 +20,7 @@
       <div class="avatar-container">
         <app-chat-avatar [profile]="chat.profile" />
         <app-online-status
-          [userId]="chat.userId!"
+          [isOnline]="chat.isOnline"
           size="small"
           class="status-indicator"
         ></app-online-status>
@@ -29,7 +29,9 @@
       <div class="chat-content">
         <div class="chat-header">
           <div *ngIf="chat.profile?.name" class="chat-name">{{ chat.profile.name }}</div>
-          <div class="chat-time">{{ formatLastMessageTime(chat.lastMessageAt) }}</div>
+          <div class="chat-time">
+            {{ formatLastMessageTime(chat.lastMessageAt) }}
+          </div>
         </div>
         <div class="chat-preview">
           <span class="last-message">{{ 'Last message' }}</span>

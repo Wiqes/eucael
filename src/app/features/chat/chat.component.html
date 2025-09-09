@@ -7,7 +7,7 @@
     <div class="header-avatar">
       <app-chat-avatar [profile]="interlocutorProfile()" />
       <app-online-status
-        [userId]="receiverId"
+        [isOnline]="isOnline()"
         size="small"
         class="status-indicator"
       ></app-online-status>

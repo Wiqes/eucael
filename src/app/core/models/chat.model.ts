@@ -19,6 +19,7 @@ export interface IParticipant {
   userId?: string; // ID of the user for this participant
   lastMessageAt?: Date;
   unreadCount?: number;
+  isOnline: boolean;
 }
 
 export interface IChatMessage {
