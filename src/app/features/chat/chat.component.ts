@@ -17,7 +17,6 @@ import { CommonModule } from '@angular/common'; // Needed for *ngFor, *ngIf etc.
 import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
 import { ChatService } from '../../core/services/chat.service';
 import { StateService } from '../../core/services/state/state.service';
-import { NotificationService } from '../../core/services/notification.service';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
 import { Button } from 'primeng/button';
 import { IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';

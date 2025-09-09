@@ -1,15 +1,10 @@
-import { Component, OnInit, OnDestroy, inject, computed } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject, takeUntil } from 'rxjs';
-import { NotificationService } from '../../../core/services/notification.service';
-import { ChatService } from '../../../core/services/chat.service';
-import { INotification } from '../../../core/models/notification.model';
 import { Button } from 'primeng/button';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TooltipModule } from 'primeng/tooltip';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-notification',
@@ -44,161 +39,13 @@ import { Router } from '@angular/router';
     `,
   ],
 })
-export class NotificationComponent implements OnInit, OnDestroy {
-  private notificationService = inject(NotificationService);
-  private chatService = inject(ChatService);
-  private router = inject(Router);
-  private destroy$ = new Subject<void>();
+export class NotificationComponent {
+  unreadCount = signal(0);
 
-  // Reactive signals from service
-  notifications = this.notificationService.notifications;
-  unreadCount = this.notificationService.unreadCount;
-
-  ngOnInit(): void {
-    this.loadNotifications();
-    this.setupSocketListeners();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  /**
-   * Setup socket listeners for real-time updates
-   */
-  private setupSocketListeners(): void {
-    this.chatService
-      .onUserChats()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.loadNotifications();
-      });
-  }
-
-  /**
-   * Load notifications from server
-   */
-  loadNotifications(): void {
-    this.notificationService.loadNotifications();
-    this.notificationService.loadUnreadCount();
-  }
-
-  /**
-   * Refresh notifications
-   */
-  refreshNotifications(): void {
-    this.loadNotifications();
-  }
-
-  /**
-   * Toggle notification panel
-   */
   toggleNotificationPanel(event: Event): void {
     // The panel toggle is handled by PrimeNG automatically
   }
 
-  /**
-   * Mark all notifications as read
-   */
-  markAllAsRead(): void {
-    this.notificationService
-      .markAllNotificationsAsRead()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          this.loadNotifications();
-        },
-        error: (error) => {
-          console.error('Error marking all notifications as read:', error);
-        },
-      });
-  }
-
-  /**
-   * Handle notification click
-   */
-  handleNotificationClick(notification: INotification): void {
-    // Mark as read if unread
-    if (!notification.isRead) {
-      this.notificationService
-        .markNotificationAsRead(notification.id)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: () => {
-            this.loadNotifications();
-          },
-          error: (error) => {
-            console.error('Error marking notification as read:', error);
-          },
-        });
-    }
-
-    // Handle navigation based on notification type
-    if (notification.type === 'message' && notification.data?.senderId) {
-      this.router.navigate(['/chat', notification.data.senderId]);
-    }
-  }
-
-  /**
-   * Delete notification
-   */
-  deleteNotification(notificationId: number, event: Event): void {
-    event.stopPropagation(); // Prevent notification click
-
-    this.notificationService
-      .deleteNotification(notificationId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          this.loadNotifications();
-        },
-        error: (error) => {
-          console.error('Error deleting notification:', error);
-        },
-      });
-  }
-
-  /**
-   * Get notification icon based on type
-   */
-  getNotificationIcon(type: string): string {
-    switch (type) {
-      case 'message':
-        return 'pi pi-comment';
-      case 'user_online':
-        return 'pi pi-user';
-      default:
-        return 'pi pi-bell';
-    }
-  }
-
-  /**
-   * Get time ago text
-   */
-  getTimeAgo(createdAt: Date): string {
-    const now = new Date();
-    const created = new Date(createdAt);
-    const diff = now.getTime() - created.getTime();
-
-    const minutes = Math.floor(diff / (1000 * 60));
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-
-    if (minutes < 1) {
-      return 'Just now';
-    } else if (minutes < 60) {
-      return `${minutes}m ago`;
-    } else if (hours < 24) {
-      return `${hours}h ago`;
-    } else {
-      return `${days}d ago`;
-    }
-  }
-
-  /**
-   * Get tooltip text for notification button
-   */
   getTooltipText(): string {
     const count = this.unreadCount();
     if (count === 0) {
@@ -208,12 +55,5 @@ export class NotificationComponent implements OnInit, OnDestroy {
     } else {
       return `${count} new messages`;
     }
-  }
-
-  /**
-   * TrackBy function for notifications
-   */
-  trackByNotificationId(index: number, notification: INotification): number {
-    return notification.id;
   }
 }
