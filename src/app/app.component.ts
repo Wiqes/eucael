@@ -9,6 +9,7 @@ import { StateService } from './core/services/state/state.service';
 import { NgClass, NgIf } from '@angular/common';
 import { LoaderComponent } from './shared/ui/loader/loader.component';
 import { PwaInstallButtonComponent } from './shared/ui/pwa-install-button.component';
+import { ChatService } from './core/services/chat.service';
 
 @Component({
   selector: 'app-root',
@@ -30,8 +31,11 @@ export class AppComponent implements OnInit {
   private readonly loginService = inject(LoginService);
   protected readonly authService = inject(AuthService);
   private readonly stateService = inject(StateService);
+  private readonly chatService = inject(ChatService);
   isLoggedIn = computed(() => this.loginService.isLoggedIn());
-  isDataLoading = computed(() => this.stateService.isDataLoading());
+  isLoading = computed(
+    () => this.stateService.isDataLoading() || this.chatService.isChatsLoading(),
+  );
 
   ngOnInit(): void {
     const element = document.querySelector('html');

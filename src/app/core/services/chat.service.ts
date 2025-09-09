@@ -1,5 +1,5 @@
 // src/app/services/chat.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Socket } from 'ngx-socket-io'; // Still import Socket from ngx-socket-io
 import { Observable, takeUntil } from 'rxjs';
 import { IChat, IChatMessages } from '../models/chat.model';
@@ -10,8 +10,8 @@ import { ChatStateService } from './state/chat-state.service';
   providedIn: 'root',
 })
 export class ChatService {
-  // The Socket instance is now injected by Angular's DI system
-  // because we provided it via provideSocketIo in appConfig.
+  isChatsLoading = signal<boolean>(false);
+
   constructor(private socket: Socket, private chatStateService: ChatStateService) {
     this.subscribeToEvents();
   }
@@ -19,6 +19,7 @@ export class ChatService {
   subscribeToEvents(): void {
     this.onUserChats().subscribe((chats) => {
       this.chatStateService.updateChats(chats);
+      this.isChatsLoading.set(false);
     });
 
     this.onUserOnlineStatus().subscribe((userStatus) => {
@@ -28,6 +29,10 @@ export class ChatService {
     // Handle connection errors
     this.onError().subscribe((error) => {
       console.error('Socket connection error', error);
+    });
+
+    this.onDisconnect().subscribe(() => {
+      this.isChatsLoading.set(false);
     });
   }
 
@@ -40,10 +45,11 @@ export class ChatService {
 
   // Connect to the chat with authentication
   connect(token: string): void {
-    // Avoid reconnecting if already connected
     if (this.isConnected()) {
       return;
     }
+
+    this.isChatsLoading.set(true);
 
     if (token) {
       // Add authentication and user data to socket connection
