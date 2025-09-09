@@ -8,32 +8,13 @@ import { IChat } from '../../models/chat.model';
 export class ChatStateService {
   private readonly stateService = inject(StateService);
 
-  // Reactive state for chats
-  private chatsSignal = signal<IChat[]>([]);
-
-  chats = computed<IChat[]>(() => {
-    // Get chats from state service or from local signal
-    const userChats = this.getUserChats();
-    const localChats = this.chatsSignal();
-
-    // Return local chats if available, otherwise user chats
-    return localChats.length > 0 ? localChats : userChats;
-  });
-
-  /**
-   * Get chats from user state
-   */
-  private getUserChats(): IChat[] {
-    const chatsAsParticipant1 = this.stateService.user()?.chatsAsParticipant1 || [];
-    const chatsAsParticipant2 = this.stateService.user()?.chatsAsParticipant2 || [];
-    return [...chatsAsParticipant1, ...chatsAsParticipant2];
-  }
+  chats = signal<IChat[]>([]);
 
   /**
    * Update chats with new data (e.g., from WebSocket)
    */
   updateChats(chats: IChat[]): void {
-    this.chatsSignal.set(chats);
+    this.chats.set(chats);
   }
 
   /**
@@ -84,7 +65,7 @@ export class ChatStateService {
       return chat;
     });
 
-    this.chatsSignal.set(updatedChats);
+    this.chats.set(updatedChats);
   }
 
   /**
@@ -106,7 +87,7 @@ export class ChatStateService {
       return chat;
     });
 
-    this.chatsSignal.set(updatedChats);
+    this.chats.set(updatedChats);
   }
 
   /**
@@ -139,13 +120,13 @@ export class ChatStateService {
       return chat;
     });
 
-    this.chatsSignal.set(updatedChats);
+    this.chats.set(updatedChats);
   }
 
   /**
    * Clear all chats
    */
   clearChats(): void {
-    this.chatsSignal.set([]);
+    this.chats.set([]);
   }
 }
