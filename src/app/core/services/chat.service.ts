@@ -1,9 +1,10 @@
 // src/app/services/chat.service.ts
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io'; // Still import Socket from ngx-socket-io
-import { Observable } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 import { IChat, IChatMessages } from '../models/chat.model';
 import { IUserPresence, ITypingIndicator, IMessageRead } from '../models/notification.model';
+import { ChatStateService } from './state/chat-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +12,24 @@ import { IUserPresence, ITypingIndicator, IMessageRead } from '../models/notific
 export class ChatService {
   // The Socket instance is now injected by Angular's DI system
   // because we provided it via provideSocketIo in appConfig.
-  constructor(private socket: Socket) {
+  constructor(private socket: Socket, private chatStateService: ChatStateService) {
     this.setupSocketListeners();
   }
 
+  subscribeToEvents(): void {
+    this.onUserChats().subscribe((chats) => {
+      this.chatStateService.updateChats(chats);
+    });
+
+    this.onUserOnlineStatus().subscribe((userStatus) => {
+      console.log('User presence update:', userStatus);
+    });
+
+    // Handle connection errors
+    this.onError().subscribe((error) => {
+      console.error('Socket connection error', error);
+    });
+  }
   /**
    * Setup all socket event listeners
    */
@@ -66,6 +81,10 @@ export class ChatService {
   // Listen for incoming messages
   onReceiveMessage(): Observable<any> {
     return this.socket.fromEvent('receiveMessage');
+  }
+
+  onUserOnlineStatus(): Observable<IUserPresence> {
+    return this.socket.fromEvent('userOnlineStatus');
   }
 
   // Join a specific chat room (e.g., when opening a chat with a user)

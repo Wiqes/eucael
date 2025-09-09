@@ -26,9 +26,8 @@ import { StateService } from '../../core/services/state/state.service';
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.scss',
 })
-export class MessagesComponent implements OnInit, OnDestroy {
+export class MessagesComponent implements OnDestroy {
   protected chatStateService = inject(ChatStateService);
-  private chatService = inject(ChatService);
   private stateService = inject(StateService);
   private router = inject(Router);
   private destroy$ = new Subject<void>();
@@ -58,24 +57,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
   );
 
   totalUnreadCount = computed(() => this.chatStateService.getTotalUnreadCount());
-
-  ngOnInit(): void {
-    // Listen for chat updates
-    this.chatService
-      .onUserChats()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((chats) => {
-        this.chatStateService.updateChats(chats);
-      });
-
-    // Handle connection errors
-    this.chatService
-      .onError()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((error) => {
-        console.error('Socket connection error in MessagesComponent:', error);
-      });
-  }
 
   ngOnDestroy(): void {
     this.destroy$.next();

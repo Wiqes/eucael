@@ -54,6 +54,7 @@ export class HeaderComponent implements OnInit {
         const token = this.authTokenService.getToken();
         if (token) {
           this.chatService.connect(token);
+          this.chatService.subscribeToEvents();
         }
       }
     });
