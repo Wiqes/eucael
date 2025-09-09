@@ -1,4 +1,4 @@
-import { Component, inject, effect, computed } from '@angular/core';
+import { Component, inject, effect, computed, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -17,6 +17,7 @@ import { StateService } from '../../core/services/state/state.service';
 import { Router } from '@angular/router';
 import { LoginImageComponent } from './login-image/login-image.component';
 import { NgIf } from '@angular/common';
+import { ChatService } from '../../core/services/chat.service';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,7 @@ import { NgIf } from '@angular/common';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loadingResetPassword = false;
 
   private readonly router = inject(Router);
@@ -47,6 +48,7 @@ export class LoginComponent {
   protected readonly authService = inject(AuthService);
   private readonly loginService = inject(LoginService);
   private readonly stateService = inject(StateService);
+  protected readonly chatService = inject(ChatService);
   isLoggedIn = computed(() => this.loginService.isLoggedIn());
   user = computed(() => this.stateService.user());
   isDataLoading = computed(() => this.stateService.isDataLoading());
@@ -87,6 +89,12 @@ export class LoginComponent {
         this.router.navigate(['/home']);
       }
     });
+  }
+
+  ngOnInit() {
+    if (this.chatService.isConnected()) {
+      this.chatService.disconnect();
+    }
   }
 
   login() {
