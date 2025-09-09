@@ -11,7 +11,7 @@ import {
   AfterViewChecked,
   signal,
 } from '@angular/core';
-import { Subscription, Subject, takeUntil, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Subscription, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Needed for *ngFor, *ngIf etc.
 import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
@@ -23,7 +23,6 @@ import { IChatMessages, IChatMessage, IParticipant } from '../../core/models/cha
 import { ITypingIndicator, IMessageRead } from '../../core/models/notification.model';
 import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
-import { OnlineStatusComponent } from '../../shared/ui/online-status/online-status.component';
 import { IUser } from '../../core/models/entities/user.model';
 import { TypingIndicatorComponent } from '../../shared/ui/typing-indicator/typing-indicator.component';
 
@@ -37,7 +36,6 @@ import { TypingIndicatorComponent } from '../../shared/ui/typing-indicator/typin
     ChatAvatarComponent,
     LoaderComponent,
     TypingIndicatorComponent,
-    OnlineStatusComponent,
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
