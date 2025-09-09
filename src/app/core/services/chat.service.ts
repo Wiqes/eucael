@@ -23,7 +23,7 @@ export class ChatService {
     });
 
     this.onUserOnlineStatus().subscribe((userStatus) => {
-      console.log('User presence update:', userStatus);
+      this.chatStateService.updateUserOnlineStatus(userStatus.userId, userStatus.isOnline);
     });
 
     // Handle connection errors

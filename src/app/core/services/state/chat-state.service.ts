@@ -124,6 +124,41 @@ export class ChatStateService {
   }
 
   /**
+   * Update user online status in chats
+   */
+  updateUserOnlineStatus(userId: string, isOnline: boolean): void {
+    const chats = this.chats();
+    const updatedChats = chats.map((chat) => {
+      let updatedChat = { ...chat };
+
+      // Update participant1 if it matches the userId
+      if (chat.participant1 && chat.participant1.id === userId) {
+        updatedChat = {
+          ...updatedChat,
+          participant1: {
+            ...chat.participant1,
+            isOnline: isOnline,
+          },
+        };
+      }
+
+      if (chat.participant2 && chat.participant2.id === userId) {
+        updatedChat = {
+          ...updatedChat,
+          participant2: {
+            ...chat.participant2,
+            isOnline: isOnline,
+          },
+        };
+      }
+
+      return updatedChat;
+    });
+
+    this.chats.set(updatedChats);
+  }
+
+  /**
    * Clear all chats
    */
   clearChats(): void {
