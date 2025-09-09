@@ -32,7 +32,7 @@
           <div class="chat-time">{{ formatLastMessageTime(chat.lastMessageAt) }}</div>
         </div>
         <div class="chat-preview">
-          <span class="last-message">{{ getLastSeenText(chat.userId!) }}</span>
+          <span class="last-message">{{ 'Last message' }}</span>
           <div *ngIf="chat.unreadCount && chat.unreadCount > 0" class="unread-badge">
             {{ chat.unreadCount }}
           </div>

@@ -11,14 +11,12 @@ import {
   INewMessageNotification,
 } from '../models/notification.model';
 import { NotificationService } from './notification.service';
-import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
   private notificationService = inject(NotificationService);
-  private presenceService = inject(PresenceService);
 
   // The Socket instance is now injected by Angular's DI system
   // because we provided it via provideSocketIo in appConfig.
@@ -45,7 +43,7 @@ export class ChatService {
 
     // Presence listeners
     this.socket.on('userOnlineStatus', (presence: IUserPresence) => {
-      this.presenceService.updateUserPresence(presence);
+      console.log('User presence update:', presence);
     });
 
     // Error handling

@@ -1,19 +1,13 @@
 import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TooltipModule } from 'primeng/tooltip';
-import { PresenceService } from '../../../core/services/presence.service';
 
 @Component({
   selector: 'app-online-status',
   standalone: true,
   imports: [CommonModule, TooltipModule],
   template: `
-    <div
-      class="online-status"
-      [class]="getStatusClass()"
-      [pTooltip]="getTooltipText()"
-      tooltipPosition="top"
-    >
+    <div class="online-status" [class]="getStatusClass()" tooltipPosition="top">
       <div class="status-dot"></div>
     </div>
   `,
@@ -80,17 +74,11 @@ export class OnlineStatusComponent {
   @Input() size: 'small' | 'medium' | 'large' = 'medium';
   @Input() showAnimation: boolean = true;
 
-  private presenceService = inject(PresenceService);
-
   getStatusClass(): string {
-    const status = this.presenceService.getPresenceStatus(this.userId);
+    const status = 'online';
     const sizeClass = this.size !== 'medium' ? this.size : '';
     const animationClass = this.showAnimation ? '' : 'no-animation';
 
     return `${status} ${sizeClass} ${animationClass}`.trim();
-  }
-
-  getTooltipText(): string {
-    return this.presenceService.getLastSeenText(this.userId);
   }
 }

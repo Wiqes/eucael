@@ -1,6 +1,5 @@
 import { Component, computed, inject, OnInit, OnDestroy } from '@angular/core';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
-import { PresenceService } from '../../core/services/presence.service';
 import { NgFor, NgIf } from '@angular/common';
 import { IParticipant } from '../../core/models/chat.model';
 import { AvatarModule } from 'primeng/avatar';
@@ -29,7 +28,6 @@ import { StateService } from '../../core/services/state/state.service';
 })
 export class MessagesComponent implements OnInit, OnDestroy {
   protected chatStateService = inject(ChatStateService);
-  private presenceService = inject(PresenceService);
   private chatService = inject(ChatService);
   private stateService = inject(StateService);
   private router = inject(Router);
@@ -97,14 +95,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   getUnreadCount(chatId: string): number {
     return this.chatStateService.getUnreadCount(chatId);
-  }
-
-  getLastSeenText(userId: string): string {
-    return this.presenceService.getLastSeenText(userId);
-  }
-
-  isUserOnline(userId: string): boolean {
-    return this.presenceService.isUserOnline(userId);
   }
 
   formatLastMessageTime(timestamp?: Date): string {

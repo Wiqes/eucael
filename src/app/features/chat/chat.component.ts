@@ -18,7 +18,6 @@ import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
 import { ChatService } from '../../core/services/chat.service';
 import { StateService } from '../../core/services/state/state.service';
 import { NotificationService } from '../../core/services/notification.service';
-import { PresenceService } from '../../core/services/presence.service';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
 import { Button } from 'primeng/button';
 import { IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';
@@ -48,8 +47,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private chatService = inject(ChatService);
   private route = inject(ActivatedRoute);
   private stateService = inject(StateService);
-  private notificationService = inject(NotificationService);
-  private presenceService = inject(PresenceService);
   private chatStateService = inject(ChatStateService);
   private destroy$ = new Subject<void>();
 
@@ -164,13 +161,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     const receipts = this.readReceipts();
     receipts.set(readData.messageId, readData);
     this.readReceipts.set(new Map(receipts));
-  }
-
-  /**
-   * Get presence text for header
-   */
-  getPresenceText(): string {
-    return this.presenceService.getLastSeenText(this.receiverId);
   }
 
   /**
