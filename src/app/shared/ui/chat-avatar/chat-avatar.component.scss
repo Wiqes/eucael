@@ -8,8 +8,8 @@
 
 .avatar-image,
 .avatar-placeholder {
-  box-shadow: 0 2px 8px rgba($primary-color, 0.2);
   border: 2px solid rgba($primary-color, 0.3);
+  box-shadow: 0 2px 8px rgba($primary-color, 0.2);
   transition: all 0.2s ease;
 
   &:hover {

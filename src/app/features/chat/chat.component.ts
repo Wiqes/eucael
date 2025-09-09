@@ -23,9 +23,9 @@ import { IChatMessages, IChatMessage, IParticipant } from '../../core/models/cha
 import { ITypingIndicator, IMessageRead } from '../../core/models/notification.model';
 import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
-import { TypingIndicatorComponent } from '../../shared/components/typing-indicator/typing-indicator.component';
-import { OnlineStatusComponent } from '../../shared/components/online-status/online-status.component';
+import { OnlineStatusComponent } from '../../shared/ui/online-status/online-status.component';
 import { IUser } from '../../core/models/entities/user.model';
+import { TypingIndicatorComponent } from '../../shared/ui/typing-indicator/typing-indicator.component';
 
 @Component({
   selector: 'app-chat',

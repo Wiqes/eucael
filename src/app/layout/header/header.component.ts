@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { MenuComponent } from './menu/menu.component';
 import { LanguageSelectorComponent } from '../../shared/ui/language-selector/language-selector.component';
-import { NotificationComponent } from '../../shared/components/notification/notification.component';
+import { NotificationComponent } from '../../shared/ui/notification/notification.component';
 import { ChatService } from '../../core/services/chat.service';
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 
