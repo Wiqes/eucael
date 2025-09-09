@@ -348,8 +348,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.activeChatId()) {
       this.chatService.leaveChat(this.activeChatId());
     }
-
-    this.chatService.disconnect();
   }
 
   joinChatRoom(): void {
