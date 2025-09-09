@@ -13,7 +13,7 @@ export class ChatService {
   // The Socket instance is now injected by Angular's DI system
   // because we provided it via provideSocketIo in appConfig.
   constructor(private socket: Socket, private chatStateService: ChatStateService) {
-    this.setupSocketListeners();
+    this.subscribeToEvents();
   }
 
   subscribeToEvents(): void {
@@ -28,20 +28,6 @@ export class ChatService {
     // Handle connection errors
     this.onError().subscribe((error) => {
       console.error('Socket connection error', error);
-    });
-  }
-  /**
-   * Setup all socket event listeners
-   */
-  private setupSocketListeners(): void {
-    // Presence listeners
-    this.socket.on('userOnlineStatus', (presence: IUserPresence) => {
-      console.log('User presence update:', presence);
-    });
-
-    // Error handling
-    this.socket.on('error', ({ message }: { message: string }) => {
-      console.error('Socket error:', message);
     });
   }
 
