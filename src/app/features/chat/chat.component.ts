@@ -287,7 +287,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       // Mark message as read if chat is active and visible
       if (document.visibilityState === 'visible' && this.activeChatId() === message.chatId) {
-        this.markMessageAsRead(message.id);
+        this.markMessageAsRead(this.activeChatId());
       }
 
       // Update chat unread count if message is from another user
@@ -356,9 +356,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         // Set active chat ID
         this.activeChatId.set(chat.id);
-
-        // Mark existing messages as read
-        this.markMessageAsRead(chat.id);
 
         // Scroll to bottom after loading messages (use instant scroll for initial load)
         setTimeout(() => {
