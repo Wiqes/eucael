@@ -68,7 +68,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   messages: IChatMessage[] = [];
   newMessageContent: string = '';
   isLoading = signal(false);
-  isMessageSending = signal(false);
   showScrollToBottom = signal(false);
 
   // New properties for enhanced features
@@ -284,7 +283,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.messages = [...this.messages, message];
         this.updateChatUnreadCount();
       }
-      this.isMessageSending.set(false);
 
       // Only auto-scroll if user was near bottom or if it's their own message
       if (wasNearBottom || message.sender.id === this.currentUserId()) {
@@ -374,7 +372,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       // Clear the input immediately for better UX
       this.newMessageContent = '';
-      this.isMessageSending.set(true);
       this.messages.push({
         id: '',
         content: messageContent,
