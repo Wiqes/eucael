@@ -19,16 +19,15 @@ import { CommonModule } from '@angular/common';
   `,
   styles: [
     `
+      @use 'variables' as *;
+
       .typing-indicator {
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.5rem 1rem;
         font-size: 0.875rem;
-        color: var(--text-color-secondary);
-        background: var(--surface-50);
+        color: $primary-color-light;
         border-radius: 1rem;
-        margin: 0.5rem 0;
         animation: fadeIn 0.3s ease-in-out;
       }
 
@@ -39,13 +38,16 @@ import { CommonModule } from '@angular/common';
       .typing-dots {
         display: flex;
         gap: 0.2rem;
+        position: relative;
+        top: 4px;
+        left: -2px;
       }
 
       .dot {
-        width: 4px;
-        height: 4px;
+        width: 2px;
+        height: 2px;
         border-radius: 50%;
-        background-color: var(--text-color-secondary);
+        background-color: $primary-color-light;
         animation: pulse 1.4s infinite ease-in-out;
       }
 

@@ -81,10 +81,8 @@ body {
   }
 }
 
-@media (max-width: 400px) {
-  .p-button {
-    font-size: 12px !important;
-  }
+.p-button {
+  font-size: 1.1rem !important;
 }
 
 .form-row {
