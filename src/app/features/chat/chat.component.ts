@@ -66,10 +66,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('messageInput', { static: false }) messageInput!: ElementRef;
 
   messages: IChatMessage[] = [];
-  pristineMessages: IChatMessage[] = [];
-  isPristine = signal(true);
   newMessageContent: string = '';
   isLoading = signal(false);
+  isMessageSending = signal(false);
   showScrollToBottom = signal(false);
 
   // New properties for enhanced features
@@ -281,19 +280,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       const wasNearBottom = this.isNearBottom();
       console.log('Received message:', message);
 
-      this.messages = [...this.pristineMessages, message];
-      this.pristineMessages = [...this.messages];
-      this.isPristine.set(true);
-
-      // Mark message as read if chat is active and visible
-      if (document.visibilityState === 'visible' && this.activeChatId() === message.chatId) {
-        this.markMessageAsRead(this.activeChatId());
-      }
-
-      // Update chat unread count if message is from another user
       if (message.sender.id !== this.currentUserId()) {
+        this.messages = [...this.messages, message];
         this.updateChatUnreadCount();
       }
+      this.isMessageSending.set(false);
 
       // Only auto-scroll if user was near bottom or if it's their own message
       if (wasNearBottom || message.sender.id === this.currentUserId()) {
@@ -383,8 +374,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       // Clear the input immediately for better UX
       this.newMessageContent = '';
-      this.pristineMessages = [...this.messages];
-      this.isPristine.set(false);
+      this.isMessageSending.set(true);
       this.messages.push({
         id: '',
         content: messageContent,
@@ -416,13 +406,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       }, 0);
     }
-  }
-
-  /**
-   * Mark message as read
-   */
-  markMessageAsRead(chatId: string): void {
-    this.chatService.markMessageAsRead(chatId);
   }
 
   /**
