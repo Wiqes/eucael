@@ -27,18 +27,18 @@ import { AuthTokenService } from '../../core/services/auth/auth-token.service';
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.scss',
 })
-export class MessagesComponent implements OnDestroy {
+export class MessagesComponent implements OnInit, OnDestroy {
   protected chatStateService = inject(ChatStateService);
+  private chats = computed(() => this.chatStateService.chats());
   private chatService = inject(ChatService);
-  private stateService = inject(StateService);
   private authTokenService = inject(AuthTokenService);
+  private stateService = inject(StateService);
   private router = inject(Router);
   private destroy$ = new Subject<void>();
   readonly user = computed(() => this.stateService.user());
 
   interlocutors = computed<IParticipant[]>(() =>
-    this.chatStateService
-      .chats()
+    this.chats()
       .map((chat) => {
         const currentUserId = this.stateService.user()?.id;
         const otherParticipant =
@@ -63,15 +63,26 @@ export class MessagesComponent implements OnDestroy {
   );
 
   constructor() {
-    effect(() => {
-      const user = this.user();
-      if (user) {
-        const token = this.authTokenService.getToken();
-        if (token) {
-          this.chatService.connect(token);
-        }
-      }
-    });
+    this.chatService
+      .onConnect()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.connectToUserChats();
+      });
+  }
+
+  ngOnInit(): void {
+    if (this.chatService.isConnected()) {
+      this.connectToUserChats();
+    }
+  }
+
+  private connectToUserChats(): void {
+    if (this.chats().length) {
+      return;
+    }
+    this.chatService.isChatsLoading.set(true);
+    this.chatService.getUserChats();
   }
 
   ngOnDestroy(): void {

@@ -49,8 +49,6 @@ export class ChatService {
       return;
     }
 
-    this.isChatsLoading.set(true);
-
     if (token) {
       // Add authentication and user data to socket connection
       this.socket.ioSocket.auth = {
@@ -113,6 +111,11 @@ export class ChatService {
   // Listen for updated chat list
   onUserChats(): Observable<IChat[]> {
     return this.socket.fromEvent('userChats');
+  }
+
+  // Request user chats
+  getUserChats(): void {
+    this.socket.emit('getUserChats');
   }
 
   // Listen for previous messages when joining a chat
