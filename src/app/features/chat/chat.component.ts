@@ -10,6 +10,7 @@ import {
   ElementRef,
   AfterViewChecked,
   signal,
+  effect,
 } from '@angular/core';
 import { Subscription, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -25,6 +26,7 @@ import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.com
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 import { IUser } from '../../core/models/entities/user.model';
 import { TypingIndicatorComponent } from '../../shared/ui/typing-indicator/typing-indicator.component';
+import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 
 @Component({
   selector: 'app-chat',
@@ -46,6 +48,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private stateService = inject(StateService);
   private chatStateService = inject(ChatStateService);
   private destroy$ = new Subject<void>();
+  private authTokenService = inject(AuthTokenService);
+  readonly user = computed(() => this.stateService.user());
 
   currentUser = computed(() => this.stateService.user() || null);
   currentUserId = computed(() => this.currentUser()?.id || '');
@@ -81,6 +85,18 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private scrollTimeout: any;
   private isUserScrolling = false;
 
+  constructor() {
+    effect(() => {
+      const user = this.user();
+      if (user) {
+        const token = this.authTokenService.getToken();
+        if (token) {
+          this.chatService.connect(token);
+        }
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.receiverId = params.get('receiverId') || '';
@@ -99,6 +115,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   startChatRoom(): void {
+    this.chatService.isChatsLoading.set(false);
     this.joinChatRoom();
     this.subscribeToMessages();
     this.setupEnhancedSocketListeners();

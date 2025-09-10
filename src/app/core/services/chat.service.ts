@@ -17,6 +17,15 @@ export class ChatService {
   }
 
   subscribeToEvents(): void {
+    this.onUserChats().subscribe((chats) => {
+      this.chatStateService.updateChats(chats);
+      this.isChatsLoading.set(false);
+    });
+
+    this.onUserOnlineStatus().subscribe((userStatus) => {
+      this.chatStateService.updateUserOnlineStatus(userStatus.userId, userStatus.isOnline);
+    });
+
     // Handle connection errors
     this.onError().subscribe((error) => {
       console.error('Socket connection error', error);

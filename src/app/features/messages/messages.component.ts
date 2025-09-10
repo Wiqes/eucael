@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, computed, inject, OnInit, OnDestroy, effect } from '@angular/core';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
 import { NgFor, NgIf } from '@angular/common';
 import { IParticipant } from '../../core/models/chat.model';
@@ -11,6 +11,7 @@ import { OnlineStatusComponent } from '../../shared/ui/online-status/online-stat
 import { Subject, takeUntil } from 'rxjs';
 import { ChatService } from '../../core/services/chat.service';
 import { StateService } from '../../core/services/state/state.service';
+import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 
 @Component({
   selector: 'app-messages',
@@ -26,12 +27,14 @@ import { StateService } from '../../core/services/state/state.service';
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.scss',
 })
-export class MessagesComponent implements OnInit, OnDestroy {
+export class MessagesComponent implements OnDestroy {
   protected chatStateService = inject(ChatStateService);
   private chatService = inject(ChatService);
   private stateService = inject(StateService);
+  private authTokenService = inject(AuthTokenService);
   private router = inject(Router);
   private destroy$ = new Subject<void>();
+  readonly user = computed(() => this.stateService.user());
 
   interlocutors = computed<IParticipant[]>(() =>
     this.chatStateService
@@ -60,28 +63,21 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   totalUnreadCount = computed(() => this.chatStateService.getTotalUnreadCount());
 
-  ngOnInit(): void {
-    this.chatService.isChatsLoading.set(true);
-    this.chatService
-      .onUserChats()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((chats) => {
-        this.chatStateService.updateChats(chats);
-        this.chatService.isChatsLoading.set(false);
-      });
-
-    this.chatService
-      .onUserOnlineStatus()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((userStatus) => {
-        this.chatStateService.updateUserOnlineStatus(userStatus.userId, userStatus.isOnline);
-      });
+  constructor() {
+    effect(() => {
+      const user = this.user();
+      if (user) {
+        const token = this.authTokenService.getToken();
+        if (token) {
+          this.chatService.connect(token);
+        }
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-
     // Note: We don't disconnect the socket here as it might be used by other components
     // The socket connection should be managed at a higher level (e.g., app level or auth service)
   }
