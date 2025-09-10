@@ -33,6 +33,7 @@ export class ChatService {
 
     this.onDisconnect().subscribe(() => {
       this.isChatsLoading.set(false);
+      this.chatStateService.chats.set(null);
     });
   }
 

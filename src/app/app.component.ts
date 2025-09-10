@@ -31,11 +31,8 @@ export class AppComponent implements OnInit {
   private readonly loginService = inject(LoginService);
   protected readonly authService = inject(AuthService);
   private readonly stateService = inject(StateService);
-  private readonly chatService = inject(ChatService);
   isLoggedIn = computed(() => this.loginService.isLoggedIn());
-  isLoading = computed(
-    () => this.stateService.isDataLoading() || this.chatService.isChatsLoading(),
-  );
+  isLoading = computed(() => this.stateService.isDataLoading());
 
   ngOnInit(): void {
     const element = document.querySelector('html');

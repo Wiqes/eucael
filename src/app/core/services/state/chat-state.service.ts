@@ -8,7 +8,7 @@ import { IChat } from '../../models/chat.model';
 export class ChatStateService {
   private readonly stateService = inject(StateService);
 
-  chats = signal<IChat[]>([]);
+  chats = signal<IChat[] | null>(null);
 
   /**
    * Update chats with new data (e.g., from WebSocket)
@@ -42,19 +42,20 @@ export class ChatStateService {
    */
   markChatAsRead(chatId: string): void {
     const chats = this.chats();
-    const updatedChats = chats.map((chat) => {
-      if (chat.id === chatId) {
-        const currentUserId = this.stateService.user()?.id;
-        if (!currentUserId) return chat;
+    const updatedChats =
+      chats?.map((chat) => {
+        if (chat.id === chatId) {
+          const currentUserId = this.stateService.user()?.id;
+          if (!currentUserId) return chat;
 
-        if (chat.participant1Id.toString() === currentUserId) {
-          return { ...chat, unreadCount1: 0 };
-        } else if (chat.participant2Id.toString() === currentUserId) {
-          return { ...chat, unreadCount2: 0 };
+          if (chat.participant1Id.toString() === currentUserId) {
+            return { ...chat, unreadCount1: 0 };
+          } else if (chat.participant2Id.toString() === currentUserId) {
+            return { ...chat, unreadCount2: 0 };
+          }
         }
-      }
-      return chat;
-    });
+        return chat;
+      }) || [];
 
     this.chats.set(updatedChats);
   }
@@ -64,19 +65,20 @@ export class ChatStateService {
    */
   updateChatUnreadCount(chatId: string, unreadCount: number): void {
     const chats = this.chats();
-    const updatedChats = chats.map((chat) => {
-      if (chat.id === chatId) {
-        const currentUserId = this.stateService.user()?.id;
-        if (!currentUserId) return chat;
+    const updatedChats =
+      chats?.map((chat) => {
+        if (chat.id === chatId) {
+          const currentUserId = this.stateService.user()?.id;
+          if (!currentUserId) return chat;
 
-        if (chat.participant1Id.toString() === currentUserId) {
-          return { ...chat, unreadCount1: unreadCount };
-        } else if (chat.participant2Id.toString() === currentUserId) {
-          return { ...chat, unreadCount2: unreadCount };
+          if (chat.participant1Id.toString() === currentUserId) {
+            return { ...chat, unreadCount1: unreadCount };
+          } else if (chat.participant2Id.toString() === currentUserId) {
+            return { ...chat, unreadCount2: unreadCount };
+          }
         }
-      }
-      return chat;
-    });
+        return chat;
+      }) || [];
 
     this.chats.set(updatedChats);
   }
@@ -85,14 +87,14 @@ export class ChatStateService {
    * Get chat by ID
    */
   getChatById(chatId: string): IChat | undefined {
-    return this.chats().find((chat) => chat.id === chatId);
+    return this.chats()?.find((chat) => chat.id === chatId);
   }
 
   /**
    * Get chat by participant ID (find chat with specific user)
    */
   getChatByParticipantId(participantId: string): IChat | undefined {
-    return this.chats().find(
+    return this.chats()?.find(
       (chat) =>
         chat.participant1Id.toString() === participantId ||
         chat.participant2Id.toString() === participantId,
@@ -104,12 +106,13 @@ export class ChatStateService {
    */
   updateChatLastMessage(chatId: string, timestamp: Date): void {
     const chats = this.chats();
-    const updatedChats = chats.map((chat) => {
-      if (chat.id === chatId) {
-        return { ...chat, lastMessageAt: timestamp };
-      }
-      return chat;
-    });
+    const updatedChats =
+      chats?.map((chat) => {
+        if (chat.id === chatId) {
+          return { ...chat, lastMessageAt: timestamp };
+        }
+        return chat;
+      }) || [];
 
     this.chats.set(updatedChats);
   }
@@ -119,32 +122,33 @@ export class ChatStateService {
    */
   updateUserOnlineStatus(userId: string, isOnline: boolean): void {
     const chats = this.chats();
-    const updatedChats = chats.map((chat) => {
-      let updatedChat = { ...chat };
+    const updatedChats =
+      chats?.map((chat) => {
+        let updatedChat = { ...chat };
 
-      // Update participant1 if it matches the userId
-      if (chat.participant1 && chat.participant1.id === userId) {
-        updatedChat = {
-          ...updatedChat,
-          participant1: {
-            ...chat.participant1,
-            isOnline: isOnline,
-          },
-        };
-      }
+        // Update participant1 if it matches the userId
+        if (chat.participant1 && chat.participant1.id === userId) {
+          updatedChat = {
+            ...updatedChat,
+            participant1: {
+              ...chat.participant1,
+              isOnline: isOnline,
+            },
+          };
+        }
 
-      if (chat.participant2 && chat.participant2.id === userId) {
-        updatedChat = {
-          ...updatedChat,
-          participant2: {
-            ...chat.participant2,
-            isOnline: isOnline,
-          },
-        };
-      }
+        if (chat.participant2 && chat.participant2.id === userId) {
+          updatedChat = {
+            ...updatedChat,
+            participant2: {
+              ...chat.participant2,
+              isOnline: isOnline,
+            },
+          };
+        }
 
-      return updatedChat;
-    });
+        return updatedChat;
+      }) || [];
 
     this.chats.set(updatedChats);
   }

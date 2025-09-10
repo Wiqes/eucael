@@ -12,6 +12,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ChatService } from '../../core/services/chat.service';
 import { StateService } from '../../core/services/state/state.service';
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
+import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 
 @Component({
   selector: 'app-messages',
@@ -23,6 +24,7 @@ import { AuthTokenService } from '../../core/services/auth/auth-token.service';
     BadgeModule,
     ChatAvatarComponent,
     OnlineStatusComponent,
+    LoaderComponent,
   ],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.scss',
@@ -31,15 +33,18 @@ export class MessagesComponent implements OnInit, OnDestroy {
   protected chatStateService = inject(ChatStateService);
   private chats = computed(() => this.chatStateService.chats());
   private chatService = inject(ChatService);
-  private authTokenService = inject(AuthTokenService);
   private stateService = inject(StateService);
   private router = inject(Router);
   private destroy$ = new Subject<void>();
   readonly user = computed(() => this.stateService.user());
+  isChatsLoading = computed(() => this.chatService.isChatsLoading());
 
-  interlocutors = computed<IParticipant[]>(() =>
-    this.chats()
-      .map((chat) => {
+  interlocutors = computed<IParticipant[]>(() => {
+    if (!this.chats()) {
+      return [];
+    }
+    return this.chats()
+      ?.map((chat) => {
         const currentUserId = this.stateService.user()?.id;
         const otherParticipant =
           chat.participant1Id === Number(currentUserId) ? chat.participant2 : chat.participant1;
@@ -59,8 +64,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
         const aTime = a.lastMessageAt ? new Date(a.lastMessageAt).getTime() : 0;
         const bTime = b.lastMessageAt ? new Date(b.lastMessageAt).getTime() : 0;
         return bTime - aTime;
-      }),
-  );
+      }) as IParticipant[];
+  });
 
   constructor() {
     this.chatService
@@ -72,24 +77,23 @@ export class MessagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.chatService.isChatsLoading.set(true);
     if (this.chatService.isConnected()) {
       this.connectToUserChats();
     }
   }
 
   private connectToUserChats(): void {
-    if (this.chats().length) {
+    if (this.chats()) {
+      this.chatService.isChatsLoading.set(false);
       return;
     }
-    this.chatService.isChatsLoading.set(true);
     this.chatService.getUserChats();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    // Note: We don't disconnect the socket here as it might be used by other components
-    // The socket connection should be managed at a higher level (e.g., app level or auth service)
   }
 
   trackByFn(index: number, chat: IParticipant): string {

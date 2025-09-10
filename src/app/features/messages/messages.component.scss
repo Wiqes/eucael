@@ -28,6 +28,10 @@
   width: 320px;
   border: 1px solid rgba(52, 245, 221, 0.2);
   border-radius: 1.5rem;
+
+  .loader-container {
+    padding: 20px;
+  }
 }
 
 .messages-header {

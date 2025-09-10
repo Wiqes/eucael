@@ -1,4 +1,9 @@
 <div class="messages-container">
+  @if(isChatsLoading()) {
+  <div class="loader-container">
+    <app-loader />
+  </div>
+  } @else {
   <div class="messages-header">
     <h2 class="messages-title">Messages</h2>
     <div class="messages-count">{{ interlocutors().length }} conversations</div>
@@ -43,4 +48,5 @@
     <h3>No conversations yet</h3>
     <p>Start a new conversation to see it here</p>
   </div>
+  }
 </div>

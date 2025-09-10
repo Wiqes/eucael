@@ -118,7 +118,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   startChatRoom(): void {
-    this.chatService.isChatsLoading.set(false);
     this.joinChatRoom();
     this.subscribeToMessages();
     this.setupEnhancedSocketListeners();
