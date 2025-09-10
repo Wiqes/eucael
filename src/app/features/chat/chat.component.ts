@@ -125,14 +125,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       .subscribe((readData: IMessageRead) => {
         this.updateReadReceipts(readData);
       });
-
-    // Chat list updates
-    this.chatService
-      .onUserChats()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((chats) => {
-        this.chatStateService.updateChats(chats);
-      });
   }
 
   /**

@@ -26,8 +26,9 @@ import { StateService } from '../../core/services/state/state.service';
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.scss',
 })
-export class MessagesComponent implements OnDestroy {
+export class MessagesComponent implements OnInit, OnDestroy {
   protected chatStateService = inject(ChatStateService);
+  private chatService = inject(ChatService);
   private stateService = inject(StateService);
   private router = inject(Router);
   private destroy$ = new Subject<void>();
@@ -58,6 +59,24 @@ export class MessagesComponent implements OnDestroy {
   );
 
   totalUnreadCount = computed(() => this.chatStateService.getTotalUnreadCount());
+
+  ngOnInit(): void {
+    this.chatService.isChatsLoading.set(true);
+    this.chatService
+      .onUserChats()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((chats) => {
+        this.chatStateService.updateChats(chats);
+        this.chatService.isChatsLoading.set(false);
+      });
+
+    this.chatService
+      .onUserOnlineStatus()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((userStatus) => {
+        this.chatStateService.updateUserOnlineStatus(userStatus.userId, userStatus.isOnline);
+      });
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();

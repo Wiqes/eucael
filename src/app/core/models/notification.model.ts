@@ -31,12 +31,3 @@ export interface IMessageRead {
   readAt: Date;
   readBy: string;
 }
-
-export interface INewMessageNotification {
-  id: number;
-  senderUsername: string;
-  senderUserId: string;
-  message: string;
-  chatId: string;
-  timestamp: Date;
-}
