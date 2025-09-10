@@ -1,7 +1,7 @@
 import { Component, computed, inject, OnInit, OnDestroy, effect } from '@angular/core';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
 import { NgFor, NgIf } from '@angular/common';
-import { IParticipant } from '../../core/models/chat.model';
+import { IChat, IParticipant } from '../../core/models/chat.model';
 import { AvatarModule } from 'primeng/avatar';
 import { RippleModule } from 'primeng/ripple';
 import { BadgeModule } from 'primeng/badge';
@@ -50,7 +50,8 @@ export class MessagesComponent implements OnDestroy {
           isOnline: otherParticipant?.isOnline || false,
           profile: otherParticipant?.profile || null,
           lastMessageAt: chat.lastMessageAt,
-          unreadCount: this.getUnreadCount(chat.id),
+          lastMessage: chat.messages[0]?.content || '',
+          unreadCount: this.getUnreadCount(chat),
         } as IParticipant;
       })
       .sort((a, b) => {
@@ -60,8 +61,6 @@ export class MessagesComponent implements OnDestroy {
         return bTime - aTime;
       }),
   );
-
-  totalUnreadCount = computed(() => this.chatStateService.getTotalUnreadCount());
 
   constructor() {
     effect(() => {
@@ -90,8 +89,8 @@ export class MessagesComponent implements OnDestroy {
     this.router.navigate(['chat', userId]);
   }
 
-  getUnreadCount(chatId: string): number {
-    return this.chatStateService.getUnreadCount(chatId);
+  getUnreadCount(chat: IChat): number {
+    return this.chatStateService.getUnreadCount(chat);
   }
 
   formatLastMessageTime(timestamp?: Date): string {

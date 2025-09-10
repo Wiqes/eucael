@@ -1,12 +1,7 @@
 <div class="messages-container">
   <div class="messages-header">
     <h2 class="messages-title">Messages</h2>
-    <div class="messages-count">
-      {{ interlocutors().length }} conversations
-      <span *ngIf="totalUnreadCount() > 0" class="unread-indicator">
-        ({{ totalUnreadCount() }} unread)
-      </span>
-    </div>
+    <div class="messages-count">{{ interlocutors().length }} conversations</div>
   </div>
 
   <div class="chat-list">
@@ -34,7 +29,7 @@
           </div>
         </div>
         <div class="chat-preview">
-          <span class="last-message">{{ 'Last message' }}</span>
+          <span class="last-message">{{ chat.lastMessage }}</span>
           <div *ngIf="chat.unreadCount && chat.unreadCount > 0" class="unread-badge">
             {{ chat.unreadCount }}
           </div>

@@ -7,6 +7,7 @@ export interface IChat {
   participant2Id: number;
   participant1?: IParticipant;
   participant2?: IParticipant;
+  messages: IChatMessage[]; // Array of message IDs
   lastMessageAt?: Date;
   unreadCount1?: number; // Unread messages for participant1
   unreadCount2?: number; // Unread messages for participant2
@@ -18,6 +19,7 @@ export interface IParticipant {
   profile: IProfile;
   userId?: string; // ID of the user for this participant
   lastMessageAt?: Date;
+  lastMessage?: string;
   unreadCount?: number;
   isOnline: boolean;
 }

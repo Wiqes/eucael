@@ -20,30 +20,21 @@ export class ChatStateService {
   /**
    * Get unread count for a specific chat and current user
    */
-  getUnreadCount(chatId: string): number {
-    const chat = this.chats().find((c) => c.id === chatId);
+  getUnreadCount(chat: IChat): number {
+    console.log('Getting unread count for chat:', chat);
     if (!chat) return 0;
 
     const currentUserId = this.stateService.user()?.id;
     if (!currentUserId) return 0;
 
     // Determine which unread count to use based on current user
-    if (chat.participant1Id.toString() === currentUserId) {
+    if (chat.participant1Id === Number(currentUserId)) {
       return chat.unreadCount1 || 0;
-    } else if (chat.participant2Id.toString() === currentUserId) {
+    } else if (chat.participant2Id === Number(currentUserId)) {
       return chat.unreadCount2 || 0;
     }
 
     return 0;
-  }
-
-  /**
-   * Get total unread messages count across all chats
-   */
-  getTotalUnreadCount(): number {
-    return this.chats().reduce((total, chat) => {
-      return total + this.getUnreadCount(chat.id);
-    }, 0);
   }
 
   /**
