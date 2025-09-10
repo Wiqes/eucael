@@ -77,7 +77,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   isTyping = signal(false);
   typingUsers = signal<ITypingIndicator[]>([]);
   typingTimeout?: ReturnType<typeof setTimeout>;
-  readReceipts = signal<Map<string, IMessageRead>>(new Map());
 
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
@@ -136,14 +135,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.updateTypingUsers(typingData);
         }
       });
-
-    // Message read receipts
-    this.chatService
-      .onMessageRead()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((readData: IMessageRead) => {
-        this.updateReadReceipts(readData);
-      });
   }
 
   /**
@@ -161,22 +152,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       // Remove user from typing list
       this.typingUsers.set(currentUsers.filter((u) => u.userId !== typingData.userId));
     }
-  }
-
-  /**
-   * Update read receipts
-   */
-  private updateReadReceipts(readData: IMessageRead): void {
-    const receipts = this.readReceipts();
-    receipts.set(readData.messageId, readData);
-    this.readReceipts.set(new Map(receipts));
-  }
-
-  /**
-   * Check if message is read
-   */
-  isMessageRead(messageId: string): boolean {
-    return this.readReceipts().has(messageId);
   }
 
   /**
@@ -383,11 +358,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.activeChatId.set(chat.id);
 
         // Mark existing messages as read
-        messages.forEach((message) => {
-          if (message.sender.id !== this.currentUserId() && !message.isRead) {
-            this.markMessageAsRead(message.id);
-          }
-        });
+        this.markMessageAsRead(chat.id);
 
         // Scroll to bottom after loading messages (use instant scroll for initial load)
         setTimeout(() => {
@@ -453,8 +424,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**
    * Mark message as read
    */
-  markMessageAsRead(messageId: string): void {
-    this.chatService.markMessageAsRead(messageId);
+  markMessageAsRead(chatId: string): void {
+    this.chatService.markMessageAsRead(chatId);
   }
 
   /**

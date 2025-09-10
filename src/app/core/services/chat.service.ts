@@ -90,13 +90,8 @@ export class ChatService {
   }
 
   // Mark message as read
-  markMessageAsRead(messageId: string): void {
-    this.socket.emit('markMessageAsRead', { messageId });
-  }
-
-  // Listen for message read confirmations
-  onMessageRead(): Observable<IMessageRead> {
-    return this.socket.fromEvent('messageRead');
+  markMessageAsRead(chatId: string): void {
+    this.socket.emit('markMessageAsRead', { chatId });
   }
 
   // Send typing indicator

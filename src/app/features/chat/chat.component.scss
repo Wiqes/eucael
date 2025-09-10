@@ -209,20 +209,6 @@
     color: rgba(255, 255, 255, 0.7);
     opacity: 0.8;
   }
-
-  .read-receipt {
-    display: flex;
-    align-items: center;
-
-    .pi-check {
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.6);
-
-      &.read {
-        color: #4ade80; // green-400
-      }
-    }
-  }
 }
 
 .message-input {

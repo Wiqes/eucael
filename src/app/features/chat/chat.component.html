@@ -28,12 +28,6 @@
           <small>
             {{ formatMessageTime(message.timestamp) }}
           </small>
-          <div
-            *ngIf="message.sender.id === currentUserId() && isMessageRead(message.id)"
-            class="read-receipt"
-          >
-            <i class="pi pi-check" [class.read]="true"></i>
-          </div>
         </div>
       </div>
     </div>
