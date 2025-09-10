@@ -48,33 +48,10 @@ export class ChatStateService {
           const currentUserId = this.stateService.user()?.id;
           if (!currentUserId) return chat;
 
-          if (chat.participant1Id.toString() === currentUserId) {
+          if (chat.participant1Id === Number(currentUserId)) {
             return { ...chat, unreadCount1: 0 };
-          } else if (chat.participant2Id.toString() === currentUserId) {
+          } else if (chat.participant2Id === Number(currentUserId)) {
             return { ...chat, unreadCount2: 0 };
-          }
-        }
-        return chat;
-      }) || [];
-
-    this.chats.set(updatedChats);
-  }
-
-  /**
-   * Update unread count for a specific chat
-   */
-  updateChatUnreadCount(chatId: string, unreadCount: number): void {
-    const chats = this.chats();
-    const updatedChats =
-      chats?.map((chat) => {
-        if (chat.id === chatId) {
-          const currentUserId = this.stateService.user()?.id;
-          if (!currentUserId) return chat;
-
-          if (chat.participant1Id.toString() === currentUserId) {
-            return { ...chat, unreadCount1: unreadCount };
-          } else if (chat.participant2Id.toString() === currentUserId) {
-            return { ...chat, unreadCount2: unreadCount };
           }
         }
         return chat;
