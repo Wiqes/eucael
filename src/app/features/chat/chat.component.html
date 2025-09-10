@@ -10,7 +10,7 @@
     <div class="header-info">
       <div class="header-name">{{ interlocutorName() }}</div>
       <div class="header-status">
-        {{ 'presence Text' }}
+        <app-typing-indicator [isVisible]="getTypingIndicatorVisible()" />
       </div>
     </div>
   </div>
@@ -37,12 +37,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Typing Indicator -->
-    <app-typing-indicator
-      [isVisible]="getTypingIndicatorVisible()"
-      [username]="getTypingUsername()"
-    ></app-typing-indicator>
   </div>
 
   <div class="message-input">

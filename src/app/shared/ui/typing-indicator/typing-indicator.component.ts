@@ -8,8 +8,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="typing-indicator" *ngIf="isVisible">
       <div class="typing-text">
-        <span *ngIf="username">{{ username }} is typing</span>
-        <span *ngIf="!username">Someone is typing</span>
+        <span>is typing</span>
       </div>
       <div class="typing-dots">
         <div class="dot"></div>
@@ -86,5 +85,4 @@ import { CommonModule } from '@angular/common';
 })
 export class TypingIndicatorComponent {
   @Input() isVisible: boolean = false;
-  @Input() username?: string;
 }
