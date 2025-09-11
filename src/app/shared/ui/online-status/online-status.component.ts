@@ -23,6 +23,7 @@ import { TooltipModule } from 'primeng/tooltip';
       }
 
       .online .status-dot {
+        display: block;
         width: 12px;
         height: 12px;
         border-radius: 50%;
@@ -33,13 +34,7 @@ import { TooltipModule } from 'primeng/tooltip';
       }
 
       .offline .status-dot {
-        background-color: #6b7280; /* gray-500 */
-        position: relative;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        border: 1px solid black;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        display: none;
       }
     `,
   ],
