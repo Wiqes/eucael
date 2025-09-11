@@ -9,6 +9,7 @@
   "Select": "Выбрать",
   "Email": "Электронная почта",
   "Phone": "Телефон",
+  "Install": "Установить",
   "messages": {
     "login": {
       "success": {

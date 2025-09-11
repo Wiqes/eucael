@@ -9,6 +9,7 @@
   "Select": "Pilih",
   "Email": "Email",
   "Phone": "Telepon",
+  "Install": "Pasang",
   "messages": {
     "login": {
       "success": {

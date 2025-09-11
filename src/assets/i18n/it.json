@@ -9,6 +9,7 @@
   "Select": "Seleziona",
   "Email": "E-mail",
   "Phone": "Telefono",
+  "Install": "Installa",
   "primeng": {
     "dayNames": ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],
     "dayNamesShort": ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"],

@@ -9,6 +9,7 @@
   "Select": "選択",
   "Email": "メール",
   "Phone": "電話",
+  "Install": "インストール",
   "messages": {
     "login": {
       "success": {

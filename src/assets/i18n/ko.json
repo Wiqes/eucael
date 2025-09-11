@@ -9,6 +9,7 @@
   "Select": "선택",
   "Email": "이메일",
   "Phone": "전화번호",
+  "Install": "설치",
   "messages": {
     "login": {
       "success": {

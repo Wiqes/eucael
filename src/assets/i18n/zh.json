@@ -9,6 +9,7 @@
   "Select": "选择",
   "Email": "邮箱",
   "Phone": "电话",
+  "Install": "安装",
   "messages": {
     "login": {
       "success": {

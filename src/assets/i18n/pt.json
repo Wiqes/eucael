@@ -9,6 +9,7 @@
   "Select": "Selecionar",
   "Email": "E-mail",
   "Phone": "Telefone",
+  "Install": "Instalar",
   "messages": {
     "login": {
       "success": {
