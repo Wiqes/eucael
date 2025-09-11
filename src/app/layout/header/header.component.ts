@@ -8,7 +8,7 @@ import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { MenuComponent } from './menu/menu.component';
 import { LanguageSelectorComponent } from '../../shared/ui/language-selector/language-selector.component';
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
-import { ChatService } from '../../core/services/chat.service';
+import { ChatService } from '../../core/services/chat/chat.service';
 
 @Component({
   selector: 'app-header',

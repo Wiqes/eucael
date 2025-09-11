@@ -9,9 +9,8 @@ import { Router } from '@angular/router';
 import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
 import { OnlineStatusComponent } from '../../shared/ui/online-status/online-status.component';
 import { Subject, takeUntil } from 'rxjs';
-import { ChatService } from '../../core/services/chat.service';
+import { ChatService } from '../../core/services/chat/chat.service';
 import { StateService } from '../../core/services/state/state.service';
-import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 
 @Component({

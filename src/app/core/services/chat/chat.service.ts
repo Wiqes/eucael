@@ -1,10 +1,10 @@
 // src/app/services/chat.service.ts
 import { Injectable, signal } from '@angular/core';
 import { Socket } from 'ngx-socket-io'; // Still import Socket from ngx-socket-io
-import { Observable, takeUntil } from 'rxjs';
-import { IChat, IChatMessages } from '../models/chat.model';
-import { IUserPresence, ITypingIndicator, IMessageRead } from '../models/notification.model';
-import { ChatStateService } from './state/chat-state.service';
+import { Observable } from 'rxjs';
+import { ChatStateService } from '../state/chat-state.service';
+import { ITypingIndicator, IUserPresence } from '../../models/notification.model';
+import { IChat, IChatMessages } from '../../models/chat.model';
 
 @Injectable({
   providedIn: 'root',

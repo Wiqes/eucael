@@ -1,6 +1,5 @@
 import { IChat } from '../chat.model';
 import { IProfile } from './profile.model';
-import { INotification } from '../notification.model';
 
 export interface IUser {
   id: string;
@@ -13,5 +12,4 @@ export interface IUser {
   chatsAsParticipant2: IChat[];
   isOnline?: boolean;
   lastSeen?: Date;
-  notifications?: INotification[];
 }

@@ -19,11 +19,7 @@
     >
       <div class="avatar-container">
         <app-chat-avatar [profile]="chat.profile" />
-        <app-online-status
-          [isOnline]="chat.isOnline"
-          size="small"
-          class="status-indicator"
-        ></app-online-status>
+        <app-online-status [isOnline]="chat.isOnline" class="status-indicator" />
       </div>
 
       <div class="chat-content">

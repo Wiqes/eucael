@@ -9,7 +9,6 @@ import { StateService } from './core/services/state/state.service';
 import { NgClass, NgIf } from '@angular/common';
 import { LoaderComponent } from './shared/ui/loader/loader.component';
 import { PwaInstallButtonComponent } from './shared/ui/pwa-install-button.component';
-import { ChatService } from './core/services/chat.service';
 
 @Component({
   selector: 'app-root',

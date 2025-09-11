@@ -16,17 +16,18 @@ import { Subscription, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Needed for *ngFor, *ngIf etc.
 import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
-import { ChatService } from '../../core/services/chat.service';
+import { ChatService } from '../../core/services/chat/chat.service';
 import { StateService } from '../../core/services/state/state.service';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
 import { Button } from 'primeng/button';
 import { IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';
-import { ITypingIndicator, IMessageRead } from '../../core/models/notification.model';
+import { ITypingIndicator } from '../../core/models/notification.model';
 import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 import { IUser } from '../../core/models/entities/user.model';
 import { TypingIndicatorComponent } from '../../shared/ui/typing-indicator/typing-indicator.component';
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
+import { OnlineStatusComponent } from '../../shared/ui/online-status/online-status.component';
 
 @Component({
   selector: 'app-chat',
@@ -38,6 +39,7 @@ import { AuthTokenService } from '../../core/services/auth/auth-token.service';
     ChatAvatarComponent,
     LoaderComponent,
     TypingIndicatorComponent,
+    OnlineStatusComponent,
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],

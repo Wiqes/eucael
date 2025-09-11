@@ -6,6 +6,7 @@
   <div class="chat-header">
     <div class="header-avatar">
       <app-chat-avatar [profile]="interlocutorProfile()" />
+      <app-online-status [isOnline]="isOnline()" class="status-indicator" />
     </div>
     <div class="header-info">
       <div class="header-name">{{ interlocutorName() }}</div>

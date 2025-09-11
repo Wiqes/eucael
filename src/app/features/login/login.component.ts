@@ -17,7 +17,7 @@ import { StateService } from '../../core/services/state/state.service';
 import { Router } from '@angular/router';
 import { LoginImageComponent } from './login-image/login-image.component';
 import { NgIf } from '@angular/common';
-import { ChatService } from '../../core/services/chat.service';
+import { ChatService } from '../../core/services/chat/chat.service';
 
 @Component({
   selector: 'app-login',
