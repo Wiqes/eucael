@@ -11,12 +11,6 @@ const routes: Routes = [
         loadComponent: () =>
           import('../features/login/login.component').then((m) => m.LoginComponent),
       },
-      {
-        path: '',
-        outlet: 'header',
-        loadComponent: () =>
-          import('../layout/header/header.component').then((m) => m.HeaderComponent),
-      },
     ],
   },
   {

@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { StateService } from './state.service';
 import { IChat } from '../../models/chat.model';
 
