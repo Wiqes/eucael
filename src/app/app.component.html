@@ -7,5 +7,5 @@
   </main>
 
   <!-- PWA Install Button -->
-  <app-pwa-install-button />
+  <app-pwa-install-button *ngIf="!isLoggedIn()" />
 </div>

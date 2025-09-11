@@ -33,30 +33,15 @@ export class PwaInstallService {
       return;
     }
 
-    // Check if basic PWA requirements are met
-    const criteria = this.checkInstallCriteria();
-    console.log('PWA Service initialized. Requirements:', criteria);
-
-    if (!criteria.isHttps) {
-      console.warn('PWA install prompt requires HTTPS in production environments');
-    }
-
-    if (!criteria.hasServiceWorker) {
-      console.warn('Service Worker not available - PWA features will be limited');
-    }
-
     // Listen for the beforeinstallprompt event
     window.addEventListener('beforeinstallprompt', (e: Event) => {
       e.preventDefault();
       this.deferredPrompt = e as BeforeInstallPromptEvent;
       this.isInstallable.set(true);
-
-      console.log('PWA install prompt is now available');
     });
 
     // Listen for the appinstalled event
     window.addEventListener('appinstalled', () => {
-      console.log('PWA was installed successfully');
       this.isInstalled.set(true);
       this.isInstallable.set(false);
       this.deferredPrompt = null;
@@ -68,12 +53,11 @@ export class PwaInstallService {
     // Additional check for browsers that don't fire beforeinstallprompt immediately
     setTimeout(() => {
       if (!this.isInstallable() && !this.isInstalled()) {
-        console.log('PWA install criteria status:', this.checkInstallCriteria());
         const criteria = this.checkInstallCriteria();
 
         // Show fallback button if basic criteria are met but beforeinstallprompt hasn't fired
         if (criteria.hasServiceWorker && criteria.hasManifest && criteria.isHttps) {
-          console.log('PWA criteria met but no install prompt - enabling fallback install button');
+          this.showFallbackButton.set(true);
           this.showFallbackButton.set(true);
         }
       }
@@ -82,7 +66,6 @@ export class PwaInstallService {
 
   async showInstallPrompt(): Promise<boolean> {
     if (!this.deferredPrompt) {
-      console.log('No install prompt available - trying manual install guidance');
       this.showManualInstallGuidance();
       return false;
     }
@@ -95,15 +78,12 @@ export class PwaInstallService {
       const choiceResult = await this.deferredPrompt.userChoice;
 
       if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the PWA install');
         this.isInstallable.set(false);
         return true;
       } else {
-        console.log('User dismissed the PWA install');
         return false;
       }
     } catch (error) {
-      console.error('Error showing install prompt:', error);
       this.showManualInstallGuidance();
       return false;
     } finally {
@@ -125,11 +105,6 @@ export class PwaInstallService {
     } else {
       instructions = 'Check your browser\'s menu for "Add to Home Screen" or "Install App" option';
     }
-
-    console.log(`Manual install instructions: ${instructions}`);
-
-    // You could also show a toast or modal with these instructions
-    // For now, just logging to console
   }
 
   private checkIfInstalled(): void {
@@ -180,17 +155,5 @@ export class PwaInstallService {
       isHttps,
       hasRequiredIcons,
     };
-  }
-
-  private isSecureContext(): boolean {
-    if (!isPlatformBrowser(this.platformId)) {
-      return false;
-    }
-
-    return (
-      window.location.protocol === 'https:' ||
-      window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1'
-    );
   }
 }
