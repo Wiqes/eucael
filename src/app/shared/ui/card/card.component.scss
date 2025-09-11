@@ -33,6 +33,10 @@
       .image-overlay {
         opacity: 0.15;
       }
+
+      ::ng-deep .name-text {
+        color: $secondary-color;
+      }
     }
 
     &:not(:hover) {
