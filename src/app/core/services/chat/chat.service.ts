@@ -1,18 +1,22 @@
 // src/app/services/chat.service.ts
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Socket } from 'ngx-socket-io'; // Still import Socket from ngx-socket-io
 import { Observable } from 'rxjs';
 import { ChatStateService } from '../state/chat-state.service';
 import { ITypingIndicator, IUserPresence } from '../../models/notification.model';
 import { IChat, IChatMessages } from '../../models/chat.model';
+import { InterlocutorService } from './interlocutor.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
+  private interlocutorService = inject(InterlocutorService);
+  private socket = inject(Socket);
+  private chatStateService = inject(ChatStateService);
   isChatsLoading = signal<boolean>(false);
 
-  constructor(private socket: Socket, private chatStateService: ChatStateService) {
+  constructor() {
     this.subscribeToEvents();
   }
 
@@ -24,6 +28,7 @@ export class ChatService {
 
     this.onUserOnlineStatus().subscribe((userStatus) => {
       this.chatStateService.updateUserOnlineStatus(userStatus.userId, userStatus.isOnline);
+      this.interlocutorService.changeOnlineStatus(userStatus.userId, userStatus.isOnline);
     });
 
     // Handle connection errors

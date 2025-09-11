@@ -28,6 +28,7 @@ import { IUser } from '../../core/models/entities/user.model';
 import { TypingIndicatorComponent } from '../../shared/ui/typing-indicator/typing-indicator.component';
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { OnlineStatusComponent } from '../../shared/ui/online-status/online-status.component';
+import { InterlocutorService } from '../../core/services/chat/interlocutor.service';
 
 @Component({
   selector: 'app-chat',
@@ -51,12 +52,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private chatStateService = inject(ChatStateService);
   private destroy$ = new Subject<void>();
   private authTokenService = inject(AuthTokenService);
+  private interlocutorService = inject(InterlocutorService);
   readonly user = computed(() => this.stateService.user());
 
   currentUser = computed(() => this.stateService.user() || null);
   currentUserId = computed(() => this.currentUser()?.id || '');
   myProfile = computed(() => this.currentUser()?.profile || null);
-  interlocutor = signal<IParticipant | null>(null);
+  interlocutor = computed(() => this.interlocutorService.interlocutor() || null);
   isOnline = computed(() => this.interlocutor()?.isOnline || false);
   interlocutorProfile = computed(() => this.interlocutor()?.profile || null);
   interlocutorName = computed(
@@ -339,7 +341,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         const participant =
           chat.participant1?.id === this.currentUserId() ? chat.participant2 : chat.participant1;
         if (participant) {
-          this.interlocutor.set(participant);
+          this.interlocutorService.interlocutor.set(participant);
         }
         console.log('Joined chat room:', chat);
         this.messages = messages;
