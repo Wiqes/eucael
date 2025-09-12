@@ -33,14 +33,6 @@
       .image-overlay {
         opacity: 0.15;
       }
-
-      ::ng-deep card-name {
-        border-top: 1px solid rgba(52, 245, 245, 0.2);
-      }
-
-      ::ng-deep .name-text {
-        color: $primary-color-light;
-      }
     }
 
     &:not(:hover) {
