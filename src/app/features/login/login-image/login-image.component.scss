@@ -48,24 +48,14 @@
     animation: slideInFromLeft 0.8s ease-out;
 
     .welcome-text {
-      font-family: 'Uncial Antiqua', cursive;
+      font-family: 'New Rocker', cursive;
 
       .title {
         font-size: 12vw;
+        font-weight: 900;
         opacity: 0;
         animation: fadeInUp 1s ease-out 0.6s forwards;
         @extend %text-primary;
-      }
-
-      .sub-title {
-        position: relative;
-        top: -12.8vw;
-        left: -1.4vw;
-        font-size: 1.55vw;
-        text-transform: uppercase;
-        opacity: 0;
-        animation: fadeInUp 1s ease-out 1s forwards;
-        @extend %text-small-primary;
       }
     }
   }
@@ -90,16 +80,8 @@
       bottom: -22px;
 
       .welcome-text {
-        font-family: 'Uncial Antiqua', cursive;
-
         .title {
           font-size: 18vw;
-        }
-
-        .sub-title {
-          top: -19.22vw;
-          left: -2vw;
-          font-size: 2.4vw;
         }
       }
     }
