@@ -49,7 +49,7 @@ import { TranslateModule } from '@ngx-translate/core';
       :host ::ng-deep .p-button {
         width: auto !important;
         background: #000000aa !important;
-        border: 4px solid $primary-color !important;
+        border: 1px solid $primary-color !important;
         padding: 14px;
         color: $primary-color !important;
         font-size: 22px;
