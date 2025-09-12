@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  DOMAIN: 'https://www.eucael.com',
-  API_URL: 'https://api.eucael.com',
-  WS_URL: 'wss://api.eucael.com',
+  DOMAIN: 'https://celestiel.org',
+  API_URL: 'https://api.celestiel.org',
+  WS_URL: 'wss://api.celestiel.org',
 };

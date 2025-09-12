@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const element = document.querySelector('html');
-    element?.classList.toggle('Eucael-app-dark');
+    element?.classList.toggle('celestiel-app-dark');
 
     // Initialize language service
     this.languageService.initializeLanguage();

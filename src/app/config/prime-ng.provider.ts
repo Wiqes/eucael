@@ -29,7 +29,7 @@ export const primeNGProvider = () => [
       preset: CustomAura,
       options: {
         prefix: 'p',
-        darkModeSelector: '.Eucael-app-dark',
+        darkModeSelector: '.celestiel-app-dark',
         cssLayer: false,
       },
     },
