@@ -59,10 +59,20 @@
       align-items: center;
 
       .logo {
-        font-family: 'Tilt Warp';
-        font-size: 22px;
+        font-family: 'New Rocker', cursive;
+        display: flex;
+        align-items: center;
         color: $primary-color;
-        font-weight: 200;
+        font-weight: 900;
+        font-size: 18px;
+
+        .logo-icon {
+          font-family: 'New Rocker', cursive;
+        }
+
+        .logo-text {
+          font-family: 'Uncial Antiqua', cursive;
+        }
       }
     }
 
