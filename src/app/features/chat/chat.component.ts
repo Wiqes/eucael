@@ -29,6 +29,7 @@ import { TypingIndicatorComponent } from '../../shared/ui/typing-indicator/typin
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { OnlineStatusComponent } from '../../shared/ui/online-status/online-status.component';
 import { InterlocutorService } from '../../core/services/chat/interlocutor.service';
+import { ChatHeaderComponent } from './chat-header/chat-header.component';
 
 @Component({
   selector: 'app-chat',
@@ -37,10 +38,8 @@ import { InterlocutorService } from '../../core/services/chat/interlocutor.servi
     CommonModule, // Required for common Angular directives like *ngFor, *ngIf
     FormsModule, // Required for ngModel
     Button,
-    ChatAvatarComponent,
     LoaderComponent,
-    TypingIndicatorComponent,
-    OnlineStatusComponent,
+    ChatHeaderComponent,
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
@@ -61,9 +60,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   interlocutor = computed(() => this.interlocutorService.interlocutor() || null);
   isOnline = computed(() => this.interlocutor()?.isOnline || false);
   interlocutorProfile = computed(() => this.interlocutor()?.profile || null);
-  interlocutorName = computed(
-    () => this.interlocutorProfile()?.name || this.interlocutorProfile()?.email || 'Unknown',
-  );
 
   @Input() receiverId = '';
   @ViewChild('messagesContainer', { static: false }) messagesContainer!: ElementRef;

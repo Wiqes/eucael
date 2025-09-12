@@ -3,18 +3,11 @@
     <app-loader />
   </div>
   @if(interlocutorProfile() && !isLoading()) {
-  <div class="chat-header">
-    <div class="header-avatar">
-      <app-chat-avatar [profile]="interlocutorProfile()" />
-      <app-online-status [isOnline]="isOnline()" class="status-indicator" />
-    </div>
-    <div class="header-info">
-      <div class="header-name">{{ interlocutorName() }}</div>
-      <div class="header-status">
-        <app-typing-indicator [isVisible]="getTypingIndicatorVisible()" />
-      </div>
-    </div>
-  </div>
+  <app-chat-header
+    [interlocutorProfile]="interlocutorProfile()"
+    [isOnline]="isOnline()"
+    [isTyping]="getTypingIndicatorVisible()"
+  />
 
   <div class="messages" #messagesContainer (scroll)="onScroll()">
     <div *ngFor="let message of messages; trackBy: trackByMessageId" class="message">
