@@ -6,7 +6,7 @@
     [options]="animals()"
     [ngModel]="selectedAnimals()"
     (onChange)="selectedAnimals.set($event.value)"
-    [placeholder]="'Select Animals' | translate"
+    [placeholder]="'Select Familiars' | translate"
     optionLabel="translatedName"
     dataKey="id"
     class="w-full md:w-80"
@@ -21,7 +21,7 @@
     </ng-template>
   </p-multiselect>
   <div class="totem-switcher">
-    <div class="label">{{ 'Totem' | translate }}</div>
+    <div class="label">{{ 'The Familiar' | translate }}</div>
     <p-toggleswitch [(ngModel)]="isTotemShown">
       <ng-template #handle let-checked="checked">
         <i [ngClass]="['!text-xs', 'pi', isTotemShown ? 'pi-check' : 'pi-times']"></i>

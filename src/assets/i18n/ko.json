@@ -215,5 +215,6 @@
   "Zoom": "확대",
   "The image will be cropped to a square for your avatar.": "이미지는 아바타를 위해 정사각형으로 자를 예정입니다.",
   "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "키보드: 화살표 키로 이동, Ctrl +/-로 확대/축소, Ctrl+0으로 재설정",
-  "Unknown": "알 수 없음"
+  "Unknown": "알 수 없음",
+  "The Familiar": "친숙한 존재"
 }
