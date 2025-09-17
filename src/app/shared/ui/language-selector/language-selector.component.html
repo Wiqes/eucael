@@ -1,4 +1,10 @@
-<p-menu #langMenu [model]="languageItems" [popup]="true" styleClass="language-menu"></p-menu>
+<p-menu
+  #langMenu
+  [model]="languageItems"
+  [popup]="true"
+  styleClass="language-menu"
+  appMenuPositioning="language-menu"
+></p-menu>
 <div class="menu" (click)="langMenu.toggle($event)">
   <span *ngIf="selectedLanguageObj?.code === 'uk'" class="lang-icon">
     {{ selectedLanguageObj?.flag }}

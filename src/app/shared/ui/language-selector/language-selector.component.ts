@@ -5,13 +5,20 @@ import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { LanguageService } from '../../../core/services/language.service';
 import { ChevronDownIconComponent } from '../chevron-down-icon.component';
+import { MenuPositioningDirective } from '../menu-positioning.directive';
 import { LANGUAGES } from '../../../core/constants/supported-languages';
 import { Language } from '../../../core/models/language.model';
 
 @Component({
   selector: 'app-language-selector',
   standalone: true,
-  imports: [CommonModule, MenuModule, ButtonModule, ChevronDownIconComponent],
+  imports: [
+    CommonModule,
+    MenuModule,
+    ButtonModule,
+    ChevronDownIconComponent,
+    MenuPositioningDirective,
+  ],
   templateUrl: './language-selector.component.html',
   styleUrls: ['./language-selector.component.scss'],
 })
@@ -34,23 +41,5 @@ export class LanguageSelectorComponent {
   onLanguageChange(languageCode: string): void {
     this.selectedLanguage = languageCode;
     this.languageService.setLanguage(languageCode);
-  }
-
-  ngAfterViewInit() {
-    if (this.langMenu) {
-      const originalToggle = this.langMenu.toggle.bind(this.langMenu);
-      this.langMenu.toggle = (event: Event) => {
-        originalToggle(event);
-        setTimeout(() => {
-          const menuElement = document.querySelector('.p-menu.language-menu') as HTMLElement;
-          if (menuElement && this.langMenu.visible) {
-            menuElement.style.top = '76px';
-            menuElement.style.position = 'fixed';
-            menuElement.style.right = '20px';
-            menuElement.style.left = 'auto';
-          }
-        }, 0);
-      };
-    }
   }
 }
