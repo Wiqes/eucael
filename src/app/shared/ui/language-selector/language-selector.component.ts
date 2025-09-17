@@ -47,6 +47,7 @@ export class LanguageSelectorComponent {
             menuElement.style.top = '76px';
             menuElement.style.position = 'fixed';
             menuElement.style.right = '20px';
+            menuElement.style.left = 'auto';
           }
         }, 0);
       };
