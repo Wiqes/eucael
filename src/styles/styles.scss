@@ -39,7 +39,7 @@ body {
   width: 100%;
   overscroll-behavior: none;
   touch-action: pan-x pan-y;
-  overflow: auto;
+  overflow: hidden; /* Prevent body scroll on mobile browsers */
 
   // Multi-layered spectacular background
   background: 
