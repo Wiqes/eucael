@@ -94,8 +94,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.chatService.isConnected()) {
+    const token = this.authService.getStoredToken();
+    if (this.chatService.isConnected() && !token) {
       this.chatService.disconnect();
+    }
+    if (token) {
+      this.router.navigate(['/home']);
     }
   }
 
