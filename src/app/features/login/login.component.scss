@@ -7,7 +7,6 @@
 .auth-container {
   display: flex;
   min-height: 100vh;
-  min-height: 100dvh; /* Use dynamic viewport height for mobile */
   position: relative;
   overflow: hidden;
 
@@ -115,17 +114,10 @@
   @media (max-width: 768px) {
     flex-direction: column;
     min-height: 100vh;
-    min-height: 100dvh; /* Use dynamic viewport height for mobile */
-    height: 100vh;
-    height: 100dvh; /* Ensure exact height to prevent scrolling */
 
     .form-section {
       flex: 1;
-      padding: 20px;
-      overflow-y: auto; /* Allow internal scrolling if needed */
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 30px 20px;
 
       .form-container {
         .form-header {
@@ -137,12 +129,10 @@
 
   @media (max-width: 480px) {
     .form-section {
-      padding: 15px 15px;
+      padding: 20px 15px;
 
       .form-container {
         .form-content {
-          gap: 20px; /* Reduce gap to save space */
-
           .buttons-container {
             flex-direction: column;
             gap: 10px;
