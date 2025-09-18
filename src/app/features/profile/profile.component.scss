@@ -21,6 +21,7 @@
 
 .profile-container {
   min-height: 100vh;
+  min-height: 100dvh; /* Use dynamic viewport height for mobile */
   position: relative;
   overflow: hidden;
 
@@ -150,8 +151,14 @@
 
   // Mobile
   @media (max-width: 480px) {
+    min-height: 100vh;
+    min-height: 100dvh; /* Use dynamic viewport height for mobile */
+    height: 100vh;
+    height: 100dvh; /* Ensure exact height to prevent scrolling */
+
     .profile-content {
       padding: 0;
+      overflow-y: auto; /* Allow internal scrolling if needed */
 
       .info-grid {
         gap: 1rem;
