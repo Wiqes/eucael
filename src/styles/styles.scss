@@ -39,18 +39,7 @@ body {
   width: 100%;
   overscroll-behavior: none;
   touch-action: pan-x pan-y;
-  overflow: hidden; /* Prevent body scroll on mobile browsers */
-
-  /* Additional mobile browser fixes */
-  @media screen and (max-width: 768px) {
-    position: fixed; /* Prevent mobile browser bouncing */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: var(--app-height);
-    -webkit-overflow-scrolling: auto; /* Disable iOS bounce */
-  }
+  overflow: auto;
 
   // Multi-layered spectacular background
   background: 
@@ -101,6 +90,17 @@ body {
       radial-gradient(circle at 80% 80%, rgba(7, 21, 20, 0.8) 0%, transparent 50%),
       radial-gradient(circle at 20% 20%, rgba(7, 32, 23, 0.8) 0%, transparent 50%);
     pointer-events: none;
+  }
+
+  /* Additional mobile browser fixes */
+  @media screen and (max-width: 768px) {
+    position: fixed; /* Prevent mobile browser bouncing */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--app-height);
+    -webkit-overflow-scrolling: auto; /* Disable iOS bounce */
   }
 
   // Mobile-friendly background adjustments
