@@ -3,15 +3,18 @@
 .app-container {
   min-height: 100vh;
   min-height: 100dvh; /* Use dynamic viewport height for mobile */
+  height: 100vh;
+  height: 100dvh; /* Fixed height to match PWA behavior */
   display: flex;
   flex-direction: column;
-  overflow-y: hidden;
+  overflow: hidden; /* Ensure no scrolling at app level */
 }
 
 .main-content {
   flex: 1;
   position: relative;
   z-index: 1;
+  overflow-y: auto; /* Allow scrolling within main content area */
   background: radial-gradient(
     circle at 70% 30%,
     rgba(30, 41, 59, 0) 0%,

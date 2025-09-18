@@ -7,22 +7,50 @@
 
 html {
   height: 100%;
+  height: 100dvh; /* Use dynamic viewport height for mobile browsers */
   background-color: #0a0a0b; // Enhanced fallback color
   overscroll-behavior: none;
-  overflow: auto;
+  overflow: hidden; /* Prevent body scroll on mobile browsers */
   position: relative;
   width: 100%;
+
+  /* CSS custom properties for consistent mobile viewport handling */
+  --app-height: 100vh;
+  --app-height: 100dvh;
+
+  /* Additional mobile browser fixes */
+  @media screen and (max-width: 768px) {
+    position: fixed; /* Prevent mobile browser scrolling */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 }
 
 body {
   margin: 0;
   font-family: Inter, sans-serif;
   min-height: 100vh;
+  min-height: 100dvh; /* Use dynamic viewport height for mobile browsers */
+  height: 100vh;
+  height: 100dvh; /* Fixed height to prevent mobile browser scrolling */
   position: relative;
   width: 100%;
   overscroll-behavior: none;
   touch-action: pan-x pan-y;
-  overflow: auto;
+  overflow: hidden; /* Prevent body scroll on mobile browsers */
+
+  /* Additional mobile browser fixes */
+  @media screen and (max-width: 768px) {
+    position: fixed; /* Prevent mobile browser bouncing */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--app-height);
+    -webkit-overflow-scrolling: auto; /* Disable iOS bounce */
+  }
 
   // Multi-layered spectacular background
   background: 
