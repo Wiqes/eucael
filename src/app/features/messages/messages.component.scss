@@ -62,6 +62,7 @@
   flex: 1;
   overflow-y: auto;
   max-height: 50vh;
+  max-height: 50dvh; /* Use dynamic viewport height for mobile browsers */
   padding: 0.5rem 0 1.5rem 0;
 
   @extend %small-scrollbar;
