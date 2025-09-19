@@ -32,7 +32,6 @@ import localeUkUA from '@angular/common/locales/uk';
 import { registerLocaleData } from '@angular/common';
 import { environment } from '../../environments/environment';
 import { provideSocketIo, SocketIoConfig } from 'ngx-socket-io';
-import { provideServiceWorker } from '@angular/service-worker';
 
 registerLocaleData(localeEnUS, 'en-US');
 registerLocaleData(localeEsES, 'es-ES');
@@ -74,9 +73,5 @@ export const appConfig: ApplicationConfig = {
     provideSocketIo(socketConfig),
     translationProvider(),
     ...primeNGProvider(),
-    provideServiceWorker('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      registrationStrategy: 'registerWhenStable:30000',
-    }),
   ],
 };

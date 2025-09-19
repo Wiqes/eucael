@@ -18,7 +18,6 @@ import { Router } from '@angular/router';
 import { LoginImageComponent } from './login-image/login-image.component';
 import { NgIf } from '@angular/common';
 import { ChatService } from '../../core/services/chat/chat.service';
-import { PwaInstallButtonComponent } from '../../shared/ui/pwa-install-button.component';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +34,6 @@ import { PwaInstallButtonComponent } from '../../shared/ui/pwa-install-button.co
     FormControlComponent,
     ForgotPasswordButtonComponent,
     LoginImageComponent,
-    PwaInstallButtonComponent,
     NgIf,
   ],
   templateUrl: './login.component.html',
