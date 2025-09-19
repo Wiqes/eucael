@@ -5,15 +5,16 @@ import { MESSAGES } from '../../core/constants/messages';
 import { Location } from '@angular/common';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { Role } from '../../core/constants/role';
-
+import { Button } from 'primeng/button';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [Button, TranslateModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  private router = inject(Router);
+  protected router = inject(Router);
   private route = inject(ActivatedRoute);
   private location = inject(Location);
   private messageService = inject(MessageService);

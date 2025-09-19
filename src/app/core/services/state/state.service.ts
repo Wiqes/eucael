@@ -17,19 +17,30 @@ export class StateService {
   readonly avatarUrl = computed(() => this.profile()?.avatarUrl || DEFAULT_AVATAR_URL);
   readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
 
-  addBackendDataToState() {
+  addAnimalsDataToState() {
+    if (this.animals()?.length || this.isDataLoading()) {
+      return;
+    }
+
+    this.isDataLoading.set(true);
+    this.dataAccessService.getAnimals().subscribe({
+      next: (animals) => {
+        this.animals.set(animals);
+      },
+      error: () => this.isDataLoading.set(false),
+      complete: () => this.isDataLoading.set(false),
+    });
+  }
+
+  addUserDataToState() {
     if (this.user() || this.isDataLoading()) {
       return;
     }
 
     this.isDataLoading.set(true);
-    forkJoin({
-      user: this.dataAccessService.getUserData(),
-      animals: this.dataAccessService.getAnimals(),
-    }).subscribe({
-      next: ({ user, animals }) => {
+    this.dataAccessService.getUserData().subscribe({
+      next: (user) => {
         this.user.set(user);
-        this.animals.set(animals);
       },
       error: () => this.isDataLoading.set(false),
       complete: () => this.isDataLoading.set(false),

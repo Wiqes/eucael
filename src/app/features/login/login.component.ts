@@ -94,6 +94,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.stateService.isDataLoading.set(false);
     const token = this.authService.getStoredToken();
     if (this.chatService.isConnected() && !token) {
       this.chatService.disconnect();

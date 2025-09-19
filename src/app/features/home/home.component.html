@@ -1,1 +1,8 @@
-<p></p>
+@if(isAdmin()) {
+<div class="eucael-version">1.0.7</div>
+}
+<p-button
+  [label]="'Embodiments' | translate"
+  icon="pi pi-arrow-right"
+  (onClick)="router.navigate(['embodiments'])"
+/>

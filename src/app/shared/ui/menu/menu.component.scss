@@ -12,21 +12,6 @@
 
   .pi-list {
     font-size: 18px;
-    display: none;
     color: $text-color;
-  }
-
-  .p-menu-item-label:hover {
-    color: red;
-  }
-
-  @media (max-width: 580px) {
-    .label {
-      display: none;
-    }
-
-    .pi-list {
-      display: block;
-    }
   }
 }
