@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { StateService } from '../../core/services/state/state.service';
 import { NgFor } from '@angular/common';
@@ -28,7 +28,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   templateUrl: './embodiments.component.html',
   styleUrl: './embodiments.component.scss',
 })
-export class EmbodimentsComponent {
+export class EmbodimentsComponent implements OnInit {
   private readonly stateService = inject(StateService);
   protected iconService = inject(IconService);
   private translate = inject(TranslateService);
@@ -51,4 +51,8 @@ export class EmbodimentsComponent {
   filteredAnimals = computed(() => {
     return this.selectedAnimals().length ? this.selectedAnimals() : this.animals();
   });
+
+  ngOnInit(): void {
+    this.stateService.addAnimalsDataToState();
+  }
 }

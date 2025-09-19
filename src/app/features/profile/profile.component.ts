@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { StateService } from '../../core/services/state/state.service';
 import { LanguageService } from '../../core/services/language.service';
@@ -40,7 +40,7 @@ import { InfoItemComponent } from './info-item/info-item.component';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   private stateService = inject(StateService);
   private languageService = inject(LanguageService);
   private profileService = inject(ProfileService);
@@ -85,6 +85,10 @@ export class ProfileComponent {
       name: this.editProfileForm.get('name') as FormControl,
       country: this.editProfileForm.get('country') as FormControl,
     };
+  }
+
+  ngOnInit(): void {
+    this.stateService.addUserDataToState();
   }
 
   openEditMode(): void {
