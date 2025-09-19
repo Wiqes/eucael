@@ -4,7 +4,6 @@ import { StateService } from '../../core/services/state/state.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgIf, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
-import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { MenuComponent } from '../../shared/ui/menu/menu.component';
 import { LanguageSelectorComponent } from '../../shared/ui/language-selector/language-selector.component';
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
@@ -13,15 +12,7 @@ import { ChatService } from '../../core/services/chat/chat.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [
-    ButtonModule,
-    TranslateModule,
-    NgIf,
-    NgClass,
-    UserAvatarComponent,
-    MenuComponent,
-    LanguageSelectorComponent,
-  ],
+  imports: [ButtonModule, TranslateModule, NgIf, NgClass, MenuComponent, LanguageSelectorComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -40,7 +31,7 @@ export class HeaderComponent implements OnInit {
   readonly displayName = computed(() => this.stateService.displayName());
   readonly isDataLoading = computed(() => this.stateService.isDataLoading());
   readonly user = computed(() => this.stateService.user());
-  readonly isHidden = computed(() => !this.user() || this.isDataLoading());
+  readonly isHidden = computed(() => this.isDataLoading());
   readonly headerVisibilityClass = computed(() =>
     this.isHeaderVisible() ? 'header-visible' : 'header-hidden',
   );
@@ -58,7 +49,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stateService.addBackendDataToState();
     this.lastScrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
   }
 
