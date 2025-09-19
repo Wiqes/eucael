@@ -1,4 +1,14 @@
-import { Component, computed, inject, OnInit, HostListener, signal, effect } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  AfterViewInit,
+  ElementRef,
+  Renderer2,
+  signal,
+  effect,
+} from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StateService } from '../../core/services/state/state.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,15 +26,18 @@ import { ChatService } from '../../core/services/chat/chat.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements AfterViewInit, OnDestroy {
   private router = inject(Router);
   private stateService = inject(StateService);
   private authTokenService = inject(AuthTokenService);
   private chatService = inject(ChatService);
+  private elementRef = inject(ElementRef);
+  private renderer = inject(Renderer2);
 
   private lastScrollTop = 0;
   private readonly scrollThreshold = 5;
   private readonly headerHeight = 64;
+  private scrollUnlisten?: () => void;
 
   private isHeaderVisible = signal(true);
 
@@ -48,16 +61,45 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.lastScrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+  ngAfterViewInit() {
+    // Simple timeout to let Angular finish rendering
+    setTimeout(() => {
+      this.setupMainContentScrollListener();
+    }, 0);
   }
 
-  @HostListener('window:scroll')
-  onWindowScroll(): void {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+  ngOnDestroy() {
+    if (this.scrollUnlisten) {
+      this.scrollUnlisten();
+    }
+  }
 
-    if (Math.abs(scrollTop - this.lastScrollTop) < this.scrollThreshold) return;
+  private setupMainContentScrollListener(): void {
+    const mainContentElement = document.querySelector('.main-content') as HTMLElement;
 
+    if (mainContentElement) {
+      // Initialize scroll position
+      this.lastScrollTop = mainContentElement.scrollTop;
+
+      // Add scroll event listener
+      this.scrollUnlisten = this.renderer.listen(mainContentElement, 'scroll', (event) => {
+        this.onMainContentScroll(event.target as HTMLElement);
+      });
+    } else {
+      // Retry if element not found
+      setTimeout(() => this.setupMainContentScrollListener(), 300);
+    }
+  }
+
+  private onMainContentScroll(element: HTMLElement): void {
+    const scrollTop = element.scrollTop;
+
+    // Apply threshold to prevent excessive updates
+    if (Math.abs(scrollTop - this.lastScrollTop) < this.scrollThreshold) {
+      return;
+    }
+
+    // Show header when at top or scrolling up, hide when scrolling down past header height
     if (scrollTop <= this.headerHeight) {
       this.isHeaderVisible.set(true);
     } else {
