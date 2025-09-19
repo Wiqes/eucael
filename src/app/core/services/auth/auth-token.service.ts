@@ -34,6 +34,7 @@ export class AuthTokenService {
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   logout(): void {
+    this.stateService.isDataLoading.set(true);
     const token = this.getToken();
     const options = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
