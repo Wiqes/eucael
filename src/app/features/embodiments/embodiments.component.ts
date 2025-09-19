@@ -12,7 +12,6 @@ import { AnimalComponent } from './animal/animal.component';
 import { IAnimal } from '../../core/models/entities/animal.model';
 import { IconService } from '../../core/services/icon.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-embodiments',
@@ -29,7 +28,7 @@ import { AuthService } from '../../core/services/auth/auth.service';
   templateUrl: './embodiments.component.html',
   styleUrl: './embodiments.component.scss',
 })
-export class EmbodimentsComponent extends HomeComponent {
+export class EmbodimentsComponent {
   private readonly stateService = inject(StateService);
   protected iconService = inject(IconService);
   private translate = inject(TranslateService);

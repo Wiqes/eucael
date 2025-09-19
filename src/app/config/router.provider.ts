@@ -18,10 +18,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('../features/embodiments/embodiments.component').then(
-            (m) => m.EmbodimentsComponent,
-          ),
+        loadComponent: () => import('../features/home/home.component').then((m) => m.HomeComponent),
       },
       {
         path: '',
@@ -50,6 +47,24 @@ const routes: Routes = [
         path: ':rivalId',
         loadComponent: () =>
           import('../features/rival/rival.component').then((m) => m.RivalComponent),
+      },
+    ],
+  },
+  {
+    path: 'embodiments',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/embodiments/embodiments.component').then(
+            (m) => m.EmbodimentsComponent,
+          ),
+      },
+      {
+        path: '',
+        outlet: 'header',
+        loadComponent: () =>
+          import('../layout/header/header.component').then((m) => m.HeaderComponent),
       },
     ],
   },

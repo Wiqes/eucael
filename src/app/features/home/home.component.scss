@@ -1,0 +1,17 @@
+@use 'variables' as *;
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 84px 20px;
+}
+
+.eucael-version {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 18px;
+  color: $primary-color;
+  top: 120px;
+  left: 20px;
+  position: absolute;
+}
