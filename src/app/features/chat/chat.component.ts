@@ -12,7 +12,7 @@ import {
   signal,
   effect,
 } from '@angular/core';
-import { Subscription, Subject, takeUntil } from 'rxjs';
+import { Subscription, Subject, takeUntil, Observable, of, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Needed for *ngFor, *ngIf etc.
 import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
@@ -30,6 +30,7 @@ import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { OnlineStatusComponent } from '../../shared/ui/online-status/online-status.component';
 import { InterlocutorService } from '../../core/services/chat/interlocutor.service';
 import { ChatHeaderComponent } from './chat-header/chat-header.component';
+import { DataAccessService } from '../../core/services/data-access/data-access.service';
 
 @Component({
   selector: 'app-chat',
@@ -47,15 +48,15 @@ import { ChatHeaderComponent } from './chat-header/chat-header.component';
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private chatService = inject(ChatService);
   private route = inject(ActivatedRoute);
+  private dataAccessService = inject(DataAccessService);
   private stateService = inject(StateService);
   private chatStateService = inject(ChatStateService);
   private destroy$ = new Subject<void>();
-  private authTokenService = inject(AuthTokenService);
   private interlocutorService = inject(InterlocutorService);
   readonly user = computed(() => this.stateService.user());
 
   currentUser = computed(() => this.stateService.user() || null);
-  currentUserId = computed(() => this.currentUser()?.id || '');
+  currentUserId = signal<string>('');
   myProfile = computed(() => this.currentUser()?.profile || null);
   interlocutor = computed(() => this.interlocutorService.interlocutor() || null);
   isOnline = computed(() => this.interlocutor()?.isOnline || false);
@@ -82,22 +83,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private scrollTimeout: any;
   private isUserScrolling = false;
 
-  constructor() {
-    effect(() => {
-      const user = this.user();
-      if (user) {
-        const token = this.authTokenService.getToken();
-        if (token) {
-          this.chatService.connect(token);
-        }
-      }
-    });
-  }
-
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.receiverId = params.get('receiverId') || '';
-      if (this.currentUserId() && this.receiverId) {
+      if (this.receiverId) {
         this.isLoading.set(true);
         if (this.chatService.isConnected()) {
           this.startChatRoom();
@@ -115,9 +104,25 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   startChatRoom(): void {
-    this.joinChatRoom();
-    this.subscribeToMessages();
-    this.setupEnhancedSocketListeners();
+    this.getUserId().subscribe((userId) => {
+      if (userId) {
+        this.currentUserId.set(userId);
+        console.log('Current user ID:', userId);
+        this.joinChatRoom(userId);
+        this.subscribeToMessages();
+        this.setupEnhancedSocketListeners();
+      }
+    });
+  }
+
+  private getUserId(): Observable<string> {
+    const currentUserId = this.currentUser()?.id || '';
+    if (currentUserId) {
+      return of(currentUserId);
+    } else {
+      console.log('Fetching user ID from DataAccessService');
+      return this.dataAccessService.getUserId();
+    }
   }
 
   /**
@@ -323,9 +328,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  joinChatRoom(): void {
+  joinChatRoom(currentUserId: string): void {
     this.chatService
-      .joinChat(Number(this.currentUserId()), Number(this.receiverId))
+      .joinChat(Number(currentUserId), Number(this.receiverId))
       .subscribe((chatId) => {
         console.log(`Joined chat with ID: ${chatId}`);
         this.activeChatId.set(chatId);
@@ -335,7 +340,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       .onPreviousMessages()
       .subscribe(({ messages, chat }: IChatMessages) => {
         const participant =
-          chat.participant1?.id === this.currentUserId() ? chat.participant2 : chat.participant1;
+          chat.participant1?.id === currentUserId ? chat.participant2 : chat.participant1;
         if (participant) {
           this.interlocutorService.interlocutor.set(participant);
         }
