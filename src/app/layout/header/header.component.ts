@@ -8,6 +8,7 @@ import {
   Renderer2,
   signal,
   effect,
+  OnInit,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StateService } from '../../core/services/state/state.service';
@@ -26,12 +27,11 @@ import { ChatService } from '../../core/services/chat/chat.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements AfterViewInit, OnDestroy {
+export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   private router = inject(Router);
   private stateService = inject(StateService);
   private authTokenService = inject(AuthTokenService);
   private chatService = inject(ChatService);
-  private elementRef = inject(ElementRef);
   private renderer = inject(Renderer2);
 
   private lastScrollTop = 0;
@@ -49,16 +49,11 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     this.isHeaderVisible() ? 'header-visible' : 'header-hidden',
   );
 
-  constructor() {
-    effect(() => {
-      const user = this.user();
-      if (user) {
-        const token = this.authTokenService.getToken();
-        if (token) {
-          this.chatService.connect(token);
-        }
-      }
-    });
+  ngOnInit(): void {
+    const token = this.authTokenService.getToken();
+    if (token) {
+      this.chatService.connect(token);
+    }
   }
 
   ngAfterViewInit() {
