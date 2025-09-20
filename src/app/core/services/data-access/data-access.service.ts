@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { IUser } from '../../models/entities/user.model';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
 import { IAnimal } from '../../models/entities/animal.model';
 import { IColor } from '../../models/option.model';
 import { IProfile } from '../../models/entities/profile.model';
@@ -26,6 +26,13 @@ export class DataAccessService {
         console.error('Error fetching user data:', error.status);
         throw new Error('Failed to fetch user data');
       }),
+    );
+  }
+
+  getUserId(): Observable<string> {
+    return this.getUserData().pipe(
+      map((user) => user?.id || ''),
+      catchError(() => of('')),
     );
   }
 
