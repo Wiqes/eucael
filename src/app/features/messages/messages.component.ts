@@ -38,10 +38,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
   currentUserId = computed(() => this.currentUserProfile()?.userId || '');
   private destroy$ = new Subject<void>();
   readonly user = computed(() => this.stateService.user());
-  isSocketAuthenticated = computed(() => this.chatService.isUserAuthenticated());
-  isChatsLoading = computed(
-    () => this.chatService.isChatsLoading() || !this.isSocketAuthenticated(),
-  );
+  isChatsLoading = computed(() => this.chatService.isChatsLoading());
 
   interlocutors = computed<IParticipant[]>(() => {
     if (!this.chats()) {
