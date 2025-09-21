@@ -13,19 +13,17 @@ export class StateService {
   readonly user = signal<Partial<IUser> | null>(null);
   readonly animals = signal<IAnimal[]>([]);
   readonly isDataLoading = signal<boolean>(false);
-  readonly profile = computed(() => this.user()?.profile || this.getProfileFromToken());
+  readonly tokenProfile = signal<IProfile | null>(null);
+  readonly profile = computed(() => this.user()?.profile || this.tokenProfile());
   readonly avatarUrl = computed(() => this.profile()?.avatarUrl || DEFAULT_AVATAR_URL);
   readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
 
-  private getProfileFromToken(): IProfile | null {
+  setProfileFromToken(): void {
     const token = window.localStorage.getItem('token');
-    if (!token) {
-      return null;
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      this.tokenProfile.set(payload.profile || null);
     }
-
-    const payload = JSON.parse(atob(token.split('.')[1]));
-
-    return payload.profile || null;
   }
 
   addAnimalsDataToState() {

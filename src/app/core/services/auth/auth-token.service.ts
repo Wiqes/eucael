@@ -54,6 +54,7 @@ export class AuthTokenService {
     this.isLoggedIn.set(false);
     window.localStorage.removeItem('token');
     this.stateService.user.set(null);
+    this.stateService.tokenProfile.set(null);
     this.router.navigate(['']);
     this.stateService.isDataLoading.set(false);
   }
