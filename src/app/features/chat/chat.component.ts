@@ -54,9 +54,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private interlocutorService = inject(InterlocutorService);
   readonly user = computed(() => this.stateService.user());
 
-  currentUser = computed(() => this.stateService.user() || null);
-  currentUserId = computed(() => this.currentUser()?.id || '');
-  myProfile = computed(() => this.currentUser()?.profile || null);
+  myProfile = computed(() => this.stateService.profile() || null);
+  currentUserId = computed(() => this.myProfile()?.userId || '');
   interlocutor = computed(() => this.interlocutorService.interlocutor() || null);
   isOnline = computed(() => this.interlocutor()?.isOnline || false);
   interlocutorProfile = computed(() => this.interlocutor()?.profile || null);
