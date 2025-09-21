@@ -4,10 +4,8 @@ import {
   inject,
   OnDestroy,
   AfterViewInit,
-  ElementRef,
   Renderer2,
   signal,
-  effect,
   OnInit,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
@@ -62,7 +60,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     const token = this.authTokenService.getToken();
     if (token) {
       this.chatService.connect(token);
-      this.stateService.setProfileFromToken();
+      this.authTokenService.setProfileFromToken();
     }
   }
 

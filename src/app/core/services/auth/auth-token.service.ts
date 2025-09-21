@@ -55,6 +55,14 @@ export class AuthTokenService {
     }
   }
 
+  setProfileFromToken(): void {
+    const token = this.getToken();
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      this.stateService.tokenProfile.set(payload.profile || null);
+    }
+  }
+
   logout(): void {
     this.stateService.isDataLoading.set(true);
     const token = this.getToken();
@@ -74,7 +82,7 @@ export class AuthTokenService {
 
   moveToLogin(): void {
     this.isLoggedIn.set(false);
-    window.localStorage.removeItem('token');
+    this.setToken(null);
     this.stateService.user.set(null);
     this.stateService.tokenProfile.set(null);
     this.chatStateService.chats.set(null);

@@ -27,7 +27,7 @@ export class HomeComponent {
       if (token) {
         this.authTokenService.setToken(token);
         this.location.replaceState(this.router.url.split('?')[0]);
-      } else if (!this.authService.getStoredToken()) {
+      } else if (!this.authTokenService.getToken()) {
         this.router.navigate(['']);
       }
     });

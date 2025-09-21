@@ -6,15 +6,17 @@ import { catchError, map, Observable, of, switchMap } from 'rxjs';
 import { IAnimal } from '../../models/entities/animal.model';
 import { IColor } from '../../models/option.model';
 import { IProfile } from '../../models/entities/profile.model';
+import { AuthTokenService } from '../auth/auth-token.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataAccessService {
   private http = inject(HttpClient);
+  private authTokenService = inject(AuthTokenService);
 
   getUserData(): Observable<IUser | null> {
-    const token = localStorage.getItem('token');
+    const token = this.authTokenService.getToken();
     if (!token) {
       return of(null);
     }

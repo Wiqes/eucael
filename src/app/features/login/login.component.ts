@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { LoginImageComponent } from './login-image/login-image.component';
 import { NgIf } from '@angular/common';
 import { ChatService } from '../../core/services/chat/chat.service';
+import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 
 @Component({
   selector: 'app-login',
@@ -46,6 +47,7 @@ export class LoginComponent implements OnInit {
   private readonly messageService = inject(MessageService);
   private readonly formBuilder = inject(FormBuilder);
   protected readonly authService = inject(AuthService);
+  private readonly authTokenService = inject(AuthTokenService);
   private readonly loginService = inject(LoginService);
   private readonly stateService = inject(StateService);
   protected readonly chatService = inject(ChatService);
@@ -93,7 +95,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.stateService.isDataLoading.set(false);
-    const token = this.authService.getStoredToken();
+    const token = this.authTokenService.getToken();
     if (this.chatService.isConnected() && !token) {
       setTimeout(() => {
         this.chatService.disconnect();

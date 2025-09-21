@@ -18,14 +18,6 @@ export class StateService {
   readonly avatarUrl = computed(() => this.profile()?.avatarUrl || DEFAULT_AVATAR_URL);
   readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
 
-  setProfileFromToken(): void {
-    const token = window.localStorage.getItem('token');
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      this.tokenProfile.set(payload.profile || null);
-    }
-  }
-
   addAnimalsDataToState() {
     if (this.animals()?.length || this.isDataLoading()) {
       return;
