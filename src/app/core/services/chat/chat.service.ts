@@ -46,7 +46,6 @@ export class ChatService {
 
     this.onDisconnect().subscribe(() => {
       this.isUserAuthenticated.set(false);
-      this.isChatsLoading.set(false);
       this.chatStateService.chats.set(null);
     });
   }
