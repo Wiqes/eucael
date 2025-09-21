@@ -1,7 +1,6 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MESSAGES } from '../../constants/messages';
-import { StateService } from '../state/state.service';
 import { ICredentials } from '../../models/credentials.model';
 import { AuthBaseService } from './auth-base.service';
 import { AuthTokenService } from './auth-token.service';
@@ -13,7 +12,6 @@ import { ITokenData } from '../../models/token-data.model';
 })
 export class LoginService extends AuthBaseService {
   private router = inject(Router);
-  private stateService = inject(StateService);
   private authTokenService = inject(AuthTokenService);
   private fingerprintService = inject(FingerprintService);
 
