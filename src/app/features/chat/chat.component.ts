@@ -27,6 +27,7 @@ import { IUser } from '../../core/models/entities/user.model';
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { InterlocutorService } from '../../core/services/chat/interlocutor.service';
 import { ChatHeaderComponent } from './chat-header/chat-header.component';
+import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
 
 @Component({
   selector: 'app-chat',
@@ -47,7 +48,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private stateService = inject(StateService);
   private chatStateService = inject(ChatStateService);
   private destroy$ = new Subject<void>();
-  private authTokenService = inject(AuthTokenService);
+  private authTokenStateService = inject(AuthTokenStateService);
+  private token = computed(() => this.authTokenStateService.token());
   private interlocutorService = inject(InterlocutorService);
   readonly user = computed(() => this.stateService.user());
 
@@ -82,7 +84,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     effect(() => {
       const user = this.user();
       if (user) {
-        const token = this.authTokenService.getToken();
+        const token = this.token();
         if (token) {
           this.chatService.connect(token);
         }

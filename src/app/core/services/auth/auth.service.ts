@@ -5,13 +5,14 @@ import { PasswordResetService } from './password-reset.service';
 import { ICredentials } from '../../models/credentials.model';
 import { jwtDecode } from 'jwt-decode';
 import { AuthTokenService } from './auth-token.service';
+import { AuthTokenStateService } from '../state/auth-token-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private loginService = inject(LoginService);
-  private authTokenService = inject(AuthTokenService);
+  private authTokenStateService = inject(AuthTokenStateService);
   private registrationService = inject(RegistrationService);
   private passwordResetService = inject(PasswordResetService);
   isLoadingLogin = computed(() => this.loginService.isLoading());
@@ -21,12 +22,13 @@ export class AuthService {
     this.registrationService.isPasswordConfirmationRequested(),
   );
   isResetPasswordRequested = computed(() => this.passwordResetService.isLoading());
+  private token = computed(() => this.authTokenStateService.token());
 
   hasRole(role: string): boolean {
-    if (!this.authTokenService.getToken()) {
+    if (!this.token()) {
       return false;
     }
-    const decodedToken: any = jwtDecode(this.authTokenService.getToken() || '');
+    const decodedToken: any = jwtDecode(this.token() || '');
     return decodedToken.roles?.includes(role);
   }
 

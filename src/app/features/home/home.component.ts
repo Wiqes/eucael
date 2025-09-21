@@ -6,6 +6,7 @@ import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { Role } from '../../core/constants/role';
 import { Button } from 'primeng/button';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
 @Component({
   selector: 'app-home',
   imports: [Button, TranslateModule],
@@ -17,7 +18,8 @@ export class HomeComponent {
   private route = inject(ActivatedRoute);
   private location = inject(Location);
   private authService = inject(AuthService);
-  private authTokenService = inject(AuthTokenService);
+  private authTokenStateService = inject(AuthTokenStateService);
+  authToken = computed(() => this.authTokenStateService.token());
   isAdmin = computed(() => this.authService.hasRole(Role.Admin));
 
   constructor() {
@@ -25,9 +27,9 @@ export class HomeComponent {
     this.route.queryParams.subscribe((params) => {
       const token = params['access_token'];
       if (token) {
-        this.authTokenService.setToken(token);
+        this.authTokenStateService.token.set(token);
         this.location.replaceState(this.router.url.split('?')[0]);
-      } else if (!this.authTokenService.getToken()) {
+      } else if (!this.authToken()) {
         this.router.navigate(['']);
       }
     });

@@ -6,6 +6,7 @@ import { AuthBaseService } from './auth-base.service';
 import { AuthTokenService } from './auth-token.service';
 import { FingerprintService } from '../fingerprint.service';
 import { ITokenData } from '../../models/token-data.model';
+import { AuthTokenStateService } from '../state/auth-token-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +14,8 @@ import { ITokenData } from '../../models/token-data.model';
 export class LoginService extends AuthBaseService {
   private router = inject(Router);
   private authTokenService = inject(AuthTokenService);
+  private authTokenStateService = inject(AuthTokenStateService);
   private fingerprintService = inject(FingerprintService);
-
-  isLoggedIn = computed(() => this.authTokenService.isLoggedIn());
 
   private getFingerprint(): string {
     return this.fingerprintService.getFingerprint();
@@ -34,9 +34,9 @@ export class LoginService extends AuthBaseService {
 
   private onLoginSuccess(res: ITokenData): void {
     if (res?.access_token) {
-      this.authTokenService.setToken(res.access_token);
+      this.authTokenStateService.token.set(res.access_token);
     } else {
-      this.authTokenService.setToken(null);
+      this.authTokenStateService.token.set(null);
     }
 
     this.handleSuccess(null, () => {

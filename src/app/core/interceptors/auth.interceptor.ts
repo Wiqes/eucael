@@ -4,12 +4,15 @@ import {
   HttpRequest,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { catchError, throwError, switchMap, filter, take } from 'rxjs';
 import { AuthTokenService } from '../services/auth/auth-token.service';
+import { AuthTokenStateService } from '../services/state/auth-token-state.service';
 
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
   const authTokenService = inject(AuthTokenService);
+  const authTokenStateService = inject(AuthTokenStateService);
+  const token = computed(() => authTokenStateService.token());
 
   // Skip authentication for S3 requests
   const s3Host = 'https://wiqes-images.s3.us-east-1.amazonaws.com';
@@ -23,16 +26,15 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
     return next(req);
   }
 
-  return handleRequest(req, next, authTokenService);
+  return handleRequest(req, next, authTokenService, token());
 };
 
 function handleRequest(
   req: HttpRequest<any>,
   next: HttpHandlerFn,
   authTokenService: AuthTokenService,
+  token: string | null,
 ) {
-  const token = authTokenService.getToken();
-
   // If token is expired or expiring soon, refresh it proactively
   if (token && authTokenService.isTokenExpiringSoon()) {
     return authTokenService.refreshToken().pipe(
