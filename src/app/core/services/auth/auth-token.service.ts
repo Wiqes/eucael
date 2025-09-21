@@ -18,6 +18,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { ChatStateService } from '../state/chat-state.service';
+import { ChatService } from '../chat/chat.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,7 @@ export class AuthTokenService {
   private router = inject(Router);
   private stateService = inject(StateService);
   private chatStateService = inject(ChatStateService);
+  private chatService = inject(ChatService);
   private fingerprintService = inject(FingerprintService);
   private http = inject(HttpClient);
 
@@ -164,13 +166,19 @@ export class AuthTokenService {
   }
 
   private onRefreshSuccess(tokenData: ITokenData): void {
-    // Try to save token in a more robust way
+    const token = tokenData?.access_token || null;
+    if (!token) {
+      return;
+    }
+
     try {
-      if (tokenData?.access_token) {
-        window.localStorage.setItem('token', tokenData.access_token);
-      }
+      window.localStorage.setItem('token', tokenData.access_token);
     } catch (e) {
       console.error('Error saving token:', e);
+    }
+
+    if (!this.chatService.isUserAuthenticated()) {
+      this.chatService.connect(token);
     }
   }
 }
