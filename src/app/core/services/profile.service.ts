@@ -8,12 +8,25 @@ import {
 import { Observable, switchMap, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { IProfile } from '../models/entities/profile.model';
+import { AuthTokenService } from './auth/auth-token.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
   private http = inject(HttpClient);
+  private authTokenService = inject(AuthTokenService);
+
+  getProfileFromToken(): IProfile | null {
+    const token = this.authTokenService.getToken();
+    if (!token) {
+      return null;
+    }
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+
+    return payload.profile || null;
+  }
 
   private getPresignedAvatarUrl(
     requestData: IUploadAvatarRequest,

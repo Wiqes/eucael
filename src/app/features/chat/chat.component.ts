@@ -114,12 +114,24 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   private getUserId(): Observable<string> {
+    this.getTokenData();
     const currentUserId = this.currentUser()?.id || '';
     if (currentUserId) {
       return of(currentUserId);
     } else {
       return this.dataAccessService.getUserId();
     }
+  }
+
+  private getTokenData(): string | null {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    console.log('Token payload:', payload);
+    return payload;
   }
 
   /**
