@@ -60,8 +60,9 @@ export class AuthTokenService {
     this.stateService.user.set(null);
     this.stateService.tokenProfile.set(null);
     this.chatStateService.chats.set(null);
-    this.router.navigate(['']);
-    this.stateService.isDataLoading.set(false);
+    this.router.navigateByUrl('/', { replaceUrl: true }).finally(() => {
+      this.stateService.isDataLoading.set(false);
+    });
   }
 
   getToken(): string | null {
