@@ -99,7 +99,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             });
         }
       }
-      console.log('ChatComponent initialized with receiverId:', this.receiverId);
     });
   }
 
@@ -107,7 +106,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getUserId().subscribe((userId) => {
       if (userId) {
         this.currentUserId.set(userId);
-        console.log('Current user ID:', userId);
         this.joinChatRoom(userId);
         this.subscribeToMessages();
         this.setupEnhancedSocketListeners();
@@ -120,7 +118,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (currentUserId) {
       return of(currentUserId);
     } else {
-      console.log('Fetching user ID from DataAccessService');
       return this.dataAccessService.getUserId();
     }
   }
@@ -282,7 +279,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.messageSubscription = this.chatService.onReceiveMessage().subscribe((message: any) => {
       // Check if user was near bottom before adding message
       const wasNearBottom = this.isNearBottom();
-      console.log('Received message:', message);
 
       if (message.sender.id !== this.currentUserId()) {
         this.messages = [...this.messages, message];
@@ -332,7 +328,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.chatService
       .joinChat(Number(currentUserId), Number(this.receiverId))
       .subscribe((chatId) => {
-        console.log(`Joined chat with ID: ${chatId}`);
         this.activeChatId.set(chatId);
       });
 
@@ -344,7 +339,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         if (participant) {
           this.interlocutorService.interlocutor.set(participant);
         }
-        console.log('Joined chat room:', chat);
         this.messages = messages;
         this.isLoading.set(false);
 
@@ -361,10 +355,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   sendMessage(): void {
-    console.log('Attempting to send message:', this.newMessageContent);
     if (this.newMessageContent.trim() && this.currentUserId() && this.receiverId) {
       const messageContent = this.newMessageContent.trim();
-      console.log('Sending message:', `d${messageContent}`);
 
       // Stop typing indicator when sending
       if (this.isTyping()) {

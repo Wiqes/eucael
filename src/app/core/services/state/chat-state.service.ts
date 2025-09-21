@@ -21,7 +21,6 @@ export class ChatStateService {
    * Get unread count for a specific chat and current user
    */
   getUnreadCount(chat: IChat): number {
-    console.log('Getting unread count for chat:', chat);
     if (!chat) return 0;
 
     const currentUserId = this.stateService.user()?.id;
