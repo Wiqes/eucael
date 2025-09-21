@@ -87,6 +87,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
   }
 
   private connectToUserChats(): void {
+    console.log('Connecting to user chats', this.chats());
     if (this.chats()) {
       this.chatService.isChatsLoading.set(false);
       return;

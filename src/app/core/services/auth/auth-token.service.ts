@@ -17,6 +17,7 @@ import { ITokenData } from '../../models/token-data.model';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
+import { ChatStateService } from '../state/chat-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ import { jwtDecode } from 'jwt-decode';
 export class AuthTokenService {
   private router = inject(Router);
   private stateService = inject(StateService);
+  private chatStateService = inject(ChatStateService);
   private fingerprintService = inject(FingerprintService);
   private http = inject(HttpClient);
 
@@ -55,6 +57,7 @@ export class AuthTokenService {
     window.localStorage.removeItem('token');
     this.stateService.user.set(null);
     this.stateService.tokenProfile.set(null);
+    this.chatStateService.chats.set(null);
     this.router.navigate(['']);
     this.stateService.isDataLoading.set(false);
   }

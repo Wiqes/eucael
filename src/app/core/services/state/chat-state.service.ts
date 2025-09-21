@@ -98,6 +98,8 @@ export class ChatStateService {
    */
   updateUserOnlineStatus(userId: string, isOnline: boolean): void {
     const chats = this.chats();
+    if (!chats?.length) return;
+
     const updatedChats =
       chats?.map((chat) => {
         let updatedChat = { ...chat };
