@@ -15,12 +15,17 @@ export class ChatService {
   private socket = inject(Socket);
   private chatStateService = inject(ChatStateService);
   isChatsLoading = signal<boolean>(false);
+  isUserAuthenticated = signal<boolean>(false);
 
   constructor() {
     this.subscribeToEvents();
   }
 
   subscribeToEvents(): void {
+    this.onIsAuthenticated().subscribe((isAuth) => {
+      this.isUserAuthenticated.set(isAuth);
+    });
+
     this.onUserChats().subscribe((chats) => {
       this.chatStateService.updateChats(chats);
       this.isChatsLoading.set(false);
@@ -37,6 +42,7 @@ export class ChatService {
     });
 
     this.onDisconnect().subscribe(() => {
+      this.isUserAuthenticated.set(false);
       this.isChatsLoading.set(false);
       this.chatStateService.chats.set(null);
     });
@@ -77,6 +83,11 @@ export class ChatService {
   // Listen for incoming messages
   onReceiveMessage(): Observable<any> {
     return this.socket.fromEvent('receiveMessage');
+  }
+
+  // Listen for incoming messages
+  onIsAuthenticated(): Observable<boolean> {
+    return this.socket.fromEvent('isAuthenticated');
   }
 
   onUserOnlineStatus(): Observable<IUserPresence> {
