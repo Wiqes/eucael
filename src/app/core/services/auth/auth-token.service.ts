@@ -37,6 +37,24 @@ export class AuthTokenService {
   private isRefreshing = new BehaviorSubject<boolean>(false);
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
+  setToken(token: string | null): void {
+    if (token) {
+      try {
+        window.localStorage.setItem('token', token);
+      } catch (e) {
+        console.error('Error storing token:', e);
+      }
+      this.isLoggedIn.set(true);
+    } else {
+      try {
+        window.localStorage.removeItem('token');
+      } catch (e) {
+        // ignore
+      }
+      this.isLoggedIn.set(false);
+    }
+  }
+
   logout(): void {
     this.stateService.isDataLoading.set(true);
     const token = this.getToken();
@@ -171,12 +189,7 @@ export class AuthTokenService {
     if (!token) {
       return;
     }
-
-    try {
-      window.localStorage.setItem('token', tokenData.access_token);
-    } catch (e) {
-      console.error('Error saving token:', e);
-    }
+    this.setToken(token);
 
     if (!this.chatService.isUserAuthenticated()) {
       console.log('Reconnecting chat service after token refresh');

@@ -35,14 +35,10 @@ export class LoginService extends AuthBaseService {
   }
 
   private onLoginSuccess(res: ITokenData): void {
-    this.authTokenService.isLoggedIn.set(true);
-    // Try to save token in a more robust way
-    try {
-      if (res?.access_token) {
-        window.localStorage.setItem('token', res.access_token);
-      }
-    } catch (e) {
-      this.messageService.sendMessage(MESSAGES.STORAGE_ERROR);
+    if (res?.access_token) {
+      this.authTokenService.setToken(res.access_token);
+    } else {
+      this.authTokenService.setToken(null);
     }
 
     this.handleSuccess(null, () => {
