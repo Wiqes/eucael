@@ -34,6 +34,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
   private chatService = inject(ChatService);
   private stateService = inject(StateService);
   private router = inject(Router);
+  private currentUserProfile = computed(() => this.stateService.profile());
+  currentUserId = computed(() => this.currentUserProfile()?.userId || '');
   private destroy$ = new Subject<void>();
   readonly user = computed(() => this.stateService.user());
   isChatsLoading = computed(() => this.chatService.isChatsLoading());
@@ -44,9 +46,11 @@ export class MessagesComponent implements OnInit, OnDestroy {
     }
     return this.chats()
       ?.map((chat) => {
-        const currentUserId = this.stateService.user()?.id;
+        console.log('chat', this.currentUserId());
         const otherParticipant =
-          chat.participant1Id === Number(currentUserId) ? chat.participant2 : chat.participant1;
+          chat.participant1Id === Number(this.currentUserId())
+            ? chat.participant2
+            : chat.participant1;
         return {
           id: otherParticipant?.id || '',
           chatId: chat.id,
