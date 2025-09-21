@@ -2,6 +2,7 @@ import { Component, computed, inject, OnDestroy, ViewChild } from '@angular/core
 import { SkeletonModule } from 'primeng/skeleton';
 import { MenuModule } from 'primeng/menu';
 import { Menu } from 'primeng/menu';
+import { NgIf } from '@angular/common';
 import { ChevronDownIconComponent } from '../chevron-down-icon.component';
 import { MenuPositioningDirective } from '../menu-positioning.directive';
 import { StateService } from '../../../core/services/state/state.service';
@@ -12,7 +13,7 @@ import { LoginService } from '../../../core/services/auth/login.service';
 
 @Component({
   selector: 'app-menu',
-  imports: [SkeletonModule, MenuModule, ChevronDownIconComponent, MenuPositioningDirective],
+  imports: [SkeletonModule, MenuModule, NgIf, ChevronDownIconComponent, MenuPositioningDirective],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
 })
