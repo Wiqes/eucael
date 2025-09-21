@@ -20,14 +20,11 @@ import { ChatService } from '../../core/services/chat/chat.service';
 import { StateService } from '../../core/services/state/state.service';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
 import { Button } from 'primeng/button';
-import { IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';
+import { IChatMessages, IChatMessage } from '../../core/models/chat.model';
 import { ITypingIndicator } from '../../core/models/notification.model';
-import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 import { IUser } from '../../core/models/entities/user.model';
-import { TypingIndicatorComponent } from '../../shared/ui/typing-indicator/typing-indicator.component';
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
-import { OnlineStatusComponent } from '../../shared/ui/online-status/online-status.component';
 import { InterlocutorService } from '../../core/services/chat/interlocutor.service';
 import { ChatHeaderComponent } from './chat-header/chat-header.component';
 
@@ -98,7 +95,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.receiverId = params.get('receiverId') || '';
       if (this.currentUserId() && this.receiverId) {
         this.isLoading.set(true);
-        if (this.chatService.isConnected()) {
+        if (this.chatService.isUserAuthenticated()) {
           this.startChatRoom();
         } else {
           this.chatService

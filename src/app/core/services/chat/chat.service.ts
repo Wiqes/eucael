@@ -6,6 +6,7 @@ import { ChatStateService } from '../state/chat-state.service';
 import { ITypingIndicator, IUserPresence } from '../../models/notification.model';
 import { IChat, IChatMessages } from '../../models/chat.model';
 import { InterlocutorService } from './interlocutor.service';
+import { SOCKET_ERROR } from '../../constants/socket-error';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +39,9 @@ export class ChatService {
 
     // Handle connection errors
     this.onError().subscribe((error) => {
-      console.error('Socket connection error', error);
+      if (error.message === SOCKET_ERROR.INVALID_TOKEN) {
+        this.isUserAuthenticated.set(false);
+      }
     });
 
     this.onDisconnect().subscribe(() => {
@@ -145,6 +148,6 @@ export class ChatService {
   }
 
   onError(): Observable<any> {
-    return this.socket.fromEvent('connect_error');
+    return this.socket.fromEvent('error');
   }
 }
