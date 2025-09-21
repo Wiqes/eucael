@@ -12,7 +12,7 @@ import {
   signal,
   effect,
 } from '@angular/core';
-import { Subscription, Subject, takeUntil, Observable, of, switchMap } from 'rxjs';
+import { Subscription, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Needed for *ngFor, *ngIf etc.
 import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
@@ -20,17 +20,13 @@ import { ChatService } from '../../core/services/chat/chat.service';
 import { StateService } from '../../core/services/state/state.service';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
 import { Button } from 'primeng/button';
-import { IChatMessages, IChatMessage, IParticipant } from '../../core/models/chat.model';
+import { IChatMessages, IChatMessage } from '../../core/models/chat.model';
 import { ITypingIndicator } from '../../core/models/notification.model';
-import { ChatAvatarComponent } from '../../shared/ui/chat-avatar/chat-avatar.component';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 import { IUser } from '../../core/models/entities/user.model';
-import { TypingIndicatorComponent } from '../../shared/ui/typing-indicator/typing-indicator.component';
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
-import { OnlineStatusComponent } from '../../shared/ui/online-status/online-status.component';
 import { InterlocutorService } from '../../core/services/chat/interlocutor.service';
 import { ChatHeaderComponent } from './chat-header/chat-header.component';
-import { DataAccessService } from '../../core/services/data-access/data-access.service';
 
 @Component({
   selector: 'app-chat',
@@ -48,16 +44,15 @@ import { DataAccessService } from '../../core/services/data-access/data-access.s
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private chatService = inject(ChatService);
   private route = inject(ActivatedRoute);
-  private dataAccessService = inject(DataAccessService);
   private stateService = inject(StateService);
   private chatStateService = inject(ChatStateService);
   private destroy$ = new Subject<void>();
+  private authTokenService = inject(AuthTokenService);
   private interlocutorService = inject(InterlocutorService);
   readonly user = computed(() => this.stateService.user());
 
-  currentUser = computed(() => this.stateService.user() || null);
-  currentUserId = signal<string>('');
-  myProfile = computed(() => this.currentUser()?.profile || null);
+  myProfile = computed(() => this.stateService.profile() || null);
+  currentUserId = computed(() => this.myProfile()?.userId || '');
   interlocutor = computed(() => this.interlocutorService.interlocutor() || null);
   isOnline = computed(() => this.interlocutor()?.isOnline || false);
   interlocutorProfile = computed(() => this.interlocutor()?.profile || null);
@@ -83,12 +78,24 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private scrollTimeout: any;
   private isUserScrolling = false;
 
+  constructor() {
+    effect(() => {
+      const user = this.user();
+      if (user) {
+        const token = this.authTokenService.getToken();
+        if (token) {
+          this.chatService.connect(token);
+        }
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.receiverId = params.get('receiverId') || '';
-      if (this.receiverId) {
+      if (this.currentUserId() && this.receiverId) {
         this.isLoading.set(true);
-        if (this.chatService.isConnected()) {
+        if (this.chatService.isUserAuthenticated()) {
           this.startChatRoom();
         } else {
           this.chatService
@@ -104,25 +111,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   startChatRoom(): void {
-    this.getUserId().subscribe((userId) => {
-      if (userId) {
-        this.currentUserId.set(userId);
-        console.log('Current user ID:', userId);
-        this.joinChatRoom(userId);
-        this.subscribeToMessages();
-        this.setupEnhancedSocketListeners();
-      }
-    });
-  }
-
-  private getUserId(): Observable<string> {
-    const currentUserId = this.currentUser()?.id || '';
-    if (currentUserId) {
-      return of(currentUserId);
-    } else {
-      console.log('Fetching user ID from DataAccessService');
-      return this.dataAccessService.getUserId();
-    }
+    this.joinChatRoom();
+    this.subscribeToMessages();
+    this.setupEnhancedSocketListeners();
   }
 
   /**
@@ -328,9 +319,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  joinChatRoom(currentUserId: string): void {
+  joinChatRoom(): void {
     this.chatService
-      .joinChat(Number(currentUserId), Number(this.receiverId))
+      .joinChat(Number(this.currentUserId()), Number(this.receiverId))
       .subscribe((chatId) => {
         console.log(`Joined chat with ID: ${chatId}`);
         this.activeChatId.set(chatId);
@@ -340,7 +331,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       .onPreviousMessages()
       .subscribe(({ messages, chat }: IChatMessages) => {
         const participant =
-          chat.participant1?.id === currentUserId ? chat.participant2 : chat.participant1;
+          chat.participant1?.id === this.currentUserId() ? chat.participant2 : chat.participant1;
         if (participant) {
           this.interlocutorService.interlocutor.set(participant);
         }

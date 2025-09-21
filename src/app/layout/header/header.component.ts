@@ -19,11 +19,20 @@ import { MenuComponent } from '../../shared/ui/menu/menu.component';
 import { LanguageSelectorComponent } from '../../shared/ui/language-selector/language-selector.component';
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { ChatService } from '../../core/services/chat/chat.service';
+import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [ButtonModule, TranslateModule, NgIf, NgClass, MenuComponent, LanguageSelectorComponent],
+  imports: [
+    ButtonModule,
+    TranslateModule,
+    NgIf,
+    NgClass,
+    MenuComponent,
+    LanguageSelectorComponent,
+    UserAvatarComponent,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -53,6 +62,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     const token = this.authTokenService.getToken();
     if (token) {
       this.chatService.connect(token);
+      this.stateService.setProfileFromToken();
     }
   }
 

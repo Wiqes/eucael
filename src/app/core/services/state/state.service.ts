@@ -2,20 +2,29 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { IUser } from '../../models/entities/user.model';
 import { DataAccessService } from '../data-access/data-access.service';
 import { IAnimal } from '../../models/entities/animal.model';
-import { forkJoin } from 'rxjs';
 import { DEFAULT_AVATAR_URL } from '../../constants/default-values';
+import { IProfile } from '../../models/entities/profile.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StateService {
+  private readonly dataAccessService = inject(DataAccessService);
   readonly user = signal<Partial<IUser> | null>(null);
   readonly animals = signal<IAnimal[]>([]);
   readonly isDataLoading = signal<boolean>(false);
-  private readonly dataAccessService = inject(DataAccessService);
-  readonly profile = computed(() => this.user()?.profile);
+  readonly tokenProfile = signal<IProfile | null>(null);
+  readonly profile = computed(() => this.user()?.profile || this.tokenProfile());
   readonly avatarUrl = computed(() => this.profile()?.avatarUrl || DEFAULT_AVATAR_URL);
   readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
+
+  setProfileFromToken(): void {
+    const token = window.localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      this.tokenProfile.set(payload.profile || null);
+    }
+  }
 
   addAnimalsDataToState() {
     if (this.animals()?.length || this.isDataLoading()) {

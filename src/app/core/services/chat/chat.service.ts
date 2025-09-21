@@ -6,6 +6,7 @@ import { ChatStateService } from '../state/chat-state.service';
 import { ITypingIndicator, IUserPresence } from '../../models/notification.model';
 import { IChat, IChatMessages } from '../../models/chat.model';
 import { InterlocutorService } from './interlocutor.service';
+import { SOCKET_ERROR } from '../../constants/socket-error';
 
 @Injectable({
   providedIn: 'root',
@@ -15,12 +16,17 @@ export class ChatService {
   private socket = inject(Socket);
   private chatStateService = inject(ChatStateService);
   isChatsLoading = signal<boolean>(false);
+  isUserAuthenticated = signal<boolean>(false);
 
   constructor() {
     this.subscribeToEvents();
   }
 
   subscribeToEvents(): void {
+    this.onIsAuthenticated().subscribe((isAuth) => {
+      this.isUserAuthenticated.set(isAuth);
+    });
+
     this.onUserChats().subscribe((chats) => {
       this.chatStateService.updateChats(chats);
       this.isChatsLoading.set(false);
@@ -33,10 +39,13 @@ export class ChatService {
 
     // Handle connection errors
     this.onError().subscribe((error) => {
-      console.error('Socket connection error', error);
+      if (error.message === SOCKET_ERROR.INVALID_TOKEN) {
+        this.isUserAuthenticated.set(false);
+      }
     });
 
     this.onDisconnect().subscribe(() => {
+      this.isUserAuthenticated.set(false);
       this.isChatsLoading.set(false);
       this.chatStateService.chats.set(null);
     });
@@ -77,6 +86,11 @@ export class ChatService {
   // Listen for incoming messages
   onReceiveMessage(): Observable<any> {
     return this.socket.fromEvent('receiveMessage');
+  }
+
+  // Listen for incoming messages
+  onIsAuthenticated(): Observable<boolean> {
+    return this.socket.fromEvent('isAuthenticated');
   }
 
   onUserOnlineStatus(): Observable<IUserPresence> {
@@ -134,6 +148,6 @@ export class ChatService {
   }
 
   onError(): Observable<any> {
-    return this.socket.fromEvent('connect_error');
+    return this.socket.fromEvent('error');
   }
 }
