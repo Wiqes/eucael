@@ -178,6 +178,8 @@ export class AuthTokenService {
     }
 
     if (!this.chatService.isUserAuthenticated()) {
+      console.log('Reconnecting chat service after token refresh');
+      this.chatService.disconnect();
       this.chatService.connect(token);
     }
   }
