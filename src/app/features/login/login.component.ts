@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
   isLoggedIn = computed(() => this.loginService.isLoggedIn());
   user = computed(() => this.stateService.user());
   isDataLoading = computed(() => this.stateService.isDataLoading());
+  isUserAuthenticated = computed(() => this.chatService.isUserAuthenticated());
 
   loadingLogin = computed(() => this.authService.isLoadingLogin());
   loadingRegistration = computed(() => this.authService.isLoadingRegistration());
@@ -94,7 +95,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.stateService.isDataLoading.set(false);
     const token = this.authService.getStoredToken();
-    if (this.chatService.isConnected() && !token) {
+    if (this.isUserAuthenticated() && !token) {
+      this.chatService.isUserAuthenticated.set(false);
       this.chatService.disconnect();
     }
     if (token) {
