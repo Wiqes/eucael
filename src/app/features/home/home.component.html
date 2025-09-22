@@ -1,5 +1,13 @@
 @if(isAdmin()) {
-<div class="eucael-version">1.0.7</div>
+<div class="eucael-version">
+  <div>1.0.7</div>
+  <p-button
+    [label]="'Admin' | translate"
+    icon="pi pi-arrow-right"
+    (onClick)="router.navigate(['admin'])"
+    severity="secondary"
+  />
+</div>
 }
 <p-button
   [label]="'Embodiments' | translate"

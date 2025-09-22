@@ -15,7 +15,7 @@ import { AuthTokenStateService } from '../../core/services/state/auth-token-stat
 })
 export class HomeComponent {
   protected router = inject(Router);
-  private route = inject(ActivatedRoute);
+  protected route = inject(ActivatedRoute);
   private location = inject(Location);
   private authService = inject(AuthService);
   private authTokenStateService = inject(AuthTokenStateService);

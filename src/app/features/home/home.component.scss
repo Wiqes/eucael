@@ -14,4 +14,7 @@
   top: 120px;
   left: 20px;
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
