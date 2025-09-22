@@ -82,12 +82,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   constructor() {
     effect(() => {
-      const user = this.user();
-      if (user) {
-        const token = this.token();
-        if (token) {
-          this.chatService.connect(token);
-        }
+      const token = this.token();
+      if (token) {
+        this.chatService.connect(token);
       }
     });
   }
@@ -95,15 +92,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.receiverId = params.get('receiverId') || '';
-      if (this.currentUserId() && this.receiverId) {
+      if (this.receiverId) {
         this.isLoading.set(true);
-        if (this.chatService.isUserAuthenticated()) {
+        if (this.chatService.isConnected()) {
           this.startChatRoom();
         } else {
           this.chatService
             .onConnect()
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => {
+              console.log('Connected to chat server');
               this.startChatRoom();
             });
         }

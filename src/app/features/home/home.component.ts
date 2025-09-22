@@ -19,7 +19,6 @@ export class HomeComponent {
   private location = inject(Location);
   private authService = inject(AuthService);
   private authTokenStateService = inject(AuthTokenStateService);
-  authToken = computed(() => this.authTokenStateService.token());
   isAdmin = computed(() => this.authService.hasRole(Role.Admin));
 
   constructor() {
@@ -29,8 +28,6 @@ export class HomeComponent {
       if (token) {
         this.authTokenStateService.token.set(token);
         this.location.replaceState(this.router.url.split('?')[0]);
-      } else if (!this.authToken()) {
-        this.router.navigate(['']);
       }
     });
   }
