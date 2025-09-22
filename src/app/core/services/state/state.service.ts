@@ -21,8 +21,7 @@ export class StateService {
   readonly avatarUrl = computed(() => this.profile()?.avatarUrl || DEFAULT_AVATAR_URL);
   readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
 
-  setProfileFromToken(): void {
-    const token = this.token();
+  setProfileFromToken(token: string): void {
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.tokenProfile.set(payload.profile || null);

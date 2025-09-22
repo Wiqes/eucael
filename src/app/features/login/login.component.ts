@@ -87,9 +87,9 @@ export class LoginComponent implements OnInit {
     });
 
     effect(() => {
-      const user = this.user();
+      const isLoggedIn = this.isLoggedIn();
 
-      if (user) {
+      if (isLoggedIn) {
         this.router.navigate(['/home']);
       }
     });

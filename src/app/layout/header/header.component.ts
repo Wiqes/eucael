@@ -6,7 +6,7 @@ import {
   AfterViewInit,
   Renderer2,
   signal,
-  OnInit,
+  effect,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StateService } from '../../core/services/state/state.service';
@@ -35,7 +35,7 @@ import { AuthTokenStateService } from '../../core/services/state/auth-token-stat
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
+export class HeaderComponent implements AfterViewInit, OnDestroy {
   private router = inject(Router);
   private stateService = inject(StateService);
   private authTokenService = inject(AuthTokenService);
@@ -59,12 +59,14 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   );
   readonly token = computed(() => this.authTokenStateService.token());
 
-  ngOnInit(): void {
-    const token = this.token();
-    if (token) {
-      this.chatService.connect(token);
-      this.stateService.setProfileFromToken();
-    }
+  constructor() {
+    effect(() => {
+      const token = this.token();
+      if (token) {
+        this.chatService.connect(token);
+        this.stateService.setProfileFromToken(token);
+      }
+    });
   }
 
   ngAfterViewInit() {
