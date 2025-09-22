@@ -101,12 +101,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             .onConnect()
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => {
-              console.log('Connected to chat server');
               this.startChatRoom();
             });
         }
       }
-      console.log('ChatComponent initialized with receiverId:', this.receiverId);
     });
   }
 
