@@ -19,6 +19,7 @@ import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { ChatService } from '../../core/services/chat/chat.service';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @Component({
   selector: 'app-header',
@@ -31,6 +32,7 @@ import { AuthTokenStateService } from '../../core/services/state/auth-token-stat
     MenuComponent,
     LanguageSelectorComponent,
     UserAvatarComponent,
+    ProgressBarModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -38,10 +40,11 @@ import { AuthTokenStateService } from '../../core/services/state/auth-token-stat
 export class HeaderComponent implements AfterViewInit, OnDestroy {
   private router = inject(Router);
   private stateService = inject(StateService);
-  private authTokenService = inject(AuthTokenService);
-  private readonly authTokenStateService = inject(AuthTokenStateService);
+  private authTokenStateService = inject(AuthTokenStateService);
   private chatService = inject(ChatService);
   private renderer = inject(Renderer2);
+
+  isRefreshing = computed(() => this.authTokenStateService.isRefreshing());
 
   private lastScrollTop = 0;
   private readonly scrollThreshold = 5;

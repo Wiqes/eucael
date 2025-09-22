@@ -122,6 +122,8 @@ export class AuthTokenService {
       );
     }
 
+    this.authTokenStateService.isRefreshing.set(true);
+
     // Set refreshing state
     this.isRefreshing.next(true);
     this.refreshTokenSubject.next(null);
@@ -170,5 +172,6 @@ export class AuthTokenService {
       this.chatService.disconnect();
       this.chatService.connect(token);
     }
+    this.authTokenStateService.isRefreshing.set(false);
   }
 }
