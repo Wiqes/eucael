@@ -18,6 +18,8 @@ import { Router } from '@angular/router';
 import { LoginImageComponent } from './login-image/login-image.component';
 import { NgIf } from '@angular/common';
 import { ChatService } from '../../core/services/chat/chat.service';
+import { AuthTokenService } from '../../core/services/auth/auth-token.service';
+import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
 
 @Component({
   selector: 'app-login',
@@ -46,10 +48,12 @@ export class LoginComponent implements OnInit {
   private readonly messageService = inject(MessageService);
   private readonly formBuilder = inject(FormBuilder);
   protected readonly authService = inject(AuthService);
+  private readonly authTokenService = inject(AuthTokenService);
+  private readonly authTokenStateService = inject(AuthTokenStateService);
   private readonly loginService = inject(LoginService);
   private readonly stateService = inject(StateService);
   protected readonly chatService = inject(ChatService);
-  isLoggedIn = computed(() => this.loginService.isLoggedIn());
+  isLoggedIn = computed(() => Boolean(this.authTokenStateService.token()));
   user = computed(() => this.stateService.user());
   isDataLoading = computed(() => this.stateService.isDataLoading());
 
@@ -83,9 +87,9 @@ export class LoginComponent implements OnInit {
     });
 
     effect(() => {
-      const user = this.user();
+      const isLoggedIn = this.isLoggedIn();
 
-      if (user) {
+      if (isLoggedIn) {
         this.router.navigate(['/home']);
       }
     });
@@ -93,13 +97,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.stateService.isDataLoading.set(false);
-    const token = this.authService.getStoredToken();
-    if (this.chatService.isConnected() && !token) {
+    if (this.chatService.isConnected() && !this.isLoggedIn()) {
       setTimeout(() => {
         this.chatService.disconnect();
       });
     }
-    if (token) {
+    if (this.isLoggedIn()) {
       this.router.navigate(['/home']);
     }
   }

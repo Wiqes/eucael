@@ -1,6 +1,5 @@
 import { provideRouter, Routes } from '@angular/router';
 import { AdminGuard } from '../core/guards/admin.guard';
-import { AuthGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -30,7 +29,6 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',

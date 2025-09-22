@@ -2,7 +2,6 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { StateService } from '../../core/services/state/state.service';
 import { NgFor } from '@angular/common';
-import { HomeComponent } from '../home/home.component';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';

@@ -1,11 +1,10 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { AuthService } from '../../core/services/auth/auth.service';
-import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { Role } from '../../core/constants/role';
 import { Button } from 'primeng/button';
 import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-home',
   imports: [Button, TranslateModule],
@@ -14,22 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class HomeComponent {
   protected router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private location = inject(Location);
+  protected route = inject(ActivatedRoute);
   private authService = inject(AuthService);
-  private authTokenService = inject(AuthTokenService);
   isAdmin = computed(() => this.authService.hasRole(Role.Admin));
-
-  constructor() {
-    // Check for Google OAuth token in URL
-    this.route.queryParams.subscribe((params) => {
-      const token = params['access_token'];
-      if (token) {
-        this.authTokenService.setToken(token);
-        this.location.replaceState(this.router.url.split('?')[0]);
-      } else if (!this.authService.getStoredToken()) {
-        this.router.navigate(['']);
-      }
-    });
-  }
 }

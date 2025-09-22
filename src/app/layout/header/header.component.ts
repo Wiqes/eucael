@@ -4,11 +4,9 @@ import {
   inject,
   OnDestroy,
   AfterViewInit,
-  ElementRef,
   Renderer2,
   signal,
   effect,
-  OnInit,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StateService } from '../../core/services/state/state.service';
@@ -20,6 +18,7 @@ import { LanguageSelectorComponent } from '../../shared/ui/language-selector/lan
 import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { ChatService } from '../../core/services/chat/chat.service';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
+import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
 
 @Component({
   selector: 'app-header',
@@ -36,10 +35,11 @@ import { UserAvatarComponent } from './user-avatar/user-avatar.component';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
+export class HeaderComponent implements AfterViewInit, OnDestroy {
   private router = inject(Router);
   private stateService = inject(StateService);
   private authTokenService = inject(AuthTokenService);
+  private readonly authTokenStateService = inject(AuthTokenStateService);
   private chatService = inject(ChatService);
   private renderer = inject(Renderer2);
 
@@ -57,13 +57,16 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly headerVisibilityClass = computed(() =>
     this.isHeaderVisible() ? 'header-visible' : 'header-hidden',
   );
+  readonly token = computed(() => this.authTokenStateService.token());
 
-  ngOnInit(): void {
-    const token = this.authTokenService.getToken();
-    if (token) {
-      this.chatService.connect(token);
-      this.stateService.setProfileFromToken();
-    }
+  constructor() {
+    effect(() => {
+      const token = this.token();
+      if (token) {
+        this.chatService.connect(token);
+        this.stateService.setProfileFromToken(token);
+      }
+    });
   }
 
   ngAfterViewInit() {

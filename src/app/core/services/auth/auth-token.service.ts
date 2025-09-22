@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   Observable,
@@ -19,6 +19,7 @@ import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { ChatStateService } from '../state/chat-state.service';
 import { ChatService } from '../chat/chat.service';
+import { AuthTokenStateService } from '../state/auth-token-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,37 +28,19 @@ export class AuthTokenService {
   private router = inject(Router);
   private stateService = inject(StateService);
   private chatStateService = inject(ChatStateService);
+  private authTokenStateService = inject(AuthTokenStateService);
   private chatService = inject(ChatService);
   private fingerprintService = inject(FingerprintService);
   private http = inject(HttpClient);
-
-  isLoggedIn = signal(false);
+  token = computed(() => this.authTokenStateService.token());
 
   // BehaviorSubject to manage refresh token state and prevent race conditions
   private isRefreshing = new BehaviorSubject<boolean>(false);
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
-  setToken(token: string | null): void {
-    if (token) {
-      try {
-        window.localStorage.setItem('token', token);
-      } catch (e) {
-        console.error('Error storing token:', e);
-      }
-      this.isLoggedIn.set(true);
-    } else {
-      try {
-        window.localStorage.removeItem('token');
-      } catch (e) {
-        // ignore
-      }
-      this.isLoggedIn.set(false);
-    }
-  }
-
   logout(): void {
     this.stateService.isDataLoading.set(true);
-    const token = this.getToken();
+    const token = this.token();
     const options = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
     this.http.post<any>(`${environment.API_URL}/auth/logout`, {}, options).subscribe({
@@ -73,8 +56,7 @@ export class AuthTokenService {
   }
 
   moveToLogin(): void {
-    this.isLoggedIn.set(false);
-    window.localStorage.removeItem('token');
+    this.authTokenStateService.token.set(null);
     this.stateService.user.set(null);
     this.stateService.tokenProfile.set(null);
     this.chatStateService.chats.set(null);
@@ -83,16 +65,8 @@ export class AuthTokenService {
     });
   }
 
-  getToken(): string | null {
-    try {
-      return window.localStorage.getItem('token');
-    } catch (e) {
-      return null;
-    }
-  }
-
   private getTokenExpiration(): number | null {
-    const token = this.getToken();
+    const token = this.token();
     if (!token) return null;
 
     try {
@@ -189,7 +163,7 @@ export class AuthTokenService {
     if (!token) {
       return;
     }
-    this.setToken(token);
+    this.authTokenStateService.token.set(token);
 
     if (!this.chatService.isUserAuthenticated()) {
       console.log('Reconnecting chat service after token refresh');

@@ -4,12 +4,15 @@ import { DataAccessService } from '../data-access/data-access.service';
 import { IAnimal } from '../../models/entities/animal.model';
 import { DEFAULT_AVATAR_URL } from '../../constants/default-values';
 import { IProfile } from '../../models/entities/profile.model';
+import { AuthTokenStateService } from './auth-token-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StateService {
   private readonly dataAccessService = inject(DataAccessService);
+  private readonly authTokenStateService = inject(AuthTokenStateService);
+  readonly token = computed(() => this.authTokenStateService.token());
   readonly user = signal<Partial<IUser> | null>(null);
   readonly animals = signal<IAnimal[]>([]);
   readonly isDataLoading = signal<boolean>(false);
@@ -18,8 +21,7 @@ export class StateService {
   readonly avatarUrl = computed(() => this.profile()?.avatarUrl || DEFAULT_AVATAR_URL);
   readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
 
-  setProfileFromToken(): void {
-    const token = window.localStorage.getItem('token');
+  setProfileFromToken(token: string): void {
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.tokenProfile.set(payload.profile || null);
