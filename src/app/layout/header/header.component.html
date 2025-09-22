@@ -1,3 +1,8 @@
+<p-progressbar
+  *ngIf="isRefreshing()"
+  mode="indeterminate"
+  [style]="{ height: '4px', zIndex: 91000, top: '4px' }"
+/>
 <header *ngIf="!isHidden()" class="header" [ngClass]="headerVisibilityClass()">
   <div class="logo-description-container">
     <div class="logo-description">
