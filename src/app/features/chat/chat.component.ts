@@ -388,13 +388,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       // Always auto-scroll for sent messages
       this.shouldScrollToBottom = true;
-
-      // Focus back to input for continuous typing
-      setTimeout(() => {
-        if (this.messageInput?.nativeElement) {
-          this.messageInput.nativeElement.focus();
-        }
-      }, 0);
     }
   }
 
