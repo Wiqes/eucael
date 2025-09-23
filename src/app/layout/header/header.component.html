@@ -11,8 +11,8 @@
       </button>
     </div>
   </div>
-  <div class="container">
-    <ng-container *ngIf="displayName()">
+  <div *ngIf="displayName()" class="container">
+    <ng-container>
       <app-user-avatar />
       <app-menu />
     </ng-container>

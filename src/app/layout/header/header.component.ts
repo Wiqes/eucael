@@ -15,7 +15,6 @@ import { NgIf, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import { MenuComponent } from '../../shared/ui/menu/menu.component';
 import { LanguageSelectorComponent } from '../../shared/ui/language-selector/language-selector.component';
-import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { ChatService } from '../../core/services/chat/chat.service';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
@@ -55,7 +54,6 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 
   readonly displayName = computed(() => this.stateService.displayName());
   readonly isDataLoading = computed(() => this.stateService.isDataLoading());
-  readonly user = computed(() => this.stateService.user());
   readonly isHidden = computed(() => this.isDataLoading());
   readonly headerVisibilityClass = computed(() =>
     this.isHeaderVisible() ? 'header-visible' : 'header-hidden',
