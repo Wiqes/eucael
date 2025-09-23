@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
   locale = computed(() => this.languageService.locale());
 
   registrationDate = computed(() => {
-    const date = new Date(this.stateService.user()?.createdAt || '');
+    const date = new Date(this.profile()?.createdAt || '');
     return isNaN(date.getTime()) ? '' : date;
   });
 
