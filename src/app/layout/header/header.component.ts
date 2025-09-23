@@ -43,8 +43,6 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   private chatService = inject(ChatService);
   private renderer = inject(Renderer2);
 
-  isRefreshing = computed(() => this.authTokenStateService.isRefreshing());
-
   private lastScrollTop = 0;
   private readonly scrollThreshold = 5;
   private readonly headerHeight = 64;
@@ -54,7 +52,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 
   readonly displayName = computed(() => this.stateService.displayName());
   readonly isDataLoading = computed(() => this.stateService.isDataLoading());
-  readonly isHidden = computed(() => this.isDataLoading());
+  readonly isHidden = computed(() => this.isDataLoading() || !this.displayName());
   readonly headerVisibilityClass = computed(() =>
     this.isHeaderVisible() ? 'header-visible' : 'header-hidden',
   );

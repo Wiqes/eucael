@@ -122,8 +122,6 @@ export class AuthTokenService {
       );
     }
 
-    this.authTokenStateService.isRefreshing.set(true);
-
     // Set refreshing state
     this.isRefreshing.next(true);
     this.refreshTokenSubject.next(null);
@@ -156,7 +154,6 @@ export class AuthTokenService {
         }),
         finalize(() => {
           this.isRefreshing.next(false);
-          this.authTokenStateService.isRefreshing.set(false);
         }),
       );
   }

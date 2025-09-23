@@ -19,7 +19,8 @@ export class AppComponent implements OnInit {
   private readonly languageService = inject(LanguageService);
   protected readonly authService = inject(AuthService);
   private readonly stateService = inject(StateService);
-  isLoading = computed(() => this.stateService.isDataLoading());
+  protected readonly profile = computed(() => this.stateService.profile());
+  isLoading = computed(() => this.stateService.isDataLoading() || !this.profile());
 
   ngOnInit(): void {
     const element = document.querySelector('html');
