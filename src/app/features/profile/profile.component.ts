@@ -54,8 +54,9 @@ export class ProfileComponent implements OnInit {
   formControls: { [key: string]: FormControl };
 
   displayName = computed(() => this.stateService.displayName());
-  email = computed(() => this.stateService.profile()?.email || '');
-  country = computed(() => this.stateService.profile()?.country || '');
+  profile = computed(() => this.stateService.profile());
+  email = computed(() => this.profile()?.email || '');
+  country = computed(() => this.profile()?.country || '');
   isDataLoading = computed(() => this.stateService.isDataLoading());
   locale = computed(() => this.languageService.locale());
 

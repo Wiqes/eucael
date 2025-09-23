@@ -3,7 +3,7 @@
   <div class="profile-content">
     <div class="info-grid">
       <div class="info-card personal-info">
-        <div class="card-header">
+        <div *ngIf="profile()" class="card-header">
           <h3>{{ 'Personal Information' | translate }}</h3>
           <i class="pi pi-pencil edit-button" (click)="openEditMode()"></i>
         </div>

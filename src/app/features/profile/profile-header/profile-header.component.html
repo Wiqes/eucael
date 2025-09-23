@@ -9,10 +9,10 @@
             shape="circle"
             class="profile-avatar"
           ></p-avatar>
-          <app-profile-actions />
+          <app-profile-actions *ngIf="profile()" />
         </div>
       </div>
-      <div class="profile-info">
+      <div *ngIf="profile()" class="profile-info">
         <h1 class="display-name">{{ displayName() }}</h1>
         <div class="location">
           <i class="pi pi-map-marker"></i>

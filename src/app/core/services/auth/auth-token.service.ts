@@ -156,6 +156,7 @@ export class AuthTokenService {
         }),
         finalize(() => {
           this.isRefreshing.next(false);
+          this.authTokenStateService.isRefreshing.set(false);
         }),
       );
   }
@@ -172,6 +173,5 @@ export class AuthTokenService {
       this.chatService.disconnect();
       this.chatService.connect(token);
     }
-    this.authTokenStateService.isRefreshing.set(false);
   }
 }
