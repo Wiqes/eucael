@@ -20,7 +20,10 @@ export class AppComponent implements OnInit {
   protected readonly authService = inject(AuthService);
   private readonly stateService = inject(StateService);
   protected readonly profile = computed(() => this.stateService.profile());
-  isLoading = computed(() => this.stateService.isDataLoading() || !this.profile());
+  isLoading = computed(() => {
+    const isRootRoute = window.location.pathname === '/';
+    return this.stateService.isDataLoading() || (!this.profile() && !isRootRoute);
+  });
 
   ngOnInit(): void {
     const element = document.querySelector('html');
