@@ -8,7 +8,6 @@ import {
 import { Observable, switchMap, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { IProfile } from '../models/entities/profile.model';
-import { AuthTokenService } from './auth/auth-token.service';
 import { AuthTokenStateService } from './state/auth-token-state.service';
 
 @Injectable({
@@ -16,7 +15,6 @@ import { AuthTokenStateService } from './state/auth-token-state.service';
 })
 export class ProfileService {
   private http = inject(HttpClient);
-  private authTokenService = inject(AuthTokenService);
   private authTokenStateService = inject(AuthTokenStateService);
   readonly token = computed(() => this.authTokenStateService.token());
 
