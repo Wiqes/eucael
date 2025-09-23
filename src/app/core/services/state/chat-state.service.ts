@@ -23,7 +23,7 @@ export class ChatStateService {
   getUnreadCount(chat: IChat): number {
     if (!chat) return 0;
 
-    const currentUserId = this.stateService.user()?.id;
+    const currentUserId = this.stateService.profile()?.userId;
     if (!currentUserId) return 0;
 
     // Determine which unread count to use based on current user
