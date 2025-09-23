@@ -44,7 +44,7 @@ export class ChatStateService {
     const updatedChats =
       chats?.map((chat) => {
         if (chat.id === chatId) {
-          const currentUserId = this.stateService.user()?.id;
+          const currentUserId = this.stateService.profile()?.userId;
           if (!currentUserId) return chat;
 
           if (chat.participant1Id === Number(currentUserId)) {

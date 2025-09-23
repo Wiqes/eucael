@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
   private readonly stateService = inject(StateService);
   protected readonly chatService = inject(ChatService);
   isLoggedIn = computed(() => Boolean(this.authTokenStateService.token()));
-  user = computed(() => this.stateService.user());
   isDataLoading = computed(() => this.stateService.isDataLoading());
 
   loadingLogin = computed(() => this.authService.isLoadingLogin());

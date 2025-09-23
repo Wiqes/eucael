@@ -51,7 +51,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private authTokenStateService = inject(AuthTokenStateService);
   private token = computed(() => this.authTokenStateService.token());
   private interlocutorService = inject(InterlocutorService);
-  readonly user = computed(() => this.stateService.user());
 
   myProfile = computed(() => this.stateService.profile() || null);
   currentUserId = computed(() => this.myProfile()?.userId || '');
