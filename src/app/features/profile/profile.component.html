@@ -28,6 +28,8 @@
     [closeOnEscape]="true"
     [draggable]="false"
     [resizable]="false"
+    appendTo="body"
+    [blockScroll]="true"
     [style]="{ width: '500px', maxWidth: '95vw' }"
     (onHide)="onDialogHide()"
     (visibleChange)="onVisibleChange($event)"
