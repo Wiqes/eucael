@@ -18,7 +18,7 @@ export class MenuPositioningDirective implements AfterViewInit {
         setTimeout(() => {
           const menuElement = document.querySelector(`.p-menu.${this.menuClass}`) as HTMLElement;
           if (menuElement && this.menu.visible) {
-            menuElement.style.top = '76px';
+            menuElement.style.top = '52px';
             menuElement.style.position = 'fixed';
             menuElement.style.right = '20px';
             menuElement.style.left = 'auto';
