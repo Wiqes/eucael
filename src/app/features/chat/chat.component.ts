@@ -445,7 +445,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   scrollToBottomManual(): void {
     this.isUserScrolling = false;
     this.shouldScrollToBottom = true;
-    this.showScrollToBottom.set(false);
     this.scrollToBottomSmooth();
   }
 }
