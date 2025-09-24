@@ -388,13 +388,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       // Always auto-scroll for sent messages
       this.shouldScrollToBottom = true;
-
-      // Refocus the textarea after sending
-      setTimeout(() => {
-        if (this.messageInput?.nativeElement) {
-          this.messageInput.nativeElement.focus();
-        }
-      }, 0);
     }
   }
 
