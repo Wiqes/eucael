@@ -216,5 +216,12 @@
   "The image will be cropped to a square for your avatar.": "图片将被裁剪为正方形作为您的头像。",
   "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "键盘：方向键移动，Ctrl +/-缩放，Ctrl+0重置",
   "Unknown": "未知",
-  "The Familiar": "守护灵"
+  "The Familiar": "守护灵",
+  "Send": "发送",
+  "Type your message...": "输入您的消息...",
+  "Messages": "消息",
+  "is typing": "正在输入",
+  "conversations": "对话",
+  "No conversations yet": "还没有对话",
+  "Start a new conversation to see it here": "开始新对话以在此处查看"
 }

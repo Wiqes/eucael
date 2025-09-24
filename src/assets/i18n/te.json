@@ -216,5 +216,12 @@
   "The image will be cropped to a square for your avatar.": "మీ అవతార్ కోసం చిత్రం చతురస్రంగా క్రాప్ చేయబడుతుంది.",
   "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "కీబోర్డ్: తరలించడానికి యారో కీలు, జూమ్ చేయడానికి Ctrl +/-, రీసెట్ చేయడానికి Ctrl+0",
   "Unknown": "అజ్ఞాత",
-  "The Familiar": "పరిచితుడు"
+  "The Familiar": "పరిచితుడు",
+  "Send": "పంపండి",
+  "Type your message...": "మీ సందేశాన్ని టైప్ చేయండి...",
+  "Messages": "సందేశాలు",
+  "is typing": "టైప్ చేస్తున్నారు",
+  "conversations": "సంభాషణలు",
+  "No conversations yet": "ఇంకా సంభాషణలు లేవు",
+  "Start a new conversation to see it here": "దీన్ని ఇక్కడ చూడటానికి కొత్త సంభాషణ ప్రారంభించండి"
 }

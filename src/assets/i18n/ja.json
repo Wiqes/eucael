@@ -216,5 +216,12 @@
   "The image will be cropped to a square for your avatar.": "画像はアバター用に正方形にクロップされます。",
   "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "キーボード: 矢印キーで移動、Ctrl +/-でズーム、Ctrl+0でリセット",
   "Unknown": "不明",
-  "The Familiar": "使い魔"
+  "The Familiar": "使い魔",
+  "Send": "送信",
+  "Type your message...": "メッセージを入力してください...",
+  "Messages": "メッセージ",
+  "is typing": "入力中",
+  "conversations": "会話",
+  "No conversations yet": "まだ会話がありません",
+  "Start a new conversation to see it here": "新しい会話を始めるとここに表示されます"
 }

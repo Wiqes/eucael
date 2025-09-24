@@ -216,5 +216,12 @@
   "The image will be cropped to a square for your avatar.": "L'image sera recadrée en carré pour votre avatar.",
   "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "Clavier : Touches fléchées pour déplacer, Ctrl +/- pour zoomer, Ctrl+0 pour réinitialiser",
   "Unknown": "Inconnu",
-  "The Familiar": "Le Familier"
+  "The Familiar": "Le Familier",
+  "Send": "Envoyer",
+  "Type your message...": "Tapez votre message...",
+  "Messages": "Messages",
+  "is typing": "tape",
+  "conversations": "conversations",
+  "No conversations yet": "Aucune conversation pour l'instant",
+  "Start a new conversation to see it here": "Commencez une nouvelle conversation pour la voir ici"
 }

@@ -216,5 +216,12 @@
   "The image will be cropped to a square for your avatar.": "आपके अवतार के लिए छवि को वर्गाकार में काटा जाएगा।",
   "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "कीबोर्ड: स्थानांतरित करने के लिए तीर कीज़, ज़ूम के लिए Ctrl +/-, रीसेट के लिए Ctrl+0",
   "Unknown": "अज्ञात",
-  "The Familiar": "मूर्तिमान"
+  "The Familiar": "मूर्तिमान",
+  "Send": "भेजें",
+  "Type your message...": "अपना संदेश टाइप करें...",
+  "Messages": "संदेश",
+  "is typing": "टाइप कर रहा है",
+  "conversations": "बातचीत",
+  "No conversations yet": "अभी तक कोई बातचीत नहीं",
+  "Start a new conversation to see it here": "इसे यहाँ देखने के लिए नई बातचीत शुरू करें"
 }
