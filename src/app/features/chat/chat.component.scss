@@ -5,6 +5,8 @@
   justify-content: flex-end;
   width: 100%;
   padding: 0 10px;
+  height: 100%;
+  padding-top: 70px;
 }
 
 .chat-container {
@@ -14,9 +16,8 @@
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  height: calc(90dvh - 120px);
+  height: 100%;
   overflow: hidden;
-  margin-top: 80px;
 
   .loader-container {
     display: flex;
