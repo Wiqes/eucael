@@ -37,7 +37,13 @@
       rows="1"
       maxlength="322"
     ></textarea>
-    <p-button [label]="'Send'" (onClick)="sendMessage()" icon="pi pi-send" />
+    <p-button
+      [label]="'Send'"
+      (onClick)="sendMessage()"
+      (onMouseDown)="onSendButtonMouseDown($event)"
+      icon="pi pi-send"
+      tabindex="-1"
+    />
   </div>
   <button
     *ngIf="showScrollToBottom()"
