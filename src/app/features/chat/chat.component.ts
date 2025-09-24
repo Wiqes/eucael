@@ -28,6 +28,7 @@ import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { InterlocutorService } from '../../core/services/chat/interlocutor.service';
 import { ChatHeaderComponent } from './chat-header/chat-header.component';
 import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chat',
@@ -38,6 +39,7 @@ import { AuthTokenStateService } from '../../core/services/state/auth-token-stat
     Button,
     LoaderComponent,
     ChatHeaderComponent,
+    TranslateModule,
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],

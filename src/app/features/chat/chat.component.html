@@ -33,12 +33,12 @@
       [(ngModel)]="newMessageContent"
       (keydown)="onKeyPress($event)"
       (input)="onTyping()"
-      placeholder="Type your message..."
+      [placeholder]="'Type your message...' | translate"
       rows="1"
       maxlength="322"
     ></textarea>
     <p-button
-      [label]="'Send'"
+      [label]="'Send' | translate"
       (onClick)="sendMessage()"
       (onMouseDown)="onSendButtonMouseDown($event)"
       icon="pi pi-send"

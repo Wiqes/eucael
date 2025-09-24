@@ -5,8 +5,8 @@
   </div>
   } @else {
   <div class="messages-header">
-    <h2 class="messages-title">Messages</h2>
-    <div class="messages-count">{{ interlocutors().length }} conversations</div>
+    <h2 class="messages-title">{{ 'Messages' | translate }}</h2>
+    <div class="messages-count">{{ interlocutors().length }} {{ 'conversations' | translate }}</div>
   </div>
 
   <div class="chat-list">
@@ -41,8 +41,8 @@
 
   <div *ngIf="interlocutors().length === 0" class="empty-state">
     <div class="empty-icon">💬</div>
-    <h3>No conversations yet</h3>
-    <p>Start a new conversation to see it here</p>
+    <h3>{{ 'No conversations yet' | translate }}</h3>
+    <p>{{ 'Start a new conversation to see it here' | translate }}</p>
   </div>
   }
 </div>

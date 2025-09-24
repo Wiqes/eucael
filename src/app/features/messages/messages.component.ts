@@ -12,6 +12,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ChatService } from '../../core/services/chat/chat.service';
 import { StateService } from '../../core/services/state/state.service';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-messages',
@@ -24,6 +25,7 @@ import { LoaderComponent } from '../../shared/ui/loader/loader.component';
     ChatAvatarComponent,
     OnlineStatusComponent,
     LoaderComponent,
+    TranslateModule,
   ],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.scss',

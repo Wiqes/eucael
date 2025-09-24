@@ -1,14 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-typing-indicator',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   template: `
     <div class="typing-indicator" *ngIf="isVisible">
       <div class="typing-text">
-        <span>is typing</span>
+        <span>{{ 'is typing' | translate }}</span>
       </div>
       <div class="typing-dots">
         <div class="dot"></div>

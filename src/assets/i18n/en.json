@@ -216,5 +216,12 @@
   "The image will be cropped to a square for your avatar.": "The image will be cropped to a square for your avatar.",
   "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset": "Keyboard: Arrow keys to move, Ctrl +/- to zoom, Ctrl+0 to reset",
   "Unknown": "Unknown",
-  "The Familiar": "The Familiar"
+  "The Familiar": "The Familiar",
+  "Send": "Send",
+  "Type your message...": "Type your message...",
+  "Messages": "Messages",
+  "is typing": "is typing",
+  "conversations": "conversations",
+  "No conversations yet": "No conversations yet",
+  "Start a new conversation to see it here": "Start a new conversation to see it here"
 }
