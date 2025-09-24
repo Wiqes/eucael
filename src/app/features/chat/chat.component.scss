@@ -167,38 +167,6 @@
   }
 }
 
-.message-input {
-  display: flex;
-  padding: 4px;
-  border-top: 1px solid #eee;
-  background: rgba(24, 24, 27, 0.42);
-  gap: 10px;
-  align-items: center;
-
-  textarea {
-    flex-grow: 1;
-    padding: 4px;
-    resize: none;
-    border-radius: 6px;
-    min-height: 44px;
-    max-height: 120px;
-    font-family: inherit;
-    font-size: 14px;
-    background: #00000044;
-    transition: border-color 0.2s ease;
-
-    &:focus {
-      outline: none;
-      border-color: $primary-color;
-      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-    }
-
-    &::placeholder {
-      color: #999;
-    }
-  }
-}
-
 @keyframes fadeInUp {
   from {
     opacity: 0;

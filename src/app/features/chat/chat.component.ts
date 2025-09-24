@@ -19,16 +19,14 @@ import { FormsModule } from '@angular/forms'; // <-- Import FormsModule here
 import { ChatService } from '../../core/services/chat/chat.service';
 import { StateService } from '../../core/services/state/state.service';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
-import { Button } from 'primeng/button';
 import { IChatMessages, IChatMessage } from '../../core/models/chat.model';
 import { ITypingIndicator } from '../../core/models/notification.model';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
-import { IUser } from '../../core/models/entities/user.model';
-import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { InterlocutorService } from '../../core/services/chat/interlocutor.service';
 import { ChatHeaderComponent } from './chat-header/chat-header.component';
 import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { MessageInputComponent } from './message-input/message-input.component';
 
 @Component({
   selector: 'app-chat',
@@ -36,10 +34,10 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [
     CommonModule, // Required for common Angular directives like *ngFor, *ngIf
     FormsModule, // Required for ngModel
-    Button,
     LoaderComponent,
     ChatHeaderComponent,
     TranslateModule,
+    MessageInputComponent,
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
@@ -65,15 +63,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('messageInput', { static: false }) messageInput!: ElementRef;
 
   messages: IChatMessage[] = [];
-  newMessageContent: string = '';
   isLoading = signal(false);
   showScrollToBottom = signal(false);
 
   // New properties for enhanced features
   activeChatId = signal<string>('');
-  isTyping = signal(false);
   typingUsers = signal<ITypingIndicator[]>([]);
-  typingTimeout?: ReturnType<typeof setTimeout>;
 
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
@@ -155,38 +150,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.typingUsers().length > 0 &&
       !this.typingUsers().some((u) => u.userId === this.currentUserId())
     );
-  }
-
-  /**
-   * Get typing username
-   */
-  getTypingUsername(): string | undefined {
-    const typingUser = this.typingUsers().find((u) => u.userId !== this.currentUserId());
-    return typingUser?.username;
-  }
-
-  /**
-   * Handle typing input
-   */
-  onTyping(): void {
-    if (this.activeChatId()) {
-      // Clear existing timeout
-      if (this.typingTimeout) {
-        clearTimeout(this.typingTimeout);
-      }
-
-      // Send typing indicator
-      if (!this.isTyping()) {
-        this.isTyping.set(true);
-        this.chatService.sendTypingIndicator(this.activeChatId(), true);
-      }
-
-      // Set timeout to stop typing indicator
-      this.typingTimeout = setTimeout(() => {
-        this.isTyping.set(false);
-        this.chatService.sendTypingIndicator(this.activeChatId(), false);
-      }, 1000);
-    }
   }
 
   ngAfterViewChecked(): void {
@@ -286,16 +249,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
 
-  ngOnDestroy(): void {
-    // Stop typing indicator if active
-    if (this.isTyping()) {
-      this.chatService.sendTypingIndicator(this.activeChatId(), false);
-    }
+  handleMessageSent(message: IChatMessage): void {
+    this.messages.push(message);
+    this.shouldScrollToBottom = true;
+  }
 
-    // Clear timeouts
-    if (this.typingTimeout) {
-      clearTimeout(this.typingTimeout);
-    }
+  ngOnDestroy(): void {
     if (this.scrollTimeout) {
       clearTimeout(this.scrollTimeout);
     }
@@ -350,54 +309,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       });
   }
 
-  sendMessage(): void {
-    console.log('Attempting to send message:', this.newMessageContent);
-    if (this.newMessageContent.trim() && this.currentUserId() && this.receiverId) {
-      const messageContent = this.newMessageContent.trim();
-      console.log('Sending message:', `d${messageContent}`);
-
-      // Stop typing indicator when sending
-      if (this.isTyping()) {
-        this.isTyping.set(false);
-        this.chatService.sendTypingIndicator(this.activeChatId(), false);
-        if (this.typingTimeout) {
-          clearTimeout(this.typingTimeout);
-        }
-      }
-
-      // Clear the input immediately for better UX
-      this.newMessageContent = '';
-      this.messages.push({
-        id: '',
-        content: messageContent,
-        timestamp: new Date(),
-        sender: {
-          id: this.currentUserId(),
-          profile: this.myProfile()!,
-        } as IUser,
-        receiver: {
-          id: this.receiverId,
-          profile: this.interlocutorProfile(),
-        } as IUser,
-      });
-
-      // Send the message
-      this.chatService.sendMessage({
-        content: messageContent,
-        senderId: Number(this.currentUserId()),
-        receiverId: Number(this.receiverId),
-      });
-
-      // Always auto-scroll for sent messages
-      this.shouldScrollToBottom = true;
-    }
-  }
-
-  onSendButtonMouseDown(event: Event): void {
-    // Prevent the button from taking focus
-    event.preventDefault();
-  }
-
   /**
    * Update chat unread count
    */
@@ -406,16 +317,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     // but we can update the local state if needed
     if (this.activeChatId()) {
       this.chatStateService.markChatAsRead(this.activeChatId());
-    }
-  }
-
-  /**
-   * Handles Enter key press with Shift+Enter for new lines
-   */
-  onKeyPress(event: KeyboardEvent): void {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      this.sendMessage();
     }
   }
 
