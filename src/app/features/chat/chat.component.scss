@@ -214,10 +214,11 @@
 @media (max-width: 768px) {
   :host {
     padding: 50px 5px 5px 5px;
+    justify-content: center;
   }
 
   .chat-container {
-    max-width: 100%;
+    max-width: 99vw;
     border-radius: 0;
   }
 }
