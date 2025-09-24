@@ -51,7 +51,7 @@ export class MessageInputComponent implements OnDestroy {
     console.log('Attempting to send message:', this.newMessageContent);
     if (this.newMessageContent.trim() && this.currentUserId() && this.receiverId()) {
       const messageContent = this.newMessageContent.trim();
-      console.log('Sending message:', `d${messageContent}`);
+      console.log('Sending message:', messageContent);
 
       // Stop typing indicator when sending
       if (this.isTyping()) {

@@ -27,7 +27,11 @@
     </div>
   </div>
 
-  <app-message-input [activeChatId]="activeChatId()" (onMessageSent)="handleMessageSent($event)" />
+  <app-message-input
+    [activeChatId]="activeChatId()"
+    [receiverId]="receiverId"
+    (onMessageSent)="handleMessageSent($event)"
+  />
 
   <button
     *ngIf="showScrollToBottom()"
