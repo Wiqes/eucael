@@ -72,12 +72,10 @@
             &:hover {
               background: rgba(52, 245, 221, 0.2);
               border-color: rgba(52, 245, 221, 0.5);
-              transform: translateY(-2px);
               box-shadow: 0 4px 12px rgba(52, 245, 221, 0.2);
             }
 
             &:active {
-              transform: translateY(0);
               box-shadow: 0 2px 6px rgba(52, 245, 221, 0.15);
             }
 
