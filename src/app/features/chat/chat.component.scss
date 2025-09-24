@@ -41,7 +41,7 @@
 
 .scroll-to-bottom-btn {
   position: absolute;
-  bottom: 110px;
+  bottom: 80px;
   right: 20px;
   width: 40px;
   height: 40px;
@@ -169,7 +169,7 @@
 
 .message-input {
   display: flex;
-  padding: 15px;
+  padding: 4px;
   border-top: 1px solid #eee;
   background: rgba(24, 24, 27, 0.42);
   gap: 10px;
@@ -212,7 +212,12 @@
 
 // Responsive design
 @media (max-width: 768px) {
+  :host {
+    padding: 50px 5px 5px 5px;
+  }
+
   .chat-container {
     max-width: 100%;
+    border-radius: 0;
   }
 }
