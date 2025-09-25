@@ -1,32 +1,34 @@
-<div class="zoom-controls">
-  <label>{{ 'Zoom' | translate }}</label>
-  <div class="zoom-buttons">
+<div class="buttons-container">
+  <div class="zoom-controls">
+    <label>{{ 'Zoom' | translate }}</label>
+    <div class="zoom-buttons">
+      <p-button
+        icon="pi pi-minus"
+        size="small"
+        severity="contrast"
+        [disabled]="zoom() <= 0.5"
+        (onClick)="zoomOut.emit()"
+      />
+      <span class="zoom-level">{{ zoom() * 100 | number : '1.0-0' }}%</span>
+      <p-button
+        icon="pi pi-plus"
+        size="small"
+        severity="contrast"
+        [disabled]="zoom() >= 3"
+        (onClick)="zoomIn.emit()"
+      />
+    </div>
+  </div>
+
+  <div class="reset-controls">
     <p-button
-      icon="pi pi-minus"
+      [label]="'Reset' | translate"
+      icon="pi pi-refresh"
       size="small"
       severity="contrast"
-      [disabled]="zoom() <= 0.5"
-      (onClick)="zoomOut.emit()"
-    />
-    <span class="zoom-level">{{ zoom() * 100 | number : '1.0-0' }}%</span>
-    <p-button
-      icon="pi pi-plus"
-      size="small"
-      severity="contrast"
-      [disabled]="zoom() >= 3"
-      (onClick)="zoomIn.emit()"
+      (onClick)="resetCrop.emit()"
     />
   </div>
-</div>
-
-<div class="reset-controls">
-  <p-button
-    [label]="'Reset' | translate"
-    icon="pi pi-refresh"
-    size="small"
-    severity="contrast"
-    (onClick)="resetCrop.emit()"
-  />
 </div>
 
 @if (previewImage()) {
