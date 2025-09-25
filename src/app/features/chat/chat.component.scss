@@ -11,7 +11,7 @@
 .chat-container {
   width: 100%;
   max-width: 400px;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(52, 245, 221, 0.1);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -187,6 +187,5 @@
 
   .chat-container {
     max-width: 99vw;
-    border-radius: 0;
   }
 }
