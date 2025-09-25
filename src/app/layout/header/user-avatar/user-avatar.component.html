@@ -1,13 +1,8 @@
-<ng-container *ngIf="isDataLoading(); else userAvatar">
-  <p-skeleton size="2rem" />
-</ng-container>
-<ng-template #userAvatar>
-  <p-avatar
-    icon="pi pi-user"
-    shape="circle"
-    [image]="photoURL() || undefined"
-    [icon]="!photoURL() ? 'pi pi-user' : undefined"
-    [style.width.px]="28"
-    [style.height.px]="28"
-  />
-</ng-template>
+<p-avatar
+  *ngIf="photoURL()"
+  shape="circle"
+  [image]="photoURL() || undefined"
+  [style.width.px]="28"
+  [style.height.px]="28"
+/>
+<app-owl-icon *ngIf="!photoURL()" style="width: 28px; height: 28px" />

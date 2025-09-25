@@ -6,12 +6,12 @@ import { NgIf } from '@angular/common';
 import { StateService } from '../../core/services/state/state.service';
 import { AvatarModule } from 'primeng/avatar';
 import { Subject, takeUntil, switchMap, of } from 'rxjs';
-import { DEFAULT_AVATAR_URL } from '../../core/constants/default-values';
 import { LoaderComponent } from '../../shared/ui/loader/loader.component';
+import { OwlIconComponent } from '../../shared/ui/icons/owl-icon/owl-icon.component';
 
 @Component({
   selector: 'app-rival',
-  imports: [NgIf, AvatarModule, LoaderComponent],
+  imports: [NgIf, AvatarModule, LoaderComponent, OwlIconComponent],
   templateUrl: './rival.component.html',
   styleUrl: './rival.component.scss',
 })
@@ -24,7 +24,7 @@ export class RivalComponent implements OnInit, OnDestroy {
   isProfileLoading = signal(false);
 
   rivalProfile = signal<IProfile | null>(null);
-  avatarUrl = computed(() => this.rivalProfile()?.avatarUrl || DEFAULT_AVATAR_URL);
+  avatarUrl = computed(() => this.rivalProfile()?.avatarUrl || '');
   displayName = computed(
     () => this.rivalProfile()?.name || this.rivalProfile()?.email || 'Unknown',
   );

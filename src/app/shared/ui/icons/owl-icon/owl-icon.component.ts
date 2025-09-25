@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-owl-icon',
   imports: [],
   templateUrl: './owl-icon.component.html',
-  styleUrl: './owl-icon.component.scss'
+  styleUrl: './owl-icon.component.scss',
 })
-export class OwlIconComponent {
-
-}
+export class OwlIconComponent {}

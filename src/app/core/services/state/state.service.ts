@@ -2,7 +2,6 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { IUser } from '../../models/entities/user.model';
 import { DataAccessService } from '../data-access/data-access.service';
 import { IAnimal } from '../../models/entities/animal.model';
-import { DEFAULT_AVATAR_URL } from '../../constants/default-values';
 import { IProfile } from '../../models/entities/profile.model';
 import { AuthTokenStateService } from './auth-token-state.service';
 
@@ -18,7 +17,7 @@ export class StateService {
   readonly isDataLoading = signal<boolean>(false);
   readonly tokenProfile = signal<IProfile | null>(null);
   readonly profile = computed(() => this.user()?.profile || this.tokenProfile());
-  readonly avatarUrl = computed(() => this.profile()?.avatarUrl || DEFAULT_AVATAR_URL);
+  readonly avatarUrl = computed(() => this.profile()?.avatarUrl || null);
   readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
 
   setProfileFromToken(token: string): void {

@@ -5,11 +5,13 @@
         <div class="avatar-section">
           <div class="avatar-wrapper">
             <p-avatar
+              *ngIf="avatarUrl()"
               [image]="avatarUrl()"
               size="xlarge"
               shape="circle"
               class="profile-avatar"
             ></p-avatar>
+            <app-owl-icon *ngIf="!avatarUrl()" style="width: 138px" />
           </div>
         </div>
         <div class="profile-info">
