@@ -95,7 +95,7 @@
 
   .p-dialog {
     .p-dialog-header {
-      border-bottom: 1px solid rgba(52, 245, 221, 0.2);
+      border-bottom: 1px solid #3f3f46;
 
       .p-dialog-title {
         color: $primary-color !important;
@@ -129,6 +129,6 @@
 }
 
 ::ng-deep .p-dialog-footer {
-  border-top: 1px solid rgba(52, 245, 221, 0.2);
+  border-top: 1px solid #3f3f46;
   padding: 1.25rem !important;
 }
