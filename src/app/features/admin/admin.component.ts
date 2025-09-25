@@ -60,6 +60,8 @@ export class AdminComponent implements OnInit {
     this.dataAccessService.getColors().subscribe((colors) => {
       this.colors.set(colors);
     });
+
+    this.stateService.addAnimalsDataToState();
   }
 
   onFileSelected(event: Event): void {

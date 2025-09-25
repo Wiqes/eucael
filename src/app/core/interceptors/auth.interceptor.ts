@@ -17,7 +17,12 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   // Skip authentication for S3 requests
   const s3Host = 'https://wiqes-images.s3.us-east-1.amazonaws.com';
   if (req.url.includes(s3Host)) {
-    return next(req);
+    const cachedRequest = req.clone({
+      setHeaders: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    });
+    return next(cachedRequest);
   }
 
   // Skip authentication for auth endpoints to prevent infinite loops
