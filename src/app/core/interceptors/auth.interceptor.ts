@@ -3,20 +3,28 @@ import {
   HttpInterceptorFn,
   HttpRequest,
   HttpErrorResponse,
+  HttpContextToken,
 } from '@angular/common/http';
 import { computed, inject } from '@angular/core';
-import { catchError, throwError, switchMap, filter, take } from 'rxjs';
+import { catchError, throwError, switchMap } from 'rxjs';
 import { AuthTokenService } from '../services/auth/auth-token.service';
 import { AuthTokenStateService } from '../services/state/auth-token-state.service';
+
+// HttpContext token used to flag an outgoing request as an image preload.
+// These requests intentionally bypass auth and add a long-lived Cache-Control header.
+export const PRELOAD_IMAGE = new HttpContextToken<boolean>(() => false);
 
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
   const authTokenService = inject(AuthTokenService);
   const authTokenStateService = inject(AuthTokenStateService);
   const token = computed(() => authTokenStateService.token() || 'RXVjYWVsIEluYy4=');
 
-  // Skip authentication for S3 requests
+  // Detect image preloading via HttpContext
+  const isImagePreload = req.context.get(PRELOAD_IMAGE);
+
+  // Skip authentication for S3 requests OR explicit image preloads. Attach aggressive cache headers.
   const s3Host = 'https://wiqes-images.s3.us-east-1.amazonaws.com';
-  if (req.url.includes(s3Host)) {
+  if (req.url.includes(s3Host) || isImagePreload) {
     const cachedRequest = req.clone({
       setHeaders: {
         'Cache-Control': 'public, max-age=31536000, immutable',

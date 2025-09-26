@@ -7,6 +7,7 @@ import { AuthService } from './core/services/auth/auth.service';
 import { StateService } from './core/services/state/state.service';
 import { NgClass, NgIf } from '@angular/common';
 import { LoaderComponent } from './shared/ui/loader/loader.component';
+import { ImagePreloadService } from './core/services/image-preload.service';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   private readonly languageService = inject(LanguageService);
   protected readonly authService = inject(AuthService);
   private readonly stateService = inject(StateService);
+  private readonly imagePreloadService = inject(ImagePreloadService);
   protected readonly profile = computed(() => this.stateService.profile());
   isLoading = computed(() => {
     const isRootRoute = window.location.pathname === '/';
@@ -31,5 +33,16 @@ export class AppComponent implements OnInit {
 
     // Initialize language service
     this.languageService.initializeLanguage();
+
+    // Preload frequently used images (add or adjust list as needed)
+    this.imagePreloadService
+      .preload([
+        'https://wiqes-images.s3.us-east-1.amazonaws.com/1861a428-80cc-4205-bf49-1f5d9a89a1a6-female.jpg',
+        '/assets/images/logo.png',
+        '/assets/images/logo-512.png',
+        '/assets/background.jpg',
+        '/assets/images/panther.jpg',
+      ])
+      .subscribe((result) => console.log('[ImagePreload] results', result));
   }
 }
