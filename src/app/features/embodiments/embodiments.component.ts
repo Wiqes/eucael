@@ -13,7 +13,7 @@ import { IconService } from '../../core/services/icon.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ImagePreloadService } from '../../core/services/image-preload.service';
 import { INITIAL_PRELOADED_IMAGES } from '../../core/constants/initial-preloaded-images';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { DataAccessService } from '../../core/services/data-access/data-access.service';
 
 @Component({
@@ -67,9 +67,9 @@ export class EmbodimentsComponent implements OnInit {
       return;
     }
 
-    this.imagePreloadService
-      .preload(INITIAL_PRELOADED_IMAGES)
-      .pipe(switchMap(() => this.dataAccessService.getAnimals()))
+    this.dataAccessService
+      .getAnimals()
+      .pipe(tap(() => this.imagePreloadService.preload(INITIAL_PRELOADED_IMAGES).subscribe()))
       .subscribe({
         next: (animals) => {
           this.stateService.addAnimalsDataToState(animals);
