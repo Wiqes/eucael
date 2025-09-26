@@ -39,9 +39,19 @@ export class AppComponent implements OnInit {
     const preloadedUrls = this.avatarUrl()
       ? [this.avatarUrl(), ...INITIAL_PRELOADED_IMAGES]
       : [...INITIAL_PRELOADED_IMAGES];
-    // Preload frequently used images (add or adjust list as needed)
-    this.imagePreloadService
-      .preload(preloadedUrls)
-      .subscribe((response) => console.log('Preloaded images:', response));
+
+    // Preload frequently used images
+    this.imagePreloadService.preload(preloadedUrls).subscribe({
+      next: (response) => {
+        const successful = Object.values(response).filter(Boolean).length;
+        const total = Object.keys(response).length;
+        console.log(
+          `AppComponent: Image preloading completed - ${successful}/${total} images cached`,
+        );
+      },
+      error: (error) => {
+        console.error('AppComponent: Image preloading failed:', error);
+      },
+    });
   }
 }
