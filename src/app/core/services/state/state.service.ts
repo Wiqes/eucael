@@ -27,19 +27,11 @@ export class StateService {
     }
   }
 
-  addAnimalsDataToState() {
-    if (this.animals()?.length || this.isDataLoading()) {
+  addAnimalsDataToState(animalsData: IAnimal[] = []): void {
+    if (animalsData.length || this.isDataLoading()) {
       return;
     }
-
-    this.isDataLoading.set(true);
-    this.dataAccessService.getAnimals().subscribe({
-      next: (animals) => {
-        this.animals.set(animals);
-      },
-      error: () => this.isDataLoading.set(false),
-      complete: () => this.isDataLoading.set(false),
-    });
+    this.animals.set(animalsData);
   }
 
   addUserDataToState() {

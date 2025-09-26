@@ -11,6 +11,10 @@ import { AnimalComponent } from './animal/animal.component';
 import { IAnimal } from '../../core/models/entities/animal.model';
 import { IconService } from '../../core/services/icon.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ImagePreloadService } from '../../core/services/image-preload.service';
+import { INITIAL_PRELOADED_IMAGES } from '../../core/constants/initial-preloaded-images';
+import { forkJoin, of } from 'rxjs';
+import { DataAccessService } from '../../core/services/data-access/data-access.service';
 
 @Component({
   selector: 'app-embodiments',
@@ -31,6 +35,8 @@ export class EmbodimentsComponent implements OnInit {
   private readonly stateService = inject(StateService);
   protected iconService = inject(IconService);
   private translate = inject(TranslateService);
+  private dataAccessService = inject(DataAccessService);
+  private readonly imagePreloadService = inject(ImagePreloadService);
   private newLanguageSignal = toSignal(this.translate.onLangChange.asObservable());
   animals = computed(() => {
     const newLanguage = this.newLanguageSignal();
@@ -52,6 +58,18 @@ export class EmbodimentsComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.stateService.addAnimalsDataToState();
+    this.stateService.isDataLoading.set(true);
+    forkJoin([
+      this.imagePreloadService.preload(INITIAL_PRELOADED_IMAGES),
+      this.animals() ? this.dataAccessService.getAnimals() : of(null),
+    ]).subscribe({
+      next: ([preloadedImages, animals]) => {
+        if (animals?.length) {
+          this.stateService.addAnimalsDataToState(animals);
+        }
+      },
+      error: () => this.stateService.isDataLoading.set(false),
+      complete: () => this.stateService.isDataLoading.set(false),
+    });
   }
 }
