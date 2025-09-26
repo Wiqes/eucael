@@ -29,7 +29,11 @@
               "src/manifest.webmanifest",
               "src/sitemap.xml",
               "src/robots.txt",
-              "src/sw.js"
+              {
+                "glob": "**/*",
+                "input": "public",
+                "output": "/"
+              }
             ],
             "styles": ["src/styles/styles.scss", "src/styles/variables.scss"],
             "stylePreprocessorOptions": {
@@ -93,9 +97,9 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
-              },
-              "src/sw.js"
+                "input": "public",
+                "output": "/"
+              }
             ],
             "styles": ["src/styles/styles.scss", "src/styles/variables.scss"],
             "stylePreprocessorOptions": {

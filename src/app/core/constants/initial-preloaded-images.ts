@@ -7,4 +7,5 @@ export const INITIAL_PRELOADED_IMAGES = [
   'https://wiqes-images.s3.us-east-1.amazonaws.com/1861a428-80cc-4205-bf49-1f5d9a89a1a6-female.jpg',
   'https://wiqes-images.s3.us-east-1.amazonaws.com/60850f20-bf27-4d03-a879-db2ce809e81f-female.jpg',
   'https://wiqes-images.s3.us-east-1.amazonaws.com/13bd6b51-1c07-4c7d-8f0a-ca20af09d9ed-female.png',
+  'https://wiqes-images.s3.us-east-1.amazonaws.com/24d60178-fa35-4e21-9da1-e28f1ae2e698-avatar.jpg',
 ];
