@@ -7,8 +7,6 @@ import { AuthService } from './core/services/auth/auth.service';
 import { StateService } from './core/services/state/state.service';
 import { NgClass, NgIf } from '@angular/common';
 import { LoaderComponent } from './shared/ui/loader/loader.component';
-import { ImagePreloadService } from './core/services/image-preload.service';
-import { INITIAL_PRELOADED_IMAGES } from './core/constants/initial-preloaded-images';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +19,6 @@ export class AppComponent implements OnInit {
   private readonly languageService = inject(LanguageService);
   protected readonly authService = inject(AuthService);
   private readonly stateService = inject(StateService);
-  private readonly imagePreloadService = inject(ImagePreloadService);
   protected readonly profile = computed(() => this.stateService.profile());
   private readonly avatarUrl = computed<string>(() => this.stateService.avatarUrl() || '');
   isLoading = computed(() => {
@@ -35,23 +32,5 @@ export class AppComponent implements OnInit {
 
     // Initialize language service
     this.languageService.initializeLanguage();
-
-    const preloadedUrls = this.avatarUrl()
-      ? [this.avatarUrl(), ...INITIAL_PRELOADED_IMAGES]
-      : [...INITIAL_PRELOADED_IMAGES];
-
-    // Preload frequently used images
-    this.imagePreloadService.preload(preloadedUrls).subscribe({
-      next: (response) => {
-        const successful = Object.values(response).filter(Boolean).length;
-        const total = Object.keys(response).length;
-        console.log(
-          `AppComponent: Image preloading completed - ${successful}/${total} images cached`,
-        );
-      },
-      error: (error) => {
-        console.error('AppComponent: Image preloading failed:', error);
-      },
-    });
   }
 }
