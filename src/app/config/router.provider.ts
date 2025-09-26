@@ -157,6 +157,24 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'cache-test',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../shared/components/service-worker-test-enhanced.component').then(
+            (m) => m.ServiceWorkerTestEnhancedComponent,
+          ),
+      },
+      {
+        path: '',
+        outlet: 'header',
+        loadComponent: () =>
+          import('../layout/header/header.component').then((m) => m.HeaderComponent),
+      },
+    ],
+  },
 ];
 
 export const routerProvider = () => provideRouter(routes);
