@@ -59,14 +59,20 @@ export class EmbodimentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.stateService.isDataLoading.set(true);
+
+    const shouldFetchAnimals = this.stateService.animals().length === 0;
+
+    if (!shouldFetchAnimals) {
+      this.stateService.isDataLoading.set(false);
+      return;
+    }
+
     forkJoin([
       this.imagePreloadService.preload(INITIAL_PRELOADED_IMAGES),
-      this.animals() ? this.dataAccessService.getAnimals() : of(null),
+      this.dataAccessService.getAnimals(),
     ]).subscribe({
       next: ([preloadedImages, animals]) => {
-        if (animals?.length) {
-          this.stateService.addAnimalsDataToState(animals);
-        }
+        this.stateService.addAnimalsDataToState(animals);
       },
       error: () => this.stateService.isDataLoading.set(false),
       complete: () => this.stateService.isDataLoading.set(false),

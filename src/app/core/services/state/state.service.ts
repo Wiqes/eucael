@@ -28,9 +28,6 @@ export class StateService {
   }
 
   addAnimalsDataToState(animalsData: IAnimal[] = []): void {
-    if (animalsData.length || this.isDataLoading()) {
-      return;
-    }
     this.animals.set(animalsData);
   }
 
