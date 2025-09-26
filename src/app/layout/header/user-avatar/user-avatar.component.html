@@ -1,8 +1,0 @@
-<p-avatar
-  *ngIf="photoURL()"
-  shape="circle"
-  [image]="photoURL() || undefined"
-  [style.width.px]="28"
-  [style.height.px]="28"
-/>
-<app-owl-icon *ngIf="!photoURL()" style="width: 28px; height: 28px" />
