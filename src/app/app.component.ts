@@ -37,6 +37,8 @@ export class AppComponent implements OnInit {
     this.languageService.initializeLanguage();
 
     // Preload frequently used images (add or adjust list as needed)
-    this.imagePreloadService.preload([this.avatarUrl(), ...INITIAL_PRELOADED_IMAGES]).subscribe();
+    this.imagePreloadService
+      .preload([this.avatarUrl(), ...INITIAL_PRELOADED_IMAGES])
+      .subscribe((response) => console.log('Preloaded images:', response));
   }
 }
