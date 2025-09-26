@@ -7,7 +7,12 @@ export const withCredentialsInterceptor: HttpInterceptorFn = (req, next) => {
   const isImagePreload = req.context.get(PRELOAD_IMAGE);
 
   if (req.url.includes(s3Host) || isImagePreload) {
-    return next(req);
+    const cachedRequest = req.clone({
+      setHeaders: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    });
+    return next(cachedRequest);
   }
 
   const credentialsReq = req.clone({
