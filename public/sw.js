@@ -1,6 +1,7 @@
-// Service Worker for adding Cache-Control headers to S3 requests
+// Service Worker for caching S3 images with proper Cache-Control headers
 
-const S3_HOST = 'https://wiqes-images.s3.us-east-1.amazonaws.com';
+const S3_HOST = 'wiqes-images.s3.us-east-1.amazonaws.com';
+const CACHE_NAME = 'alseids-s3-images-v1';
 const CACHE_CONTROL_HEADER = 'public, max-age=31536000, immutable';
 
 self.addEventListener('install', (event) => {
@@ -11,6 +12,16 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   console.log('Service Worker: Activated');
+  // Clean up old caches
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames
+          .filter((cacheName) => cacheName !== CACHE_NAME)
+          .map((cacheName) => caches.delete(cacheName)),
+      );
+    }),
+  );
   // Claim clients immediately to handle existing pages
   event.waitUntil(self.clients.claim());
 });
@@ -25,53 +36,60 @@ self.addEventListener('message', (event) => {
 self.addEventListener('fetch', (event) => {
   const requestUrl = event.request.url;
 
-  // Only intercept requests to S3 (including preflight OPTIONS requests)
-  if (requestUrl.includes(S3_HOST)) {
-    console.log('Service Worker: Intercepting S3 request:', event.request.method, requestUrl);
-    event.respondWith(handleS3Request(event.request));
+  // Only intercept GET requests to S3 (images)
+  if (event.request.method === 'GET' && requestUrl.includes(S3_HOST)) {
+    console.log('Service Worker: Intercepting S3 image request:', requestUrl);
+    event.respondWith(handleS3ImageRequest(event.request));
   }
 });
 
-async function handleS3Request(request) {
+async function handleS3ImageRequest(request) {
+  const cacheKey = request.url;
+
   try {
-    // Handle preflight OPTIONS requests specially
-    if (request.method === 'OPTIONS') {
-      console.log('Service Worker: Handling OPTIONS preflight request');
-      // For OPTIONS requests, we typically want to let them pass through
-      // but still add cache headers
-      const modifiedRequest = new Request(request, {
-        headers: {
-          ...Object.fromEntries(request.headers.entries()),
-          'Cache-Control': CACHE_CONTROL_HEADER,
-        },
-      });
-      return await fetch(modifiedRequest);
+    // Check if we have this image cached
+    const cache = await caches.open(CACHE_NAME);
+    const cachedResponse = await cache.match(cacheKey);
+
+    if (cachedResponse) {
+      console.log('Service Worker: Serving from cache:', cacheKey);
+      return cachedResponse;
     }
 
-    // For GET requests and other methods, clone and modify headers
-    const existingHeaders = Object.fromEntries(request.headers.entries());
+    console.log('Service Worker: Fetching and caching:', cacheKey);
 
-    // Only add Cache-Control if it doesn't already exist (avoid duplicate headers)
-    if (!existingHeaders['cache-control'] && !existingHeaders['Cache-Control']) {
-      existingHeaders['Cache-Control'] = CACHE_CONTROL_HEADER;
+    // Fetch the image from S3
+    const networkResponse = await fetch(request);
+
+    if (networkResponse.ok) {
+      // Clone the response to cache it
+      const responseToCache = networkResponse.clone();
+
+      // Create a new response with proper cache headers
+      const headers = new Headers(responseToCache.headers);
+      headers.set('Cache-Control', CACHE_CONTROL_HEADER);
+
+      const cachedResponseInit = {
+        status: responseToCache.status,
+        statusText: responseToCache.statusText,
+        headers: headers,
+      };
+
+      const body = await responseToCache.arrayBuffer();
+      const responseWithCacheHeaders = new Response(body, cachedResponseInit);
+
+      // Cache the response
+      await cache.put(cacheKey, responseWithCacheHeaders.clone());
+
+      console.log('Service Worker: Cached image with proper headers:', cacheKey);
+      return responseWithCacheHeaders;
+    } else {
+      console.warn('Service Worker: Failed to fetch image:', networkResponse.status, cacheKey);
+      return networkResponse;
     }
-
-    const modifiedRequest = new Request(request, {
-      headers: existingHeaders,
-    });
-
-    console.log(
-      'Service Worker: Making modified S3 request with headers:',
-      Object.keys(existingHeaders),
-    );
-    const response = await fetch(modifiedRequest);
-
-    // Log successful response
-    console.log('Service Worker: S3 request completed:', response.status, response.statusText);
-    return response;
   } catch (error) {
     console.error('Service Worker: Error handling S3 request:', error);
-    // Fallback to original request if there's an error
+    // Fallback to network request
     return fetch(request);
   }
 }

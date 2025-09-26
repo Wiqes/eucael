@@ -9,14 +9,6 @@ export class ServiceWorkerService {
   async registerServiceWorker(): Promise<void> {
     if ('serviceWorker' in navigator) {
       try {
-        // First check if there's already a service worker controlling the page
-        const existingRegistration = await navigator.serviceWorker.getRegistration();
-
-        if (existingRegistration && existingRegistration.active) {
-          console.log('Service Worker already active:', existingRegistration);
-          return;
-        }
-
         const registration = await navigator.serviceWorker.register('/sw.js', {
           scope: '/',
         });
@@ -32,8 +24,7 @@ export class ServiceWorkerService {
           if (newWorker) {
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                console.log('New service worker available - consider reloading');
-                // Force the new service worker to become active
+                console.log('New service worker available - activating');
                 newWorker.postMessage({ type: 'SKIP_WAITING' });
               }
             });
@@ -45,6 +36,43 @@ export class ServiceWorkerService {
     } else {
       console.warn('Service Workers are not supported in this browser');
     }
+  }
+
+  async clearImageCache(): Promise<void> {
+    if ('caches' in window) {
+      try {
+        const cacheNames = await caches.keys();
+        const imageCacheNames = cacheNames.filter((name) => name.includes('s3-images'));
+
+        const deletePromises = imageCacheNames.map((cacheName) => caches.delete(cacheName));
+        await Promise.all(deletePromises);
+
+        console.log('Image caches cleared:', imageCacheNames);
+      } catch (error) {
+        console.error('Error clearing image cache:', error);
+      }
+    }
+  }
+
+  async getCacheStats(): Promise<{ caches: string[]; totalSize: number }> {
+    if ('caches' in window) {
+      try {
+        const cacheNames = await caches.keys();
+        let totalSize = 0;
+
+        for (const cacheName of cacheNames) {
+          const cache = await caches.open(cacheName);
+          const requests = await cache.keys();
+          totalSize += requests.length;
+        }
+
+        return { caches: cacheNames, totalSize };
+      } catch (error) {
+        console.error('Error getting cache stats:', error);
+        return { caches: [], totalSize: 0 };
+      }
+    }
+    return { caches: [], totalSize: 0 };
   }
 
   private async waitForServiceWorkerActive(registration: ServiceWorkerRegistration): Promise<void> {

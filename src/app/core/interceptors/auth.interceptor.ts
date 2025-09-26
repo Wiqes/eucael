@@ -22,18 +22,14 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   // Detect image preloading via HttpContext
   const isImagePreload = req.context.get(PRELOAD_IMAGE);
 
-  // Skip authentication for explicit image preloads and add cache headers
+  // Skip authentication for explicit image preloads
+  // Cache-Control is now handled by the service worker
   if (isImagePreload) {
-    const cachedRequest = req.clone({
-      setHeaders: {
-        'Cache-Control': 'public, max-age=31536000, immutable',
-      },
-    });
-    return next(cachedRequest);
+    return next(req);
   }
 
-  // Skip authentication for S3 requests (credentials interceptor handles caching)
-  const s3Host = 'https://wiqes-images.s3.us-east-1.amazonaws.com';
+  // Skip authentication for S3 requests (credentials interceptor handles this)
+  const s3Host = 'wiqes-images.s3.us-east-1.amazonaws.com';
   if (req.url.includes(s3Host)) {
     return next(req);
   }
