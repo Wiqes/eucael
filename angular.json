@@ -28,7 +28,12 @@
               "src/favicon.ico",
               "src/manifest.webmanifest",
               "src/sitemap.xml",
-              "src/robots.txt"
+              "src/robots.txt",
+              {
+                "glob": "**/*",
+                "input": "public",
+                "output": "/"
+              }
             ],
             "styles": ["src/styles/styles.scss", "src/styles/variables.scss"],
             "stylePreprocessorOptions": {
@@ -92,7 +97,8 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": ["src/styles/styles.scss", "src/styles/variables.scss"],

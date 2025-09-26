@@ -27,8 +27,8 @@ export class ProfileActionsComponent {
   }
 
   private handleFileSelection(file: File) {
-    // Validate file size (5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
+    // Validate file size (2MB limit)
+    if (file.size > 2 * 1024 * 1024) {
       this.messageService.sendMessage(MESSAGES.FILE_SIZE_ERROR);
       return;
     }
