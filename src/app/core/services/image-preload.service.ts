@@ -11,16 +11,21 @@ import { PRELOAD_IMAGE } from '../interceptors/auth.interceptor';
 @Injectable({ providedIn: 'root' })
 export class ImagePreloadService {
   private readonly http = inject(HttpClient);
+  private loaded = new Set<string>();
+  private inflight = new Map<string, Observable<[string, boolean]>>();
 
   /**
    * Preload a list of absolute/relative image URLs.
    * Uses HttpClient so the interceptor can add Cache-Control headers.
    */
-  private loaded = new Set<string>();
-  private inflight = new Map<string, Observable<[string, boolean]>>();
-
   preload(urls: string[]): Observable<Record<string, boolean>> {
-    const requests = urls.filter((u) => !!u).map((url) => this.preloadSingle(url));
+    // Filter out empty, null, or undefined URLs, and trim whitespace
+    const validUrls = urls
+      .filter((u) => u && typeof u === 'string')
+      .map((u) => u.trim())
+      .filter((u) => u.length > 0);
+
+    const requests = validUrls.map((url) => this.preloadSingle(url));
 
     if (!requests.length) {
       return new Observable<Record<string, boolean>>((observer) => {
@@ -32,6 +37,22 @@ export class ImagePreloadService {
     return forkJoin(requests).pipe(
       map((entries) => Object.fromEntries(entries) as Record<string, boolean>),
     );
+  }
+
+  /**
+   * Clear the internal cache of loaded images.
+   * Useful when you want to force re-preloading of images.
+   */
+  clearCache(): void {
+    this.loaded.clear();
+    this.inflight.clear();
+  }
+
+  /**
+   * Check if a specific URL has been successfully preloaded.
+   */
+  isLoaded(url: string): boolean {
+    return this.loaded.has(url);
   }
 
   private preloadSingle(url: string): Observable<[string, boolean]> {
@@ -50,21 +71,33 @@ export class ImagePreloadService {
       .pipe(
         map(() => {
           this.loaded.add(url);
+          this.inflight.delete(url); // Clean up inflight map
           return [url, true] as [string, boolean];
         }),
-        catchError(() => {
+        catchError((error) => {
+          // Clean up inflight map before fallback
+          this.inflight.delete(url);
+
+          console.warn(`HTTP preload failed for ${url}, falling back to Image element:`, error);
+
           // Fallback to Image element approach (cannot set custom headers but will still cache if allowed)
           return new Observable<[string, boolean]>((observer) => {
             const img = new Image();
             img.decoding = 'async';
             img.loading = 'eager';
-            img.crossOrigin = 'anonymous';
+
+            // Only set crossOrigin for external URLs (S3) to avoid CORS issues with local assets
+            if (url.startsWith('http') && !url.includes(window.location.origin)) {
+              img.crossOrigin = 'anonymous';
+            }
+
             img.onload = () => {
               this.loaded.add(url);
               observer.next([url, true]);
               observer.complete();
             };
-            img.onerror = () => {
+            img.onerror = (imgError) => {
+              console.warn(`Image element preload also failed for ${url}:`, imgError);
               observer.next([url, false]);
               observer.complete();
             };
