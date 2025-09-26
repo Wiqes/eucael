@@ -13,7 +13,7 @@ import { IconService } from '../../core/services/icon.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ImagePreloadService } from '../../core/services/image-preload.service';
 import { INITIAL_PRELOADED_IMAGES } from '../../core/constants/initial-preloaded-images';
-import { forkJoin, of } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { DataAccessService } from '../../core/services/data-access/data-access.service';
 
 @Component({
@@ -67,15 +67,15 @@ export class EmbodimentsComponent implements OnInit {
       return;
     }
 
-    forkJoin([
-      this.imagePreloadService.preload(INITIAL_PRELOADED_IMAGES),
-      this.dataAccessService.getAnimals(),
-    ]).subscribe({
-      next: ([preloadedImages, animals]) => {
-        this.stateService.addAnimalsDataToState(animals);
-      },
-      error: () => this.stateService.isDataLoading.set(false),
-      complete: () => this.stateService.isDataLoading.set(false),
-    });
+    this.imagePreloadService
+      .preload(INITIAL_PRELOADED_IMAGES)
+      .pipe(switchMap(() => this.dataAccessService.getAnimals()))
+      .subscribe({
+        next: (animals) => {
+          this.stateService.addAnimalsDataToState(animals);
+        },
+        error: () => this.stateService.isDataLoading.set(false),
+        complete: () => this.stateService.isDataLoading.set(false),
+      });
   }
 }
