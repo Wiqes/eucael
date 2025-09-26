@@ -11,7 +11,6 @@ import { PRELOAD_IMAGE } from '../interceptors/auth.interceptor';
 @Injectable({ providedIn: 'root' })
 export class ImagePreloadService {
   private readonly http = inject(HttpClient);
-  images = signal<string[]>([]);
 
   /**
    * Preload a list of absolute/relative image URLs.
