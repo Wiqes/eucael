@@ -36,12 +36,8 @@ export class AppComponent implements OnInit {
     // Initialize language service
     this.languageService.initializeLanguage();
 
-    const preloadedUrls = this.avatarUrl()
-      ? [this.avatarUrl(), ...INITIAL_PRELOADED_IMAGES]
-      : [...INITIAL_PRELOADED_IMAGES];
-
     // Preload frequently used images
-    this.imagePreloadService.preload(preloadedUrls).subscribe({
+    this.imagePreloadService.preload(INITIAL_PRELOADED_IMAGES).subscribe({
       next: (response) => {
         const successful = Object.values(response).filter(Boolean).length;
         const total = Object.keys(response).length;
