@@ -13,4 +13,6 @@ export const INITIAL_PRELOADED_IMAGES = [
   'https://wiqes-images.s3.us-east-1.amazonaws.com/9fcd5b80-d5aa-4a63-b984-ffccf6389dad-female.jpg',
   'https://wiqes-images.s3.us-east-1.amazonaws.com/87541ff6-dba3-45cd-aa3a-1595a1a35e14-male.jpg',
   'https://wiqes-images.s3.us-east-1.amazonaws.com/01dfd634-0524-47f7-867b-a72a8489cf5c-female.jpg',
+  'https://wiqes-images.s3.us-east-1.amazonaws.com/b3d11222-4749-4e18-b2e3-301a9d9f8543-female.jpg',
+  'https://wiqes-images.s3.us-east-1.amazonaws.com/ffea6456-ef1d-442d-af74-d501fd1a492b-male.jpg',
 ];
