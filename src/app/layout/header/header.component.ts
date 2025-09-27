@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { MenuComponent } from '../../shared/ui/menu/menu.component';
 import { LanguageSelectorComponent } from '../../shared/ui/language-selector/language-selector.component';
 import { ChatService } from '../../core/services/chat/chat.service';
+import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
 import { ProgressBarModule } from 'primeng/progressbar';
 
@@ -29,6 +30,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
     NgClass,
     MenuComponent,
     LanguageSelectorComponent,
+    UserAvatarComponent,
     ProgressBarModule,
   ],
   templateUrl: './header.component.html',
