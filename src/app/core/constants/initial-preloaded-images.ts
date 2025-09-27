@@ -9,4 +9,8 @@ export const INITIAL_PRELOADED_IMAGES = [
   'https://wiqes-images.s3.us-east-1.amazonaws.com/d9a616b9-1ce5-40d8-a4be-e6748d434110-male.jpg',
   'https://wiqes-images.s3.us-east-1.amazonaws.com/54449578-94d4-4e4d-98dd-ca037bc6b4df-male.jpg',
   'https://wiqes-images.s3.us-east-1.amazonaws.com/946a887f-4be7-4449-a0dd-c6b1deb185d1-female.jpg',
+  'https://wiqes-images.s3.us-east-1.amazonaws.com/dc9b3759-d139-4b34-af55-65dad70e2b6b-male.jpg',
+  'https://wiqes-images.s3.us-east-1.amazonaws.com/9fcd5b80-d5aa-4a63-b984-ffccf6389dad-female.jpg',
+  'https://wiqes-images.s3.us-east-1.amazonaws.com/87541ff6-dba3-45cd-aa3a-1595a1a35e14-male.jpg',
+  'https://wiqes-images.s3.us-east-1.amazonaws.com/01dfd634-0524-47f7-867b-a72a8489cf5c-female.jpg',
 ];
