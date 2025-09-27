@@ -61,7 +61,22 @@ export class AdminComponent implements OnInit {
       this.colors.set(colors);
     });
 
-    this.stateService.addAnimalsDataToState();
+    this.stateService.isDataLoading.set(true);
+
+    const shouldFetchAnimals = this.stateService.animals().length === 0;
+
+    if (!shouldFetchAnimals) {
+      this.stateService.isDataLoading.set(false);
+      return;
+    }
+
+    this.dataAccessService.getAnimals().subscribe({
+      next: (animals) => {
+        this.stateService.addAnimalsDataToState(animals);
+      },
+      error: () => this.stateService.isDataLoading.set(false),
+      complete: () => this.stateService.isDataLoading.set(false),
+    });
   }
 
   onFileSelected(event: Event): void {
