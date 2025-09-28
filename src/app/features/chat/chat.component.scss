@@ -41,35 +41,37 @@
 
 .scroll-to-bottom-btn {
   position: absolute;
-  bottom: 80px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(52, 245, 221, 0.9);
-  border: none;
-  color: black;
-  cursor: pointer;
+  bottom: 84px; // Slightly above input
+  right: 18px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 333px; // match app button radius
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  transition: all 0.2s ease;
   z-index: 10;
-  animation: fadeInUp 0.3s ease-out;
+  animation: fadeInUp 0.25s ease-out;
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.4) !important; // transparent base like secondary
+  border: 1px solid $primary-color !important;
+  color: $primary-color !important;
+
+  i {
+    font-size: 18px;
+  }
 
   &:hover {
-    background: rgba(52, 245, 221, 1);
+    background: rgba(16, 41, 38, 0.8) !important;
+    border-color: $primary-color-light !important;
+    color: $primary-color-light !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 16px rgba(52, 245, 221, 0.25);
   }
 
   &:active {
-    transform: translateY(0);
-  }
-
-  i {
-    font-size: 16px;
+    transform: translateY(0) scale(0.97);
+    box-shadow: none;
   }
 }
 
@@ -77,8 +79,8 @@
   margin-bottom: 12px;
   display: flex;
   color: black;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 400;
 
   &:last-child {
     margin-bottom: 0;
