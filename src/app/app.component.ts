@@ -7,6 +7,7 @@ import { AuthService } from './core/services/auth/auth.service';
 import { StateService } from './core/services/state/state.service';
 import { NgClass, NgIf } from '@angular/common';
 import { LoaderComponent } from './shared/ui/loader/loader.component';
+import { AuthTokenStateService } from './core/services/state/auth-token-state.service';
 
 @Component({
   selector: 'app-root',
@@ -18,12 +19,19 @@ import { LoaderComponent } from './shared/ui/loader/loader.component';
 export class AppComponent implements OnInit {
   private readonly languageService = inject(LanguageService);
   protected readonly authService = inject(AuthService);
+  private readonly authTokenStateService = inject(AuthTokenStateService);
+  isTokenRefreshing = computed(() => this.authTokenStateService.isRefreshing());
   private readonly stateService = inject(StateService);
+  private readonly isDataLoading = computed(() => this.stateService.isDataLoading());
   protected readonly profile = computed(() => this.stateService.profile());
-  private readonly avatarUrl = computed<string>(() => this.stateService.avatarUrl() || '');
   isLoading = computed(() => {
+    const isDataLoading = this.isDataLoading();
+
     const isRootRoute = window.location.pathname === '/';
-    return this.stateService.isDataLoading() || (!this.profile() && !isRootRoute);
+    const isEmptyProfile = !this.profile() && !isRootRoute;
+
+    const isTokenRefreshing = this.isTokenRefreshing();
+    return isDataLoading || isEmptyProfile || isTokenRefreshing;
   });
 
   ngOnInit(): void {

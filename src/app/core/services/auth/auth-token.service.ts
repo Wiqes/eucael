@@ -33,9 +33,8 @@ export class AuthTokenService {
   private fingerprintService = inject(FingerprintService);
   private http = inject(HttpClient);
   token = computed(() => this.authTokenStateService.token());
+  private isRefreshing = computed(() => this.authTokenStateService.isRefreshing());
 
-  // BehaviorSubject to manage refresh token state and prevent race conditions
-  private isRefreshing = new BehaviorSubject<boolean>(false);
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   logout(): void {
@@ -45,7 +44,7 @@ export class AuthTokenService {
 
     this.http.post<any>(`${environment.API_URL}/auth/logout`, {}, options).subscribe({
       next: () => {
-        this.isRefreshing.next(false);
+        this.authTokenStateService.isRefreshing.set(false);
         this.refreshTokenSubject.next(null);
         this.moveToLogin();
       },
@@ -115,7 +114,7 @@ export class AuthTokenService {
   // Improved method that handles race conditions and returns proper observables
   refreshToken(): Observable<string> {
     // If already refreshing, wait for the current refresh to complete
-    if (this.isRefreshing.value) {
+    if (this.isRefreshing()) {
       return this.refreshTokenSubject.pipe(
         filter((token) => token !== null),
         take(1),
@@ -123,7 +122,7 @@ export class AuthTokenService {
     }
 
     // Set refreshing state
-    this.isRefreshing.next(true);
+    this.authTokenStateService.isRefreshing.set(true);
     this.refreshTokenSubject.next(null);
 
     const fingerprint = this.getFingerprint();
@@ -153,7 +152,7 @@ export class AuthTokenService {
           return throwError(() => error);
         }),
         finalize(() => {
-          this.isRefreshing.next(false);
+          this.authTokenStateService.isRefreshing.set(false);
         }),
       );
   }
