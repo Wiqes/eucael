@@ -8,6 +8,7 @@ import { StateService } from './core/services/state/state.service';
 import { NgClass, NgIf } from '@angular/common';
 import { LoaderComponent } from './shared/ui/loader/loader.component';
 import { AuthTokenStateService } from './core/services/state/auth-token-state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -22,12 +23,15 @@ export class AppComponent implements OnInit {
   private readonly authTokenStateService = inject(AuthTokenStateService);
   isTokenRefreshing = computed(() => this.authTokenStateService.isRefreshing());
   private readonly stateService = inject(StateService);
+  private readonly router = inject(Router);
   private readonly isDataLoading = computed(() => this.stateService.isDataLoading());
   protected readonly profile = computed(() => this.stateService.profile());
   isLoading = computed(() => {
     const isDataLoading = this.isDataLoading();
 
-    const isRootRoute = window.location.pathname === '/';
+    const currentRoute = this.router.url;
+    const isRootRoute = currentRoute === '/';
+
     const isEmptyProfile = !this.profile() && !isRootRoute;
 
     const isTokenRefreshing = this.isTokenRefreshing();
