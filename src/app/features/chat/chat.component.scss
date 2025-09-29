@@ -52,8 +52,7 @@
   justify-content: center;
   z-index: 10;
   animation: fadeInUp 0.25s ease-out;
-  backdrop-filter: blur(6px);
-  background: rgba(0, 0, 0, 0.4) !important; // transparent base like secondary
+  background: rgba(16, 41, 38, 0.8) !important;
   border: 1px solid $primary-color !important;
   color: $primary-color !important;
 
@@ -62,7 +61,6 @@
   }
 
   &:hover {
-    background: rgba(16, 41, 38, 0.8) !important;
     border-color: $primary-color-light !important;
     color: $primary-color-light !important;
     transform: translateY(-2px);
