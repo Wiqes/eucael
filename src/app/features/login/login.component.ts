@@ -96,6 +96,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.stateService.isDataLoading.set(false);
+    this.authTokenStateService.isRefreshing.set(false);
     if (this.chatService.isConnected() && !this.isLoggedIn()) {
       setTimeout(() => {
         this.chatService.disconnect();

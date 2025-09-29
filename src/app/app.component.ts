@@ -1,6 +1,6 @@
-import { Component, OnInit, computed, inject } from '@angular/core';
+import { Component, OnInit, computed, effect, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, RouterOutlet, RouterState } from '@angular/router';
 import { ToastComponent } from './shared/ui/toast/toast.component';
 import { LanguageService } from './core/services/language.service';
 import { AuthService } from './core/services/auth/auth.service';
@@ -9,6 +9,7 @@ import { NgClass, NgIf } from '@angular/common';
 import { LoaderComponent } from './shared/ui/loader/loader.component';
 import { AuthTokenStateService } from './core/services/state/auth-token-state.service';
 import { Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +25,8 @@ export class AppComponent implements OnInit {
   isTokenRefreshing = computed(() => this.authTokenStateService.isRefreshing());
   private readonly stateService = inject(StateService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  currentRoute = toSignal(this.route.url);
   private readonly isDataLoading = computed(() => this.stateService.isDataLoading());
   protected readonly profile = computed(() => this.stateService.profile());
   isLoading = computed(() => {
@@ -37,6 +40,22 @@ export class AppComponent implements OnInit {
     const isTokenRefreshing = this.isTokenRefreshing();
     return isDataLoading || isEmptyProfile || isTokenRefreshing;
   });
+
+  constructor() {
+    effect(() => {
+      const isLoading = this.isLoading();
+      console.log('App is loading:', isLoading);
+      const currentRoute = this.router.url;
+      console.log('Current route:', currentRoute);
+      const snapshot: ActivatedRouteSnapshot = this.route.snapshot;
+      const state: RouterState = this.router.routerState;
+      console.log('root:', state.snapshot.url);
+      const isDataLoading = this.isDataLoading();
+      console.log('Is data loading:', isDataLoading);
+      const profile = this.profile();
+      console.log('Profile:', profile);
+    });
+  }
 
   ngOnInit(): void {
     const element = document.querySelector('html');
