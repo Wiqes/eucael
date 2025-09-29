@@ -12,13 +12,11 @@ import { MESSAGES } from '../../core/constants/messages';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { ForgotPasswordButtonComponent } from '../../shared/ui/forgot-password-button/forgot-password-button.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { LoginService } from '../../core/services/auth/login.service';
 import { StateService } from '../../core/services/state/state.service';
 import { Router } from '@angular/router';
 import { LoginImageComponent } from './login-image/login-image.component';
 import { NgIf } from '@angular/common';
 import { ChatService } from '../../core/services/chat/chat.service';
-import { AuthTokenService } from '../../core/services/auth/auth-token.service';
 import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
 
 @Component({
@@ -48,9 +46,7 @@ export class LoginComponent implements OnInit {
   private readonly messageService = inject(MessageService);
   private readonly formBuilder = inject(FormBuilder);
   protected readonly authService = inject(AuthService);
-  private readonly authTokenService = inject(AuthTokenService);
   private readonly authTokenStateService = inject(AuthTokenStateService);
-  private readonly loginService = inject(LoginService);
   private readonly stateService = inject(StateService);
   protected readonly chatService = inject(ChatService);
   isLoggedIn = computed(() => Boolean(this.authTokenStateService.token()));
@@ -96,7 +92,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.stateService.isDataLoading.set(false);
-    this.authTokenStateService.isRefreshing.set(false);
     if (this.chatService.isConnected() && !this.isLoggedIn()) {
       setTimeout(() => {
         this.chatService.disconnect();
