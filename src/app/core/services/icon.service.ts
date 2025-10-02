@@ -1,15 +1,9 @@
 import { Injectable, Type } from '@angular/core';
 import { BearIconComponent } from '../../shared/ui/icons/bear-icon/bear-icon.component';
-import { FoxIconComponent } from '../../shared/ui/icons/fox-icon/fox-icon.component';
-import { SnakeIconComponent } from '../../shared/ui/icons/snake-icon/snake-icon.component';
-import { BatIconComponent } from '../../shared/ui/icons/bat-icon/bat-icon.component';
 import { CatIconComponent } from '../../shared/ui/icons/cat-icon/cat-icon.component';
-import { ElkIconComponent } from '../../shared/ui/icons/elk-icon/elk-icon.component';
 import { GiraffeIconComponent } from '../../shared/ui/icons/giraffe-icon/giraffe-icon.component';
 import { HorseIconComponent } from '../../shared/ui/icons/horse-icon/horse-icon.component';
-import { OwlIconComponent } from '../../shared/ui/icons/owl-icon/owl-icon.component';
 import { RatIconComponent } from '../../shared/ui/icons/rat-icon/rat-icon.component';
-import { WolfIconComponent } from '../../shared/ui/icons/wolf-icon/wolf-icon.component';
 import { ANIMALS } from '../constants/animals';
 
 @Injectable({
@@ -23,26 +17,14 @@ export class IconService {
    */
   getIconComponent(iconName: string): Type<any> {
     switch (iconName) {
-      case ANIMALS.FOX:
-        return FoxIconComponent;
-      case ANIMALS.SNAKE:
-        return SnakeIconComponent;
       case ANIMALS.CAT:
         return CatIconComponent;
-      case ANIMALS.BAT:
-        return BatIconComponent;
-      case ANIMALS.ELK:
-        return ElkIconComponent;
       case ANIMALS.GIRAFFE:
         return GiraffeIconComponent;
       case ANIMALS.HORSE:
         return HorseIconComponent;
-      case ANIMALS.OWL:
-        return OwlIconComponent;
       case ANIMALS.RAT:
         return RatIconComponent;
-      case ANIMALS.WOLF:
-        return WolfIconComponent;
       case ANIMALS.BEAR:
       default:
         return BearIconComponent;
