@@ -6,14 +6,21 @@ import { NgIf } from '@angular/common';
 import { ChevronDownIconComponent } from '../chevron-down-icon.component';
 import { MenuPositioningDirective } from '../menu-positioning.directive';
 import { StateService } from '../../../core/services/state/state.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../core/services/auth/login.service';
 
 @Component({
   selector: 'app-menu',
-  imports: [SkeletonModule, MenuModule, NgIf, ChevronDownIconComponent, MenuPositioningDirective],
+  imports: [
+    SkeletonModule,
+    MenuModule,
+    NgIf,
+    ChevronDownIconComponent,
+    MenuPositioningDirective,
+    TranslateModule,
+  ],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
 })

@@ -1,4 +1,4 @@
-<header *ngIf="!isHidden()" class="header" [ngClass]="headerVisibilityClass()">
+<header *ngIf="!isDataLoading()" class="header" [ngClass]="headerVisibilityClass()">
   <div class="logo-description-container">
     <div class="logo-description">
       <button (click)="onLogoClick()">
@@ -6,7 +6,7 @@
       </button>
     </div>
   </div>
-  <div *ngIf="displayName()" class="container">
+  <div class="container">
     <ng-container>
       <app-user-avatar />
       <app-menu />
