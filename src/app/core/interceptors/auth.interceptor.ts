@@ -14,10 +14,13 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   const authTokenStateService = inject(AuthTokenStateService);
   const token = computed(() => authTokenStateService.token() || 'RXVjYWVsIEluYy4=');
 
+  // Skip authentication for S3 requests (credentials interceptor handles this)
+  const s3Host = 'wiqes-images.s3.us-east-1.amazonaws.com';
+  const isS3Request = req.url.includes(s3Host);
+  // Skip authentication for auth endpoints to prevent infinite loops
   const isAuthRequest = req.url.includes('/auth/');
-  const isS3Request = req.url.includes('wiqes-images.s3.us-east-1.amazonaws.com');
-  const isLanguageRequest = req.url.includes('/assets/i18n/');
-  if (isAuthRequest || isS3Request || isLanguageRequest) {
+
+  if (isAuthRequest || isS3Request) {
     return next(req);
   }
 

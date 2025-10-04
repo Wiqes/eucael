@@ -6,11 +6,12 @@
   appMenuPositioning="user-menu"
 ></p-menu>
 <div class="menu" (click)="menu.toggle($event)">
-  <ng-container *ngIf="displayName(); else menuName">
+  <ng-container *ngIf="displayName(); else loadingName">
     <div class="label">{{ displayName() }}</div>
+    <i class="pi pi-list"></i>
   </ng-container>
-  <ng-template #menuName>
-    <div class="label">{{ 'Menu' | translate }}</div>
+  <ng-template #loadingName>
+    <p-skeleton height="1rem" width="5rem" styleClass="mb-2" />
   </ng-template>
   <app-chevron-down-icon />
 </div>
