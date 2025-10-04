@@ -6,6 +6,7 @@
   width: 228px;
   position: relative;
   border-radius: 20px;
+  background: rgba(24, 24, 27, 0.42);
   isolation: isolate;
   cursor: pointer;
   overflow: hidden;
@@ -30,7 +31,7 @@
       var(--icon-color, #10b981) 360deg
     );
     filter: blur(1px);
-    opacity: 0.3;
+    opacity: 0;
   }
 
   &:active {
@@ -40,7 +41,7 @@
 
   &:hover {
     &::before {
-      animation: spin 4s linear infinite;
+      animation: spin 0.5s linear 1;
     }
 
     &::after {
@@ -90,9 +91,11 @@ svg {
 
 @keyframes spin {
   from {
+    opacity: 0.5;
     transform: rotate(0deg);
   }
   to {
+    opacity: 0;
     transform: rotate(360deg);
   }
 }
