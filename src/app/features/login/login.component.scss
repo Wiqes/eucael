@@ -32,6 +32,8 @@
     }
 
     .form-container {
+      display: flex;
+      flex-direction: column;
       width: 100%;
       max-width: 400px;
       animation: slideInFromRight 0.8s ease-out;
@@ -129,14 +131,18 @@
 
   @media (max-width: 480px) {
     .form-section {
-      padding: 20px 15px;
+      padding: 4px 15px 20px 15px;
 
       .form-container {
+        flex-direction: column-reverse;
         .form-content {
           .buttons-container {
             flex-direction: column;
             gap: 10px;
           }
+        }
+        .divider {
+          margin: 4px 0 4px 0;
         }
       }
     }
