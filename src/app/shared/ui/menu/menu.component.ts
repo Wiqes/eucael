@@ -49,7 +49,7 @@ export class MenuComponent implements OnDestroy {
         command: () => this.router.navigate(['/messages']),
       },
       {
-        icon: 'pi pi-prime',
+        icon: 'pi pi-objects-column',
         label: this.translate.instant('Dark Elves'),
         command: () => this.router.navigate(['/embodiments']),
       },
