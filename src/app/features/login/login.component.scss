@@ -131,7 +131,8 @@
 
   @media (max-width: 480px) {
     .form-section {
-      padding: 4px 15px 20px 15px;
+      flex: unset;
+      padding: 15px 20px;
 
       .form-container {
         flex-direction: column-reverse;
