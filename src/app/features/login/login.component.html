@@ -4,29 +4,6 @@
   <!-- Form Section -->
   <div class="form-section">
     <div class="form-container">
-      <div class="form-header">
-        <div class="form-title">
-          {{
-            (otpRequested()
-              ? 'Verify Code'
-              : passwordConfirmationRequested()
-              ? 'Complete Registration'
-              : 'Sign In'
-            ) | translate
-          }}
-        </div>
-        <div class="form-subtitle">
-          {{
-            (otpRequested()
-              ? 'Enter the code sent to your email'
-              : passwordConfirmationRequested()
-              ? 'Create your account'
-              : 'Access your account'
-            ) | translate
-          }}
-        </div>
-      </div>
-
       <form [formGroup]="form" class="form-content">
         @if (otpRequested()) {
         <app-form-control label="One-Time Password" [control]="formControls['otp']" />
