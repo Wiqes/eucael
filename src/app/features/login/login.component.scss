@@ -132,6 +132,7 @@
   @media (max-width: 480px) {
     .form-section {
       flex: unset;
+      align-items: flex-start;
       height: 60vh;
       padding: 15px 20px;
 
