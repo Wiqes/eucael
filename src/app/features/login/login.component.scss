@@ -7,6 +7,7 @@
 .auth-container {
   display: flex;
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   overflow: hidden;
 
@@ -116,6 +117,7 @@
   @media (max-width: 768px) {
     flex-direction: column;
     min-height: 100vh;
+    min-height: 100dvh;
 
     .form-section {
       flex: 1;
@@ -133,6 +135,7 @@
     .form-section {
       flex: unset;
       align-items: flex-start;
+      height: 60vh;
       height: 60dvh;
       padding: 15px 20px;
 
