@@ -7,6 +7,7 @@ import { ITypingIndicator, IUserPresence } from '../../models/notification.model
 import { IChat, IChatMessages } from '../../models/chat.model';
 import { InterlocutorService } from './interlocutor.service';
 import { SOCKET_ERROR } from '../../constants/socket-error';
+import { AuthTokenService } from '../auth/auth-token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,19 +15,15 @@ import { SOCKET_ERROR } from '../../constants/socket-error';
 export class ChatService {
   private interlocutorService = inject(InterlocutorService);
   private socket = inject(Socket);
+  private authTokenService = inject(AuthTokenService);
   private chatStateService = inject(ChatStateService);
   isChatsLoading = signal<boolean>(false);
-  isUserAuthenticated = signal<boolean>(false);
 
   constructor() {
     this.subscribeToEvents();
   }
 
   subscribeToEvents(): void {
-    this.onIsAuthenticated().subscribe((isAuth) => {
-      this.isUserAuthenticated.set(isAuth);
-    });
-
     this.onUserChats().subscribe((chats) => {
       this.chatStateService.updateChats(chats);
       this.isChatsLoading.set(false);
@@ -39,13 +36,14 @@ export class ChatService {
 
     // Handle connection errors
     this.onError().subscribe((error) => {
-      if (error.message === SOCKET_ERROR.INVALID_TOKEN) {
-        this.isUserAuthenticated.set(false);
+      if (error.message === SOCKET_ERROR.TOKEN_IS_EXPIRED) {
+        this.authTokenService.refreshToken().subscribe((newToken: string) => {
+          this.connect(newToken);
+        });
       }
     });
 
     this.onDisconnect().subscribe(() => {
-      this.isUserAuthenticated.set(false);
       this.chatStateService.chats.set(null);
     });
   }
@@ -85,11 +83,6 @@ export class ChatService {
   // Listen for incoming messages
   onReceiveMessage(): Observable<any> {
     return this.socket.fromEvent('receiveMessage');
-  }
-
-  // Listen for incoming messages
-  onIsAuthenticated(): Observable<boolean> {
-    return this.socket.fromEvent('isAuthenticated');
   }
 
   onUserOnlineStatus(): Observable<IUserPresence> {

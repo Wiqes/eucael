@@ -29,7 +29,6 @@ export class AuthTokenService {
   private stateService = inject(StateService);
   private chatStateService = inject(ChatStateService);
   private authTokenStateService = inject(AuthTokenStateService);
-  private chatService = inject(ChatService);
   private fingerprintService = inject(FingerprintService);
   private http = inject(HttpClient);
   token = computed(() => this.authTokenStateService.token());
@@ -163,11 +162,5 @@ export class AuthTokenService {
       return;
     }
     this.authTokenStateService.token.set(token);
-
-    if (!this.chatService.isUserAuthenticated()) {
-      console.log('Reconnecting chat service after token refresh');
-      this.chatService.disconnect();
-      this.chatService.connect(token);
-    }
   }
 }
