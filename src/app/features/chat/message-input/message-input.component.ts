@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input, OnDestroy, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { Button } from 'primeng/button';
@@ -8,6 +17,7 @@ import { IUser } from '../../../core/models/entities/user.model';
 import { StateService } from '../../../core/services/state/state.service';
 import { InterlocutorService } from '../../../core/services/chat/interlocutor.service';
 import { IChatMessage } from '../../../core/models/chat.model';
+import { ChatStateService } from '../../../core/services/state/chat-state.service';
 
 @Component({
   selector: 'app-message-input',
@@ -16,8 +26,9 @@ import { IChatMessage } from '../../../core/models/chat.model';
   templateUrl: './message-input.component.html',
   styleUrls: ['./message-input.component.scss'],
 })
-export class MessageInputComponent implements OnDestroy {
+export class MessageInputComponent implements OnInit, OnDestroy {
   private chatService = inject(ChatService);
+  private chatStateService = inject(ChatStateService);
   private stateService = inject(StateService);
   private interlocutorService = inject(InterlocutorService);
 
@@ -31,6 +42,11 @@ export class MessageInputComponent implements OnDestroy {
   isTyping = signal(false);
   newMessageContent: string = '';
   typingTimeout?: ReturnType<typeof setTimeout>;
+
+  ngOnInit(): void {
+    // Initialize draft message from state
+    this.newMessageContent = this.chatStateService.draftMessage();
+  }
 
   onSendButtonMouseDown(event: Event): void {
     // Prevent the button from taking focus
@@ -64,6 +80,7 @@ export class MessageInputComponent implements OnDestroy {
 
       // Clear the input immediately for better UX
       this.newMessageContent = '';
+      this.chatStateService.clearDraftMessage();
       this.onMessageSent.emit({
         id: '',
         content: messageContent,
@@ -91,6 +108,9 @@ export class MessageInputComponent implements OnDestroy {
    * Handle typing input
    */
   onTyping(): void {
+    // Save draft message to state
+    this.chatStateService.updateDraftMessage(this.newMessageContent);
+
     if (this.activeChatId()) {
       // Clear existing timeout
       if (this.typingTimeout) {

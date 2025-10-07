@@ -8,7 +8,16 @@ import { IChat } from '../../models/chat.model';
 export class ChatStateService {
   private readonly stateService = inject(StateService);
 
+  readonly draftMessage = signal<string>('');
   chats = signal<IChat[] | null>(null);
+
+  updateDraftMessage(content: string): void {
+    this.draftMessage.set(content);
+  }
+
+  clearDraftMessage(): void {
+    this.draftMessage.set('');
+  }
 
   /**
    * Update chats with new data (e.g., from WebSocket)
