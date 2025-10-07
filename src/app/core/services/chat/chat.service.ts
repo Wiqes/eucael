@@ -1,5 +1,5 @@
 // src/app/services/chat.service.ts
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Socket } from 'ngx-socket-io'; // Still import Socket from ngx-socket-io
 import { Observable } from 'rxjs';
 import { ChatStateService } from '../state/chat-state.service';
@@ -8,6 +8,7 @@ import { IChat, IChatMessages } from '../../models/chat.model';
 import { InterlocutorService } from './interlocutor.service';
 import { SOCKET_ERROR } from '../../constants/socket-error';
 import { AuthTokenService } from '../auth/auth-token.service';
+import { AuthTokenStateService } from '../state/auth-token-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +18,20 @@ export class ChatService {
   private socket = inject(Socket);
   private authTokenService = inject(AuthTokenService);
   private chatStateService = inject(ChatStateService);
+  private authTokenStateService = inject(AuthTokenStateService);
+  private token = computed(() => this.authTokenStateService.token());
   isChatsLoading = signal<boolean>(false);
 
   constructor() {
     this.subscribeToEvents();
+
+    effect(() => {
+      const token = this.token();
+      if (token) {
+        this.disconnect();
+        this.connect(token);
+      }
+    });
   }
 
   subscribeToEvents(): void {
@@ -36,7 +47,7 @@ export class ChatService {
 
     // Handle connection errors
     this.onError().subscribe((error) => {
-      if (error.message === SOCKET_ERROR.TOKEN_IS_EXPIRED) {
+      if (error.message === SOCKET_ERROR.INVALID_TOKEN) {
         this.authTokenService.refreshToken().subscribe((newToken: string) => {
           this.connect(newToken);
         });
