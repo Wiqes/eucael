@@ -52,6 +52,11 @@ export class ChatService {
           this.connect(newToken);
         });
       }
+
+      if (error.message === SOCKET_ERROR.RATE_LIMIT_EXCEEDED) {
+        this.disconnect();
+        this.authTokenService.logout();
+      }
     });
 
     this.onDisconnect().subscribe(() => {
