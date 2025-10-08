@@ -9,6 +9,8 @@ import { InterlocutorService } from './interlocutor.service';
 import { SOCKET_ERROR } from '../../constants/socket-error';
 import { AuthTokenService } from '../auth/auth-token.service';
 import { AuthTokenStateService } from '../state/auth-token-state.service';
+import { MessageService } from '../message.service';
+import { MESSAGES } from '../../constants/messages';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +20,7 @@ export class ChatService {
   private socket = inject(Socket);
   private authTokenService = inject(AuthTokenService);
   private chatStateService = inject(ChatStateService);
+  private messageService = inject(MessageService);
   private authTokenStateService = inject(AuthTokenStateService);
   private token = computed(() => this.authTokenStateService.token());
   isChatsLoading = signal<boolean>(false);
@@ -56,6 +59,9 @@ export class ChatService {
       if (error.message === SOCKET_ERROR.RATE_LIMIT_EXCEEDED) {
         this.disconnect();
         this.authTokenService.logout();
+        setTimeout(() => {
+          this.messageService.sendMessage(MESSAGES.TOO_MANY_REQUESTS);
+        }, 2000);
       }
     });
 

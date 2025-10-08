@@ -94,4 +94,10 @@ export const MESSAGES = {
     summary: 'messages.profile.failed.summary',
     detail: 'messages.profile.failed.detail',
   },
+  TOO_MANY_REQUESTS: {
+    severity: 'error',
+    summary: 'messages.tooManyRequests.error.summary',
+    detail: 'messages.tooManyRequests.error.detail',
+    life: 7000,
+  },
 };

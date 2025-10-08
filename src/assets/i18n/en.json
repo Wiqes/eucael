@@ -97,6 +97,12 @@
         "detail": "File size must be less than 5MB. Please choose a smaller file."
       }
     },
+    "tooManyRequests": {
+      "error": {
+        "summary": "Too Many Requests",
+        "detail": "You were logged out due to too many requests."
+      }
+    },
     "profile": {
       "success": {
         "summary": "Profile Updated",
