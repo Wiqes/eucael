@@ -98,6 +98,14 @@
         color: #34f5dd;
       }
     }
+    &.p-toast-message-error {
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      color: #ffdd88;
+
+      .p-toast-icon {
+        color: #ffdd88;
+      }
+    }
   }
 }
 
