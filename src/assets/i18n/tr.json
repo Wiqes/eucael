@@ -97,6 +97,12 @@
         "detail": "Dosya boyutu 5MB'den küçük olmalıdır. Lütfen daha küçük bir dosya seçin."
       }
     },
+    "tooManyRequests": {
+      "error": {
+        "summary": "Çok Fazla İstek",
+        "detail": "Çok fazla istek nedeniyle oturumunuz sonlandırıldı."
+      }
+    },
     "profile": {
       "success": {
         "summary": "Profil Güncellendi",

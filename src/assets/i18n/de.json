@@ -135,6 +135,12 @@
         "detail": "Die Dateigröße muss weniger als 5MB betragen. Bitte wählen Sie eine kleinere Datei."
       }
     },
+    "tooManyRequests": {
+      "error": {
+        "summary": "Zu viele Anfragen",
+        "detail": "Sie wurden aufgrund zu vieler Anfragen abgemeldet."
+      }
+    },
     "profile": {
       "success": {
         "summary": "Profil aktualisiert",

@@ -97,6 +97,12 @@
         "detail": "文件大小必须小于5MB。请选择一个更小的文件。"
       }
     },
+    "tooManyRequests": {
+      "error": {
+        "summary": "请求过多",
+        "detail": "由于请求过多，您已被登出。"
+      }
+    },
     "profile": {
       "success": {
         "summary": "个人资料已更新",

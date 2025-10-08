@@ -97,6 +97,12 @@
         "detail": "El tamaño del archivo debe ser menor a 5MB. Por favor elige un archivo más pequeño."
       }
     },
+    "tooManyRequests": {
+      "error": {
+        "summary": "Demasiadas Solicitudes",
+        "detail": "Has sido desconectado debido a demasiadas solicitudes."
+      }
+    },
     "profile": {
       "success": {
         "summary": "Perfil Actualizado",

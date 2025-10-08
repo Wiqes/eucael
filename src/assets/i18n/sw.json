@@ -97,6 +97,12 @@
         "detail": "Ukubwa wa faili lazima uwe chini ya 5MB. Tafadhali chagua faili ndogo."
       }
     },
+    "tooManyRequests": {
+      "error": {
+        "summary": "Maombi Mengi Sana",
+        "detail": "Umetoka kwenye mfumo kwa sababu ya maombi mengi sana."
+      }
+    },
     "profile": {
       "success": {
         "summary": "Profaili Imesasishwa",

@@ -135,6 +135,12 @@
         "detail": "La dimensione del file deve essere inferiore a 5MB. Seleziona un file più piccolo."
       }
     },
+    "tooManyRequests": {
+      "error": {
+        "summary": "Troppe Richieste",
+        "detail": "Sei stato disconnesso a causa di troppe richieste."
+      }
+    },
     "profile": {
       "success": {
         "summary": "Profilo Aggiornato",

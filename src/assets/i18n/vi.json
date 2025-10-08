@@ -97,6 +97,12 @@
         "detail": "Kích thước tệp phải nhỏ hơn 5MB. Vui lòng chọn tệp nhỏ hơn."
       }
     },
+    "tooManyRequests": {
+      "error": {
+        "summary": "Quá nhiều yêu cầu",
+        "detail": "Bạn đã bị đăng xuất do quá nhiều yêu cầu."
+      }
+    },
     "profile": {
       "success": {
         "summary": "Hồ sơ đã được cập nhật",

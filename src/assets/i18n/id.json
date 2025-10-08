@@ -97,6 +97,12 @@
         "detail": "Ukuran file harus kurang dari 5MB. Silakan pilih file yang lebih kecil."
       }
     },
+    "tooManyRequests": {
+      "error": {
+        "summary": "Terlalu Banyak Permintaan",
+        "detail": "Anda telah dikeluarkan karena terlalu banyak permintaan."
+      }
+    },
     "profile": {
       "success": {
         "summary": "Profil Diperbarui",

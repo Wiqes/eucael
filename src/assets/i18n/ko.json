@@ -97,6 +97,12 @@
         "detail": "파일 크기는 5MB 미만이어야 합니다. 더 작은 파일을 선택해 주세요."
       }
     },
+    "tooManyRequests": {
+      "error": {
+        "summary": "요청 과다",
+        "detail": "너무 많은 요청으로 인해 로그아웃되었습니다."
+      }
+    },
     "profile": {
       "success": {
         "summary": "프로필 업데이트 완료",
