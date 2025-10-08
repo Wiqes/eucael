@@ -9,7 +9,6 @@ export const MESSAGES = {
     severity: 'error',
     summary: 'messages.login.failed.summary',
     detail: 'messages.login.failed.detail',
-    life: 9991000,
   },
   STORAGE_ERROR: {
     severity: 'error',
