@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
 import { IProfile } from '../../../core/models/entities/profile.model';
-import { NgForOf, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({

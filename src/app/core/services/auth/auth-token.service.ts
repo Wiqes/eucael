@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   Observable,
@@ -18,7 +18,6 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { ChatStateService } from '../state/chat-state.service';
-import { ChatService } from '../chat/chat.service';
 import { AuthTokenStateService } from '../state/auth-token-state.service';
 
 @Injectable({

@@ -2,11 +2,10 @@ import { computed, inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { IUser } from '../../models/entities/user.model';
-import { catchError, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { IAnimal } from '../../models/entities/animal.model';
 import { IColor } from '../../models/option.model';
 import { IProfile } from '../../models/entities/profile.model';
-import { AuthTokenService } from '../auth/auth-token.service';
 import { AuthTokenStateService } from '../state/auth-token-state.service';
 import { Base64Service } from '../base64.service';
 

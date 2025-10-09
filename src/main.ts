@@ -3,7 +3,7 @@ import { appConfig } from './app/config/config';
 import { AppComponent } from './app/app.component';
 
 bootstrapApplication(AppComponent, appConfig)
-  .then((appRef) => {
+  .then((_appRef) => {
     console.log('Angular app bootstrapped successfully');
   })
   .catch((err) => console.error(err));

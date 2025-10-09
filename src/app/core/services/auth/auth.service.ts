@@ -4,7 +4,6 @@ import { RegistrationService } from './registration.service';
 import { PasswordResetService } from './password-reset.service';
 import { ICredentials } from '../../models/credentials.model';
 import { jwtDecode } from 'jwt-decode';
-import { AuthTokenService } from './auth-token.service';
 import { AuthTokenStateService } from '../state/auth-token-state.service';
 
 @Injectable({

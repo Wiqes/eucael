@@ -35,7 +35,7 @@ export class EmbodimentsComponent implements OnInit {
   private dataAccessService = inject(DataAccessService);
   private newLanguageSignal = toSignal(this.translate.onLangChange.asObservable());
   animals = computed(() => {
-    const newLanguage = this.newLanguageSignal();
+    const _newLanguage = this.newLanguageSignal();
     return this.stateService.animals().map((animal) => {
       const animalName = animal.name
         ? animal.name.charAt(0).toUpperCase() + animal.name.slice(1)

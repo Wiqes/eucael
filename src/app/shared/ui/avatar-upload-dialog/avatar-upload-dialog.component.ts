@@ -5,7 +5,6 @@ import {
   signal,
   viewChild,
   HostListener,
-  input,
   effect,
   computed,
 } from '@angular/core';
@@ -139,9 +138,6 @@ export class AvatarUploadDialogComponent {
 
   private setupCropCanvas() {
     if (!this.sourceImage || !this.cropCanvas()) return;
-
-    const canvas = this.cropCanvas()!.nativeElement;
-    const ctx = canvas.getContext('2d')!;
 
     // Calculate scaling to fit image in canvas
     const scale =

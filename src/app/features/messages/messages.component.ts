@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, OnDestroy, effect } from '@angular/core';
+import { Component, computed, inject, OnInit, OnDestroy } from '@angular/core';
 import { ChatStateService } from '../../core/services/state/chat-state.service';
 import { NgFor, NgIf } from '@angular/common';
 import { IChat, IParticipant } from '../../core/models/chat.model';

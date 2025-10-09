@@ -42,7 +42,7 @@ function handleRequest(props: {
         const authReq = addTokenToRequest(req, newToken, authTokenStateService);
         return next(authReq);
       }),
-      catchError((error) => {
+      catchError((_error) => {
         // If refresh fails, try the original request without token
         // The error handling will catch any 401 and handle accordingly
         return next(addTokenToRequest(req, null, authTokenStateService));
