@@ -8,6 +8,7 @@ import { IColor } from '../../models/option.model';
 import { IProfile } from '../../models/entities/profile.model';
 import { AuthTokenService } from '../auth/auth-token.service';
 import { AuthTokenStateService } from '../state/auth-token-state.service';
+import { Base64Service } from '../base64.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ import { AuthTokenStateService } from '../state/auth-token-state.service';
 export class DataAccessService {
   private http = inject(HttpClient);
   private authTokenStateService = inject(AuthTokenStateService);
+  private readonly base64Service = inject(Base64Service);
   private token = computed(() => this.authTokenStateService.token());
 
   getUserData(): Observable<IUser | null> {
@@ -23,7 +25,7 @@ export class DataAccessService {
       return of(null);
     }
 
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const payload = JSON.parse(this.base64Service.decode(token.split('.')[1]));
     const username = payload.username;
     return this.http.get<IUser>(`${environment.API_URL}/users/${username}`).pipe(
       catchError((error) => {

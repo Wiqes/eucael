@@ -18,17 +18,6 @@ export class ProfileService {
   private authTokenStateService = inject(AuthTokenStateService);
   readonly token = computed(() => this.authTokenStateService.token());
 
-  getProfileFromToken(): IProfile | null {
-    const token = this.token();
-    if (!token) {
-      return null;
-    }
-
-    const payload = JSON.parse(atob(token.split('.')[1]));
-
-    return payload.profile || null;
-  }
-
   private getPresignedAvatarUrl(
     requestData: IUploadAvatarRequest,
   ): Observable<PresignedUrlResponse> {
