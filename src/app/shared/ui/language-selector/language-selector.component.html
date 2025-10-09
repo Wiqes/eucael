@@ -5,7 +5,14 @@
   styleClass="language-menu"
   appMenuPositioning="language-menu"
 ></p-menu>
-<div class="menu" (click)="langMenu.toggle($event)">
+<div
+  class="menu"
+  tabindex="0"
+  role="button"
+  (click)="langMenu.toggle($event)"
+  (keydown.enter)="langMenu.toggle($event)"
+  (keydown.space)="langMenu.toggle($event)"
+>
   <span *ngIf="selectedLanguageObj?.code === 'uk'" class="lang-icon">
     {{ selectedLanguageObj?.flag }}
   </span>

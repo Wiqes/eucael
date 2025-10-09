@@ -1,4 +1,11 @@
-<div class="card-wrapper" (click)="onCardClick()">
+<div
+  class="card-wrapper"
+  tabindex="0"
+  role="button"
+  (click)="onCardClick()"
+  (keydown.enter)="onCardClick()"
+  (keydown.space)="onCardClick()"
+>
   <div class="card-border">
     <div class="card-content">
       <div class="image-container">

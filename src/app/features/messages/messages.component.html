@@ -15,7 +15,11 @@
       class="chat-item"
       [class.has-unread]="chat.unreadCount && chat.unreadCount > 0"
       pRipple
+      tabindex="0"
+      role="button"
       (click)="openChat(chat.userId!)"
+      (keydown.enter)="openChat(chat.userId!)"
+      (keydown.space)="openChat(chat.userId!)"
     >
       <div class="avatar-container">
         <app-chat-avatar [profile]="chat.profile" />

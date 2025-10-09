@@ -5,7 +5,14 @@
       <div class="info-card personal-info">
         <div *ngIf="profile()" class="card-header">
           <h3>{{ 'Personal Information' | translate }}</h3>
-          <i class="pi pi-pencil edit-button" (click)="openEditMode()"></i>
+          <i
+            class="pi pi-pencil edit-button"
+            tabindex="0"
+            role="button"
+            (click)="openEditMode()"
+            (keydown.enter)="openEditMode()"
+            (keydown.space)="openEditMode()"
+          ></i>
         </div>
 
         <!-- View Mode -->
