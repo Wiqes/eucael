@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, Input } from '@angular/core';
+import { AfterViewInit, Directive, inject, Input } from '@angular/core';
 import { Menu } from 'primeng/menu';
 
 @Directive({
@@ -7,8 +7,7 @@ import { Menu } from 'primeng/menu';
 })
 export class MenuPositioningDirective implements AfterViewInit {
   @Input('appMenuPositioning') menuClass!: string;
-
-  constructor(private menu: Menu) {}
+  private menu = inject(Menu);
 
   ngAfterViewInit() {
     if (this.menu) {

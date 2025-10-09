@@ -8,7 +8,7 @@
       [formControl]="control()!"
       [placeholder]="placeholder() | translate"
       autocomplete="off"
-      (focus)="focus.emit()"
+      (focus)="controlFocus.emit()"
       class="regular-input"
       [attr.variant]="variant() || null"
     />

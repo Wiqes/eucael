@@ -1,4 +1,4 @@
-import { Component, computed, input, ElementRef, ViewChild } from '@angular/core';
+import { Component, computed, input, ElementRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ICreature } from '../../../core/models/entities/card.model';
 import { ImageComponent } from '../image/image.component';
@@ -13,6 +13,7 @@ import { CardNameComponent } from './card-name/card-name.component';
 })
 export class CardComponent {
   @ViewChild('imageComponent') imageComponent!: ImageComponent;
+  private elementRef = inject(ElementRef);
 
   creature = input<ICreature | null>(null);
   animalName = input<string>('');
@@ -25,8 +26,6 @@ export class CardComponent {
   level = computed(() => {
     return this.creature()?.level || 1;
   });
-
-  constructor(private elementRef: ElementRef) {}
 
   onCardClick() {
     // Add click animation class

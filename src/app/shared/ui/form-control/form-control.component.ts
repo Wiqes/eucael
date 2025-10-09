@@ -26,7 +26,7 @@ import { LanguageService } from '../../../core/services/language.service';
   styleUrls: ['./form-control.component.scss'],
 })
 export class FormControlComponent {
-  focus = output<void>();
+  controlFocus = output<void>();
   label = input('');
   placeholder = input('');
   control = input<FormControl>();
