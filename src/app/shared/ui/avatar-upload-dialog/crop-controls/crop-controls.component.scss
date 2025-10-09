@@ -15,7 +15,7 @@
       flex-direction: column;
       gap: 0.75rem;
 
-      label {
+      .label {
         color: white;
         font-weight: 600;
         font-size: 0.9rem;
@@ -50,7 +50,7 @@
     gap: 0.75rem;
     align-items: center;
 
-    label {
+    .label {
       color: white;
       font-weight: 600;
       font-size: 0.9rem;
@@ -92,7 +92,7 @@
 
     .zoom-controls,
     .crop-preview {
-      label {
+      .label {
         display: none;
       }
     }

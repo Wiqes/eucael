@@ -38,7 +38,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
   interlocutorProfile = computed(() => this.interlocutor()?.profile || null);
   activeChatId = input<string>('');
   receiverId = input<string>('');
-  onMessageSent = output<IChatMessage>();
+  messageSent = output<IChatMessage>();
   isTyping = signal(false);
   newMessageContent = '';
   typingTimeout?: ReturnType<typeof setTimeout>;
@@ -81,7 +81,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
       // Clear the input immediately for better UX
       this.newMessageContent = '';
       this.chatStateService.clearDraftMessage();
-      this.onMessageSent.emit({
+      this.messageSent.emit({
         id: '',
         content: messageContent,
         timestamp: new Date(),

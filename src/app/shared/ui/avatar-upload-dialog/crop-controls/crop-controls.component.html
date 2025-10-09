@@ -1,6 +1,6 @@
 <div class="buttons-container">
   <div class="zoom-controls">
-    <label>{{ 'Zoom' | translate }}</label>
+    <div class="label">{{ 'Zoom' | translate }}</div>
     <div class="zoom-buttons">
       <p-button
         icon="pi pi-minus"
@@ -33,7 +33,7 @@
 
 @if (previewImage()) {
 <div class="crop-preview">
-  <label>{{ 'Preview' | translate }}</label>
+  <div class="label">{{ 'Preview' | translate }}</div>
   <div class="preview-container">
     <img [src]="previewImage()" alt="Preview" class="preview-image" />
   </div>

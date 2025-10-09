@@ -30,7 +30,7 @@
   <app-message-input
     [activeChatId]="activeChatId()"
     [receiverId]="receiverId"
-    (onMessageSent)="handleMessageSent($event)"
+    (messageSent)="handleMessageSent($event)"
   />
 
   <button
