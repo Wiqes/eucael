@@ -2,7 +2,7 @@
   #messageInput
   [(ngModel)]="newMessageContent"
   (keydown)="onKeyPress($event)"
-  (input)="onTyping()"
+  (input)="typingHandler()"
   [placeholder]="'Type your message...' | translate"
   rows="1"
   maxlength="322"

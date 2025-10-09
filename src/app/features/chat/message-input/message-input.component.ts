@@ -107,7 +107,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
   /**
    * Handle typing input
    */
-  onTyping(): void {
+  typingHandler(): void {
     // Save draft message to state
     this.chatStateService.updateDraftMessage(this.newMessageContent);
 

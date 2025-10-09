@@ -32,20 +32,6 @@ module.exports = tseslint.config(
       ],
       // Relax some strict rules for development convenience
       '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/no-unused-vars': [
-        'warn',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-        },
-      ],
-      '@typescript-eslint/no-inferrable-types': 'warn',
-      '@angular-eslint/prefer-inject': 'warn',
-      // Allow some common patterns
-      'prefer-const': 'warn',
-      '@typescript-eslint/consistent-indexed-object-style': 'warn',
-      '@angular-eslint/no-output-on-prefix': 'warn',
-      '@angular-eslint/no-output-native': 'warn',
     },
   },
   {
