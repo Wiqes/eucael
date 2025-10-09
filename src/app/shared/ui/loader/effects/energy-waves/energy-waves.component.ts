@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class EnergyWavesComponent {
   @Input() intensity: 'low' | 'medium' | 'high' | 'epic' = 'high';
-  @Input() animationSpeed: number = 1;
+  @Input() animationSpeed = 1;
 
   readonly waves = [
     { position: 1, delay: 0 },

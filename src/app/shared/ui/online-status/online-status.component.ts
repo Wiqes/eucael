@@ -41,7 +41,7 @@ import { TooltipModule } from 'primeng/tooltip';
 })
 export class OnlineStatusComponent {
   @Input() isOnline!: boolean;
-  @Input() showAnimation: boolean = true;
+  @Input() showAnimation = true;
 
   getStatusClass(): string {
     const status = this.isOnline ? 'online' : 'offline';

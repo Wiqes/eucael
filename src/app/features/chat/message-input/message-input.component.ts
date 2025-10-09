@@ -40,7 +40,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
   receiverId = input<string>('');
   onMessageSent = output<IChatMessage>();
   isTyping = signal(false);
-  newMessageContent: string = '';
+  newMessageContent = '';
   typingTimeout?: ReturnType<typeof setTimeout>;
 
   ngOnInit(): void {

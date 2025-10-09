@@ -11,8 +11,8 @@ import { OrbParticleComponent } from './orb-particle/orb-particle.component';
 })
 export class MysticalOrbComponent {
   @Input() intensity: 'low' | 'medium' | 'high' | 'epic' = 'high';
-  @Input() animationSpeed: number = 1;
-  @Input() particleCount: number = 8;
+  @Input() animationSpeed = 1;
+  @Input() particleCount = 8;
 
   get ringCount() {
     switch (this.intensity) {

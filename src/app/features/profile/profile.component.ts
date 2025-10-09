@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
   isUpdating = signal(false);
 
   editProfileForm: FormGroup;
-  formControls: { [key: string]: FormControl };
+  formControls: Record<string, FormControl>;
 
   displayName = computed(() => this.stateService.displayName());
   profile = computed(() => this.stateService.profile());

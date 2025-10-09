@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class RunesContainerComponent {
   @Input() intensity: 'low' | 'medium' | 'high' | 'epic' = 'high';
-  @Input() currentStage: number = 0;
+  @Input() currentStage = 0;
 
   readonly runes = [{ symbol: '✦', position: 2 }];
 

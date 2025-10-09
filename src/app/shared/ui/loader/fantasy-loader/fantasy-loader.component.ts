@@ -23,11 +23,11 @@ import { CosmicDustComponent } from '../effects/cosmic-dust/cosmic-dust.componen
   styleUrls: ['./fantasy-loader.component.scss'],
 })
 export class FantasyLoaderComponent implements OnInit, OnDestroy {
-  @Input() text: string = 'Loading...';
-  @Input() showText: boolean = true;
+  @Input() text = 'Loading...';
+  @Input() showText = true;
   @Input() theme: 'emerald' | 'sapphire' | 'ruby' | 'amethyst' = 'emerald';
   @Input() intensity: 'low' | 'medium' | 'high' | 'epic' = 'high';
-  @Input() enableSoundEffects: boolean = false;
+  @Input() enableSoundEffects = false;
 
   // Dynamic state management
   private loadingStage = signal(0);

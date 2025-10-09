@@ -97,7 +97,7 @@ export class ImageComponent {
 
     // Variables for zoom, rotation, and position
     let scale = 1;
-    let rotation = 0;
+    const rotation = 0;
     let translateX = 0;
     let translateY = 0;
     let isDragging = false;

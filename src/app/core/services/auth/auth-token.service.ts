@@ -97,7 +97,7 @@ export class AuthTokenService {
     };
   }
 
-  isTokenExpiringSoon(bufferSeconds: number = 60): boolean {
+  isTokenExpiringSoon(bufferSeconds = 60): boolean {
     const exp = this.getTokenExpiration();
     if (!exp) return true;
 

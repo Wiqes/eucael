@@ -87,5 +87,5 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
 })
 export class TypingIndicatorComponent {
-  @Input() isVisible: boolean = false;
+  @Input() isVisible = false;
 }

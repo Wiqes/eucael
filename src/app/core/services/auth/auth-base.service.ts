@@ -16,7 +16,7 @@ export abstract class AuthBaseService {
     payload: any,
     onSuccess: (response: any) => void,
     onError: () => void,
-    isRegularLoading: boolean = true,
+    isRegularLoading = true,
   ): void {
     this.isLoading.set(true);
 

@@ -567,7 +567,7 @@ export class AvatarUploadDialogComponent {
   }
 
   private getHandleCursor(handle: string): string {
-    const cursorMap: { [key: string]: string } = {
+    const cursorMap: Record<string, string> = {
       nw: 'nw-resize',
       ne: 'ne-resize',
       sw: 'sw-resize',
