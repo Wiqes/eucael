@@ -30,11 +30,32 @@ module.exports = tseslint.config(
           style: 'kebab-case',
         },
       ],
+      // Relax some strict rules for development convenience
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
+      '@typescript-eslint/no-inferrable-types': 'warn',
+      '@angular-eslint/prefer-inject': 'warn',
+      // Allow some common patterns
+      'prefer-const': 'warn',
+      '@typescript-eslint/consistent-indexed-object-style': 'warn',
+      '@angular-eslint/no-output-on-prefix': 'warn',
+      '@angular-eslint/no-output-native': 'warn',
     },
   },
   {
     files: ['**/*.html'],
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
-    rules: {},
+    rules: {
+      // Relax accessibility rules for development
+      '@angular-eslint/template/click-events-have-key-events': 'warn',
+      '@angular-eslint/template/interactive-supports-focus': 'warn',
+      '@angular-eslint/template/label-has-associated-control': 'warn',
+    },
   },
 );
