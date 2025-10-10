@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
 
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: [''],
     otp: ['', [Validators.pattern(/^[0-9]{6}$/)]],
   });
