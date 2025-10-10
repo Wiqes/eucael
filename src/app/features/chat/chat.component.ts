@@ -73,7 +73,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
   private shouldScrollToBottom = false;
-  private scrollTimeout: any;
+  private scrollTimeout: ReturnType<typeof setTimeout> | null = null;
   private isUserScrolling = false;
 
   constructor() {
@@ -232,21 +232,23 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
    * Subscribes to incoming messages using ChatService and updates the messages array.
    */
   subscribeToMessages(): void {
-    this.messageSubscription = this.chatService.onReceiveMessage().subscribe((message: any) => {
-      // Check if user was near bottom before adding message
-      const wasNearBottom = this.isNearBottom();
-      console.log('Received message:', message);
+    this.messageSubscription = this.chatService
+      .onReceiveMessage()
+      .subscribe((message: IChatMessage) => {
+        // Check if user was near bottom before adding message
+        const wasNearBottom = this.isNearBottom();
+        console.log('Received message:', message);
 
-      if (message.sender.id !== this.currentUserId()) {
-        this.messages = [...this.messages, message];
-        this.updateChatUnreadCount();
-      }
+        if (message.sender.id !== this.currentUserId()) {
+          this.messages = [...this.messages, message];
+          this.updateChatUnreadCount();
+        }
 
-      // Only auto-scroll if user was near bottom or if it's their own message
-      if (wasNearBottom || message.sender.id === this.currentUserId()) {
-        this.shouldScrollToBottom = true;
-      }
-    });
+        // Only auto-scroll if user was near bottom or if it's their own message
+        if (wasNearBottom || message.sender.id === this.currentUserId()) {
+          this.shouldScrollToBottom = true;
+        }
+      });
   }
 
   handleMessageSent(message: IChatMessage): void {
@@ -323,7 +325,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**
    * Formats timestamp for display
    */
-  formatMessageTime(timestamp: string | Date): string {
+  formatMessageTime(timestamp: string | Date | undefined): string {
+    if (!timestamp) return '';
     const date = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
     const now = new Date();
     const diffInHours = Math.abs(now.getTime() - date.getTime()) / (1000 * 60 * 60);
@@ -338,7 +341,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**
    * TrackBy function for message list optimization
    */
-  trackByMessageId(index: number, message: IChatMessage): any {
+  trackByMessageId(index: number, message: IChatMessage): string | number {
     return message.id || index;
   }
 

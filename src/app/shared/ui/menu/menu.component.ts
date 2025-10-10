@@ -2,6 +2,7 @@ import { Component, computed, inject, OnDestroy, ViewChild } from '@angular/core
 import { SkeletonModule } from 'primeng/skeleton';
 import { MenuModule } from 'primeng/menu';
 import { Menu } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 import { NgIf } from '@angular/common';
 import { ChevronDownIconComponent } from '../chevron-down-icon.component';
 import { MenuPositioningDirective } from '../menu-positioning.directive';
@@ -27,7 +28,7 @@ export class MenuComponent implements OnDestroy {
   displayName = computed(() => this.stateService.displayName());
   isDataLoading = computed(() => this.stateService.isDataLoading());
 
-  items: any[] = [];
+  items: MenuItem[] = [];
 
   constructor() {
     this.setMenuItems();

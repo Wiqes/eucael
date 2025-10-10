@@ -9,7 +9,10 @@ import { catchError, throwError, switchMap } from 'rxjs';
 import { AuthTokenService } from '../services/auth/auth-token.service';
 import { AuthTokenStateService } from '../services/state/auth-token-state.service';
 
-export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
+export const authInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+) => {
   const authTokenService = inject(AuthTokenService);
   const authTokenStateService = inject(AuthTokenStateService);
   const token = computed(() => authTokenStateService.token() || 'RXVjYWVsIEluYy4=');
@@ -28,7 +31,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
 };
 
 function handleRequest(props: {
-  req: HttpRequest<any>;
+  req: HttpRequest<unknown>;
   next: HttpHandlerFn;
   authTokenService: AuthTokenService;
   authTokenStateService: AuthTokenStateService;
@@ -69,7 +72,7 @@ function handleRequest(props: {
 }
 
 function handle401Error(props: {
-  req: HttpRequest<any>;
+  req: HttpRequest<unknown>;
   next: HttpHandlerFn;
   authTokenService: AuthTokenService;
   authTokenStateService: AuthTokenStateService;
@@ -90,10 +93,10 @@ function handle401Error(props: {
 }
 
 function addTokenToRequest(
-  req: HttpRequest<any>,
+  req: HttpRequest<unknown>,
   token: string | null,
   authTokenStateService: AuthTokenStateService,
-): HttpRequest<any> {
+): HttpRequest<unknown> {
   if (token) {
     authTokenStateService.token.set(token);
   }

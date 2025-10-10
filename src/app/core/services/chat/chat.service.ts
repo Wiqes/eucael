@@ -4,7 +4,7 @@ import { Socket } from 'ngx-socket-io'; // Still import Socket from ngx-socket-i
 import { Observable } from 'rxjs';
 import { ChatStateService } from '../state/chat-state.service';
 import { ITypingIndicator, IUserPresence } from '../../models/notification.model';
-import { IChat, IChatMessages } from '../../models/chat.model';
+import { IChat, IChatMessage, IChatMessages } from '../../models/chat.model';
 import { InterlocutorService } from './interlocutor.service';
 import { SOCKET_ERROR } from '../../constants/socket-error';
 import { AuthTokenService } from '../auth/auth-token.service';
@@ -103,7 +103,7 @@ export class ChatService {
   }
 
   // Listen for incoming messages
-  onReceiveMessage(): Observable<any> {
+  onReceiveMessage(): Observable<IChatMessage> {
     return this.socket.fromEvent('receiveMessage');
   }
 
@@ -161,7 +161,7 @@ export class ChatService {
     return this.socket.fromEvent('disconnect');
   }
 
-  onError(): Observable<any> {
+  onError(): Observable<{ message: string }> {
     return this.socket.fromEvent('error');
   }
 }

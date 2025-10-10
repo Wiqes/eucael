@@ -31,7 +31,7 @@ export class FormControlComponent {
   placeholder = input('');
   control = input<FormControl>();
   type = input<'text' | 'select' | 'date' | 'textarea' | 'number' | 'password'>('text');
-  options = input<any[]>();
+  options = input<Record<string, unknown>[]>();
   optionValue = input('value');
   variant = input<'filled' | ''>('');
   private readonly languageService = inject(LanguageService);

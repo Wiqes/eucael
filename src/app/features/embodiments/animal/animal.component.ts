@@ -17,11 +17,11 @@ export class AnimalComponent {
   female = computed(() => this.animal()?.female || []);
   totem = computed(() => this.animal()?.totem || []);
 
-  getFemaleByColorId(colorId: any) {
+  getFemaleByColorId(colorId: number) {
     return this.female().find((f) => f.colorId === colorId) || null;
   }
 
-  getMaleByColorId(colorId: any) {
+  getMaleByColorId(colorId: number) {
     return this.male().find((m) => m.colorId === colorId) || null;
   }
 }

@@ -27,8 +27,8 @@ export class AuthService {
     if (!this.token()) {
       return false;
     }
-    const decodedToken: any = jwtDecode(this.token() || '');
-    return decodedToken.roles?.includes(role);
+    const decodedToken = jwtDecode<{ roles?: string[] }>(this.token() || '');
+    return decodedToken.roles?.includes(role) ?? false;
   }
 
   login(email: string, password: string) {

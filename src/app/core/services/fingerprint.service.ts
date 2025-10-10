@@ -29,7 +29,7 @@ export class FingerprintService {
   private getPlatform(): string {
     // Use modern User-Agent Client Hints API if available
     if ('userAgentData' in navigator) {
-      const userAgentData = (navigator as any).userAgentData;
+      const userAgentData = (navigator as { userAgentData?: { platform?: string } }).userAgentData;
       if (userAgentData?.platform) {
         return userAgentData.platform;
       }

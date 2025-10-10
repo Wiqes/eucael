@@ -40,16 +40,18 @@ export class AuthTokenService {
     const token = this.token();
     const options = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
-    this.http.post<any>(`${environment.API_URL}/auth/logout`, {}, options).subscribe({
-      next: () => {
-        this.authTokenStateService.isRefreshing.set(false);
-        this.refreshTokenSubject.next(null);
-        this.moveToLogin();
-      },
-      error: () => {
-        this.moveToLogin();
-      },
-    });
+    this.http
+      .post<Record<string, unknown>>(`${environment.API_URL}/auth/logout`, {}, options)
+      .subscribe({
+        next: () => {
+          this.authTokenStateService.isRefreshing.set(false);
+          this.refreshTokenSubject.next(null);
+          this.moveToLogin();
+        },
+        error: () => {
+          this.moveToLogin();
+        },
+      });
   }
 
   moveToLogin(): void {
@@ -67,7 +69,7 @@ export class AuthTokenService {
     if (!token) return null;
 
     try {
-      const decodedToken: any = jwtDecode(token);
+      const decodedToken = jwtDecode<{ exp?: number }>(token);
       return decodedToken.exp || null;
     } catch (e) {
       console.error('Error decoding token:', e);

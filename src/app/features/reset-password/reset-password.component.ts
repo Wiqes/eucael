@@ -51,7 +51,7 @@ export class ResetPasswordComponent {
     }
     this.loadingResetPassword = true;
     this.http
-      .post<any>(`${environment.API_URL}/auth/reset-password`, {
+      .post<Record<string, unknown>>(`${environment.API_URL}/auth/reset-password`, {
         token: this.token(),
         newPassword: this.formControls['newPassword'].value,
       })

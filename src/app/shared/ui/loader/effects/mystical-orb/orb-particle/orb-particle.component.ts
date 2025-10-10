@@ -7,5 +7,5 @@ import { Component, input } from '@angular/core';
   styleUrl: './orb-particle.component.scss',
 })
 export class OrbParticleComponent {
-  particle = input<any>(null);
+  particle = input<number>(0);
 }

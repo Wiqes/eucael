@@ -23,7 +23,7 @@ export class LoginService extends AuthBaseService {
 
   request({ email, password }: ICredentials) {
     const fingerprint = this.getFingerprint();
-    this.makeAuthRequest(
+    this.makeAuthRequest<ITokenData>(
       '/auth/login',
       { username: email, password, fingerprint },
       (res) => this.onLoginSuccess(res),

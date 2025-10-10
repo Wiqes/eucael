@@ -15,7 +15,7 @@ export class IconService {
    * @param iconName - The name of the animal icon
    * @returns The corresponding icon component
    */
-  getIconComponent(iconName: string): Type<any> {
+  getIconComponent(iconName: string): Type<unknown> {
     switch (iconName) {
       case ANIMALS.CAT:
         return CatIconComponent;

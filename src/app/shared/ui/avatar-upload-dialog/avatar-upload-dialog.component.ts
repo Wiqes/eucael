@@ -764,18 +764,29 @@ export class AvatarUploadDialogComponent {
       // Upload using ProfileService
       this.profileService.uploadAvatar(croppedFile).subscribe({
         next: (event) => {
-          if (event.type === HttpEventType.UploadProgress && event.total) {
-            const progress = Math.round(100 * (event.loaded / event.total));
-            this.uploadProgress.set(progress);
-          } else if (event.type === HttpEventType.Response) {
-            // Upload completed successfully
-            // Update the user's avatar URL in the state
-            if (event.publicUrl) {
-              this.stateService.updateUserProfile({ avatarUrl: event.publicUrl });
-            }
+          // Type guard for event object
+          if (typeof event === 'object' && event !== null && 'type' in event) {
+            if (
+              event.type === HttpEventType.UploadProgress &&
+              'total' in event &&
+              'loaded' in event
+            ) {
+              const total = typeof event.total === 'number' ? event.total : 0;
+              const loaded = typeof event.loaded === 'number' ? event.loaded : 0;
+              if (total > 0) {
+                const progress = Math.round(100 * (loaded / total));
+                this.uploadProgress.set(progress);
+              }
+            } else if (event.type === HttpEventType.Response) {
+              // Upload completed successfully
+              // Update the user's avatar URL in the state
+              if ('publicUrl' in event && typeof event.publicUrl === 'string') {
+                this.stateService.updateUserProfile({ avatarUrl: event.publicUrl });
+              }
 
-            this.messageService.sendMessage(MESSAGES.AVATAR_UPLOAD_SUCCESS);
-            this.hide();
+              this.messageService.sendMessage(MESSAGES.AVATAR_UPLOAD_SUCCESS);
+              this.hide();
+            }
           }
         },
         error: (error) => {

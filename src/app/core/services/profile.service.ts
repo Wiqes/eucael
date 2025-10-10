@@ -27,11 +27,11 @@ export class ProfileService {
     );
   }
 
-  private uploadAvatarToS3(presignedUrl: string, file: File): Observable<HttpEvent<any>> {
+  private uploadAvatarToS3(presignedUrl: string, file: File): Observable<HttpEvent<unknown>> {
     return this.http.put(presignedUrl, file, { reportProgress: true, observe: 'events' });
   }
 
-  uploadAvatar(file: File): Observable<any> {
+  uploadAvatar(file: File): Observable<unknown> {
     const fakeProgressEvents = Array.from({ length: 20 }, (_, i) => ({
       type: HttpEventType.UploadProgress,
       loaded: i * 4,
@@ -55,10 +55,14 @@ export class ProfileService {
           .pipe(
             switchMap((res) =>
               this.uploadAvatarToS3(res.uploadUrl, file).pipe(
-                map((event: HttpEvent<any>) => {
-                  if (event.type === HttpEventType.UploadProgress && event.total) {
-                    const adjustedLoaded = Math.round(10 + (event.loaded / event.total) * 90);
-                    return { ...event, loaded: adjustedLoaded, total: 100 };
+                map((event) => {
+                  if (event.type === HttpEventType.UploadProgress) {
+                    const total = 'total' in event ? event.total ?? 0 : 0;
+                    const loaded = 'loaded' in event ? event.loaded : 0;
+                    if (total > 0) {
+                      const adjustedLoaded = Math.round(10 + (loaded / total) * 90);
+                      return { ...event, loaded: adjustedLoaded, total: 100 };
+                    }
                   }
                   if (event.type === HttpEventType.Response) {
                     return { ...event, publicUrl: res.publicUrl };
