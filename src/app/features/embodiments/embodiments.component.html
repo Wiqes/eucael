@@ -18,7 +18,7 @@
       </div>
     </ng-template>
   </p-multiselect>
-  <div class="totem-switcher">
+  <div class="totem-switcher" (click)="isTotemShown = !isTotemShown">
     <div class="label">{{ 'The Familiar' | translate }}</div>
     <p-toggleswitch [(ngModel)]="isTotemShown">
       <ng-template #handle let-checked="checked">
