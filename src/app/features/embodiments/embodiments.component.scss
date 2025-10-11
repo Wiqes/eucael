@@ -72,6 +72,10 @@
       user-select: none;
       color: #a1a1aa;
       font-weight: 900;
+
+      &.active {
+        color: #ffffff;
+      }
     }
 
     p-toggleswitch {
