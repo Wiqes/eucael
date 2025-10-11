@@ -9,6 +9,10 @@
   padding: 64px 20px;
 }
 
+:host ::ng-deep .p-toggleswitch-slider {
+  border: 1px solid rgba(#a1a1aa, 0.2) !important;
+}
+
 .filters {
   display: flex;
   flex-direction: row;
@@ -46,16 +50,27 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    background: #09090b;
+    cursor: pointer;
+    border: 1px solid #52525b;
+    border-radius: 6px;
+    width: auto;
+    padding: 4.75px 12px;
     justify-content: flex-end;
     gap: 10px;
     flex-shrink: 0;
+
+    &:hover {
+      border-color: #71717a;
+    }
 
     .label {
       font-size: 22px;
       margin-bottom: 0;
       text-align: center;
       white-space: nowrap;
-      color: $primary-color;
+      user-select: none;
+      color: #a1a1aa;
       font-weight: 900;
     }
 
@@ -109,7 +124,6 @@
 
     .totem-switcher {
       justify-content: center;
-      width: 100%;
     }
   }
 }
