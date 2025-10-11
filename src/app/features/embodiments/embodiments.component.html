@@ -18,9 +18,16 @@
       </div>
     </ng-template>
   </p-multiselect>
-  <div class="totem-switcher" (click)="isTotemShown = !isTotemShown">
+  <div
+    class="totem-switcher"
+    (click)="isTotemShown = !isTotemShown"
+    (keydown.enter)="isTotemShown = !isTotemShown"
+    (keydown.space)="isTotemShown = !isTotemShown"
+    tabindex="0"
+    role="button"
+  >
     <div class="label">{{ 'The Familiar' | translate }}</div>
-    <p-toggleswitch [(ngModel)]="isTotemShown">
+    <p-toggleswitch [ngModel]="isTotemShown">
       <ng-template #handle let-checked="checked">
         <i [ngClass]="['!text-xs', 'pi', isTotemShown ? 'pi-check' : 'pi-times']"></i>
       </ng-template>
