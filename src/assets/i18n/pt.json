@@ -240,5 +240,8 @@
   "conversations": "conversas",
   "No conversations yet": "Nenhuma conversa ainda",
   "Start a new conversation to see it here": "Inicie uma nova conversa para vê-la aqui",
-  "Select Familiars": "Selecionar Familiares"
+  "Select Familiars": "Selecionar Familiares",
+  "Search users...": "Pesquisar usuários...",
+  "Searching...": "Pesquisando...",
+  "No users found": "Nenhum usuário encontrado"
 }

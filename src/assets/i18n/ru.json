@@ -232,5 +232,8 @@
   "conversations": "беседы",
   "No conversations yet": "Пока нет бесед",
   "Start a new conversation to see it here": "Начните новую беседу, чтобы увидеть её здесь",
-  "Select Familiars": "Выбрать фамильяров"
+  "Select Familiars": "Выбрать фамильяров",
+  "Search users...": "Поиск пользователей...",
+  "Searching...": "Поиск...",
+  "No users found": "Пользователи не найдены"
 }

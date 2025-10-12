@@ -232,5 +232,8 @@
   "conversations": "sohbetler",
   "No conversations yet": "Henüz sohbet yok",
   "Start a new conversation to see it here": "Burada görmek için yeni bir sohbet başlatın",
-  "Select Familiars": "Aşina Olanları Seç"
+  "Select Familiars": "Aşina Olanları Seç",
+  "Search users...": "Kullanıcı ara...",
+  "Searching...": "Aranıyor...",
+  "No users found": "Kullanıcı bulunamadı"
 }

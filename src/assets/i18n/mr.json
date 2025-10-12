@@ -232,5 +232,8 @@
   "conversations": "संभाषणे",
   "No conversations yet": "अजूनही संभाषणे नाहीत",
   "Start a new conversation to see it here": "येथे पाहण्यासाठी नवीन संभाषण सुरू करा",
-  "Select Familiars": "मूर्तिमान निवडा"
+  "Select Familiars": "मूर्तिमान निवडा",
+  "Search users...": "वापरकर्ते शोधा...",
+  "Searching...": "शोधत आहे...",
+  "No users found": "कोणतेही वापरकर्ते सापडले नाहीत"
 }

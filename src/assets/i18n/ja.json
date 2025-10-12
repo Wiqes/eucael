@@ -232,5 +232,8 @@
   "conversations": "会話",
   "No conversations yet": "まだ会話がありません",
   "Start a new conversation to see it here": "新しい会話を始めるとここに表示されます",
-  "Select Familiars": "使い魔を選択"
+  "Select Familiars": "使い魔を選択",
+  "Search users...": "ユーザーを検索...",
+  "Searching...": "検索中...",
+  "No users found": "ユーザーが見つかりません"
 }

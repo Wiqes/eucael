@@ -232,5 +232,8 @@
   "conversations": "Unterhaltungen",
   "No conversations yet": "Noch keine Unterhaltungen",
   "Start a new conversation to see it here": "Beginnen Sie eine neue Unterhaltung, um sie hier zu sehen",
-  "Select Familiars": "Vertraute auswählen"
+  "Select Familiars": "Vertraute auswählen",
+  "Search users...": "Benutzer suchen...",
+  "Searching...": "Suche läuft...",
+  "No users found": "Keine Benutzer gefunden"
 }

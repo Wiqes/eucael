@@ -232,5 +232,8 @@
   "conversations": "mazungumzo",
   "No conversations yet": "Hakuna mazungumzo bado",
   "Start a new conversation to see it here": "Anza mazungumzo mapya kuyaona hapa",
-  "Select Familiars": "Chagua Wanyama"
+  "Select Familiars": "Chagua Wanyama",
+  "Search users...": "Tafuta watumiaji...",
+  "Searching...": "Inatafuta...",
+  "No users found": "Hakuna watumiaji waliopatikana"
 }
