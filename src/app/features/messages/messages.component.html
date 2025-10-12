@@ -6,7 +6,9 @@
   } @else {
   <div class="messages-header">
     <h2 class="messages-title">{{ 'Messages' | translate }}</h2>
-    <div class="messages-count">{{ interlocutors().length }} {{ 'conversations' | translate }}</div>
+    <div class="messages-count">
+      {{ 'conversations' | translate }} ({{ interlocutors().length }})
+    </div>
   </div>
 
   <!-- Search Bar -->
