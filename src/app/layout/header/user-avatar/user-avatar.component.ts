@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, output } from '@angular/core';
 import { SkeletonModule } from 'primeng/skeleton';
 import { AvatarModule } from 'primeng/avatar';
 import { NgIf } from '@angular/common';
@@ -15,4 +15,10 @@ export class UserAvatarComponent {
   private stateService = inject(StateService);
   photoURL = computed(() => this.stateService.avatarUrl());
   isDataLoading = computed(() => this.stateService.isDataLoading());
+
+  avatarClick = output<Event>();
+
+  onAvatarClick(event: Event): void {
+    this.avatarClick.emit(event);
+  }
 }

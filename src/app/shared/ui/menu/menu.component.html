@@ -5,20 +5,3 @@
   styleClass="user-menu"
   appMenuPositioning="user-menu"
 ></p-menu>
-<div
-  class="menu"
-  tabindex="0"
-  role="button"
-  (click)="menu.toggle($event)"
-  (keydown.enter)="menu.toggle($event)"
-  (keydown.space)="menu.toggle($event)"
->
-  <ng-container *ngIf="displayName(); else loadingName">
-    <div class="label">{{ displayName() }}</div>
-    <i class="pi pi-list"></i>
-  </ng-container>
-  <ng-template #loadingName>
-    <p-skeleton height="1rem" width="5rem" styleClass="mb-2" />
-  </ng-template>
-  <app-chevron-down-icon />
-</div>

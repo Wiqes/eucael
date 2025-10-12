@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding-left: 20px;
   height: 48px;
   position: fixed;
   top: 0;
@@ -80,21 +80,23 @@
     align-items: center;
     width: auto;
     height: 40px;
-    padding: 0 16px;
     justify-content: flex-end;
-    gap: 4px;
+    gap: 12px;
     line-height: 150%;
     user-select: none;
-  }
 
-  @media (max-width: 380px) {
-    padding: 8px;
-    .container {
-      padding: 0 8px;
+    app-user-avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
+  @media (max-width: 380px) {
+    padding-left: 8px;
+  }
+
   @media (max-width: 330px) {
-    padding: 6px;
+    padding-left: 6px;
   }
 }

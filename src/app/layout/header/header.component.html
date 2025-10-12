@@ -7,10 +7,10 @@
     </div>
   </div>
   <div *ngIf="displayName()" class="container">
+    <app-language-selector />
     <ng-container>
-      <app-user-avatar />
+      <app-user-avatar (avatarClick)="onAvatarClick($event)" />
       <app-menu />
     </ng-container>
-    <app-language-selector />
   </div>
 </header>

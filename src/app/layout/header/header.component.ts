@@ -7,6 +7,7 @@ import {
   Renderer2,
   signal,
   effect,
+  ViewChild,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StateService } from '../../core/services/state/state.service';
@@ -37,6 +38,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(MenuComponent) menuComponent!: MenuComponent;
   private router = inject(Router);
   private stateService = inject(StateService);
   private authTokenStateService = inject(AuthTokenStateService);
@@ -118,5 +120,11 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 
   onLogoClick(): void {
     this.router.navigate(['/home']);
+  }
+
+  onAvatarClick(event: Event): void {
+    if (this.menuComponent) {
+      this.menuComponent.toggle(event);
+    }
   }
 }

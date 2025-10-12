@@ -4,5 +4,14 @@
   [image]="photoURL() || undefined"
   [style.width.px]="28"
   [style.height.px]="28"
+  (click)="onAvatarClick($event)"
+  (keydown.enter)="onAvatarClick($event)"
+  (keydown.space)="onAvatarClick($event)"
 />
-<app-owl-icon *ngIf="!photoURL()" style="width: 28px; height: 28px" />
+<app-owl-icon
+  *ngIf="!photoURL()"
+  style="width: 28px; height: 28px"
+  (click)="onAvatarClick($event)"
+  (keydown.enter)="onAvatarClick($event)"
+  (keydown.space)="onAvatarClick($event)"
+/>

@@ -1,10 +1,7 @@
 import { Component, computed, inject, OnDestroy, ViewChild } from '@angular/core';
-import { SkeletonModule } from 'primeng/skeleton';
 import { MenuModule } from 'primeng/menu';
 import { Menu } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-import { NgIf } from '@angular/common';
-import { ChevronDownIconComponent } from '../chevron-down-icon.component';
 import { MenuPositioningDirective } from '../menu-positioning.directive';
 import { StateService } from '../../../core/services/state/state.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,7 +11,7 @@ import { LoginService } from '../../../core/services/auth/login.service';
 
 @Component({
   selector: 'app-menu',
-  imports: [SkeletonModule, MenuModule, NgIf, ChevronDownIconComponent, MenuPositioningDirective],
+  imports: [MenuModule, MenuPositioningDirective],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
 })
@@ -64,6 +61,12 @@ export class MenuComponent implements OnDestroy {
 
   logout(): void {
     this.loginService.logout();
+  }
+
+  toggle(event: Event): void {
+    if (this.menu) {
+      this.menu.toggle(event);
+    }
   }
 
   ngOnDestroy() {
