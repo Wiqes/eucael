@@ -12,6 +12,7 @@ import {
   switchMap,
   catchError,
   of,
+  tap,
 } from 'rxjs';
 import { DataAccessService } from '../../../core/services/data-access/data-access.service';
 import { IFoundUser } from '../../../core/models/entities/user.model';
@@ -40,18 +41,23 @@ export class SearchBarComponent implements OnDestroy {
     this.searchControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        debounceTime(300),
         distinctUntilChanged(),
-        switchMap((query) => {
+        tap((query) => {
           if (!query || query.trim().length < 2) {
             this.showSearchResults.set(false);
             this.searchResults.set([]);
             this.isSearching.set(false);
+          } else {
+            this.isSearching.set(true);
+            this.showSearchResults.set(true);
+          }
+        }),
+        debounceTime(700),
+        switchMap((query) => {
+          if (!query || query.trim().length < 2) {
             return of([]);
           }
 
-          this.isSearching.set(true);
-          this.showSearchResults.set(true);
           return this.dataAccessService.searchUsers(query.trim()).pipe(
             catchError((error) => {
               console.error('Search error:', error);
