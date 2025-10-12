@@ -1,7 +1,7 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { IUser } from '../../models/entities/user.model';
+import { IFoundUser, IUser } from '../../models/entities/user.model';
 import { catchError, map, Observable, of } from 'rxjs';
 import { IAnimal } from '../../models/entities/animal.model';
 import { IColor } from '../../models/option.model';
@@ -17,6 +17,19 @@ export class DataAccessService {
   private authTokenStateService = inject(AuthTokenStateService);
   private readonly base64Service = inject(Base64Service);
   private token = computed(() => this.authTokenStateService.token());
+
+  searchUsers(query: string): Observable<IFoundUser[]> {
+    return this.http
+      .get<IFoundUser[]>(`${environment.API_URL}/users/search`, {
+        params: { name: query },
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('Error searching users:', error.status);
+          throw new Error('Failed to search users');
+        }),
+      );
+  }
 
   getUserData(): Observable<IUser | null> {
     const token = this.token();

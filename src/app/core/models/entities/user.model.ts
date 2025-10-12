@@ -13,3 +13,8 @@ export interface IUser {
   isOnline?: boolean;
   lastSeen?: Date;
 }
+
+export interface IFoundUser {
+  id: string;
+  name: string;
+}

@@ -232,5 +232,8 @@
   "conversations": "conversations",
   "No conversations yet": "No conversations yet",
   "Start a new conversation to see it here": "Start a new conversation to see it here",
-  "Select Familiars": "Select Familiars"
+  "Select Familiars": "Select Familiars",
+  "Search users...": "Search users...",
+  "Searching...": "Searching...",
+  "No users found": "No users found"
 }
