@@ -2,15 +2,15 @@
   *ngIf="photoURL()"
   shape="circle"
   [image]="photoURL() || undefined"
-  [style.width.px]="28"
-  [style.height.px]="28"
+  [style.width.px]="36"
+  [style.height.px]="36"
   (click)="onAvatarClick($event)"
   (keydown.enter)="onAvatarClick($event)"
   (keydown.space)="onAvatarClick($event)"
 />
 <app-owl-icon
   *ngIf="!photoURL()"
-  style="width: 28px; height: 28px"
+  style="width: 36px; height: 36px"
   (click)="onAvatarClick($event)"
   (keydown.enter)="onAvatarClick($event)"
   (keydown.space)="onAvatarClick($event)"

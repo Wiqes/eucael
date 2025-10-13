@@ -2,6 +2,6 @@
 
 :host ::ng-deep.p-avatar-circle img {
   border-radius: 50%;
-  border: 1px solid rgba($primary-color, 0.5) !important;
+  border: 2px solid $primary-color-light !important;
   cursor: pointer;
 }
