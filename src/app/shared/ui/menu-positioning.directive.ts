@@ -19,7 +19,7 @@ export class MenuPositioningDirective implements AfterViewInit {
           if (menuElement && this.menu.visible) {
             menuElement.style.top = '52px';
             menuElement.style.position = 'fixed';
-            menuElement.style.right = this.menuClass === 'user-menu' ? '12px' : '54px';
+            menuElement.style.right = this.menuClass === 'user-menu' ? '22px' : '84px';
             menuElement.style.left = 'auto';
           }
         }, 0);
