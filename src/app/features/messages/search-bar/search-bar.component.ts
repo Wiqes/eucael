@@ -16,10 +16,18 @@ import {
 } from 'rxjs';
 import { DataAccessService } from '../../../core/services/data-access/data-access.service';
 import { IFoundUser } from '../../../core/models/entities/user.model';
+import { ClearButtonComponent } from '../../../shared/ui/clear-button/clear-button.component';
 
 @Component({
   selector: 'app-search-bar',
-  imports: [ReactiveFormsModule, IconFieldModule, InputIconModule, RippleModule, TranslateModule],
+  imports: [
+    ReactiveFormsModule,
+    IconFieldModule,
+    InputIconModule,
+    RippleModule,
+    TranslateModule,
+    ClearButtonComponent,
+  ],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss',
 })

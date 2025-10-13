@@ -11,9 +11,7 @@
       (blur)="onSearchBlur()"
     />
     @if(searchControl.value) {
-    <button class="clear-search-btn" (click)="clearSearch()" type="button">
-      <i class="pi pi-times"></i>
-    </button>
+    <app-clear-button (cleared)="clearSearch()" />
     }
   </p-iconfield>
 
