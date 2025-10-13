@@ -32,7 +32,7 @@
 ::ng-deep p-button {
   .p-button {
     width: 100%;
-    padding: 10.5px;
+    padding: 10.5px 28px;
     font-weight: 500;
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -50,15 +50,48 @@
   box-shadow: none;
 }
 
-::ng-deep .p-button-secondary {
-  background: transparent !important;
-  border: 1px solid $primary-color !important;
-  color: $primary-color !important;
+::ng-deep .p-button-success {
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(52, 245, 221, 0.8) 100%
+  ) !important;
+  border: 1px solid $primary-color-light !important;
+  color: $primary-color-light !important;
 
   &:hover {
-    background: rgb(16, 41, 38) !important;
+    background: radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(52, 245, 221, 0.8) 100%
+    ) !important;
     border-color: $primary-color-light !important;
     color: $primary-color-light !important;
+  }
+}
+
+::ng-deep .p-button-secondary {
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  ) !important;
+  border: 1px solid #ffffff !important;
+  color: #ffffff !important;
+
+  &:hover {
+    background: radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    ) !important;
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3) !important;
   }
 }
 

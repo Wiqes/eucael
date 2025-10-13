@@ -39,6 +39,7 @@
             (onClick)="register()"
             [disabled]="form.invalid || loadingRegistration()"
             [loading]="loadingRegistration()"
+            severity="success"
           />
           } @if (!otpRequested() && !passwordConfirmationRequested()) {
           <p-button
@@ -48,6 +49,7 @@
             (onClick)="login()"
             [disabled]="loadingLogin() || loadingRegistration()"
             [loading]="loadingLogin()"
+            severity="success"
           />
           <p-button
             [label]="'Sign Up' | translate"
@@ -64,6 +66,7 @@
             (onClick)="requestOTP()"
             [disabled]="form.invalid || loadingRegistration()"
             [loading]="loadingRegistration()"
+            severity="success"
           />
           }
         </div>
