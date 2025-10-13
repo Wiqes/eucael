@@ -8,8 +8,9 @@
   maxlength="322"
 ></textarea>
 <p-button
-  [label]="'Send' | translate"
+  icon="pi pi-send"
   (onClick)="sendMessage()"
   (onMouseDown)="onSendButtonMouseDown($event)"
   tabindex="-1"
+  severity="success"
 />

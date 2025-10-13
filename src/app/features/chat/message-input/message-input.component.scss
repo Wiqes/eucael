@@ -11,22 +11,51 @@
     flex-grow: 1;
     padding: 4px;
     resize: none;
+    border: 1px solid transparent;
     border-radius: 6px;
-    min-height: 44px;
-    max-height: 120px;
+    height: 64px;
     font-family: inherit;
-    font-size: 14px;
+    font-size: 0.875rem;
     background: #00000044;
     transition: border-color 0.2s ease;
 
     &:focus {
       outline: none;
-      border-color: $primary-color;
       box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
     }
 
     &::placeholder {
       color: #999;
     }
+  }
+}
+
+:host ::ng-deep .p-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: rgba(52, 245, 221, 0.1);
+  border: 1px solid $primary-color !important;
+  color: $primary-color !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  i {
+    font-size: 18px;
+  }
+
+  &:hover {
+    border-color: $primary-color-light !important;
+    color: $primary-color-light !important;
+    box-shadow: 0 6px 16px rgba(52, 245, 221, 0.25);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
   }
 }
