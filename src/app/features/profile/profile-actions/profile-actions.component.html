@@ -1,8 +1,10 @@
 <div class="button-container">
-  <button class="edit-profile-btn" (click)="fileInput.click()">
-    <i class="pi pi-upload"></i>
-    <span>{{ 'Upload' | translate }}</span>
-  </button>
+  <p-button
+    [label]="'Upload' | translate"
+    icon="pi pi-upload"
+    (onClick)="fileInput.click()"
+    severity="success"
+  />
 </div>
 
 <input
