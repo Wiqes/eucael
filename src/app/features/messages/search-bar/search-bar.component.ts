@@ -21,7 +21,7 @@ import { IFoundUser } from '../../../core/models/entities/user.model';
   selector: 'app-search-bar',
   imports: [ReactiveFormsModule, IconFieldModule, InputIconModule, RippleModule, TranslateModule],
   templateUrl: './search-bar.component.html',
-  styleUrl: './search-bar.component.scss',
+  styles: ['./clear-search.scss', './search-bar.component.scss'],
 })
 export class SearchBarComponent implements OnDestroy {
   private dataAccessService = inject(DataAccessService);

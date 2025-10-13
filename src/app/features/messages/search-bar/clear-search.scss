@@ -1,0 +1,26 @@
+%clear-search {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: rgba($text-color, 0.6);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+  z-index: 2;
+
+  &:hover {
+    color: $text-color;
+    background: rgba($primary-color, 0.1);
+  }
+
+  i {
+    font-size: 0.875rem;
+  }
+}
