@@ -57,7 +57,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
    * Handles Enter key press with Shift+Enter for new lines
    */
   onKeyPress(event: KeyboardEvent): void {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === 'Enter') {
       event.preventDefault();
       this.sendMessage();
     }
