@@ -33,4 +33,10 @@
 
 :host ::ng-deep .p-button {
   height: 64px;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(52, 245, 221, 0.2) 100%
+  ) !important;
 }
