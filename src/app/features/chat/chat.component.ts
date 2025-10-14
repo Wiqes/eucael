@@ -374,7 +374,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
    * Remove a message from the UI
    */
   private removeMessageFromUI(messageId: number): void {
-    this.messages = this.messages.filter((msg) => msg.id !== messageId.toString());
+    this.messages = this.messages.filter((msg) => String(msg.id) !== String(messageId));
   }
 
   /**
