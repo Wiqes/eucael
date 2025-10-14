@@ -234,5 +234,14 @@
   "Select Familiars": "Sélectionner des familiers",
   "Search users...": "Rechercher des utilisateurs...",
   "Searching...": "Recherche en cours...",
-  "No users found": "Aucun utilisateur trouvé"
+  "No users found": "Aucun utilisateur trouvé",
+  "chat": {
+    "deleteMessage": "Supprimer le message",
+    "deleteConfirmation": {
+      "message": "Êtes-vous sûr de vouloir supprimer ce message ? Cette action est irréversible.",
+      "header": "Supprimer le Message",
+      "accept": "Supprimer",
+      "reject": "Annuler"
+    }
+  }
 }

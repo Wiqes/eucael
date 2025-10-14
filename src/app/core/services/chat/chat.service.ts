@@ -48,6 +48,10 @@ export class ChatService {
       this.interlocutorService.changeOnlineStatus(userStatus.userId, userStatus.isOnline);
     });
 
+    this.onMessageRemoved().subscribe((data) => {
+      this.chatStateService.removeMessageFromChat(data.chatId, data.messageId);
+    });
+
     // Handle connection errors
     this.onError().subscribe((error) => {
       if (error.message === SOCKET_ERROR.INVALID_TOKEN) {
@@ -105,6 +109,18 @@ export class ChatService {
   // Listen for incoming messages
   onReceiveMessage(): Observable<IChatMessage> {
     return this.socket.fromEvent('receiveMessage');
+  }
+
+  removeMessage(messageId: number): void {
+    this.socket.emit('removeMessage', { messageId });
+  }
+
+  // Listen for incoming messages
+  onMessageRemoved(): Observable<{
+    messageId: number;
+    chatId: string;
+  }> {
+    return this.socket.fromEvent('messageRemoved');
   }
 
   onUserOnlineStatus(): Observable<IUserPresence> {

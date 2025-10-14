@@ -25,8 +25,10 @@ import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 import { InterlocutorService } from '../../core/services/chat/interlocutor.service';
 import { ChatHeaderComponent } from './chat-header/chat-header.component';
 import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageInputComponent } from './message-input/message-input.component';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-chat',
@@ -38,7 +40,9 @@ import { MessageInputComponent } from './message-input/message-input.component';
     ChatHeaderComponent,
     TranslateModule,
     MessageInputComponent,
+    ConfirmDialogModule,
   ],
+  providers: [ConfirmationService],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
@@ -51,6 +55,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private authTokenStateService = inject(AuthTokenStateService);
   private token = computed(() => this.authTokenStateService.token());
   private interlocutorService = inject(InterlocutorService);
+  private confirmationService = inject(ConfirmationService);
+  private translateService = inject(TranslateService);
 
   myProfile = computed(() => this.stateService.profile() || null);
   currentUserId = computed(() => this.myProfile()?.userId || '');
@@ -121,6 +127,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       .subscribe((typingData: ITypingIndicator) => {
         if (typingData.chatId === this.activeChatId()) {
           this.updateTypingUsers(typingData);
+        }
+      });
+
+    // Message removal
+    this.chatService
+      .onMessageRemoved()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: { messageId: number; chatId: string }) => {
+        if (data.chatId === this.activeChatId()) {
+          this.removeMessageFromUI(data.messageId);
         }
       });
   }
@@ -352,5 +368,52 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isUserScrolling = false;
     this.shouldScrollToBottom = true;
     this.scrollToBottomSmooth();
+  }
+
+  /**
+   * Remove a message from the UI
+   */
+  private removeMessageFromUI(messageId: number): void {
+    this.messages = this.messages.filter((msg) => msg.id !== messageId.toString());
+  }
+
+  /**
+   * Handle message deletion request with confirmation
+   */
+  onDeleteMessage(event: Event, message: IChatMessage): void {
+    // Prevent event bubbling
+    event.stopPropagation();
+
+    // Only allow deleting own messages
+    if (message.sender.id !== this.currentUserId()) {
+      return;
+    }
+
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: this.translateService.instant('chat.deleteConfirmation.message'),
+      header: this.translateService.instant('chat.deleteConfirmation.header'),
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'pi pi-trash',
+      rejectIcon: 'pi pi-times',
+      acceptLabel: this.translateService.instant('chat.deleteConfirmation.accept'),
+      rejectLabel: this.translateService.instant('chat.deleteConfirmation.reject'),
+      acceptButtonStyleClass: 'p-button-danger p-button-sm',
+      rejectButtonStyleClass: 'p-button-text p-button-sm',
+      accept: () => {
+        this.deleteMessage(message);
+      },
+    });
+  }
+
+  /**
+   * Delete a message
+   */
+  private deleteMessage(message: IChatMessage): void {
+    // Emit socket event to delete message
+    this.chatService.removeMessage(Number(message.id));
+
+    // Optimistically remove from UI
+    this.removeMessageFromUI(Number(message.id));
   }
 }

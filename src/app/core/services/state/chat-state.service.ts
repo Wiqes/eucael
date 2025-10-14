@@ -141,6 +141,34 @@ export class ChatStateService {
   }
 
   /**
+   * Remove a message from a specific chat
+   */
+  removeMessageFromChat(chatId: string, messageId: number): void {
+    const chats = this.chats();
+    if (!chats?.length) return;
+
+    const updatedChats = chats.map((chat) => {
+      console.log(chat.id, chatId);
+      if (chat.id === chatId) {
+        console.log('chat.messages', chat.messages);
+        return {
+          ...chat,
+          messages: chat.messages.filter((msg) => {
+            console.log(msg.id, messageId);
+            console.log(String(msg.id) !== String(messageId));
+            return String(msg.id) !== String(messageId);
+          }),
+        };
+      }
+      return chat;
+    });
+
+    console.log('updatedChats', updatedChats);
+
+    this.chats.set(updatedChats);
+  }
+
+  /**
    * Clear all chats
    */
   clearChats(): void {

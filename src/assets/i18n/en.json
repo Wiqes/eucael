@@ -235,5 +235,14 @@
   "Select Familiars": "Select Familiars",
   "Search users...": "Search users...",
   "Searching...": "Searching...",
-  "No users found": "No users found"
+  "No users found": "No users found",
+  "chat": {
+    "deleteMessage": "Delete message",
+    "deleteConfirmation": {
+      "message": "Are you sure you want to delete this message? This action cannot be undone.",
+      "header": "Delete Message",
+      "accept": "Delete",
+      "reject": "Cancel"
+    }
+  }
 }

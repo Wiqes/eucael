@@ -235,5 +235,14 @@
   "Select Familiars": "Vertraute auswählen",
   "Search users...": "Benutzer suchen...",
   "Searching...": "Suche läuft...",
-  "No users found": "Keine Benutzer gefunden"
+  "No users found": "Keine Benutzer gefunden",
+  "chat": {
+    "deleteMessage": "Nachricht löschen",
+    "deleteConfirmation": {
+      "message": "Möchten Sie diese Nachricht wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "header": "Nachricht Löschen",
+      "accept": "Löschen",
+      "reject": "Abbrechen"
+    }
+  }
 }
