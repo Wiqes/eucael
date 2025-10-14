@@ -29,6 +29,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageInputComponent } from './message-input/message-input.component';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
 
 @Component({
   selector: 'app-chat',
@@ -41,6 +43,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     TranslateModule,
     MessageInputComponent,
     ConfirmDialogModule,
+    ButtonModule,
+    RippleModule,
   ],
   providers: [ConfirmationService],
   templateUrl: './chat.component.html',

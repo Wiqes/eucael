@@ -14,13 +14,6 @@
       <div
         [class.sender]="message.sender.id === currentUserId()"
         [class.receiver]="message.sender.id !== currentUserId()"
-        (click)="onDeleteMessage($event, message)"
-        tabindex="0"
-        role="button"
-        (keydown.enter)="onDeleteMessage($event, message)"
-        (keydown.space)="onDeleteMessage($event, message)"
-        [title]="'chat.deleteMessage' | translate"
-        [attr.aria-label]="'chat.deleteMessage' | translate"
       >
         <div class="message-content">
           {{ message.content }}
@@ -29,6 +22,18 @@
           <small>
             {{ formatMessageTime(message.timestamp) }}
           </small>
+          <button
+            *ngIf="message.sender.id === currentUserId()"
+            type="button"
+            class="delete-icon-btn"
+            (click)="onDeleteMessage($event, message)"
+            [title]="'chat.deleteMessage' | translate"
+            [attr.aria-label]="'chat.deleteMessage' | translate"
+            pButton
+            pRipple
+          >
+            <i class="pi pi-trash" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
     </div>
