@@ -381,6 +381,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
    * Handle message deletion request with confirmation
    */
   onDeleteMessage(event: Event, message: IChatMessage): void {
+    console.log('Delete message requested:', message.sender.id !== this.currentUserId());
     // Prevent event bubbling
     event.stopPropagation();
 

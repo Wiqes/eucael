@@ -12,31 +12,24 @@
   <div class="messages" #messagesContainer (scroll)="onScroll()">
     <div *ngFor="let message of messages; trackBy: trackByMessageId" class="message">
       <div
-        class="message-wrapper"
         [class.sender]="message.sender.id === currentUserId()"
         [class.receiver]="message.sender.id !== currentUserId()"
+        (click)="onDeleteMessage($event, message)"
+        tabindex="0"
+        role="button"
+        (keydown.enter)="onDeleteMessage($event, message)"
+        (keydown.space)="onDeleteMessage($event, message)"
+        [title]="'chat.deleteMessage' | translate"
+        [attr.aria-label]="'chat.deleteMessage' | translate"
       >
-        <div class="message-bubble">
-          <div class="message-content">
-            {{ message.content }}
-          </div>
-          <div class="message-meta">
-            <small>
-              {{ formatMessageTime(message.timestamp) }}
-            </small>
-          </div>
+        <div class="message-content">
+          {{ message.content }}
         </div>
-        @if(message.sender.id === currentUserId()) {
-        <button
-          type="button"
-          class="delete-message-btn"
-          (click)="onDeleteMessage($event, message)"
-          [title]="'chat.deleteMessage' | translate"
-          [attr.aria-label]="'chat.deleteMessage' | translate"
-        >
-          <i class="pi pi-trash" aria-hidden="true"></i>
-        </button>
-        }
+        <div class="message-meta">
+          <small>
+            {{ formatMessageTime(message.timestamp) }}
+          </small>
+        </div>
       </div>
     </div>
   </div>
