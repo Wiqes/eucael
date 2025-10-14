@@ -148,14 +148,10 @@ export class ChatStateService {
     if (!chats?.length) return;
 
     const updatedChats = chats.map((chat) => {
-      console.log(chat.id, chatId);
       if (chat.id === chatId) {
-        console.log('chat.messages', chat.messages);
         return {
           ...chat,
           messages: chat.messages.filter((msg) => {
-            console.log(msg.id, messageId);
-            console.log(String(msg.id) !== String(messageId));
             return String(msg.id) !== String(messageId);
           }),
         };
