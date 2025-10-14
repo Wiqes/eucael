@@ -1,0 +1,12 @@
+<button
+  *ngIf="message.sender.id === currentUserId"
+  type="button"
+  class="delete-icon-btn"
+  (click)="onDelete($event)"
+  [title]="'chat.deleteMessage' | translate"
+  [attr.aria-label]="'chat.deleteMessage' | translate"
+  pButton
+  pRipple
+>
+  <i class="pi pi-trash" aria-hidden="true"></i>
+</button>

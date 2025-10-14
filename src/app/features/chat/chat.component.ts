@@ -31,6 +31,7 @@ import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { MessageDeleteButtonComponent } from './message-delete-button/message-delete-button.component';
 
 @Component({
   selector: 'app-chat',
@@ -45,6 +46,7 @@ import { RippleModule } from 'primeng/ripple';
     ConfirmDialogModule,
     ButtonModule,
     RippleModule,
+    MessageDeleteButtonComponent,
   ],
   providers: [ConfirmationService],
   templateUrl: './chat.component.html',

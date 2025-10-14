@@ -22,18 +22,11 @@
           <small>
             {{ formatMessageTime(message.timestamp) }}
           </small>
-          <button
-            *ngIf="message.sender.id === currentUserId()"
-            type="button"
-            class="delete-icon-btn"
-            (click)="onDeleteMessage($event, message)"
-            [title]="'chat.deleteMessage' | translate"
-            [attr.aria-label]="'chat.deleteMessage' | translate"
-            pButton
-            pRipple
-          >
-            <i class="pi pi-trash" aria-hidden="true"></i>
-          </button>
+          <app-message-delete-button
+            [message]="message"
+            [currentUserId]="currentUserId()"
+            (deleteMessage)="onDeleteMessage($event.event, $event.message)"
+          />
         </div>
       </div>
     </div>
