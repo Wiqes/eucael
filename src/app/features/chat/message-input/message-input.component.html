@@ -1,11 +1,11 @@
 <textarea
   #messageInput
-  [(ngModel)]="newMessageContent"
+  [ngModel]="newMessageContent"
+  (ngModelChange)="onModelChange($event)"
   (keydown)="onKeyPress($event)"
-  (input)="typingHandler()"
   [placeholder]="'Type your message...' | translate"
   rows="1"
-  maxlength="60"
+  maxlength="362"
 ></textarea>
 <p-button
   icon="pi pi-send"

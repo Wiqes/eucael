@@ -18,6 +18,7 @@
     font-size: 0.875rem;
     background: #00000044;
     transition: border-color 0.2s ease;
+    overflow: hidden;
 
     &:focus {
       outline: none;

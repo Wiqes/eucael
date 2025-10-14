@@ -2,12 +2,14 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
+  ElementRef,
   inject,
   input,
   OnDestroy,
   OnInit,
   output,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -42,10 +44,14 @@ export class MessageInputComponent implements OnInit, OnDestroy {
   isTyping = signal(false);
   newMessageContent = '';
   typingTimeout?: ReturnType<typeof setTimeout>;
+  previousMessageContent = '';
+
+  @ViewChild('messageInput') messageInput!: ElementRef<HTMLTextAreaElement>;
 
   ngOnInit(): void {
     // Initialize draft message from state
     this.newMessageContent = this.chatStateService.draftMessage();
+    this.previousMessageContent = this.newMessageContent;
   }
 
   onSendButtonMouseDown(event: Event): void {
@@ -80,6 +86,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
 
       // Clear the input immediately for better UX
       this.newMessageContent = '';
+      this.previousMessageContent = '';
       this.chatStateService.clearDraftMessage();
       this.messageSent.emit({
         id: '',
@@ -102,6 +109,29 @@ export class MessageInputComponent implements OnInit, OnDestroy {
         receiverId: Number(this.receiverId()),
       });
     }
+  }
+
+  /**
+   * Handle model change and prevent typing if it would cause scroll
+   */
+  onModelChange(newValue: string): void {
+    // Temporarily set the new value to check if it causes overflow
+    this.newMessageContent = newValue;
+
+    // Wait for the DOM to update
+    setTimeout(() => {
+      const textarea = this.messageInput.nativeElement;
+
+      // Check if content would cause scrolling
+      if (textarea.scrollHeight > textarea.clientHeight) {
+        // Revert to previous value
+        this.newMessageContent = this.previousMessageContent;
+      } else {
+        // Store the current value as previous for next check
+        this.previousMessageContent = this.newMessageContent;
+        this.typingHandler();
+      }
+    }, 0);
   }
 
   /**
