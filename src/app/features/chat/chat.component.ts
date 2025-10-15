@@ -265,6 +265,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         if (message.sender.id !== this.currentUserId()) {
           this.messages = [...this.messages, message];
           this.updateChatUnreadCount();
+        } else {
+          this.messages = this.messages.map((msg) => (msg.muid === message.muid ? message : msg));
         }
 
         // Only auto-scroll if user was near bottom or if it's their own message
