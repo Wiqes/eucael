@@ -14,6 +14,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { Button } from 'primeng/button';
+import { v4 as uuidv4 } from 'uuid';
 import { ChatService } from '../../../core/services/chat/chat.service';
 import { IUser } from '../../../core/models/entities/user.model';
 import { StateService } from '../../../core/services/state/state.service';
@@ -73,6 +74,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
     console.log('Attempting to send message:', this.newMessageContent);
     if (this.newMessageContent.trim() && this.currentUserId() && this.receiverId()) {
       const messageContent = this.newMessageContent.trim();
+      const messageId = uuidv4();
       console.log('Sending message:', messageContent);
 
       // Stop typing indicator when sending
@@ -90,6 +92,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
       this.chatStateService.clearDraftMessage();
       this.messageSent.emit({
         id: '',
+        muid: messageId,
         content: messageContent,
         timestamp: new Date(),
         sender: {
@@ -105,6 +108,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
       // Send the message
       this.chatService.sendMessage({
         content: messageContent,
+        muid: messageId,
         senderId: Number(this.currentUserId()),
         receiverId: Number(this.receiverId()),
       });

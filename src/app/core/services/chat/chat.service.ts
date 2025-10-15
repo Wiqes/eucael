@@ -102,7 +102,12 @@ export class ChatService {
   }
 
   // Emit a message to the server
-  sendMessage(message: { content: string; senderId: number; receiverId: number }): void {
+  sendMessage(message: {
+    content: string;
+    muid: string;
+    senderId: number;
+    receiverId: number;
+  }): void {
     this.socket.emit('sendMessage', message);
   }
 

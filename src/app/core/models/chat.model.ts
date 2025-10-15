@@ -26,6 +26,7 @@ export interface IParticipant {
 
 export interface IChatMessage {
   id: string;
+  muid: string;
   content: string;
   timestamp: Date;
   sender: IUser;
