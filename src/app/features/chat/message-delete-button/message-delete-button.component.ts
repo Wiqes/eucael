@@ -2,13 +2,14 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TranslateModule } from '@ngx-translate/core';
 import { IChatMessage } from '../../../core/models/chat.model';
 
 @Component({
   selector: 'app-message-delete-button',
   standalone: true,
-  imports: [CommonModule, ButtonModule, RippleModule, TranslateModule],
+  imports: [CommonModule, ButtonModule, RippleModule, ProgressSpinnerModule, TranslateModule],
   templateUrl: './message-delete-button.component.html',
   styleUrls: ['./message-delete-button.component.scss'],
 })

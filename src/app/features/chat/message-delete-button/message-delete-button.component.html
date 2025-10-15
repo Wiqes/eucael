@@ -10,9 +10,10 @@
 >
   <i class="pi pi-trash" aria-hidden="true"></i>
 </button>
-<div *ngIf="!message.id" class="custom-spinner" role="status" aria-label="Loading">
-  <div class="spinner-ring"></div>
-  <div class="spinner-ring"></div>
-  <div class="spinner-ring"></div>
-  <div class="spinner-dot"></div>
-</div>
+<p-progressSpinner
+  *ngIf="!message.id"
+  [styleClass]="'message-spinner'"
+  [strokeWidth]="'3'"
+  [animationDuration]="'1s'"
+  [ariaLabel]="'Loading'"
+/>

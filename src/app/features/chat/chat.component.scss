@@ -185,6 +185,10 @@
     ::ng-deep .delete-icon-btn {
       display: flex;
     }
+
+    ::ng-deep .message-spinner {
+      display: block !important;
+    }
   }
 }
 
