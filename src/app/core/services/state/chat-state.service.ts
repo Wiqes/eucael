@@ -143,7 +143,7 @@ export class ChatStateService {
   /**
    * Remove a message from a specific chat
    */
-  removeMessageFromChat(chatId: string, messageId: number): void {
+  removeMessageFromChat(chatId: string, messageId: string): void {
     const chats = this.chats();
     if (!chats?.length) return;
 
@@ -152,7 +152,7 @@ export class ChatStateService {
         return {
           ...chat,
           messages: chat.messages.filter((msg) => {
-            return String(msg.id) !== String(messageId);
+            return String(msg.muid) !== String(messageId);
           }),
         };
       }

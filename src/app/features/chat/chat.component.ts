@@ -141,7 +141,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.chatService
       .onMessageRemoved()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data: { messageId: number; chatId: string }) => {
+      .subscribe((data: { messageId: string; chatId: string }) => {
         if (data.chatId === this.activeChatId()) {
           this.removeMessageFromUI(data.messageId);
         }
@@ -380,8 +380,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**
    * Remove a message from the UI
    */
-  private removeMessageFromUI(messageId: number): void {
-    this.messages = this.messages.filter((msg) => String(msg.id) !== String(messageId));
+  private removeMessageFromUI(messageId: string): void {
+    this.messages = this.messages.filter((msg) => String(msg.muid) !== String(messageId));
   }
 
   /**
@@ -418,9 +418,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
    */
   private deleteMessage(message: IChatMessage): void {
     // Emit socket event to delete message
-    this.chatService.removeMessage(Number(message.id));
+    this.chatService.removeMessage(message.muid);
 
     // Optimistically remove from UI
-    this.removeMessageFromUI(Number(message.id));
+    this.removeMessageFromUI(message.muid);
   }
 }

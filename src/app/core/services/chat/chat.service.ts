@@ -116,13 +116,13 @@ export class ChatService {
     return this.socket.fromEvent('receiveMessage');
   }
 
-  removeMessage(messageId: number): void {
+  removeMessage(messageId: string): void {
     this.socket.emit('removeMessage', { messageId });
   }
 
   // Listen for incoming messages
   onMessageRemoved(): Observable<{
-    messageId: number;
+    messageId: string;
     chatId: string;
   }> {
     return this.socket.fromEvent('messageRemoved');
