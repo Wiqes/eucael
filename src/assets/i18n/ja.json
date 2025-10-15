@@ -235,5 +235,14 @@
   "Select Familiars": "使い魔を選択",
   "Search users...": "ユーザーを検索...",
   "Searching...": "検索中...",
-  "No users found": "ユーザーが見つかりません"
+  "No users found": "ユーザーが見つかりません",
+  "chat": {
+    "deleteMessage": "メッセージを削除",
+    "deleteConfirmation": {
+      "message": "このメッセージを削除してもよろしいですか？この操作は元に戻せません。",
+      "header": "メッセージを削除",
+      "accept": "削除",
+      "reject": "キャンセル"
+    }
+  }
 }

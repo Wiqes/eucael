@@ -232,8 +232,17 @@
   "conversations": "உரையாடல்கள்",
   "No conversations yet": "இன்னும் உரையாடல்கள் இல்லை",
   "Start a new conversation to see it here": "இதை இங்கே பார்க்க புதிய உரையாடலை தொடங்கவும்",
-  "Select Familiars": "மூடுபொருட்களைத் தேர்ந்தெடுக்கவும்",
+  "Select Familiars": "தெரிந்தவர்களைத் தேர்ந்தெடுக்கவும்",
   "Search users...": "பயனர்களைத் தேடுங்கள்...",
   "Searching...": "தேடுகிறது...",
-  "No users found": "பயனர்கள் எதுவும் கிடைக்கவில்லை"
+  "No users found": "பயனர்கள் யாரும் கிடைக்கவில்லை",
+  "chat": {
+    "deleteMessage": "செய்தியை நீக்கு",
+    "deleteConfirmation": {
+      "message": "இந்த செய்தியை நீக்க விரும்புகிறீர்களா? இந்த செயலை மாற்ற முடியாது.",
+      "header": "செய்தியை நீக்கு",
+      "accept": "நீக்கு",
+      "reject": "ரத்து செய்"
+    }
+  }
 }

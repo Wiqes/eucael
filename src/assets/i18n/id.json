@@ -232,8 +232,17 @@
   "conversations": "percakapan",
   "No conversations yet": "Belum ada percakapan",
   "Start a new conversation to see it here": "Mulai percakapan baru untuk melihatnya di sini",
-  "Select Familiars": "Pilih Akrab",
+  "Select Familiars": "Pilih Familiar",
   "Search users...": "Cari pengguna...",
   "Searching...": "Mencari...",
-  "No users found": "Tidak ada pengguna ditemukan"
+  "No users found": "Tidak ada pengguna ditemukan",
+  "chat": {
+    "deleteMessage": "Hapus pesan",
+    "deleteConfirmation": {
+      "message": "Apakah Anda yakin ingin menghapus pesan ini? Tindakan ini tidak dapat dibatalkan.",
+      "header": "Hapus Pesan",
+      "accept": "Hapus",
+      "reject": "Batal"
+    }
+  }
 }

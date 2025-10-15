@@ -232,8 +232,17 @@
   "conversations": "대화",
   "No conversations yet": "아직 대화가 없습니다",
   "Start a new conversation to see it here": "새 대화를 시작하면 여기에 표시됩니다",
-  "Select Familiars": "친숙한 존재 선택",
+  "Select Familiars": "친숙한 사람 선택",
   "Search users...": "사용자 검색...",
   "Searching...": "검색 중...",
-  "No users found": "사용자를 찾을 수 없습니다"
+  "No users found": "사용자를 찾을 수 없습니다",
+  "chat": {
+    "deleteMessage": "메시지 삭제",
+    "deleteConfirmation": {
+      "message": "이 메시지를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.",
+      "header": "메시지 삭제",
+      "accept": "삭제",
+      "reject": "취소"
+    }
+  }
 }

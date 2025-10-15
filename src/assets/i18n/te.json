@@ -232,8 +232,17 @@
   "conversations": "సంభాషణలు",
   "No conversations yet": "ఇంకా సంభాషణలు లేవు",
   "Start a new conversation to see it here": "దీన్ని ఇక్కడ చూడటానికి కొత్త సంభాషణ ప్రారంభించండి",
-  "Select Familiars": "పరిచితులను ఎంచుకోండి",
+  "Select Familiars": "పరిచయస్థులను ఎంచుకోండి",
   "Search users...": "వినియోగదారులను శోధించండి...",
   "Searching...": "శోధిస్తోంది...",
-  "No users found": "వినియోగదారులు కనుగొనబడలేదు"
+  "No users found": "వినియోగదారులు ఎవరూ కనుగొనబడలేదు",
+  "chat": {
+    "deleteMessage": "సందేశాన్ని తొలగించు",
+    "deleteConfirmation": {
+      "message": "మీరు ఖచ్చితంగా ఈ సందేశాన్ని తొలగించాలనుకుంటున్నారా? ఈ చర్యను రద్దు చేయలేము.",
+      "header": "సందేశాన్ని తొలగించు",
+      "accept": "తొలగించు",
+      "reject": "రద్దు చేయి"
+    }
+  }
 }

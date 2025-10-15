@@ -243,5 +243,14 @@
   "Select Familiars": "Selecionar Familiares",
   "Search users...": "Pesquisar usuários...",
   "Searching...": "Pesquisando...",
-  "No users found": "Nenhum usuário encontrado"
+  "No users found": "Nenhum usuário encontrado",
+  "chat": {
+    "deleteMessage": "Excluir mensagem",
+    "deleteConfirmation": {
+      "message": "Tem certeza de que deseja excluir esta mensagem? Esta ação não pode ser desfeita.",
+      "header": "Excluir Mensagem",
+      "accept": "Excluir",
+      "reject": "Cancelar"
+    }
+  }
 }

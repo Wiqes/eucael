@@ -232,8 +232,17 @@
   "conversations": "sohbetler",
   "No conversations yet": "Henüz sohbet yok",
   "Start a new conversation to see it here": "Burada görmek için yeni bir sohbet başlatın",
-  "Select Familiars": "Aşina Olanları Seç",
+  "Select Familiars": "Tanıdıkları Seç",
   "Search users...": "Kullanıcı ara...",
   "Searching...": "Aranıyor...",
-  "No users found": "Kullanıcı bulunamadı"
+  "No users found": "Kullanıcı bulunamadı",
+  "chat": {
+    "deleteMessage": "Mesajı sil",
+    "deleteConfirmation": {
+      "message": "Bu mesajı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+      "header": "Mesajı Sil",
+      "accept": "Sil",
+      "reject": "İptal"
+    }
+  }
 }

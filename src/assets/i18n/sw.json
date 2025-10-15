@@ -232,8 +232,17 @@
   "conversations": "mazungumzo",
   "No conversations yet": "Hakuna mazungumzo bado",
   "Start a new conversation to see it here": "Anza mazungumzo mapya kuyaona hapa",
-  "Select Familiars": "Chagua Wanyama",
+  "Select Familiars": "Chagua Wajulikana",
   "Search users...": "Tafuta watumiaji...",
   "Searching...": "Inatafuta...",
-  "No users found": "Hakuna watumiaji waliopatikana"
+  "No users found": "Hakuna watumiaji waliopatikana",
+  "chat": {
+    "deleteMessage": "Futa ujumbe",
+    "deleteConfirmation": {
+      "message": "Je, una uhakika unataka kufuta ujumbe huu? Kitendo hiki hakiwezi kufutwa.",
+      "header": "Futa Ujumbe",
+      "accept": "Futa",
+      "reject": "Ghairi"
+    }
+  }
 }

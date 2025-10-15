@@ -232,8 +232,17 @@
   "conversations": "розмови",
   "No conversations yet": "Поки що немає розмов",
   "Start a new conversation to see it here": "Почніть нову розмову, щоб побачити її тут",
-  "Select Familiars": "Вибрати Фамільярів",
+  "Select Familiars": "Виберіть знайомих",
   "Search users...": "Пошук користувачів...",
   "Searching...": "Пошук...",
-  "No users found": "Користувачів не знайдено"
+  "No users found": "Користувачів не знайдено",
+  "chat": {
+    "deleteMessage": "Видалити повідомлення",
+    "deleteConfirmation": {
+      "message": "Ви впевнені, що хочете видалити це повідомлення? Цю дію неможливо скасувати.",
+      "header": "Видалити повідомлення",
+      "accept": "Видалити",
+      "reject": "Скасувати"
+    }
+  }
 }

@@ -232,8 +232,17 @@
   "conversations": "cuộc hội thoại",
   "No conversations yet": "Chưa có cuộc hội thoại nào",
   "Start a new conversation to see it here": "Bắt đầu cuộc hội thoại mới để xem tại đây",
-  "Select Familiars": "Chọn Thú cưng",
+  "Select Familiars": "Chọn người quen",
   "Search users...": "Tìm kiếm người dùng...",
   "Searching...": "Đang tìm kiếm...",
-  "No users found": "Không tìm thấy người dùng"
+  "No users found": "Không tìm thấy người dùng",
+  "chat": {
+    "deleteMessage": "Xóa tin nhắn",
+    "deleteConfirmation": {
+      "message": "Bạn có chắc chắn muốn xóa tin nhắn này không? Hành động này không thể hoàn tác.",
+      "header": "Xóa tin nhắn",
+      "accept": "Xóa",
+      "reject": "Hủy"
+    }
+  }
 }

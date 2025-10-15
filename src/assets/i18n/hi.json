@@ -232,8 +232,17 @@
   "conversations": "बातचीत",
   "No conversations yet": "अभी तक कोई बातचीत नहीं",
   "Start a new conversation to see it here": "इसे यहाँ देखने के लिए नई बातचीत शुरू करें",
-  "Select Familiars": "मूर्तिमान चुनें",
+  "Select Familiars": "परिचितों का चयन करें",
   "Search users...": "उपयोगकर्ता खोजें...",
   "Searching...": "खोज रहे हैं...",
-  "No users found": "कोई उपयोगकर्ता नहीं मिला"
+  "No users found": "कोई उपयोगकर्ता नहीं मिला",
+  "chat": {
+    "deleteMessage": "संदेश हटाएं",
+    "deleteConfirmation": {
+      "message": "क्या आप वाकई इस संदेश को हटाना चाहते हैं? इस क्रिया को पूर्ववत नहीं किया जा सकता।",
+      "header": "संदेश हटाएं",
+      "accept": "हटाएं",
+      "reject": "रद्द करें"
+    }
+  }
 }

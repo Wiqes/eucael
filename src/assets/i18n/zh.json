@@ -232,8 +232,17 @@
   "conversations": "对话",
   "No conversations yet": "还没有对话",
   "Start a new conversation to see it here": "开始新对话以在此处查看",
-  "Select Familiars": "选择守护灵",
+  "Select Familiars": "选择熟悉者",
   "Search users...": "搜索用户...",
   "Searching...": "搜索中...",
-  "No users found": "未找到用户"
+  "No users found": "未找到用户",
+  "chat": {
+    "deleteMessage": "删除消息",
+    "deleteConfirmation": {
+      "message": "您确定要删除此消息吗？此操作无法撤销。",
+      "header": "删除消息",
+      "accept": "删除",
+      "reject": "取消"
+    }
+  }
 }

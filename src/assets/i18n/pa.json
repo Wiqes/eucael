@@ -232,8 +232,17 @@
   "conversations": "ਗੱਲਬਾਤ",
   "No conversations yet": "ਅਜੇ ਤੱਕ ਕੋਈ ਗੱਲਬਾਤ ਨਹੀਂ",
   "Start a new conversation to see it here": "ਇਸ ਨੂੰ ਇੱਥੇ ਦੇਖਣ ਲਈ ਨਵੀਂ ਗੱਲਬਾਤ ਸ਼ੁਰੂ ਕਰੋ",
-  "Select Familiars": "ਮੂर्तਿਮਾਨ ਚੁਣੋ",
-  "Search users...": "ਉਪਭੋਗਤਾਵਾਂ ਨੂੰ ਖੋਜੋ...",
+  "Select Familiars": "ਜਾਣੂਆਂ ਦੀ ਚੋਣ ਕਰੋ",
+  "Search users...": "ਉਪਭੋਗਤਾ ਖੋਜੋ...",
   "Searching...": "ਖੋਜ ਰਹੇ ਹਾਂ...",
-  "No users found": "ਕੋਈ ਉਪਭੋਗਤਾ ਨਹੀਂ ਮਿਲਿਆ"
+  "No users found": "ਕੋਈ ਉਪਭੋਗਤਾ ਨਹੀਂ ਮਿਲਿਆ",
+  "chat": {
+    "deleteMessage": "ਸੁਨੇਹਾ ਮਿਟਾਓ",
+    "deleteConfirmation": {
+      "message": "ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ 'ਤੇ ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ? ਇਸ ਕਾਰਵਾਈ ਨੂੰ ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ।",
+      "header": "ਸੁਨੇਹਾ ਮਿਟਾਓ",
+      "accept": "ਮਿਟਾਓ",
+      "reject": "ਰੱਦ ਕਰੋ"
+    }
+  }
 }
