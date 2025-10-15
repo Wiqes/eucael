@@ -10,11 +10,9 @@
 >
   <i class="pi pi-trash" aria-hidden="true"></i>
 </button>
-<p-progress-spinner
-  *ngIf="!message.id"
-  strokeWidth="2"
-  class="delete-icon-btn"
-  fill="transparent"
-  animationDuration=".5s"
-  [style]="{ width: '24px', height: '24px', color: '#34f5f5' }"
-/>
+<div *ngIf="!message.id" class="custom-spinner" role="status" aria-label="Loading">
+  <div class="spinner-ring"></div>
+  <div class="spinner-ring"></div>
+  <div class="spinner-ring"></div>
+  <div class="spinner-dot"></div>
+</div>
