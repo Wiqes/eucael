@@ -32,7 +32,35 @@
     </div>
   </div>
 
-  <p-confirmDialog></p-confirmDialog>
+  <p-dialog
+    [(visible)]="showDeleteConfirmDialog"
+    [header]="'chat.deleteConfirmation.header' | translate"
+    [modal]="true"
+    [closable]="true"
+    [style]="{ width: '600px', maxWidth: '95vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [closeOnEscape]="true"
+    [appendTo]="'body'"
+  >
+    <p>{{ 'chat.deleteConfirmation.message' | translate }}</p>
+    <ng-template pTemplate="footer">
+      <div class="dialog-footer">
+        <p-button
+          [label]="'Cancel' | translate"
+          icon="pi pi-times"
+          severity="secondary"
+          (onClick)="showDeleteConfirmDialog = false"
+        />
+        <p-button
+          [label]="'chat.deleteConfirmation.accept' | translate"
+          icon="pi pi-upload"
+          (onClick)="confirmDeleteMessage()"
+          severity="success"
+        />
+      </div>
+    </ng-template>
+  </p-dialog>
 
   <app-message-input
     [activeChatId]="activeChatId()"

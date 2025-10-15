@@ -27,8 +27,7 @@ import { ChatHeaderComponent } from './chat-header/chat-header.component';
 import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageInputComponent } from './message-input/message-input.component';
-import { ConfirmationService } from 'primeng/api';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { MessageDeleteButtonComponent } from './message-delete-button/message-delete-button.component';
@@ -43,12 +42,11 @@ import { MessageDeleteButtonComponent } from './message-delete-button/message-de
     ChatHeaderComponent,
     TranslateModule,
     MessageInputComponent,
-    ConfirmDialogModule,
+    DialogModule,
     ButtonModule,
     RippleModule,
     MessageDeleteButtonComponent,
   ],
-  providers: [ConfirmationService],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
@@ -61,7 +59,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private authTokenStateService = inject(AuthTokenStateService);
   private token = computed(() => this.authTokenStateService.token());
   private interlocutorService = inject(InterlocutorService);
-  private confirmationService = inject(ConfirmationService);
   private translateService = inject(TranslateService);
 
   myProfile = computed(() => this.stateService.profile() || null);
@@ -81,6 +78,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   // New properties for enhanced features
   activeChatId = signal<string>('');
   typingUsers = signal<ITypingIndicator[]>([]);
+
+  // Delete confirmation dialog
+  showDeleteConfirmDialog = false;
+  messageToDelete: IChatMessage | null = null;
 
   private messageSubscription!: Subscription;
   private previousMessagesSubscription!: Subscription;
@@ -396,21 +397,20 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       return;
     }
 
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: this.translateService.instant('chat.deleteConfirmation.message'),
-      header: this.translateService.instant('chat.deleteConfirmation.header'),
-      icon: 'pi pi-exclamation-triangle',
-      acceptIcon: 'pi pi-trash',
-      rejectIcon: 'pi pi-times',
-      acceptLabel: this.translateService.instant('chat.deleteConfirmation.accept'),
-      rejectLabel: this.translateService.instant('chat.deleteConfirmation.reject'),
-      acceptButtonStyleClass: 'p-button-danger p-button-sm',
-      rejectButtonStyleClass: 'p-button-text p-button-sm',
-      accept: () => {
-        this.deleteMessage(message);
-      },
-    });
+    // Store the message to delete and show confirmation dialog
+    this.messageToDelete = message;
+    this.showDeleteConfirmDialog = true;
+  }
+
+  /**
+   * Confirm message deletion
+   */
+  confirmDeleteMessage(): void {
+    if (this.messageToDelete) {
+      this.deleteMessage(this.messageToDelete);
+      this.showDeleteConfirmDialog = false;
+      this.messageToDelete = null;
+    }
   }
 
   /**

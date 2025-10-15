@@ -166,6 +166,12 @@
   border-top: 1px solid #3f3f46;
   padding: 1.25rem !important;
 
+  .dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
   @media (max-width: 600px) {
     justify-content: center !important;
   }
