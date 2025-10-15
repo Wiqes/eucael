@@ -3,6 +3,7 @@
 :host {
   position: absolute;
   right: 2px;
+  top: 0;
 }
 
 .delete-icon-btn {
@@ -22,14 +23,12 @@
   border-radius: 50%;
 
   i {
-    font-size: 12px;
+    font-size: 18px;
     color: rgba(255, 255, 255, 0.6);
     transition: all 0.2s ease;
   }
 
   &:hover {
-    transform: scale(1.1);
-
     i {
       color: $primary-color-light;
     }
@@ -40,7 +39,7 @@
   }
 
   &:focus {
-    outline: 2px solid rgba(255, 59, 48, 0.4);
+    outline: 2px solid $primary-color-light;
     outline-offset: 2px;
   }
 }
