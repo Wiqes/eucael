@@ -1,7 +1,8 @@
 @use 'variables' as *;
 
 :host {
-  display: contents;
+  position: absolute;
+  right: 2px;
 }
 
 .delete-icon-btn {
@@ -16,7 +17,7 @@
   border: none !important;
   box-shadow: none !important;
   transition: all 0.2s ease;
-  opacity: 0;
+  display: none;
   cursor: pointer;
   border-radius: 50%;
 

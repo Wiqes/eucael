@@ -19,14 +19,14 @@
           {{ message.content }}
         </div>
         <div class="message-meta">
-          <small>
-            {{ formatMessageTime(message.timestamp) }}
-          </small>
           <app-message-delete-button
             [message]="message"
             [currentUserId]="currentUserId()"
             (deleteMessage)="onDeleteMessage($event.event, $event.message)"
           />
+          <small>
+            {{ formatMessageTime(message.timestamp) }}
+          </small>
         </div>
       </div>
     </div>
