@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://celestiel.net/</loc>
-    <lastmod>2025-08-26</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2025-10-16</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://celestiel.net/assets/images/logo-512.png</image:loc>
+      <image:title>Celestiel Logo</image:title>
+      <image:caption>Celestiel - Summon the Familiars</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://celestiel.net/login</loc>
+    <lastmod>2025-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://celestiel.net/reset-password</loc>
-    <lastmod>2025-08-26</lastmod>
+    <lastmod>2025-10-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
