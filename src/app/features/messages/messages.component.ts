@@ -54,12 +54,16 @@ export class MessagesComponent implements OnInit, OnDestroy {
           chat.participant1Id === Number(this.currentUserId())
             ? chat.participant2
             : chat.participant1;
+        const profile = otherParticipant?.profile
+          ? { ...otherParticipant?.profile, avatarUrl: otherParticipant?.avatarUrl }
+          : null;
+
         return {
           id: otherParticipant?.id || '',
           chatId: chat.id,
           userId: otherParticipant?.id || '',
           isOnline: otherParticipant?.isOnline || false,
-          profile: otherParticipant?.profile || null,
+          profile,
           lastMessageAt: chat.lastMessageAt,
           lastMessage: chat.messages[0]?.content || '',
           unreadCount: this.getUnreadCount(chat),

@@ -16,6 +16,7 @@ export interface IChat {
 export interface IParticipant {
   id: string;
   chatId: string;
+  avatarUrl: string;
   profile: IProfile;
   userId?: string; // ID of the user for this participant
   lastMessageAt?: Date;
