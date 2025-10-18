@@ -37,9 +37,7 @@ export class DataAccessService {
       return of(null);
     }
 
-    const payload = JSON.parse(this.base64Service.decode(token.split('.')[1]));
-    const username = payload.username;
-    return this.http.get<IUser>(`${environment.API_URL}/users/${username}`).pipe(
+    return this.http.get<IUser>(`${environment.API_URL}/users/me`).pipe(
       catchError((error) => {
         console.error('Error fetching user data:', error.status);
         throw new Error('Failed to fetch user data');

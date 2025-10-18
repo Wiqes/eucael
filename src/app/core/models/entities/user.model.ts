@@ -4,7 +4,7 @@ import { IProfile } from './profile.model';
 export interface IUser {
   id: string;
   username: string;
-  photoURL?: string;
+  avatarUrl: string;
   locale: string;
   profile: IProfile;
   createdAt: string;

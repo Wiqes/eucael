@@ -19,7 +19,7 @@ export class StateService {
   readonly isDataLoading = signal<boolean>(false);
   readonly tokenAvatarUrl = signal<string | null>(null);
   readonly profile = computed(() => this.user()?.profile);
-  readonly avatarUrl = computed(() => this.profile()?.avatarUrl || this.tokenAvatarUrl() || '');
+  readonly avatarUrl = computed(() => this.user()?.avatarUrl || this.tokenAvatarUrl() || '');
   readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
 
   setProfileFromToken(token: string): void {
