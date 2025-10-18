@@ -6,7 +6,7 @@
       </button>
     </div>
   </div>
-  <div *ngIf="displayName()" class="container">
+  <div *ngIf="avatarUrl()" class="container">
     <app-language-selector />
     <ng-container>
       <app-user-avatar (avatarClick)="onAvatarClick($event)" />
