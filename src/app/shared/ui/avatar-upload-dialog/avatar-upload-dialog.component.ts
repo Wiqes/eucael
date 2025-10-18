@@ -781,7 +781,7 @@ export class AvatarUploadDialogComponent {
               // Upload completed successfully
               // Update the user's avatar URL in the state
               if ('publicUrl' in event && typeof event.publicUrl === 'string') {
-                this.stateService.updateUserProfile({ avatarUrl: event.publicUrl });
+                this.stateService.updateUserAvatar(event.publicUrl);
               }
 
               this.messageService.sendMessage(MESSAGES.AVATAR_UPLOAD_SUCCESS);

@@ -48,6 +48,17 @@ export class StateService {
     });
   }
 
+  updateUserAvatar(avatarUrl: string) {
+    const currentUser = this.user();
+    if (currentUser) {
+      const updatedUser = {
+        ...currentUser,
+        avatarUrl,
+      };
+      this.user.set(updatedUser);
+    }
+  }
+
   updateUserProfile(profileUpdates: Partial<IUser['profile']>) {
     const currentUser = this.user();
     if (currentUser && currentUser.profile) {
