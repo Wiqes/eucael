@@ -1,5 +1,9 @@
 @use 'variables' as *;
 
+:host {
+  cursor: pointer;
+}
+
 :host ::ng-deep.p-avatar-circle img {
   border-radius: 50%;
   border: 2px solid $primary-color-light !important;
