@@ -53,8 +53,9 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   private isHeaderVisible = signal(true);
 
   readonly avatarUrl = computed(() => this.stateService.avatarUrl());
+  readonly userId = computed(() => this.stateService.userId());
   readonly isDataLoading = computed(() => this.stateService.isDataLoading());
-  readonly isHidden = computed(() => this.isDataLoading() || !this.avatarUrl());
+  readonly isHidden = computed(() => this.isDataLoading() || !this.userId());
   readonly headerVisibilityClass = computed(() =>
     this.isHeaderVisible() ? 'header-visible' : 'header-hidden',
   );
