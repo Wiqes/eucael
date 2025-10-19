@@ -57,7 +57,8 @@ export class AuthTokenService {
   moveToLogin(): void {
     this.authTokenStateService.token.set(null);
     this.stateService.user.set(null);
-    this.stateService.tokenAvatarUrl.set('');
+    this.stateService.tokenAvatarUrl.set(null);
+    this.stateService.tokenUserId.set(null);
     this.chatStateService.chats.set(null);
     this.router.navigateByUrl('/', { replaceUrl: true }).finally(() => {
       this.stateService.isDataLoading.set(false);

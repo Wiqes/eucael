@@ -18,14 +18,17 @@ export class StateService {
   readonly animals = signal<IAnimal[]>([]);
   readonly isDataLoading = signal<boolean>(false);
   readonly tokenAvatarUrl = signal<string | null>(null);
+  readonly tokenUserId = signal<string | null>(null);
   readonly profile = computed(() => this.user()?.profile);
   readonly avatarUrl = computed(() => this.user()?.avatarUrl || this.tokenAvatarUrl() || '');
+  readonly userId = computed(() => this.user()?.id || this.tokenUserId() || '');
   readonly displayName = computed(() => this.profile()?.name || this.profile()?.email || '');
 
   setProfileFromToken(token: string): void {
     if (token) {
       const payload = JSON.parse(this.base64Service.decode(token.split('.')[1]));
       this.tokenAvatarUrl.set(payload?.avatarUrl || null);
+      this.tokenUserId.set(payload?.sub || null);
     }
   }
 

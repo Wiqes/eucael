@@ -25,7 +25,7 @@ import { LoaderComponent } from '../../shared/ui/loader/loader.component';
 import { InterlocutorService } from '../../core/services/chat/interlocutor.service';
 import { ChatHeaderComponent } from './chat-header/chat-header.component';
 import { AuthTokenStateService } from '../../core/services/state/auth-token-state.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { MessageInputComponent } from './message-input/message-input.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -59,13 +59,15 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private authTokenStateService = inject(AuthTokenStateService);
   private token = computed(() => this.authTokenStateService.token());
   private interlocutorService = inject(InterlocutorService);
-  private translateService = inject(TranslateService);
 
-  myProfile = computed(() => this.stateService.profile() || null);
-  currentUserId = computed(() => this.myProfile()?.userId || '');
+  currentUserId = computed(() => this.stateService.userId() || '');
   interlocutor = computed(() => this.interlocutorService.interlocutor() || null);
   isOnline = computed(() => this.interlocutor()?.isOnline || false);
-  interlocutorProfile = computed(() => this.interlocutor()?.profile || null);
+  interlocutorProfile = computed(() =>
+    this.interlocutor()?.profile
+      ? { ...this.interlocutor()?.profile, avatarUrl: this.interlocutor()?.avatarUrl }
+      : null,
+  );
 
   @Input() receiverId = '';
   @ViewChild('messagesContainer', { static: false }) messagesContainer!: ElementRef;

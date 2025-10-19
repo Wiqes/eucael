@@ -36,7 +36,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
   private interlocutorService = inject(InterlocutorService);
 
   myProfile = computed(() => this.stateService.profile() || null);
-  currentUserId = computed(() => this.myProfile()?.userId || '');
+  currentUserId = computed(() => this.stateService.userId() || '');
   interlocutor = computed(() => this.interlocutorService.interlocutor() || null);
   interlocutorProfile = computed(() => this.interlocutor()?.profile || null);
   activeChatId = input<string>('');

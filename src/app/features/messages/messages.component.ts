@@ -38,8 +38,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
   private chatService = inject(ChatService);
   private stateService = inject(StateService);
   private router = inject(Router);
-  private currentUserProfile = computed(() => this.stateService.profile());
-  currentUserId = computed(() => this.currentUserProfile()?.userId || '');
+  currentUserId = computed(() => this.stateService.userId() || '');
   private destroy$ = new Subject<void>();
   isChatsLoading = computed(() => this.chatService.isChatsLoading());
 
