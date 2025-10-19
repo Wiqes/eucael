@@ -31,6 +31,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { MessageDeleteButtonComponent } from './message-delete-button/message-delete-button.component';
+import { IProfile } from '../../core/models/entities/profile.model';
 
 @Component({
   selector: 'app-chat',
@@ -63,9 +64,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   currentUserId = computed(() => this.stateService.userId() || '');
   interlocutor = computed(() => this.interlocutorService.interlocutor() || null);
   isOnline = computed(() => this.interlocutor()?.isOnline || false);
-  interlocutorProfile = computed(() =>
+  interlocutorProfile = computed<IProfile | null>(() =>
     this.interlocutor()?.profile
-      ? { ...this.interlocutor()?.profile, avatarUrl: this.interlocutor()?.avatarUrl }
+      ? ({ ...this.interlocutor()?.profile, avatarUrl: this.interlocutor()?.avatarUrl } as IProfile)
       : null,
   );
 
