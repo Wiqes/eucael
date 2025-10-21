@@ -32,6 +32,7 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { MessageDeleteButtonComponent } from './message-delete-button/message-delete-button.component';
 import { IProfile } from '../../core/models/entities/profile.model';
+import { ScrollToBottomButtonComponent } from './scroll-to-bottom-button/scroll-to-bottom-button.component';
 
 @Component({
   selector: 'app-chat',
@@ -47,6 +48,7 @@ import { IProfile } from '../../core/models/entities/profile.model';
     ButtonModule,
     RippleModule,
     MessageDeleteButtonComponent,
+    ScrollToBottomButtonComponent,
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],

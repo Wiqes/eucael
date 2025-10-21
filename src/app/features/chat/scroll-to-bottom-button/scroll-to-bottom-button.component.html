@@ -1,0 +1,12 @@
+<button
+  *ngIf="visible"
+  type="button"
+  pButton
+  pRipple
+  class="p-button p-button-secondary scroll-to-bottom-btn"
+  (click)="onScrollClick()"
+  title="Scroll to bottom"
+  aria-label="Scroll to newest messages"
+>
+  <i class="pi pi-chevron-down" aria-hidden="true"></i>
+</button>
