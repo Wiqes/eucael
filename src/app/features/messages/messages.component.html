@@ -14,7 +14,7 @@
   <!-- Search Bar -->
   <app-search-bar (userSelected)="onUserSelected($event)" />
 
-  <div class="chat-list">
+  <div *ngIf="interlocutors().length !== 0" class="chat-list">
     <div
       *ngFor="let chat of interlocutors(); trackBy: trackByFn"
       class="chat-item"
