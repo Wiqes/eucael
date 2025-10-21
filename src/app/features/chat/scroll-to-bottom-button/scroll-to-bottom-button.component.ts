@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
@@ -11,8 +11,8 @@ import { RippleModule } from 'primeng/ripple';
   styleUrls: ['./scroll-to-bottom-button.component.scss'],
 })
 export class ScrollToBottomButtonComponent {
-  @Input() visible = false;
-  @Output() scrollToBottom = new EventEmitter<void>();
+  visible = input(false);
+  scrollToBottom = output<void>();
 
   onScrollClick(): void {
     this.scrollToBottom.emit();
