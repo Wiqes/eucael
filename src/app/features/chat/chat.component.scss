@@ -41,6 +41,10 @@
   position: relative; // For positioning the scroll button
 
   @extend %small-scrollbar;
+
+  .ghost-message {
+    height: 100dvh;
+  }
 }
 
 .message {

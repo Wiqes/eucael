@@ -10,6 +10,7 @@
   />
 
   <div class="messages" #messagesContainer (scroll)="onScroll()">
+    <div class="ghost-message"></div>
     <div *ngFor="let message of messages; trackBy: trackByMessageId" class="message">
       <div
         [class.sender]="message.sender.id === currentUserId()"
