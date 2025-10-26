@@ -10,7 +10,7 @@
             shape="circle"
             class="profile-avatar"
           ></p-avatar>
-          <app-owl-icon *ngIf="!photoURL()" style="width: 138px" />
+          <app-owl-icon *ngIf="!photoURL()" style="width: 138px" [dark]="true" />
           <app-profile-actions *ngIf="profile()" />
         </div>
       </div>
