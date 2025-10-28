@@ -10,8 +10,9 @@
 />
 <app-owl-icon
   *ngIf="!photoURL()"
-  style="width: 36px; height: 36px"
+  style="width: 36px; height: 36px; border: 2px solid #34f5f5; border-radius: 50%"
   (click)="onAvatarClick($event)"
+  [dark]="true"
   (keydown.enter)="onAvatarClick($event)"
   (keydown.space)="onAvatarClick($event)"
 />
