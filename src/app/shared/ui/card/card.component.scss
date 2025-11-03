@@ -93,7 +93,6 @@
     position: relative;
     flex: 1;
     overflow: hidden;
-    max-width: 220px;
     border-radius: 14px 14px 0 0;
 
     app-image {
@@ -160,7 +159,8 @@
 }
 
 :host ::ng-deep .icon-container {
-  transform: scale(1.02);
+  position: absolute;
+  transform: scale(1.2);
 }
 
 // Click animation for image preview trigger
