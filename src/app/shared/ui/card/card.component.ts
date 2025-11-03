@@ -4,10 +4,17 @@ import { ICreature } from '../../../core/models/entities/card.model';
 import { ImageComponent } from '../image/image.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CardNameComponent } from './card-name/card-name.component';
+import { IconContainerComponent } from '../icon-container/icon-container.component';
 
 @Component({
   selector: 'app-card',
-  imports: [CommonModule, ImageComponent, TranslateModule, CardNameComponent],
+  imports: [
+    CommonModule,
+    ImageComponent,
+    TranslateModule,
+    CardNameComponent,
+    IconContainerComponent,
+  ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
@@ -19,6 +26,9 @@ export class CardComponent {
   animalName = input<string>('');
   imageUrl = computed(() => {
     return this.creature()?.imageUrl || '';
+  });
+  color = computed(() => {
+    return this.creature()?.color.hex || '#FFFFFF';
   });
   name = computed(() => {
     return (this.creature() as ICreature).name || this.animalName() || 'N/A';
