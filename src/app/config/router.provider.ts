@@ -139,6 +139,22 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'summoner',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/summoner/summoner.component').then((m) => m.SummonerComponent),
+      },
+      {
+        path: '',
+        outlet: 'header',
+        loadComponent: () =>
+          import('../layout/header/header.component').then((m) => m.HeaderComponent),
+      },
+    ],
+  },
 ];
 
 export const routerProvider = () => provideRouter(routes);
