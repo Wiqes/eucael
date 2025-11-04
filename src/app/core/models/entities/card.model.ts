@@ -1,6 +1,6 @@
 export interface ICard {
   id: number;
-  animalId: number;
+  animal: { id: number; name: string };
   colorId: number;
   color: IColor;
 }

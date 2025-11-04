@@ -3,10 +3,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Button } from 'primeng/button';
 import { SummonerService } from '../../core/services/data-access/summoner.service';
 import { ICreature } from '../../core/models/entities/card.model';
+import { CardComponent } from '../../shared/ui/card/card.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-summoner',
-  imports: [Button, TranslateModule],
+  imports: [Button, TranslateModule, CardComponent, NgIf],
   templateUrl: './summoner.component.html',
   styleUrl: './summoner.component.scss',
 })

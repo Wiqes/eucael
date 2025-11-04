@@ -23,6 +23,9 @@ export class CardComponent {
   private elementRef = inject(ElementRef);
 
   creature = input<ICreature | null>(null);
+  animalName = computed(() => {
+    return this.creature()?.animal.name || 'unknown';
+  });
   imageUrl = computed(() => {
     return this.creature()?.imageUrl || '';
   });
