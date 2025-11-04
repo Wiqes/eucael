@@ -5,6 +5,7 @@ import { ImageComponent } from '../image/image.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CardNameComponent } from './card-name/card-name.component';
 import { IconContainerComponent } from '../icon-container/icon-container.component';
+import { LoaderComponent } from '../loader/loader.component';
 
 @Component({
   selector: 'app-card',
@@ -14,6 +15,7 @@ import { IconContainerComponent } from '../icon-container/icon-container.compone
     TranslateModule,
     CardNameComponent,
     IconContainerComponent,
+    LoaderComponent,
   ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
@@ -23,6 +25,7 @@ export class CardComponent {
   private elementRef = inject(ElementRef);
 
   creature = input<ICreature | null>(null);
+  isLoading = input<boolean>(false);
   animalName = computed(() => {
     return this.creature()?.animal.name || 'unknown';
   });

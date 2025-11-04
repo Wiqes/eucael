@@ -4,25 +4,29 @@ import { Button } from 'primeng/button';
 import { SummonerService } from '../../core/services/data-access/summoner.service';
 import { ICreature } from '../../core/models/entities/card.model';
 import { CardComponent } from '../../shared/ui/card/card.component';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-summoner',
-  imports: [Button, TranslateModule, CardComponent, NgIf],
+  imports: [Button, TranslateModule, CardComponent],
   templateUrl: './summoner.component.html',
   styleUrl: './summoner.component.scss',
 })
 export class SummonerComponent {
   private summonerService = inject(SummonerService);
   creature = signal<ICreature | null>(null);
+  isSummoning = signal(false);
 
   summonDarkElf() {
+    this.isSummoning.set(true);
     this.summonerService.summon().subscribe({
       next: (creature) => {
         this.creature.set(creature);
       },
       error: (error) => {
         console.error('Error summoning creature:', error);
+      },
+      complete: () => {
+        this.isSummoning.set(false);
       },
     });
   }

@@ -1,4 +1,4 @@
-<app-card *ngIf="creature()" [creature]="creature()" />
+<app-card [creature]="creature()" [isLoading]="isSummoning()" (onCardClick)="summonDarkElf()" />
 <p-button
   [label]="'Summon' | translate"
   icon="pi pi-user-plus"
