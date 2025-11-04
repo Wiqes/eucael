@@ -27,7 +27,7 @@ export class CardComponent {
   creature = input<ICreature | null>(null);
   isLoading = input<boolean>(false);
   animalName = computed(() => {
-    return this.creature()?.animal.name || 'unknown';
+    return this.creature()?.animal?.name || 'unknown';
   });
   imageUrl = computed(() => {
     return this.creature()?.imageUrl || '';
