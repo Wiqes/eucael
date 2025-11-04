@@ -23,7 +23,6 @@ export class CardComponent {
   private elementRef = inject(ElementRef);
 
   creature = input<ICreature | null>(null);
-  animalName = input<string>('');
   imageUrl = computed(() => {
     return this.creature()?.imageUrl || '';
   });
@@ -31,7 +30,7 @@ export class CardComponent {
     return this.creature()?.color.hex || '#FFFFFF';
   });
   name = computed(() => {
-    return (this.creature() as ICreature).name || this.animalName() || 'N/A';
+    return (this.creature() as ICreature).name || 'N/A';
   });
   level = computed(() => {
     return this.creature()?.level || 1;

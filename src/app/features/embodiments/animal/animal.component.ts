@@ -12,7 +12,7 @@ import { IAnimal } from '../../../core/models/entities/animal.model';
 export class AnimalComponent {
   isTotemShown = input<boolean>(false);
   animal = input<IAnimal | null>(null);
-  animalName = computed(() => this.animal()?.name || '');
+  animalName = input<string>('');
   male = computed(() => this.animal()?.male || []);
   female = computed(() => this.animal()?.female || []);
   totem = computed(() => this.animal()?.totem || []);

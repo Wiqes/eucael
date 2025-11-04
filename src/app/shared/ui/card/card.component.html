@@ -9,7 +9,7 @@
   <div class="card-border">
     <div class="card-content">
       <div class="image-container">
-        <app-icon-container *ngIf="!imageUrl()" [color]="color()" [iconName]="animalName()" />
+        <app-icon-container *ngIf="!imageUrl()" [color]="color()" />
         <app-image *ngIf="imageUrl()" #imageComponent [imageUrl]="imageUrl()" />
       </div>
       <app-card-name [name]="name()" />
