@@ -244,5 +244,7 @@
       "accept": "삭제",
       "reject": "취소"
     }
-  }
+  },
+  "Summon": "소환",
+  "Summoner": "소환사"
 }

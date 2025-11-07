@@ -244,5 +244,7 @@
       "accept": "Löschen",
       "reject": "Abbrechen"
     }
-  }
+  },
+  "Summon": "Beschwören",
+  "Summoner": "Beschwörer"
 }

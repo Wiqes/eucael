@@ -244,5 +244,7 @@
       "accept": "削除",
       "reject": "キャンセル"
     }
-  }
+  },
+  "Summon": "召喚",
+  "Summoner": "召喚師"
 }

@@ -244,5 +244,7 @@
       "accept": "Delete",
       "reject": "Cancel"
     }
-  }
+  },
+  "Summon": "Summon",
+  "Summoner": "Summoner"
 }

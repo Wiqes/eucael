@@ -244,5 +244,7 @@
       "accept": "Hapus",
       "reject": "Batal"
     }
-  }
+  },
+  "Summon": "Panggil",
+  "Summoner": "Pemanggil"
 }

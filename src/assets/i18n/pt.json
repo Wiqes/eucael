@@ -252,5 +252,7 @@
       "accept": "Excluir",
       "reject": "Cancelar"
     }
-  }
+  },
+  "Summon": "Invocar",
+  "Summoner": "Invocador"
 }

@@ -244,5 +244,7 @@
       "accept": "Elimina",
       "reject": "Annulla"
     }
-  }
+  },
+  "Summon": "Evocare",
+  "Summoner": "Evocatore"
 }
