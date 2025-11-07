@@ -4,6 +4,7 @@ import { Button } from 'primeng/button';
 import { SummonerService } from '../../core/services/data-access/summoner.service';
 import { ICreature } from '../../core/models/entities/card.model';
 import { CardComponent } from '../../shared/ui/card/card.component';
+import { ISummonerResponse } from '../../core/models/summoner.model';
 
 @Component({
   selector: 'app-summoner',
@@ -19,7 +20,8 @@ export class SummonerComponent {
   summonDarkElf() {
     this.isSummoning.set(true);
     this.summonerService.summon().subscribe({
-      next: (creature) => {
+      next: (response) => {
+        const creature = (response as ISummonerResponse).creature || (response as ICreature);
         this.creature.set(creature);
       },
       error: (error) => {
