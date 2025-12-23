@@ -111,6 +111,10 @@
       "failed": {
         "summary": "Falha na Atualização do Perfil",
         "detail": "Falha ao atualizar o perfil. Por favor, tente novamente."
+      },
+      "nameTaken": {
+        "summary": "Nome de Perfil Ocupado",
+        "detail": "O nome do perfil já está em uso!"
       }
     }
   },

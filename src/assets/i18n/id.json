@@ -111,6 +111,10 @@
       "failed": {
         "summary": "Pembaruan Profil Gagal",
         "detail": "Gagal memperbarui profil. Silakan coba lagi."
+      },
+      "nameTaken": {
+        "summary": "Nama Profil Sudah Digunakan",
+        "detail": "Nama profil sudah digunakan!"
       }
     }
   },

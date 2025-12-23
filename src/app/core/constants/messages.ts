@@ -94,6 +94,11 @@ export const MESSAGES = {
     summary: 'messages.profile.failed.summary',
     detail: 'messages.profile.failed.detail',
   },
+  PROFILE_NAME_TAKEN: {
+    severity: 'error',
+    summary: 'messages.profile.nameTaken.summary',
+    detail: 'messages.profile.nameTaken.detail',
+  },
   TOO_MANY_REQUESTS: {
     severity: 'error',
     summary: 'messages.tooManyRequests.error.summary',

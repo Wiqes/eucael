@@ -135,8 +135,12 @@ export class ProfileComponent implements OnInit {
           this.isDialogVisible.set(false);
           this.isUpdating.set(false);
         },
-        error: () => {
-          this.messageService.sendMessage(MESSAGES.PROFILE_UPDATE_FAILED);
+        error: (error) => {
+          if (error?.status === 409) {
+            this.messageService.sendMessage(MESSAGES.PROFILE_NAME_TAKEN);
+          } else {
+            this.messageService.sendMessage(MESSAGES.PROFILE_UPDATE_FAILED);
+          }
           this.isUpdating.set(false);
         },
       });

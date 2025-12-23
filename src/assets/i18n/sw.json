@@ -111,6 +111,10 @@
       "failed": {
         "summary": "Kusasisha Profaili Kumeshindwa",
         "detail": "Kusasisha profaili kumeshindwa. Tafadhali jaribu tena."
+      },
+      "nameTaken": {
+        "summary": "Jina la Profaili Limechukuliwa",
+        "detail": "Jina la profaili tayari limechukuliwa!"
       }
     }
   },

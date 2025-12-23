@@ -111,6 +111,10 @@
       "failed": {
         "summary": "Profile Update Failed",
         "detail": "Failed to update profile. Please try again."
+      },
+      "nameTaken": {
+        "summary": "Profile Name Taken",
+        "detail": "Profile name is already taken!"
       }
     }
   },

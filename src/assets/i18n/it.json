@@ -149,6 +149,10 @@
       "failed": {
         "summary": "Aggiornamento Profilo Fallito",
         "detail": "Aggiornamento profilo fallito. Riprova di nuovo."
+      },
+      "nameTaken": {
+        "summary": "Nome Profilo Occupato",
+        "detail": "Il nome del profilo è già stato preso!"
       }
     }
   },

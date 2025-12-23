@@ -149,6 +149,10 @@
       "failed": {
         "summary": "Profil-Update fehlgeschlagen",
         "detail": "Fehler beim Aktualisieren des Profils. Bitte versuchen Sie es erneut."
+      },
+      "nameTaken": {
+        "summary": "Profilname vergeben",
+        "detail": "Profilname ist bereits vergeben!"
       }
     }
   },

@@ -111,6 +111,10 @@
       "failed": {
         "summary": "Profil Güncellemesi Başarısız",
         "detail": "Profil güncellenemedi. Lütfen tekrar deneyin."
+      },
+      "nameTaken": {
+        "summary": "Profil Adı Kullanılıyor",
+        "detail": "Profil adı zaten alınmış!"
       }
     }
   },

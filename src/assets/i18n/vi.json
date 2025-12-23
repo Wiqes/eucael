@@ -111,6 +111,10 @@
       "failed": {
         "summary": "Cập nhật hồ sơ thất bại",
         "detail": "Không thể cập nhật hồ sơ. Vui lòng thử lại."
+      },
+      "nameTaken": {
+        "summary": "Tên hồ sơ đã được sử dụng",
+        "detail": "Tên hồ sơ đã được sử dụng!"
       }
     }
   },

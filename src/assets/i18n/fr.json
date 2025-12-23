@@ -149,6 +149,10 @@
       "failed": {
         "summary": "Échec de la Mise à Jour du Profil",
         "detail": "Échec de la mise à jour du profil. Veuillez réessayer."
+      },
+      "nameTaken": {
+        "summary": "Nom de Profil Pris",
+        "detail": "Le nom de profil est déjà pris !"
       }
     }
   },
