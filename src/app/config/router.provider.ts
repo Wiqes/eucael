@@ -155,6 +155,16 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'battle',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/battle/battle.component').then((m) => m.BattleComponent),
+      },
+    ],
+  },
 ];
 
 export const routerProvider = () => provideRouter(routes);

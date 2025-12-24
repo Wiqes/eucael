@@ -1,0 +1,550 @@
+@use 'variables' as *;
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 58px 0 0 0;
+}
+
+.battle-arena {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100vh - 58px);
+  height: calc(100dvh - 58px);
+  gap: 20px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas-wrapper {
+  flex: 1;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  @extend %green-glass;
+  box-shadow: 0 0 60px rgba(52, 245, 221, 0.3), inset 0 0 40px rgba(52, 245, 221, 0.1);
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+
+// Battle Overlay UI
+.battle-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.character-status {
+  pointer-events: auto;
+  animation: slideIn 0.8s ease-out;
+
+  &.left {
+    animation-name: slideInLeftDramatic;
+  }
+
+  &.right {
+    animation-name: slideInRightDramatic;
+  }
+}
+
+.character-card {
+  padding: 16px 20px;
+  min-width: 260px;
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(52, 245, 221, 0.1) 50%,
+      transparent 70%
+    );
+    animation: cardShimmer 3s infinite;
+  }
+
+  &:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 0 40px rgba(52, 245, 221, 0.6), 0 12px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  transition: all 0.3s ease;
+}
+
+.character-name {
+  font-family: 'New Rocker', cursive;
+  font-size: 1.8rem;
+  color: $primary-color;
+  text-shadow: 0 0 20px rgba(52, 245, 221, 0.8);
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.health-container {
+  margin-bottom: 12px;
+}
+
+.health-bar-wrapper {
+  position: relative;
+  width: 100%;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(52, 245, 221, 0.3);
+}
+
+.health-bar {
+  height: 100%;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border-radius: 16px;
+
+  &.character1 {
+    background: linear-gradient(
+      90deg,
+      rgba(52, 245, 221, 0.9) 0%,
+      rgba(52, 245, 245, 1) 50%,
+      rgba(52, 245, 221, 0.9) 100%
+    );
+    box-shadow: 0 0 20px rgba(52, 245, 221, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  &.character2 {
+    background: linear-gradient(
+      90deg,
+      rgba(52, 211, 245, 0.9) 0%,
+      rgba(52, 245, 245, 1) 50%,
+      rgba(52, 211, 245, 0.9) 100%
+    );
+    box-shadow: 0 0 20px rgba(52, 211, 245, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+    border-radius: 16px 16px 0 0;
+  }
+}
+
+.health-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  font-size: 1rem;
+  color: white;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.stats-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+
+  :deep(.p-chip) {
+    background: rgba(52, 245, 221, 0.15) !important;
+    border: 1px solid rgba(52, 245, 221, 0.3) !important;
+    color: $text-color !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    box-shadow: 0 0 15px rgba(52, 245, 221, 0.2);
+
+    &:hover {
+      background: rgba(52, 245, 221, 0.25) !important;
+      transform: scale(1.05);
+    }
+
+    transition: all 0.2s ease;
+  }
+}
+
+// VS Badge
+.vs-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  pointer-events: none;
+  filter: drop-shadow(0 0 30px rgba(52, 245, 221, 0.8));
+}
+
+.vs-text {
+  font-family: 'New Rocker', cursive;
+  font-size: 3rem;
+  font-weight: bold;
+  color: $primary-color;
+  text-shadow: 0 0 30px rgba(52, 245, 221, 1), 0 0 60px rgba(52, 245, 221, 0.7),
+    0 4px 8px rgba(0, 0, 0, 0.8), 0 0 100px rgba(52, 245, 221, 0.5);
+  letter-spacing: 8px;
+  position: relative;
+}
+
+@keyframes vsFloatEnhanced {
+  0%,
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) scale(1.08) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.15) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-15px) scale(1.08) rotate(2deg);
+  }
+}
+
+@keyframes vsPulse {
+  0%,
+  100% {
+    filter: brightness(1) contrast(1);
+  }
+  50% {
+    filter: brightness(1.3) contrast(1.2);
+  }
+}
+
+@keyframes glitchEffect {
+  0%,
+  90%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  92% {
+    transform: translate(-2px, 2px);
+    opacity: 0.6;
+  }
+  94% {
+    transform: translate(2px, -2px);
+    opacity: 0.6;
+  }
+  96% {
+    transform: translate(-2px, -2px);
+    opacity: 0.6;
+  }
+}
+
+// Victory Overlay
+.victory-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle at center,
+    rgba(52, 245, 221, 0.2) 0%,
+    rgba(0, 0, 0, 0.85) 70%
+  );
+  backdrop-filter: blur(15px);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.victory-content {
+  text-align: center;
+  padding: 60px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.victory-icon {
+  font-size: 6rem;
+  display: inline-block;
+}
+
+.victory-title {
+  font-family: 'New Rocker', cursive;
+  font-size: 4rem;
+  color: $primary-color;
+  margin: 20px 0;
+  text-shadow: 0 0 40px rgba(52, 245, 221, 1), 0 0 80px rgba(52, 245, 221, 0.8),
+    0 4px 12px rgba(0, 0, 0, 0.9), 0 0 120px rgba(52, 245, 221, 0.6);
+  letter-spacing: 4px;
+  position: relative;
+}
+
+.victory-subtitle {
+  font-size: 1.8rem;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 8px;
+  text-shadow: 0 0 20px rgba(52, 245, 221, 0.6);
+}
+
+// Control Panel
+.control-panel {
+  padding: 20px 24px;
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.panel-header {
+  flex: 1;
+  min-width: 200px;
+}
+
+.panel-title {
+  font-family: 'New Rocker', cursive;
+  font-size: 1.8rem;
+  color: $primary-color;
+  margin: 0;
+  text-shadow: 0 0 20px rgba(52, 245, 221, 0.6);
+  letter-spacing: 2px;
+}
+
+.control-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  :deep(.p-button) {
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 12px 28px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:not(:disabled):hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(52, 245, 221, 0.4);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+}
+
+.battle-info {
+  flex: 1 1 100%;
+  margin-top: 8px;
+}
+
+.info-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  i {
+    color: $primary-color;
+    font-size: 1.2rem;
+  }
+}
+
+// Glass panel shared styles
+.glass-panel {
+  @extend %green-glass;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeftDramatic {
+  0% {
+    opacity: 0;
+    transform: translateX(-150px) rotate(-10deg) scale(0.5);
+  }
+  70% {
+    transform: translateX(10px) rotate(2deg) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes slideInRightDramatic {
+  0% {
+    opacity: 0;
+    transform: translateX(150px) rotate(10deg) scale(0.5);
+  }
+  70% {
+    transform: translateX(-10px) rotate(-2deg) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes cardShimmer {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .character-card {
+    min-width: 220px;
+    padding: 14px 16px;
+  }
+
+  .character-name {
+    font-size: 1.5rem;
+  }
+
+  .vs-text {
+    font-size: 2.5rem;
+  }
+
+  .victory-title {
+    font-size: 3rem;
+  }
+
+  .panel-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .battle-arena {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .battle-overlay {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .character-status {
+    width: 100%;
+
+    &.left,
+    &.right {
+      animation-name: slideInDown;
+    }
+  }
+
+  .vs-badge {
+    order: 2;
+    margin: 0;
+  }
+
+  .character-card {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .control-panel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .panel-header {
+    text-align: center;
+  }
+
+  .control-buttons {
+    justify-content: center;
+    width: 100%;
+
+    :deep(.p-button) {
+      flex: 1;
+      min-width: 140px;
+    }
+  }
+
+  .victory-content {
+    padding: 40px 30px;
+  }
+
+  .victory-title {
+    font-size: 2.5rem;
+  }
+
+  .victory-icon {
+    font-size: 4rem;
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
