@@ -145,27 +145,51 @@ export class BattleComponent implements OnInit, OnDestroy {
     accentLight.castShadow = true;
     this.scene.add(accentLight);
 
-    // Enhanced Ground with app theme
-    const groundGeometry = new THREE.PlaneGeometry(30, 30);
-    const groundMaterial = new THREE.MeshStandardMaterial({
-      color: 0x18181b,
-      roughness: 0.9,
-      metalness: 0.1,
-      emissive: 0x0a0a0b,
-      emissiveIntensity: 0.5,
-    });
-    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -0.5;
-    ground.receiveShadow = true;
-    this.scene.add(ground);
+    // Enhanced Ground with chessboard pattern
+    const tileSize = 1.5;
+    const boardSize = 20;
+    const halfBoard = boardSize / 2;
 
-    // Glowing grid with theme color
-    const gridHelper = new THREE.GridHelper(30, 30, 0x34f5dd, 0x18181b);
-    gridHelper.material.opacity = 0.3;
-    gridHelper.material.transparent = true;
-    gridHelper.position.y = -0.49;
-    this.scene.add(gridHelper);
+    for (let x = 0; x < boardSize; x++) {
+      for (let z = 0; z < boardSize; z++) {
+        const isBlack = (x + z) % 2 === 0;
+        const tileGeometry = new THREE.PlaneGeometry(tileSize, tileSize);
+        const tileMaterial = new THREE.MeshStandardMaterial({
+          color: isBlack ? 0x0a0a0b : 0x27272a,
+          roughness: 0.9,
+          metalness: 0.1,
+          emissive: isBlack ? 0x000000 : 0x0f0f10,
+          emissiveIntensity: isBlack ? 0.1 : 0.3,
+        });
+        const tile = new THREE.Mesh(tileGeometry, tileMaterial);
+        tile.rotation.x = -Math.PI / 2;
+        tile.position.set(
+          (x - halfBoard) * tileSize + tileSize / 2,
+          -0.5,
+          (z - halfBoard) * tileSize + tileSize / 2,
+        );
+        tile.receiveShadow = true;
+        this.scene.add(tile);
+
+        // Add subtle glowing border lines
+        if ((x + z) % 2 === 0) {
+          const borderGeometry = new THREE.EdgesGeometry(tileGeometry);
+          const borderMaterial = new THREE.LineBasicMaterial({
+            color: 0x34f5dd,
+            opacity: 0.15,
+            transparent: true,
+          });
+          const border = new THREE.LineSegments(borderGeometry, borderMaterial);
+          border.rotation.x = -Math.PI / 2;
+          border.position.set(
+            (x - halfBoard) * tileSize + tileSize / 2,
+            -0.49,
+            (z - halfBoard) * tileSize + tileSize / 2,
+          );
+          this.scene.add(border);
+        }
+      }
+    }
   }
 
   private createCharacters(): void {
