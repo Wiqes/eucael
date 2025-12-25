@@ -409,7 +409,7 @@ export class BattleComponent implements OnInit, OnDestroy {
 
     // Outer energy aura - spider web pattern
     for (let i = 1; i <= 4; i++) {
-      const auraGeometry = new THREE.IcosahedronGeometry(1.8 + i * 0.4, 1);
+      const auraGeometry = new THREE.IcosahedronGeometry(1 + i * 0.4, 1);
       const auraMaterial = new THREE.MeshBasicMaterial({
         color: themeColor,
         transparent: true,
