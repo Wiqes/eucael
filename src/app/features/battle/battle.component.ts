@@ -356,29 +356,51 @@ export class BattleComponent implements OnInit, OnDestroy {
 
         group.add(legGroup);
 
-        // Add creepy leg movement animation with constraints to prevent crossing
-        const delay = legNum * 0.1 + side * 0.05;
+        // Store leg reference for spider-like random movement animation
+        const legIndex = side * 4 + legNum; // Create unique index for each leg (0-7)
 
-        // Calculate safe rotation ranges based on leg position and side
-        // Left side (side=0) gets negative z-rotation, right side (side=1) gets positive
-        const safeZRotation = Math.sin(legNum * 0.5) * 0.12 * sideMultiplier;
+        // Store base rotation to maintain original leg spread
+        const baseRotationY = legAngle;
 
-        // Front legs can move more forward, back legs can move more backward
-        const safeFrontBackRotation = legAngle * 0.15 + Math.sin(legNum * 0.3) * 0.08;
+        // Spider-like movement: fast, random, individual leg twitches
+        // Real spiders move legs independently and quickly
+        const animateLegRandomly = () => {
+          // Calculate safe rotation ranges based on leg position and side
+          const safeZRotation = (Math.random() * 0.25 - 0.125) * sideMultiplier;
+          const safeFrontBackRotation = baseRotationY + (Math.random() * 0.15 - 0.075);
+          const safeVerticalRotation = Math.random() * 0.3 - 0.15;
 
-        // Vertical movement is safe (won't cause crossing)
-        const safeVerticalRotation = Math.sin(legNum * 0.7) * 0.18;
+          // Fast, twitchy movement like real spiders
+          const moveDuration = 0.15 + Math.random() * 0.15; // 0.15-0.3s (much faster)
+          const pauseDuration = 0.1 + Math.random() * 0.4; // 0.1-0.5s random pause
 
-        gsap.to(legGroup.rotation, {
-          x: safeVerticalRotation, // Up/down movement
-          y: safeFrontBackRotation, // Front/back movement constrained by base angle
-          z: safeZRotation, // Side movement constrained by side multiplier
-          duration: 2 + legNum * 0.2,
-          repeat: -1,
-          yoyo: true,
-          delay: delay,
-          ease: 'sine.inOut',
-        });
+          gsap.to(legGroup.rotation, {
+            x: safeVerticalRotation,
+            y: safeFrontBackRotation,
+            z: safeZRotation,
+            duration: moveDuration,
+            ease: 'power2.inOut',
+            onComplete: () => {
+              // Return to original base position maintaining spread
+              gsap.to(legGroup.rotation, {
+                x: 0,
+                y: baseRotationY,
+                z: 0,
+                duration: moveDuration * 0.8,
+                ease: 'power2.inOut',
+                delay: pauseDuration,
+                onComplete: () => {
+                  // Queue next random movement
+                  animateLegRandomly();
+                },
+              });
+            },
+          });
+        };
+
+        // Start each leg with a random initial delay for staggered spider-like movement
+        const initialDelay = Math.random() * 1.5; // 0-1.5s random start
+        gsap.delayedCall(initialDelay, animateLegRandomly);
       }
     }
 
