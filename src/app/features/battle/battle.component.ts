@@ -185,29 +185,11 @@ export class BattleComponent implements OnInit, OnDestroy {
         tile.rotation.x = -Math.PI / 2;
         tile.position.set(
           (x - halfBoard) * tileSize + tileSize / 2,
-          -0.95,
+          -1,
           (z - halfBoard) * tileSize + tileSize / 2,
         );
         tile.receiveShadow = true;
         this.scene.add(tile);
-
-        // Add subtle glowing border lines
-        if ((x + z) % 2 === 0) {
-          const borderGeometry = new THREE.EdgesGeometry(tileGeometry);
-          const borderMaterial = new THREE.LineBasicMaterial({
-            color: 0x34f5dd,
-            opacity: 0.15,
-            transparent: true,
-          });
-          const border = new THREE.LineSegments(borderGeometry, borderMaterial);
-          border.rotation.x = -Math.PI / 2;
-          border.position.set(
-            (x - halfBoard) * tileSize + tileSize / 2,
-            -0.89,
-            (z - halfBoard) * tileSize + tileSize / 2,
-          );
-          this.scene.add(border);
-        }
       }
     }
   }
