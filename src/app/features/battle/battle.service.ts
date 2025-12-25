@@ -19,13 +19,13 @@ export class BattleService {
     const char1: BattleCharacter = {
       ...character1,
       isAlive: true,
-      position: { x: -3, y: 0, z: 0 },
+      position: { x: -3, y: 0, z: 3 },
     };
 
     const char2: BattleCharacter = {
       ...character2,
       isAlive: true,
-      position: { x: 3, y: 0, z: 0 },
+      position: { x: 3, y: 0, z: -3 },
     };
 
     const initialState: BattleState = {
