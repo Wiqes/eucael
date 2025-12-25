@@ -355,33 +355,23 @@ export class BattleComponent implements OnInit, OnDestroy {
 
         group.add(legGroup);
 
-        // Add creepy leg movement animation with strict constraints to prevent crossing
+        // Add creepy leg movement animation with constraints to prevent crossing
         const delay = legNum * 0.1 + side * 0.05;
 
         // Calculate safe rotation ranges based on leg position and side
-        // Each leg stays in its own angular zone to never cross neighbors
+        // Left side (side=0) gets negative z-rotation, right side (side=1) gets positive
+        const safeZRotation = Math.sin(legNum * 0.5) * 0.12 * sideMultiplier;
 
-        // Z-rotation (side spread): Each side stays strictly on its side
-        // Left side (side=0): negative values only, right side (side=1): positive values only
-        // Legs further from center can spread more
-        const baseZSpread = (0.05 + legNum * 0.015) * sideMultiplier;
-        const safeZRotation = baseZSpread;
+        // Front legs can move more forward, back legs can move more backward
+        const safeFrontBackRotation = legAngle * 0.15 + Math.sin(legNum * 0.3) * 0.08;
 
-        // Y-rotation (front/back): Each leg stays in its angular sector
-        // Front legs move forward, back legs move backward, no overlap
-        // Create strict angular boundaries for each leg
-        const legSectorSize = Math.PI / 12; // Each leg gets ~15° sector
-        const sectorCenter = legAngle;
-        const safeFrontBackRotation = sectorCenter + Math.sin(legNum * 0.5) * (legSectorSize * 0.4);
-
-        // X-rotation (vertical up/down movement): Safe for all legs
-        // This movement doesn't cause crossing between legs
-        const safeVerticalRotation = Math.sin(legNum * 0.7) * 0.15;
+        // Vertical movement is safe (won't cause crossing)
+        const safeVerticalRotation = Math.sin(legNum * 0.7) * 0.18;
 
         gsap.to(legGroup.rotation, {
-          x: safeVerticalRotation, // Up/down movement - always safe
-          y: safeFrontBackRotation, // Front/back - constrained to leg's angular sector
-          z: safeZRotation, // Side spread - strictly stays on its side
+          x: safeVerticalRotation, // Up/down movement
+          y: safeFrontBackRotation, // Front/back movement constrained by base angle
+          z: safeZRotation, // Side movement constrained by side multiplier
           duration: 2 + legNum * 0.2,
           repeat: -1,
           yoyo: true,

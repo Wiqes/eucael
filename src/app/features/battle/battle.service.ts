@@ -25,7 +25,7 @@ export class BattleService {
     const char2: BattleCharacter = {
       ...character2,
       isAlive: true,
-      position: { x: 3, y: 0.5, z: 0 },
+      position: { x: 3, y: 0, z: 0 },
     };
 
     const initialState: BattleState = {
