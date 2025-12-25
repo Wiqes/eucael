@@ -185,7 +185,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         tile.rotation.x = -Math.PI / 2;
         tile.position.set(
           (x - halfBoard) * tileSize + tileSize / 2,
-          -0.5,
+          -0.95,
           (z - halfBoard) * tileSize + tileSize / 2,
         );
         tile.receiveShadow = true;
@@ -203,7 +203,7 @@ export class BattleComponent implements OnInit, OnDestroy {
           border.rotation.x = -Math.PI / 2;
           border.position.set(
             (x - halfBoard) * tileSize + tileSize / 2,
-            -0.49,
+            -0.89,
             (z - halfBoard) * tileSize + tileSize / 2,
           );
           this.scene.add(border);
