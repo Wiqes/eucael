@@ -408,18 +408,23 @@ export class BattleComponent implements OnInit, OnDestroy {
     });
 
     // Outer energy aura - spider web pattern
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 4; i++) {
       const auraGeometry = new THREE.IcosahedronGeometry(1.8 + i * 0.4, 1);
       const auraMaterial = new THREE.MeshBasicMaterial({
         color: themeColor,
         transparent: true,
-        opacity: 0.1 / i,
+        opacity: 0.05,
         side: THREE.BackSide,
         wireframe: true,
       });
       const aura = new THREE.Mesh(auraGeometry, auraMaterial);
       aura.position.y = 0.8;
       group.add(aura);
+
+      // Random rotation speeds and directions for each aura
+      const rotationSpeedX = (Math.random() - 0.5) * 0.5;
+      const rotationSpeedY = (Math.random() - 0.5) * 0.5;
+      const rotationSpeedZ = (Math.random() - 0.5) * 0.5;
 
       // Pulsing animation
       gsap.to(aura.scale, {
@@ -430,6 +435,16 @@ export class BattleComponent implements OnInit, OnDestroy {
         repeat: -1,
         yoyo: true,
         ease: 'sine.inOut',
+      });
+
+      // Random continuous rotation
+      gsap.to(aura.rotation, {
+        x: Math.PI * 2 * rotationSpeedX,
+        y: Math.PI * 2 * rotationSpeedY,
+        z: Math.PI * 2 * rotationSpeedZ,
+        duration: 3 + Math.random() * 2,
+        repeat: -1,
+        ease: 'none',
       });
     }
 
