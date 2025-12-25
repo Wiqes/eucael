@@ -527,29 +527,93 @@ export class BattleComponent implements OnInit, OnDestroy {
           this.screenFlash();
         }
 
-        // Defender reaction - more dramatic
-        gsap.to(defender.position, {
-          x: defender.position.x + (isChar1Attacker ? 1.5 : -1.5),
-          y: defender.position.y + 0.5,
-          duration: 0.2,
+        // Defender reaction - dramatic recoil with stagger back animation
+        const defenderTimeline = gsap.timeline();
+
+        // Initial impact: spider flinches and lifts up
+        defenderTimeline.to(defender.position, {
+          y: defender.position.y + 0.8,
+          duration: 0.08,
+          ease: 'power3.out',
+        });
+
+        // Violent rotation and compression on impact
+        defenderTimeline.to(
+          defender.rotation,
+          {
+            z: (isChar1Attacker ? 1 : -1) * 0.6,
+            y: (isChar1Attacker ? 1 : -1) * Math.PI * 0.15,
+            x: 0.3,
+            duration: 0.08,
+            ease: 'power2.out',
+          },
+          '<',
+        );
+
+        const defenderScaleX = isChar1Attacker ? -0.7 : 0.7;
+        defenderTimeline.to(
+          defender.scale,
+          {
+            x: defenderScaleX,
+            y: 0.7,
+            z: 0.85,
+            duration: 0.08,
+            ease: 'power2.in',
+          },
+          '<',
+        );
+
+        // First stagger back - spider stumbles
+        defenderTimeline.to(defender.position, {
+          x: defender.position.x + (isChar1Attacker ? 1.2 : -1.2),
+          y: defender.position.y + 0.3,
+          z: defender.position.z + (isChar1Attacker ? 0.2 : -0.2),
+          duration: 0.15,
           ease: 'power2.out',
         });
 
-        gsap.to(defender.rotation, {
-          z: (isChar1Attacker ? 1 : -1) * 0.4,
-          y: (isChar1Attacker ? 1 : -1) * Math.PI * 0.05,
-          duration: 0.2,
+        defenderTimeline.to(
+          defender.rotation,
+          {
+            z: (isChar1Attacker ? 1 : -1) * 0.3,
+            x: -0.2,
+            duration: 0.15,
+            ease: 'power2.out',
+          },
+          '<',
+        );
+
+        // Second stagger back - tries to regain balance
+        defenderTimeline.to(defender.position, {
+          x: defender.position.x + (isChar1Attacker ? 2.0 : -2.0),
+          y: defender.position.y,
+          duration: 0.18,
+          ease: 'power1.out',
         });
 
-        const defenderScaleX = isChar1Attacker ? -0.9 : 0.9;
-        gsap.to(defender.scale, {
-          x: defenderScaleX,
-          y: 0.9,
-          z: 0.9,
-          duration: 0.1,
-          yoyo: true,
-          repeat: 1,
-        });
+        defenderTimeline.to(
+          defender.rotation,
+          {
+            z: (isChar1Attacker ? 1 : -1) * 0.15,
+            x: 0.1,
+            duration: 0.18,
+            ease: 'power2.inOut',
+          },
+          '<',
+        );
+
+        // Scale recovery - spider regains composure
+        defenderTimeline.to(
+          defender.scale,
+          {
+            x: isChar1Attacker ? -0.95 : 0.95,
+            y: 0.95,
+            z: 0.95,
+            duration: 0.12,
+            ease: 'elastic.out(1.2, 0.5)',
+          },
+          '<',
+        );
       },
     });
 
