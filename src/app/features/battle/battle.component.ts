@@ -512,6 +512,17 @@ export class BattleComponent implements OnInit, OnDestroy {
       this.createTeleportTrail(attacker, defender, !!isChar1Attacker);
     });
 
+    // Add spinning rotation during attack
+    timeline.to(
+      attacker.rotation,
+      {
+        y: isChar1Attacker ? Math.PI + Math.PI * 2 : -Math.PI - Math.PI * 2,
+        duration: 0.15,
+        ease: 'power4.inOut',
+      },
+      '<',
+    );
+
     // Attacker teleports near defender
     timeline.to(attacker.position, {
       x: isChar1Attacker ? defender.position.x - 1.5 : defender.position.x + 1.5,
