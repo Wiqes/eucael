@@ -516,6 +516,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     timeline.to(attacker.position, {
       x: isChar1Attacker ? defender.position.x - 1.5 : defender.position.x + 1.5,
       y: defender.position.y + 1,
+      z: isChar1Attacker ? defender.position.z - 2 : defender.position.z + 2,
       duration: 0.15,
       ease: 'power4.inOut',
       onComplete: () => {
@@ -621,6 +622,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     timeline.to(attacker.position, {
       x: originalPos.x,
       y: originalPos.y + 3,
+      z: originalPos.z,
       duration: 0.4,
       ease: 'power2.in',
     });
