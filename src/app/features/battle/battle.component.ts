@@ -508,10 +508,6 @@ export class BattleComponent implements OnInit, OnDestroy {
       ease: 'power2.in',
     });
 
-    timeline.call(() => {
-      this.createTeleportTrail(attacker, defender, !!isChar1Attacker);
-    });
-
     // Add spinning rotation during attack
     timeline.to(
       attacker.rotation,
@@ -900,40 +896,6 @@ export class BattleComponent implements OnInit, OnDestroy {
       duration: 0.3,
       delay: 0.2,
     });
-  }
-
-  private createTeleportTrail(
-    attacker: THREE.Group,
-    defender: THREE.Group,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _isChar1: boolean,
-  ): void {
-    const trailCount = 20;
-    for (let i = 0; i < trailCount; i++) {
-      const ghostGeometry = new THREE.SphereGeometry(0.4, 16, 16);
-      const ghostMaterial = new THREE.MeshBasicMaterial({
-        color: 0x34f5dd,
-        transparent: true,
-        opacity: 0.3,
-      });
-      const ghost = new THREE.Mesh(ghostGeometry, ghostMaterial);
-
-      const t = i / trailCount;
-      ghost.position.lerpVectors(attacker.position, defender.position, t);
-      ghost.position.y += 1;
-      this.scene.add(ghost);
-
-      gsap.to(ghostMaterial, {
-        opacity: 0,
-        duration: 0.3,
-        delay: i * 0.01,
-        onComplete: () => {
-          this.scene.remove(ghost);
-          ghostGeometry.dispose();
-          ghostMaterial.dispose();
-        },
-      });
-    }
   }
 
   private createMassiveImpact(position: THREE.Vector3, action: BattleAction): void {
