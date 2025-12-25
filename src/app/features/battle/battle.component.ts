@@ -224,13 +224,14 @@ export class BattleComponent implements OnInit, OnDestroy {
     this.character1Mesh.rotation.y = Math.PI / 3; // 60 degrees to the right
     this.scene.add(this.character1Mesh);
 
-    // Character 2 (Right) - Enhanced warrior model
+    // Character 2 (Right) - Enhanced warrior model (flipped)
     this.character2Mesh = this.createEnhancedCharacterMesh(
       this.character2.color,
       this.character2.position,
     );
-    // Rotate right spider to face left (towards opponent)
-    this.character2Mesh.rotation.y = -Math.PI / 3; // 60 degrees to the left
+    // Flip the right spider horizontally and rotate to face left (towards opponent)
+    this.character2Mesh.scale.x = -1; // Mirror flip horizontally
+    this.character2Mesh.rotation.y = -Math.PI / 3; // Opposite rotation due to flip
     this.scene.add(this.character2Mesh);
 
     // Spectacular teleportation entrance with portals
@@ -435,8 +436,7 @@ export class BattleComponent implements OnInit, OnDestroy {
   private createTeleportationEntrance(
     characterMesh: THREE.Group,
     targetPos: { x: number; y: number; z: number },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _side: 'left' | 'right',
+    side: 'left' | 'right',
   ): void {
     // Start at target position, invisible and small
     characterMesh.position.set(targetPos.x, targetPos.y, targetPos.z);
@@ -452,7 +452,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     });
 
     timeline.to(characterMesh.scale, {
-      x: 1,
+      x: side === 'right' ? -1 : 1,
       y: 1,
       z: 1,
       duration: 0.8,
@@ -495,8 +495,9 @@ export class BattleComponent implements OnInit, OnDestroy {
     }
 
     // Phase 4: Teleport dash attack
+    const attackerScaleX = isChar1Attacker ? 1.3 : -1.3;
     timeline.to(attacker.scale, {
-      x: 1.3,
+      x: attackerScaleX,
       y: 0.7,
       z: 1.3,
       duration: 0.2,
@@ -536,8 +537,9 @@ export class BattleComponent implements OnInit, OnDestroy {
           duration: 0.2,
         });
 
+        const defenderScaleX = isChar1Attacker ? -0.9 : 0.9;
         gsap.to(defender.scale, {
-          x: 0.9,
+          x: defenderScaleX,
           y: 0.9,
           z: 0.9,
           duration: 0.1,
@@ -582,7 +584,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     );
 
     timeline.to(attacker.scale, {
-      x: 1,
+      x: isChar1Attacker ? 1 : -1,
       y: 1,
       z: 1,
       duration: 0.2,

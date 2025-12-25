@@ -1,8 +1,8 @@
-<div class="app-container" [ngClass]="{ 'loading-overlay': isLoading() }">
+<div class="app-container" [ngClass]="{ 'loading-overlay': false }">
   <app-toast position="top-center" />
-  <app-loader *ngIf="isLoading()" />
+  <app-loader *ngIf="false" />
   <router-outlet name="header"></router-outlet>
-  <main *ngIf="!isLoading()" class="main-content">
+  <main *ngIf="true" class="main-content">
     <router-outlet />
   </main>
 </div>
