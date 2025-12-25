@@ -43,6 +43,7 @@ export class BattleComponent implements OnInit, OnDestroy {
   private timeSlowActive = false;
 
   private battleService = inject(BattleService);
+  private circleTexture!: THREE.Texture;
 
   battleState$ = this.battleService.battleState$;
   character1: BattleCharacter | null = null;
@@ -50,6 +51,7 @@ export class BattleComponent implements OnInit, OnDestroy {
 
   constructor() {
     afterNextRender(() => {
+      this.createCircleTexture();
       this.initScene();
       this.animate();
     });
@@ -84,6 +86,24 @@ export class BattleComponent implements OnInit, OnDestroy {
 
     this.scene?.clear();
     this.renderer?.dispose();
+    this.circleTexture?.dispose();
+  }
+
+  private createCircleTexture(): void {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d')!;
+
+    const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.5)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 64, 64);
+
+    this.circleTexture = new THREE.CanvasTexture(canvas);
   }
 
   private initScene(): void {
@@ -807,7 +827,7 @@ export class BattleComponent implements OnInit, OnDestroy {
   ): void {
     const trailCount = 20;
     for (let i = 0; i < trailCount; i++) {
-      const ghostGeometry = new THREE.BoxGeometry(0.5, 1, 0.5);
+      const ghostGeometry = new THREE.SphereGeometry(0.4, 16, 16);
       const ghostMaterial = new THREE.MeshBasicMaterial({
         color: 0x34f5dd,
         transparent: true,
@@ -904,6 +924,8 @@ export class BattleComponent implements OnInit, OnDestroy {
       transparent: true,
       opacity: 1,
       blending: THREE.AdditiveBlending,
+      map: this.circleTexture,
+      alphaTest: 0.01,
     });
 
     const particleSystem = new THREE.Points(geometry, material);
@@ -1105,6 +1127,8 @@ export class BattleComponent implements OnInit, OnDestroy {
       transparent: true,
       opacity: 0.8,
       blending: THREE.AdditiveBlending,
+      map: this.circleTexture,
+      alphaTest: 0.01,
     });
 
     const particleSystem = new THREE.Points(geometry, material);
