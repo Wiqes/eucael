@@ -313,6 +313,21 @@ export class BattleComponent implements OnInit, OnDestroy {
         upperLeg.castShadow = true;
         legGroup.add(upperLeg);
 
+        // Add bristles/hairs on upper leg segment
+        for (let h = 0; h < 8; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.009, 0.005, 0.2, 4);
+          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
+          const bristleAngle = (h / 8) * Math.PI * 2;
+          bristle.position.set(
+            0.5 * sideMultiplier + Math.cos(bristleAngle) * 0.09,
+            -0.2 + Math.sin(bristleAngle) * 0.09,
+            0,
+          );
+          bristle.rotation.z = zAngle * 1.15 + (Math.random() - 0.5) * 0.35;
+          bristle.rotation.y = bristleAngle;
+          legGroup.add(bristle);
+        }
+
         const middleLegSegmentGeometry = new THREE.CylinderGeometry(0.06, 0.03, 0.65, 8);
 
         // Middle leg segment - extends outward with enhanced details
