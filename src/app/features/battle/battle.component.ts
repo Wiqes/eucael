@@ -285,15 +285,6 @@ export class BattleComponent implements OnInit, OnDestroy {
       emissiveIntensity: 0.15,
     });
 
-    // Glossy joint material for leg joints
-    const jointMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x1a1a1a).lerp(themeColor, 0.4),
-      roughness: 0.4,
-      metalness: 0.6,
-      emissive: themeColor,
-      emissiveIntensity: 0.3,
-    });
-
     const legSegmentGeometry = new THREE.CylinderGeometry(0.08, 0.05, 0.8, 8);
 
     // Leg configuration: 4 legs on each side with realistic spider leg angles
@@ -313,29 +304,16 @@ export class BattleComponent implements OnInit, OnDestroy {
 
         // Calculate leg-specific angles for realistic spread
         const legAngle = legAngles[legNum];
-        const zAngle = (Math.PI / 2.8 + legNum * 0.1) * sideMultiplier; // Varies per leg
+        const zAngle = (Math.PI / 2.8 + legNum * 0.05) * sideMultiplier; // Varies per leg
+
+        const upperLegSegmentGeometry = new THREE.CylinderGeometry(0.08, 0.05, 1.1, 8);
 
         // Upper leg segment with enhanced details
-        const upperLeg = new THREE.Mesh(legSegmentGeometry, legMaterial);
-        upperLeg.position.set(0.6 * sideMultiplier, 0, 0);
-        upperLeg.rotation.z = zAngle;
+        const upperLeg = new THREE.Mesh(upperLegSegmentGeometry, legMaterial);
+        upperLeg.position.set(0.5 * sideMultiplier, -0.2, 0);
+        upperLeg.rotation.z = zAngle * 1.2; // Steeper angle for upper leg
         upperLeg.castShadow = true;
         legGroup.add(upperLeg);
-
-        // Add bristles/hairs on upper leg
-        for (let h = 0; h < 8; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.01, 0.005, 0.3, 4);
-          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
-          const bristleAngle = (h / 8) * Math.PI * 2;
-          bristle.position.set(
-            0.6 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
-            Math.sin(bristleAngle) * 0.08,
-            0,
-          );
-          bristle.rotation.z = zAngle + (Math.random() - 0.5) * 0.3;
-          bristle.rotation.y = bristleAngle;
-          legGroup.add(bristle);
-        }
 
         // Middle leg segment - extends outward with enhanced details
         const middleLeg = new THREE.Mesh(legSegmentGeometry, legMaterial);
@@ -363,7 +341,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         const lowerLegGeometry = new THREE.CylinderGeometry(0.03, 0.01, 0.9, 8);
         const lowerLeg = new THREE.Mesh(lowerLegGeometry, legMaterial);
         lowerLeg.position.set(1.8 * sideMultiplier, -1.0, 0);
-        lowerLeg.rotation.z = (Math.PI / 6) * sideMultiplier;
+        lowerLeg.rotation.z = (Math.PI / 5.3) * sideMultiplier;
         lowerLeg.castShadow = true;
         legGroup.add(lowerLeg);
 
