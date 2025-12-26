@@ -413,7 +413,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         // Rotate entire leg group to point in different directions
         legGroup.rotation.y = legAngle;
 
-        legGroup.position.set(-0.4, 0.3, zOffset);
+        legGroup.position.set(0.4 * sideMultiplier, 0.3, zOffset);
 
         group.add(legGroup);
 
