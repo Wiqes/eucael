@@ -271,7 +271,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     const cephaloGeometry = new THREE.SphereGeometry(0.45, 20, 20);
     cephaloGeometry.scale(1.1, 0.7, 1.4); // Flatter and wider
     const cephalothorax = new THREE.Mesh(cephaloGeometry, bodyMaterial);
-    cephalothorax.position.set(0, 0.4, 0.2);
+    cephalothorax.position.set(0, 0.4, 0.3);
     cephalothorax.castShadow = true;
     cephalothorax.receiveShadow = true;
     group.add(cephalothorax);
