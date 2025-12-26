@@ -152,6 +152,10 @@ export class BattleComponent implements OnInit, OnDestroy {
     mainLight.shadow.mapSize.height = 2048;
     mainLight.shadow.camera.near = 0.5;
     mainLight.shadow.camera.far = 50;
+    mainLight.shadow.camera.left = -15;
+    mainLight.shadow.camera.right = 15;
+    mainLight.shadow.camera.top = 15;
+    mainLight.shadow.camera.bottom = -15;
     this.scene.add(mainLight);
 
     // Character rim lights with app theme
@@ -268,6 +272,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     const dorsalStripe = new THREE.Mesh(stripeGeometry, stripeMaterial);
     dorsalStripe.position.copy(abdomen.position);
     dorsalStripe.scale.set(0.25, 1.05, 0.9); // Thin vertical stripe
+    dorsalStripe.castShadow = true;
     group.add(dorsalStripe);
 
     // Spider cephalothorax (front body/head) - flatter, more angular
@@ -286,6 +291,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     fovea.position.set(0, 0.68, 0.15);
     fovea.scale.set(1.0, 0.6, 1.2);
     fovea.castShadow = true;
+    fovea.receiveShadow = true;
     group.add(fovea);
 
     // Create 8 scary spider legs with enhanced appearance!
@@ -323,6 +329,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         upperLeg.position.set(0.4 * sideMultiplier, -0.2, 0);
         upperLeg.rotation.z = zAngle * 1.2; // Steeper angle for upper leg
         upperLeg.castShadow = true;
+        upperLeg.receiveShadow = true;
         legGroup.add(upperLeg);
 
         // Add bristles/hairs on upper leg segment
@@ -347,6 +354,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         middleLeg.position.set(1.3 * sideMultiplier, -0.45, 0);
         middleLeg.rotation.z = zAngle * 0.75; // Less steep angle
         middleLeg.castShadow = true;
+        middleLeg.receiveShadow = true;
         legGroup.add(middleLeg);
 
         // Add bristles at upper-middle leg joint
@@ -385,6 +393,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         lowerLeg.position.set(1.8 * sideMultiplier, -1.0, 0);
         lowerLeg.rotation.z = (Math.PI / 5.3) * sideMultiplier;
         lowerLeg.castShadow = true;
+        lowerLeg.receiveShadow = true;
         legGroup.add(lowerLeg);
 
         // Add bristles at middle-lower leg joint
