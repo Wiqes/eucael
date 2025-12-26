@@ -322,22 +322,10 @@ export class BattleComponent implements OnInit, OnDestroy {
         upperLeg.castShadow = true;
         legGroup.add(upperLeg);
 
-        // Add glowing joint sphere at upper connection
-        const upperJointGeometry = new THREE.SphereGeometry(0.1, 12, 12);
-        const upperJoint = new THREE.Mesh(upperJointGeometry, jointMaterial);
-        upperJoint.position.set(0.3 * sideMultiplier, 0, 0);
-        upperJoint.castShadow = true;
-        legGroup.add(upperJoint);
-
         // Add bristles/hairs on upper leg
         for (let h = 0; h < 8; h++) {
           const bristleGeometry = new THREE.CylinderGeometry(0.01, 0.005, 0.3, 4);
-          const bristleMaterial = new THREE.MeshStandardMaterial({
-            color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.2),
-            roughness: 1,
-            metalness: 0,
-          });
-          const bristle = new THREE.Mesh(bristleGeometry, bristleMaterial);
+          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
             0.6 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
@@ -356,22 +344,10 @@ export class BattleComponent implements OnInit, OnDestroy {
         middleLeg.castShadow = true;
         legGroup.add(middleLeg);
 
-        // Add glowing joint sphere at middle connection
-        const middleJointGeometry = new THREE.SphereGeometry(0.09, 12, 12);
-        const middleJoint = new THREE.Mesh(middleJointGeometry, jointMaterial);
-        middleJoint.position.set(0.95 * sideMultiplier, -0.25, 0);
-        middleJoint.castShadow = true;
-        legGroup.add(middleJoint);
-
         // Add bristles/hairs on middle leg
         for (let h = 0; h < 6; h++) {
           const bristleGeometry = new THREE.CylinderGeometry(0.008, 0.004, 0.25, 4);
-          const bristleMaterial = new THREE.MeshStandardMaterial({
-            color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.2),
-            roughness: 1,
-            metalness: 0,
-          });
-          const bristle = new THREE.Mesh(bristleGeometry, bristleMaterial);
+          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 6) * Math.PI * 2;
           bristle.position.set(
             1.3 * sideMultiplier + Math.cos(bristleAngle) * 0.07,
@@ -391,37 +367,10 @@ export class BattleComponent implements OnInit, OnDestroy {
         lowerLeg.castShadow = true;
         legGroup.add(lowerLeg);
 
-        // Add glowing joint sphere at lower connection
-        const lowerJointGeometry = new THREE.SphereGeometry(0.07, 12, 12);
-        const lowerJoint = new THREE.Mesh(lowerJointGeometry, jointMaterial);
-        lowerJoint.position.set(1.55 * sideMultiplier, -0.7, 0);
-        lowerJoint.castShadow = true;
-        legGroup.add(lowerJoint);
-
-        // Add sharp claw/talon at the end of lower leg
-        const clawGeometry = new THREE.ConeGeometry(0.04, 0.15, 6);
-        const clawMaterial = new THREE.MeshStandardMaterial({
-          color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.5),
-          roughness: 0.3,
-          metalness: 0.7,
-          emissive: themeColor,
-          emissiveIntensity: 0.4,
-        });
-        const claw = new THREE.Mesh(clawGeometry, clawMaterial);
-        claw.position.set(1.8 * sideMultiplier, -1.5, 0);
-        claw.rotation.z = (Math.PI / 6 + Math.PI) * sideMultiplier;
-        claw.castShadow = true;
-        legGroup.add(claw);
-
         // Add subtle bristles on lower leg
         for (let h = 0; h < 4; h++) {
           const bristleGeometry = new THREE.CylinderGeometry(0.006, 0.003, 0.2, 4);
-          const bristleMaterial = new THREE.MeshStandardMaterial({
-            color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.2),
-            roughness: 1,
-            metalness: 0,
-          });
-          const bristle = new THREE.Mesh(bristleGeometry, bristleMaterial);
+          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 4) * Math.PI * 2;
           bristle.position.set(
             1.8 * sideMultiplier + Math.cos(bristleAngle) * 0.05,
@@ -444,9 +393,6 @@ export class BattleComponent implements OnInit, OnDestroy {
         legGroup.position.set(-0.4, 0.3, zOffset);
 
         group.add(legGroup);
-
-        // Store leg reference for spider-like random movement animation
-        const legIndex = side * 4 + legNum; // Create unique index for each leg (0-7)
 
         // Store base rotation to maintain original leg spread
         const baseRotationY = legAngle;

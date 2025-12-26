@@ -39,7 +39,7 @@ export class BattleService {
     this.battleStateSubject.next(initialState);
 
     // Auto-play battle with turns
-    this.executeAutoPlay();
+    //this.executeAutoPlay();
   }
 
   private executeAutoPlay(): void {
