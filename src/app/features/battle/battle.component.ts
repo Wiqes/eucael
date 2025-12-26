@@ -241,8 +241,6 @@ export class BattleComponent implements OnInit, OnDestroy {
       metalness: 0.1,
       emissive: themeColor,
       emissiveIntensity: 0.2,
-      //opacity: 0.4,
-      transparent: true,
     });
 
     // Spider abdomen (rear body part)
@@ -289,26 +287,6 @@ export class BattleComponent implements OnInit, OnDestroy {
     fovea.scale.set(1.0, 0.6, 1.2);
     fovea.castShadow = true;
     group.add(fovea);
-
-    // Radiating stripes from fovea (common in many spider species)
-    for (let i = 0; i < 6; i++) {
-      const stripeGeometry = new THREE.BoxGeometry(0.08, 0.02, 0.35);
-      const stripeMaterial = new THREE.MeshStandardMaterial({
-        color: themeColor.clone().lerp(new THREE.Color(0xffffff), 0.2),
-        roughness: 0.75,
-        metalness: 0.15,
-        emissive: themeColor,
-        emissiveIntensity: 0.35,
-        transparent: true,
-        opacity: 0.7,
-      });
-      const stripe = new THREE.Mesh(stripeGeometry, stripeMaterial);
-      const angle = (i / 6) * Math.PI;
-      stripe.position.set(Math.sin(angle) * 0.15, 0.48, 0.2 + Math.cos(angle) * 0.15);
-      stripe.rotation.y = angle;
-      stripe.rotation.x = -Math.PI / 12;
-      group.add(stripe);
-    }
 
     // Create 8 scary spider legs with enhanced appearance!
     const legMaterial = new THREE.MeshStandardMaterial({
