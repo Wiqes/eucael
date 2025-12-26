@@ -396,7 +396,8 @@ export class BattleComponent implements OnInit, OnDestroy {
     venomSac.position.set(0, 0.85, -0.6);
     group.add(venomSac);
 
-    // Pulsing venom animation
+    // Pulsing venom animation with random delay for each spider
+    const venomAnimationDelay = Math.random() * 1.5; // Random delay 0-1.5s
     gsap.to(venomSac.scale, {
       x: 1.2,
       y: 1.2,
@@ -405,6 +406,7 @@ export class BattleComponent implements OnInit, OnDestroy {
       repeat: -1,
       yoyo: true,
       ease: 'sine.inOut',
+      delay: venomAnimationDelay,
     });
 
     // Outer energy aura - spider web pattern
