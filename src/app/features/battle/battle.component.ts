@@ -492,7 +492,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     });
     const venomSac = new THREE.Mesh(venomGeometry, venomMaterial);
     venomSac.position.set(0, 0.85, -0.6);
-    //group.add(venomSac); TODO
+    group.add(venomSac);
 
     // Pulsing venom animation with random delay for each spider
     const venomAnimationDelay = Math.random() * 1.5; // Random delay 0-1.5s
