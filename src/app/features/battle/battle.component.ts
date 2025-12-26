@@ -322,6 +322,21 @@ export class BattleComponent implements OnInit, OnDestroy {
         middleLeg.castShadow = true;
         legGroup.add(middleLeg);
 
+        // Add bristles at upper-middle leg joint
+        for (let h = 0; h < 8; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.01, 0.005, 0.3, 4);
+          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
+          const bristleAngle = (h / 8) * Math.PI * 2;
+          bristle.position.set(
+            1.1 * sideMultiplier + Math.cos(bristleAngle) * 0.09,
+            -0.3 + Math.sin(bristleAngle) * 0.03,
+            0,
+          );
+          bristle.rotation.z = zAngle * 0.95 + (Math.random() - 0.5) * 0.4;
+          bristle.rotation.y = bristleAngle;
+          legGroup.add(bristle);
+        }
+
         // Add bristles/hairs on middle leg
         for (let h = 0; h < 6; h++) {
           const bristleGeometry = new THREE.CylinderGeometry(0.008, 0.004, 0.25, 4);
@@ -344,6 +359,21 @@ export class BattleComponent implements OnInit, OnDestroy {
         lowerLeg.rotation.z = (Math.PI / 5.3) * sideMultiplier;
         lowerLeg.castShadow = true;
         legGroup.add(lowerLeg);
+
+        // Add bristles at middle-lower leg joint
+        for (let h = 0; h < 7; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.009, 0.004, 0.28, 4);
+          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
+          const bristleAngle = (h / 7) * Math.PI * 2;
+          bristle.position.set(
+            1.65 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
+            -0.75 + Math.sin(bristleAngle) * 0.08,
+            0,
+          );
+          bristle.rotation.z = (Math.PI / 8) * sideMultiplier + (Math.random() - 0.5) * 0.4;
+          bristle.rotation.y = bristleAngle;
+          legGroup.add(bristle);
+        }
 
         // Add subtle bristles on lower leg
         for (let h = 0; h < 4; h++) {
