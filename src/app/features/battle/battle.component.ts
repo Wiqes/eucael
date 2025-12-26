@@ -1324,7 +1324,6 @@ export class BattleComponent implements OnInit, OnDestroy {
         defense: 18,
         attack: 28,
         color: '#3d6666',
-        legColor: '#3d6666',
       },
       {
         id: 'char2',
@@ -1334,7 +1333,6 @@ export class BattleComponent implements OnInit, OnDestroy {
         defense: 22,
         attack: 26,
         color: '#34d3f5',
-        legColor: '#34d3f5',
       },
     );
   }
