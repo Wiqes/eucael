@@ -227,7 +227,6 @@ export class BattleComponent implements OnInit, OnDestroy {
   ): THREE.Group {
     const group = new THREE.Group();
     const themeColor = new THREE.Color(color);
-    const legColor = new THREE.Color('#3d6666');
 
     // Spider body material - dark, hairy, and scary
     const bodyMaterial = new THREE.MeshStandardMaterial({
@@ -279,10 +278,10 @@ export class BattleComponent implements OnInit, OnDestroy {
 
     // Create 8 scary spider legs with enhanced appearance!
     const legMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x0a0a0a).lerp(legColor, 0.3),
+      color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.3),
       roughness: 0.7,
       metalness: 0.3,
-      emissive: legColor,
+      emissive: themeColor,
       emissiveIntensity: 0.15,
     });
 
@@ -487,7 +486,7 @@ export class BattleComponent implements OnInit, OnDestroy {
     });
 
     // Outer energy aura - spider web pattern
-    const webColor = new THREE.Color('#ffffff');
+    const webColor = new THREE.Color('#34f5dd');
     for (let i = 1; i <= 4; i++) {
       const auraGeometry = new THREE.IcosahedronGeometry(1 + i * 0.4, 1);
       const auraMaterial = new THREE.MeshBasicMaterial({
@@ -1324,7 +1323,8 @@ export class BattleComponent implements OnInit, OnDestroy {
         maxHealth: 120,
         defense: 18,
         attack: 28,
-        color: '#3d2817',
+        color: '#3d6666',
+        legColor: '#3d6666',
       },
       {
         id: 'char2',
@@ -1334,6 +1334,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         defense: 22,
         attack: 26,
         color: '#34d3f5',
+        legColor: '#34d3f5',
       },
     );
   }
