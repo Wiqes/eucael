@@ -285,8 +285,6 @@ export class BattleComponent implements OnInit, OnDestroy {
       emissiveIntensity: 0.15,
     });
 
-    const legSegmentGeometry = new THREE.CylinderGeometry(0.08, 0.05, 0.8, 8);
-
     // Leg configuration: 4 legs on each side with realistic spider leg angles
     // Each leg pair extends at a different angle for natural spider appearance
     const legAngles = [
@@ -315,10 +313,12 @@ export class BattleComponent implements OnInit, OnDestroy {
         upperLeg.castShadow = true;
         legGroup.add(upperLeg);
 
+        const middleLegSegmentGeometry = new THREE.CylinderGeometry(0.06, 0.03, 0.65, 8);
+
         // Middle leg segment - extends outward with enhanced details
-        const middleLeg = new THREE.Mesh(legSegmentGeometry, legMaterial);
+        const middleLeg = new THREE.Mesh(middleLegSegmentGeometry, legMaterial);
         middleLeg.position.set(1.3 * sideMultiplier, -0.45, 0);
-        middleLeg.rotation.z = zAngle * 0.7; // Less steep angle
+        middleLeg.rotation.z = zAngle * 0.75; // Less steep angle
         middleLeg.castShadow = true;
         legGroup.add(middleLeg);
 
