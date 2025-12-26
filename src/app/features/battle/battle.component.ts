@@ -276,14 +276,25 @@ export class BattleComponent implements OnInit, OnDestroy {
     cephalothorax.receiveShadow = true;
     group.add(cephalothorax);
 
-    // Create 8 scary spider legs!
+    // Create 8 scary spider legs with enhanced appearance!
     const legMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.2),
-      roughness: 0.8,
-      metalness: 0.1,
+      color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.3),
+      roughness: 0.7,
+      metalness: 0.3,
+      emissive: themeColor,
+      emissiveIntensity: 0.15,
     });
 
-    const legSegmentGeometry = new THREE.CylinderGeometry(0.08, 0.05, 0.8, 6);
+    // Glossy joint material for leg joints
+    const jointMaterial = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(0x1a1a1a).lerp(themeColor, 0.4),
+      roughness: 0.4,
+      metalness: 0.6,
+      emissive: themeColor,
+      emissiveIntensity: 0.3,
+    });
+
+    const legSegmentGeometry = new THREE.CylinderGeometry(0.08, 0.05, 0.8, 8);
 
     // Leg configuration: 4 legs on each side with realistic spider leg angles
     // Each leg pair extends at a different angle for natural spider appearance
@@ -304,27 +315,123 @@ export class BattleComponent implements OnInit, OnDestroy {
         const legAngle = legAngles[legNum];
         const zAngle = (Math.PI / 2.8 + legNum * 0.1) * sideMultiplier; // Varies per leg
 
-        // Upper leg segment
+        // Upper leg segment with enhanced details
         const upperLeg = new THREE.Mesh(legSegmentGeometry, legMaterial);
         upperLeg.position.set(0.6 * sideMultiplier, 0, 0);
         upperLeg.rotation.z = zAngle;
         upperLeg.castShadow = true;
         legGroup.add(upperLeg);
 
-        // Middle leg segment - extends outward
+        // Add glowing joint sphere at upper connection
+        const upperJointGeometry = new THREE.SphereGeometry(0.1, 12, 12);
+        const upperJoint = new THREE.Mesh(upperJointGeometry, jointMaterial);
+        upperJoint.position.set(0.3 * sideMultiplier, 0, 0);
+        upperJoint.castShadow = true;
+        legGroup.add(upperJoint);
+
+        // Add bristles/hairs on upper leg
+        for (let h = 0; h < 8; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.01, 0.005, 0.3, 4);
+          const bristleMaterial = new THREE.MeshStandardMaterial({
+            color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.2),
+            roughness: 1,
+            metalness: 0,
+          });
+          const bristle = new THREE.Mesh(bristleGeometry, bristleMaterial);
+          const bristleAngle = (h / 8) * Math.PI * 2;
+          bristle.position.set(
+            0.6 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
+            Math.sin(bristleAngle) * 0.08,
+            0,
+          );
+          bristle.rotation.z = zAngle + (Math.random() - 0.5) * 0.3;
+          bristle.rotation.y = bristleAngle;
+          legGroup.add(bristle);
+        }
+
+        // Middle leg segment - extends outward with enhanced details
         const middleLeg = new THREE.Mesh(legSegmentGeometry, legMaterial);
         middleLeg.position.set(1.3 * sideMultiplier, -0.45, 0);
         middleLeg.rotation.z = zAngle * 0.7; // Less steep angle
         middleLeg.castShadow = true;
         legGroup.add(middleLeg);
 
-        // Lower leg segment (thinner, ending in a point)
-        const lowerLegGeometry = new THREE.CylinderGeometry(0.03, 0.01, 0.9, 6);
+        // Add glowing joint sphere at middle connection
+        const middleJointGeometry = new THREE.SphereGeometry(0.09, 12, 12);
+        const middleJoint = new THREE.Mesh(middleJointGeometry, jointMaterial);
+        middleJoint.position.set(0.95 * sideMultiplier, -0.25, 0);
+        middleJoint.castShadow = true;
+        legGroup.add(middleJoint);
+
+        // Add bristles/hairs on middle leg
+        for (let h = 0; h < 6; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.008, 0.004, 0.25, 4);
+          const bristleMaterial = new THREE.MeshStandardMaterial({
+            color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.2),
+            roughness: 1,
+            metalness: 0,
+          });
+          const bristle = new THREE.Mesh(bristleGeometry, bristleMaterial);
+          const bristleAngle = (h / 6) * Math.PI * 2;
+          bristle.position.set(
+            1.3 * sideMultiplier + Math.cos(bristleAngle) * 0.07,
+            -0.45 + Math.sin(bristleAngle) * 0.07,
+            0,
+          );
+          bristle.rotation.z = zAngle * 0.7 + (Math.random() - 0.5) * 0.3;
+          bristle.rotation.y = bristleAngle;
+          legGroup.add(bristle);
+        }
+
+        // Lower leg segment (thinner, ending in a sharp point)
+        const lowerLegGeometry = new THREE.CylinderGeometry(0.03, 0.01, 0.9, 8);
         const lowerLeg = new THREE.Mesh(lowerLegGeometry, legMaterial);
         lowerLeg.position.set(1.8 * sideMultiplier, -1.0, 0);
         lowerLeg.rotation.z = (Math.PI / 6) * sideMultiplier;
         lowerLeg.castShadow = true;
         legGroup.add(lowerLeg);
+
+        // Add glowing joint sphere at lower connection
+        const lowerJointGeometry = new THREE.SphereGeometry(0.07, 12, 12);
+        const lowerJoint = new THREE.Mesh(lowerJointGeometry, jointMaterial);
+        lowerJoint.position.set(1.55 * sideMultiplier, -0.7, 0);
+        lowerJoint.castShadow = true;
+        legGroup.add(lowerJoint);
+
+        // Add sharp claw/talon at the end of lower leg
+        const clawGeometry = new THREE.ConeGeometry(0.04, 0.15, 6);
+        const clawMaterial = new THREE.MeshStandardMaterial({
+          color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.5),
+          roughness: 0.3,
+          metalness: 0.7,
+          emissive: themeColor,
+          emissiveIntensity: 0.4,
+        });
+        const claw = new THREE.Mesh(clawGeometry, clawMaterial);
+        claw.position.set(1.8 * sideMultiplier, -1.5, 0);
+        claw.rotation.z = (Math.PI / 6 + Math.PI) * sideMultiplier;
+        claw.castShadow = true;
+        legGroup.add(claw);
+
+        // Add subtle bristles on lower leg
+        for (let h = 0; h < 4; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.006, 0.003, 0.2, 4);
+          const bristleMaterial = new THREE.MeshStandardMaterial({
+            color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.2),
+            roughness: 1,
+            metalness: 0,
+          });
+          const bristle = new THREE.Mesh(bristleGeometry, bristleMaterial);
+          const bristleAngle = (h / 4) * Math.PI * 2;
+          bristle.position.set(
+            1.8 * sideMultiplier + Math.cos(bristleAngle) * 0.05,
+            -1.0 + Math.sin(bristleAngle) * 0.05,
+            0,
+          );
+          bristle.rotation.z = (Math.PI / 6) * sideMultiplier + (Math.random() - 0.5) * 0.3;
+          bristle.rotation.y = bristleAngle;
+          legGroup.add(bristle);
+        }
 
         // Position legs naturally along the cephalothorax (front body section)
         // Front legs closer to head, back legs near body center
