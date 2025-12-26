@@ -35,7 +35,6 @@ export class BattleComponent implements OnInit, OnDestroy {
   private renderer!: THREE.WebGLRenderer;
   private character1Mesh!: THREE.Group;
   private character2Mesh!: THREE.Group;
-  private particles: THREE.Points[] = [];
   private animationFrameId: number | null = null;
   private destroy$ = new Subject<void>();
   private cameraOriginalPosition!: THREE.Vector3;
@@ -242,7 +241,7 @@ export class BattleComponent implements OnInit, OnDestroy {
       metalness: 0.1,
       emissive: themeColor,
       emissiveIntensity: 0.2,
-      opacity: 0.2,
+      //opacity: 0.4,
       transparent: true,
     });
 
@@ -273,80 +272,6 @@ export class BattleComponent implements OnInit, OnDestroy {
     dorsalStripe.scale.set(0.25, 1.05, 0.9); // Thin vertical stripe
     group.add(dorsalStripe);
 
-    // Side chevron patterns (V-shaped markings like tarantulas)
-    for (let i = 0; i < 4; i++) {
-      const chevronSize = 0.65 - i * 0.08;
-      const chevronGeometry = new THREE.SphereGeometry(chevronSize, 16, 16);
-      const chevronMaterial = new THREE.MeshStandardMaterial({
-        color: themeColor.clone().lerp(new THREE.Color(0xffffff), 0.3),
-        roughness: 0.8,
-        metalness: 0.1,
-        emissive: themeColor,
-        emissiveIntensity: 0.3,
-        transparent: true,
-        opacity: 0.6 - i * 0.1,
-      });
-
-      const leftChevron = new THREE.Mesh(chevronGeometry, chevronMaterial);
-      leftChevron.position.set(-0.15, 0.9 + i * 0.08, -0.6 - i * 0.15);
-      leftChevron.scale.set(0.4, 1.0, 0.5);
-      leftChevron.rotation.z = -Math.PI / 6;
-      group.add(leftChevron);
-
-      const rightChevron = new THREE.Mesh(chevronGeometry, chevronMaterial);
-      rightChevron.position.set(0.15, 0.9 + i * 0.08, -0.6 - i * 0.15);
-      rightChevron.scale.set(0.4, 1.0, 0.5);
-      rightChevron.rotation.z = Math.PI / 6;
-      group.add(rightChevron);
-    }
-
-    // Spotted pattern (like orb weavers)
-    const spotCount = 8;
-    for (let i = 0; i < spotCount; i++) {
-      const spotGeometry = new THREE.SphereGeometry(0.08, 12, 12);
-      const spotMaterial = new THREE.MeshStandardMaterial({
-        color: themeColor.clone().lerp(new THREE.Color(0xffffff), 0.5),
-        roughness: 0.7,
-        metalness: 0.2,
-        emissive: themeColor,
-        emissiveIntensity: 0.5,
-      });
-      const spot = new THREE.Mesh(spotGeometry, spotMaterial);
-
-      const angle = (i / spotCount) * Math.PI * 2;
-      const radius = 0.4;
-      spot.position.set(
-        Math.cos(angle) * radius,
-        0.9 + Math.sin(i * 1.5) * 0.1,
-        -0.6 + Math.sin(angle) * radius * 0.8,
-      );
-      spot.scale.set(1.2, 0.8, 1.0);
-      spot.castShadow = true;
-      group.add(spot);
-    }
-
-    // Add texture bumps to abdomen for hairy/bumpy appearance
-    const abdomenBumpCount = 12;
-    for (let i = 0; i < abdomenBumpCount; i++) {
-      const bumpGeometry = new THREE.SphereGeometry(0.08, 8, 8);
-      const bumpMaterial = new THREE.MeshStandardMaterial({
-        color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.2),
-        roughness: 1,
-        metalness: 0,
-      });
-      const bump = new THREE.Mesh(bumpGeometry, bumpMaterial);
-
-      const theta = (i / abdomenBumpCount) * Math.PI * 2;
-      const phi = Math.PI / 3;
-      bump.position.set(
-        0.5 * Math.sin(phi) * Math.cos(theta),
-        0.9 + 0.3 * Math.cos(phi),
-        -0.6 + 0.6 * Math.sin(phi) * Math.sin(theta),
-      );
-      bump.castShadow = true;
-      group.add(bump);
-    }
-
     // Spider cephalothorax (front body/head) - flatter, more angular
     const cephaloGeometry = new THREE.SphereGeometry(0.45, 20, 20);
     cephaloGeometry.scale(1.1, 0.7, 1.4); // Flatter and wider
@@ -359,15 +284,8 @@ export class BattleComponent implements OnInit, OnDestroy {
     // Add carapace pattern on cephalothorax (like tarantulas and wolf spiders)
     // Central fovea marking
     const foveaGeometry = new THREE.SphereGeometry(0.12, 16, 16);
-    const foveaMaterial = new THREE.MeshStandardMaterial({
-      color: themeColor.clone().lerp(new THREE.Color(0xffffff), 0.4),
-      roughness: 0.6,
-      metalness: 0.3,
-      emissive: themeColor,
-      emissiveIntensity: 0.6,
-    });
-    const fovea = new THREE.Mesh(foveaGeometry, foveaMaterial);
-    fovea.position.set(0, 0.55, 0.15);
+    const fovea = new THREE.Mesh(foveaGeometry, stripeMaterial);
+    fovea.position.set(0, 0.68, 0.15);
     fovea.scale.set(1.0, 0.6, 1.2);
     fovea.castShadow = true;
     group.add(fovea);
@@ -390,27 +308,6 @@ export class BattleComponent implements OnInit, OnDestroy {
       stripe.rotation.y = angle;
       stripe.rotation.x = -Math.PI / 12;
       group.add(stripe);
-    }
-
-    // Edge markings on carapace
-    const edgeMarkingCount = 8;
-    for (let i = 0; i < edgeMarkingCount; i++) {
-      const markingGeometry = new THREE.SphereGeometry(0.06, 12, 12);
-      const markingMaterial = new THREE.MeshStandardMaterial({
-        color: themeColor,
-        roughness: 0.7,
-        metalness: 0.2,
-        emissive: themeColor,
-        emissiveIntensity: 0.5,
-      });
-      const marking = new THREE.Mesh(markingGeometry, markingMaterial);
-
-      const angle = (i / edgeMarkingCount) * Math.PI * 2;
-      const radius = 0.38;
-      marking.position.set(Math.cos(angle) * radius, 0.42, 0.3 + Math.sin(angle) * radius * 0.7);
-      marking.scale.set(0.8, 0.6, 1.0);
-      marking.castShadow = true;
-      group.add(marking);
     }
 
     // Create 8 scary spider legs with enhanced appearance!
@@ -604,10 +501,11 @@ export class BattleComponent implements OnInit, OnDestroy {
     const venomMaterial = new THREE.MeshBasicMaterial({
       color: 0x00ff00,
       transparent: true,
+      opacity: 0.3,
     });
     const venomSac = new THREE.Mesh(venomGeometry, venomMaterial);
     venomSac.position.set(0, 0.85, -0.6);
-    group.add(venomSac);
+    //group.add(venomSac); TODO
 
     // Pulsing venom animation with random delay for each spider
     const venomAnimationDelay = Math.random() * 1.5; // Random delay 0-1.5s
