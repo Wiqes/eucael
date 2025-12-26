@@ -41,6 +41,7 @@ export class BattleComponent implements OnInit, OnDestroy {
   private cameraOriginalPosition!: THREE.Vector3;
   private lightningBolts: THREE.Mesh[] = [];
   private timeSlowActive = false;
+  private resizeHandler: () => void;
 
   private battleService = inject(BattleService);
   private circleTexture!: THREE.Texture;
@@ -50,10 +51,12 @@ export class BattleComponent implements OnInit, OnDestroy {
   character2: BattleCharacter | null = null;
 
   constructor() {
+    this.resizeHandler = this.onWindowResize.bind(this);
     afterNextRender(() => {
       this.createCircleTexture();
       this.initScene();
       this.animate();
+      window.addEventListener('resize', this.resizeHandler);
     });
   }
 
@@ -84,6 +87,7 @@ export class BattleComponent implements OnInit, OnDestroy {
       cancelAnimationFrame(this.animationFrameId);
     }
 
+    window.removeEventListener('resize', this.resizeHandler);
     this.scene?.clear();
     this.renderer?.dispose();
     this.circleTexture?.dispose();
@@ -116,9 +120,12 @@ export class BattleComponent implements OnInit, OnDestroy {
     this.scene.background = new THREE.Color(0x0a0a0b);
     this.scene.fog = new THREE.FogExp2(0x0a0a0b, 0.08);
 
-    // Camera
+    // Camera - responsive positioning
     this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
-    this.camera.position.set(0, 4, 10);
+    const isMobile = width < 768;
+    const cameraZ = isMobile ? 14 : 10;
+    const cameraY = isMobile ? 5 : 4;
+    this.camera.position.set(0, cameraY, cameraZ);
     this.camera.lookAt(0, 1, 0);
     this.cameraOriginalPosition = this.camera.position.clone();
 
@@ -1376,5 +1383,28 @@ export class BattleComponent implements OnInit, OnDestroy {
   getHealthPercentage(character: BattleCharacter | null): number {
     if (!character) return 0;
     return (character.health / character.maxHealth) * 100;
+  }
+
+  private onWindowResize(): void {
+    if (!this.canvasRef || !this.camera || !this.renderer) return;
+
+    const canvas = this.canvasRef.nativeElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+
+    // Update camera aspect ratio
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+
+    // Update camera position for mobile
+    const isMobile = width < 768;
+    const cameraZ = isMobile ? 14 : 10;
+    const cameraY = isMobile ? 5 : 4;
+    this.camera.position.set(this.camera.position.x, cameraY, cameraZ);
+    this.cameraOriginalPosition = new THREE.Vector3(0, cameraY, cameraZ);
+
+    // Update renderer size
+    this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   }
 }
