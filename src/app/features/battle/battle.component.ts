@@ -304,11 +304,11 @@ export class BattleComponent implements OnInit, OnDestroy {
         const legAngle = legAngles[legNum];
         const zAngle = (Math.PI / 2.8 + legNum * 0.05) * sideMultiplier; // Varies per leg
 
-        const upperLegSegmentGeometry = new THREE.CylinderGeometry(0.08, 0.05, 1.1, 8);
+        const upperLegSegmentGeometry = new THREE.CylinderGeometry(0.08, 0.05, 1.3, 8);
 
         // Upper leg segment with enhanced details
         const upperLeg = new THREE.Mesh(upperLegSegmentGeometry, legMaterial);
-        upperLeg.position.set(0.5 * sideMultiplier, -0.2, 0);
+        upperLeg.position.set(0.4 * sideMultiplier, -0.2, 0);
         upperLeg.rotation.z = zAngle * 1.2; // Steeper angle for upper leg
         upperLeg.castShadow = true;
         legGroup.add(upperLeg);
