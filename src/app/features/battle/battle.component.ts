@@ -540,9 +540,9 @@ export class BattleComponent implements OnInit, OnDestroy {
 
       // Random continuous rotation
       gsap.to(aura.rotation, {
-        x: Math.PI * 2 * rotationSpeedX,
-        y: Math.PI * 2 * rotationSpeedY,
-        z: Math.PI * 2 * rotationSpeedZ,
+        x: `+=${Math.PI * 2 * rotationSpeedX}`,
+        y: `+=${Math.PI * 2 * rotationSpeedY}`,
+        z: `+=${Math.PI * 2 * rotationSpeedZ}`,
         duration: 3 + Math.random() * 2,
         repeat: -1,
         ease: 'none',
