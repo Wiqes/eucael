@@ -362,7 +362,7 @@ export class BattleComponent implements OnInit, OnDestroy {
 
         // Add bristles at middle-lower leg joint
         for (let h = 0; h < 7; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.009, 0.004, 0.28, 4);
+          const bristleGeometry = new THREE.CylinderGeometry(0.009, 0.004, 0.1, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 7) * Math.PI * 2;
           bristle.position.set(
