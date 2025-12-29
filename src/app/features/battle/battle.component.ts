@@ -117,11 +117,15 @@ export class BattleComponent implements OnInit, OnDestroy {
     // Scene with app theme color
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x0a0a0b);
-    this.scene.fog = new THREE.FogExp2(0x0a0a0b, 0.08);
 
     // Camera - responsive positioning
     this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
     const isMobile = width < 768;
+
+    // Add fog only on desktop for better performance on mobile
+    if (!isMobile) {
+      this.scene.fog = new THREE.FogExp2(0x0a0a0b, 0.08);
+    }
     const cameraZ = isMobile ? 14 : 10;
     const cameraY = isMobile ? 5 : 4;
     this.camera.position.set(0, cameraY, cameraZ);
