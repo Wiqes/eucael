@@ -71,21 +71,18 @@
 
   <!-- Control Panel -->
   <div class="control-panel glass-panel">
-    <div class="panel-header">
-      <h2 class="panel-title">🕷️ SPIDER BATTLE ARENA 🕷️</h2>
-    </div>
-
     <div class="control-buttons">
       <p-button
+        *ngIf="(battleState$ | async) === null"
         label="Release the Spiders!"
         icon="pi pi-play"
         (onClick)="startBattle()"
-        [disabled]="(battleState$ | async) !== null"
         severity="success"
         size="large"
         styleClass="battle-btn start-btn"
       />
       <p-button
+        *ngIf="(battleState$ | async) !== null"
         label="Clear the Web"
         icon="pi pi-refresh"
         (onClick)="resetBattle()"
@@ -94,14 +91,5 @@
         styleClass="battle-btn reset-btn"
       />
     </div>
-
-    @if ((battleState$ | async) === null) {
-    <div class="battle-info">
-      <p class="info-text">
-        <i class="pi pi-info-circle"></i>
-        Watch two terrifying spiders battle to the death in an epic web of fury
-      </p>
-    </div>
-    }
   </div>
 </div>
