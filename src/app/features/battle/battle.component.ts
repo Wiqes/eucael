@@ -131,10 +131,9 @@ export class BattleComponent implements OnInit, OnDestroy {
     if (!isTablet) {
       this.scene.fog = new THREE.FogExp2(0x0a0a0b, 0.08);
     }
-    const cameraX = isMobile ? -3 : 0;
     const cameraZ = isMobile ? 12 : 10;
     const cameraY = isMobile ? 5 : 4;
-    this.camera.position.set(cameraX, cameraY, cameraZ);
+    this.camera.position.set(0, cameraY, cameraZ);
     this.camera.lookAt(0, 1, 0);
     this.cameraOriginalPosition = this.camera.position.clone();
 
@@ -1530,11 +1529,10 @@ export class BattleComponent implements OnInit, OnDestroy {
       this.scene.fog = new THREE.FogExp2(0x0a0a0b, 0.08);
     }
 
-    const cameraX = isMobile ? -3 : 0;
     const cameraZ = isMobile ? 12 : 10;
     const cameraY = isMobile ? 5 : 4;
-    this.camera.position.set(cameraX, cameraY, cameraZ);
-    this.cameraOriginalPosition = new THREE.Vector3(cameraX, cameraY, cameraZ);
+    this.camera.position.set(0, cameraY, cameraZ);
+    this.cameraOriginalPosition = new THREE.Vector3(0, cameraY, cameraZ);
 
     // Update renderer size
     this.renderer.setSize(width, height);
