@@ -215,7 +215,11 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 500px) {
+  :host {
+    width: 100%;
+  }
+
   .character-status {
     width: 100%;
 
