@@ -623,14 +623,6 @@ export class BattleComponent implements OnInit, OnDestroy {
       opacity: 0.4,
     });
 
-    // Create semi-transparent silk-like material
-    /*const material = new THREE.LineBasicMaterial({
-      color: 0xffffff,
-      opacity: 0.6,
-      transparent: true,
-      linewidth: 2, // Note: linewidth > 1 only works with WebGLRenderer on Windows
-    });*/
-
     // Create the line mesh
     const webThread = new THREE.Line(geometry, material);
     this.scene.add(webThread);
