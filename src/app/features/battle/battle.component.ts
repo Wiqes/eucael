@@ -120,7 +120,7 @@ export class BattleComponent implements OnInit, OnDestroy {
 
     // Camera - responsive positioning
     this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
-    const isMobile = width < 768;
+    const isMobile = width < 500;
 
     // Add fog only on desktop for better performance on mobile
     if (!isMobile) {
@@ -1417,9 +1417,9 @@ export class BattleComponent implements OnInit, OnDestroy {
     this.camera.updateProjectionMatrix();
 
     // Update camera position for mobile
-    const isMobile = width < 768;
-    const cameraX = isMobile ? -1.5 : 0;
-    const cameraZ = isMobile ? 14 : 10;
+    const isMobile = width < 500;
+    const cameraX = isMobile ? -3 : 0;
+    const cameraZ = isMobile ? 12 : 10;
     const cameraY = isMobile ? 5 : 4;
     this.camera.position.set(cameraX, cameraY, cameraZ);
     this.cameraOriginalPosition = new THREE.Vector3(cameraX, cameraY, cameraZ);
