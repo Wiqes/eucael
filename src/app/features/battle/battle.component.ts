@@ -1341,7 +1341,6 @@ export class BattleComponent implements OnInit, OnDestroy {
   }
 
   startBattle(): void {
-    const isMobile = this.isMobile();
     this.battleService.startBattle(
       {
         id: 'char1',
@@ -1350,7 +1349,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         maxHealth: 120,
         defense: 18,
         attack: 28,
-        color: isMobile ? '#ff6b6b' : '#3d6666',
+        color: '#ff6b6b',
       },
       {
         id: 'char2',
@@ -1359,7 +1358,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         maxHealth: 110,
         defense: 22,
         attack: 26,
-        color: isMobile ? '#4ecdc4' : '#34d3f5',
+        color: '#4ecdc4',
       },
     );
   }
