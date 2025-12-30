@@ -121,9 +121,10 @@ export class BattleComponent implements OnInit, OnDestroy {
     // Camera - responsive positioning
     this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
     const isMobile = width < 500;
+    const isTablet = width < 680;
 
     // Add fog only on desktop for better performance on mobile
-    if (!isMobile) {
+    if (!isTablet) {
       this.scene.fog = new THREE.FogExp2(0x0a0a0b, 0.08);
     }
     const cameraX = isMobile ? -3 : 0;
@@ -1418,6 +1419,13 @@ export class BattleComponent implements OnInit, OnDestroy {
 
     // Update camera position for mobile
     const isMobile = width < 500;
+    const isTablet = width < 680;
+
+    // Add fog only on desktop for better performance on mobile
+    if (!isTablet) {
+      this.scene.fog = new THREE.FogExp2(0x0a0a0b, 0.08);
+    }
+
     const cameraX = isMobile ? -3 : 0;
     const cameraZ = isMobile ? 12 : 10;
     const cameraY = isMobile ? 5 : 4;
