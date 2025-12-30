@@ -35,6 +35,10 @@ export class BattleComponent implements OnInit, OnDestroy {
   private renderer!: THREE.WebGLRenderer;
   private character1Mesh!: THREE.Group;
   private character2Mesh!: THREE.Group;
+  private character1WebThread: THREE.Line | null = null;
+  private character2WebThread: THREE.Line | null = null;
+  private webThreadAnchor1!: THREE.Vector3;
+  private webThreadAnchor2!: THREE.Vector3;
   private animationFrameId: number | null = null;
   private destroy$ = new Subject<void>();
   private cameraOriginalPosition!: THREE.Vector3;
@@ -235,6 +239,10 @@ export class BattleComponent implements OnInit, OnDestroy {
     // Spectacular teleportation entrance with portals
     this.createTeleportationEntrance(this.character1Mesh, this.character1.position, 'left');
     this.createTeleportationEntrance(this.character2Mesh, this.character2.position, 'right');
+
+    // Create web threads for spiders to hang from
+    this.createWebThread(this.character1Mesh, this.character1.position, 1);
+    this.createWebThread(this.character2Mesh, this.character2.position, 2);
   }
 
   private createEnhancedCharacterMesh(
@@ -582,6 +590,91 @@ export class BattleComponent implements OnInit, OnDestroy {
       duration: 0.8,
       ease: 'elastic.out(1, 0.5)',
     });
+  }
+
+  private createWebThread(
+    characterMesh: THREE.Group,
+    position: { x: number; y: number; z: number },
+    characterNum: 1 | 2,
+  ): void {
+    // Define anchor point at the top of the scene (fixed point where web attaches)
+    const anchorY = 8; // High above the scene
+    const anchor = new THREE.Vector3(position.x, anchorY, position.z);
+
+    // Store anchor for this character
+    if (characterNum === 1) {
+      this.webThreadAnchor1 = anchor;
+    } else {
+      this.webThreadAnchor2 = anchor;
+    }
+
+    // Calculate spider's back position (slightly behind and above abdomen)
+    const spiderBackOffset = new THREE.Vector3(0, 0.9, -0.6);
+    const spiderBackWorldPos = characterMesh.localToWorld(spiderBackOffset.clone());
+
+    // Create the web thread line geometry
+    const points = [anchor, spiderBackWorldPos];
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+    const webColor = new THREE.Color('#34f5dd');
+    const material = new THREE.MeshBasicMaterial({
+      color: webColor,
+      transparent: true,
+      opacity: 0.4,
+    });
+
+    // Create semi-transparent silk-like material
+    /*const material = new THREE.LineBasicMaterial({
+      color: 0xffffff,
+      opacity: 0.6,
+      transparent: true,
+      linewidth: 2, // Note: linewidth > 1 only works with WebGLRenderer on Windows
+    });*/
+
+    // Create the line mesh
+    const webThread = new THREE.Line(geometry, material);
+    this.scene.add(webThread);
+
+    // Store reference to the web thread
+    if (characterNum === 1) {
+      this.character1WebThread = webThread;
+    } else {
+      this.character2WebThread = webThread;
+    }
+  }
+
+  private updateWebThreads(): void {
+    // Update character 1 web thread
+    if (this.character1WebThread && this.character1Mesh && this.webThreadAnchor1) {
+      const spiderBackOffset = new THREE.Vector3(0, 0.9, -0.6);
+      const spiderBackWorldPos = this.character1Mesh.localToWorld(spiderBackOffset.clone());
+
+      const positions = this.character1WebThread.geometry.attributes['position'];
+      positions.setXYZ(
+        0,
+        this.webThreadAnchor1.x,
+        this.webThreadAnchor1.y,
+        this.webThreadAnchor1.z,
+      );
+      positions.setXYZ(1, spiderBackWorldPos.x, spiderBackWorldPos.y, spiderBackWorldPos.z);
+      positions.needsUpdate = true;
+    }
+
+    // Update character 2 web thread
+    if (this.character2WebThread && this.character2Mesh && this.webThreadAnchor2) {
+      const spiderBackOffset = new THREE.Vector3(0, 0.9, -0.6);
+      const spiderBackWorldPos = this.character2Mesh.localToWorld(spiderBackOffset.clone());
+
+      const positions = this.character2WebThread.geometry.attributes['position'];
+      positions.setXYZ(
+        0,
+        this.webThreadAnchor2.x,
+        this.webThreadAnchor2.y,
+        this.webThreadAnchor2.z,
+      );
+      positions.setXYZ(1, spiderBackWorldPos.x, spiderBackWorldPos.y, spiderBackWorldPos.z);
+      positions.needsUpdate = true;
+    }
   }
 
   private animateAction(action: BattleAction): void {
@@ -1337,6 +1430,9 @@ export class BattleComponent implements OnInit, OnDestroy {
       }
     });
 
+    // Update web threads to follow spiders
+    this.updateWebThreads();
+
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -1392,6 +1488,20 @@ export class BattleComponent implements OnInit, OnDestroy {
         }
       });
       this.character2Mesh = undefined as unknown as THREE.Group;
+    }
+
+    // Clear web threads
+    if (this.character1WebThread) {
+      this.scene.remove(this.character1WebThread);
+      this.character1WebThread.geometry.dispose();
+      (this.character1WebThread.material as THREE.Material).dispose();
+      this.character1WebThread = null;
+    }
+    if (this.character2WebThread) {
+      this.scene.remove(this.character2WebThread);
+      this.character2WebThread.geometry.dispose();
+      (this.character2WebThread.material as THREE.Material).dispose();
+      this.character2WebThread = null;
     }
 
     this.battleService.resetBattle();
