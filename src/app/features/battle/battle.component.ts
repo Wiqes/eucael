@@ -643,9 +643,9 @@ export class BattleComponent implements OnInit, OnDestroy {
 
     // Attacker teleports near defender
     timeline.to(attacker.position, {
-      x: isChar1Attacker ? defender.position.x - 1.5 : defender.position.x + 1.5,
+      x: isChar1Attacker ? defender.position.x - 0.9 : defender.position.x + 0.9,
       y: defender.position.y + 1,
-      z: isChar1Attacker ? defender.position.z - 2 : defender.position.z + 2,
+      z: isChar1Attacker ? defender.position.z - 1 : defender.position.z + 1,
       duration: 0.15,
       ease: 'power4.inOut',
       onComplete: () => {
