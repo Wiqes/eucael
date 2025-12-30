@@ -1,0 +1,95 @@
+@use 'variables' as *;
+
+.victory-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle at center,
+    rgba(52, 245, 221, 0.2) 0%,
+    rgba(0, 0, 0, 0.85) 70%
+  );
+  backdrop-filter: blur(15px);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.victory-content {
+  text-align: center;
+  padding: 60px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.victory-icon {
+  font-size: 6rem;
+  display: inline-block;
+}
+
+.victory-title {
+  font-family: 'New Rocker', cursive;
+  font-size: 4rem;
+  color: $primary-color;
+  margin: 20px 0;
+  text-shadow: 0 0 40px rgba(52, 245, 221, 1), 0 0 80px rgba(52, 245, 221, 0.8),
+    0 4px 12px rgba(0, 0, 0, 0.9), 0 0 120px rgba(52, 245, 221, 0.6);
+  letter-spacing: 4px;
+  position: relative;
+}
+
+.victory-subtitle {
+  font-size: 1.8rem;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 8px;
+  text-shadow: 0 0 20px rgba(52, 245, 221, 0.6);
+}
+
+.glass-panel {
+  @extend %green-glass;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+  .victory-title {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .victory-content {
+    padding: 30px 20px;
+  }
+
+  .victory-title {
+    font-size: 2rem;
+  }
+
+  .victory-subtitle {
+    font-size: 1rem;
+  }
+
+  .victory-icon {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .victory-title {
+    font-size: 1.5rem;
+  }
+
+  .victory-icon {
+    font-size: 2.5rem;
+  }
+
+  .victory-content {
+    padding: 20px 15px;
+  }
+}

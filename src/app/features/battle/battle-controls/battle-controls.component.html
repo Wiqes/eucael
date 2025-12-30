@@ -1,0 +1,22 @@
+<div class="control-panel glass-panel">
+  <div class="control-buttons">
+    <p-button
+      *ngIf="!isBattleActive"
+      label="Release the Spiders!"
+      icon="pi pi-play"
+      (onClick)="onStartBattle()"
+      severity="success"
+      size="large"
+      styleClass="battle-btn start-btn"
+    />
+    <p-button
+      *ngIf="isBattleActive"
+      label="Clear the Web"
+      icon="pi pi-refresh"
+      (onClick)="onResetBattle()"
+      severity="secondary"
+      size="large"
+      styleClass="battle-btn reset-btn"
+    />
+  </div>
+</div>

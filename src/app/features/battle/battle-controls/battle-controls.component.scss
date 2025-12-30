@@ -1,0 +1,72 @@
+@use 'variables' as *;
+
+.control-panel {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.control-buttons {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  :deep(.p-button) {
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 12px 28px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:not(:disabled):hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(52, 245, 221, 0.4);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+}
+
+.glass-panel {
+  @extend %green-glass;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .control-panel {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+  }
+
+  .control-buttons {
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+
+    :deep(.p-button) {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .control-buttons {
+    gap: 8px;
+  }
+
+  :deep(.p-button) {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
+}

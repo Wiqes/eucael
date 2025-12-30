@@ -1,95 +1,31 @@
 <div class="battle-arena">
   <!-- Battle Canvas -->
   <div class="canvas-wrapper">
-    <canvas #battleCanvas></canvas>
+    <app-battle-canvas />
 
     <!-- Battle Overlay UI -->
     @if (battleState$ | async; as state) {
     <div class="battle-overlay">
       <!-- Character 1 Status - Left -->
-      <div class="character-status left">
-        <div class="character-card glass-panel">
-          <div class="character-name">{{ state.character1.name }}</div>
-          <div class="health-container">
-            <div class="health-bar-wrapper">
-              <div
-                class="health-bar character1"
-                [style.width.%]="getHealthPercentage(state.character1)"
-              ></div>
-              <span class="health-text">
-                {{ state.character1.health }} / {{ state.character1.maxHealth }}
-              </span>
-            </div>
-          </div>
-          <div class="stats-row">
-            <p-chip label="⚔️ {{ state.character1.attack }}" styleClass="stat-chip attack-stat" />
-            <p-chip label="🛡️ {{ state.character1.defense }}" styleClass="stat-chip defense-stat" />
-          </div>
-        </div>
-      </div>
+      <app-character-status-card [character]="state.character1" [alignment]="'left'" />
 
       <!-- VS Badge -->
-      <div class="vs-badge">
-        <div class="vs-text">VS</div>
-      </div>
+      <app-battle-vs-badge />
 
       <!-- Character 2 Status - Right -->
-      <div class="character-status right">
-        <div class="character-card glass-panel">
-          <div class="character-name">{{ state.character2.name }}</div>
-          <div class="health-container">
-            <div class="health-bar-wrapper">
-              <div
-                class="health-bar character2"
-                [style.width.%]="getHealthPercentage(state.character2)"
-              ></div>
-              <span class="health-text">
-                {{ state.character2.health }} / {{ state.character2.maxHealth }}
-              </span>
-            </div>
-          </div>
-          <div class="stats-row">
-            <p-chip label="⚔️ {{ state.character2.attack }}" styleClass="stat-chip attack-stat" />
-            <p-chip label="🛡️ {{ state.character2.defense }}" styleClass="stat-chip defense-stat" />
-          </div>
-        </div>
-      </div>
+      <app-character-status-card [character]="state.character2" [alignment]="'right'" />
     </div>
 
     <!-- Victory Banner -->
     @if (state.isComplete && state.winner) {
-    <div class="victory-overlay">
-      <div class="victory-content glass-panel">
-        <div class="victory-icon">�️</div>
-        <h1 class="victory-title">{{ state.winner }}</h1>
-        <p class="victory-subtitle">SPIDER SUPREME!</p>
-        <div class="victory-particles"></div>
-      </div>
-    </div>
+    <app-victory-banner [winner]="state.winner" />
     } }
   </div>
 
   <!-- Control Panel -->
-  <div class="control-panel glass-panel">
-    <div class="control-buttons">
-      <p-button
-        *ngIf="(battleState$ | async) === null"
-        label="Release the Spiders!"
-        icon="pi pi-play"
-        (onClick)="startBattle()"
-        severity="success"
-        size="large"
-        styleClass="battle-btn start-btn"
-      />
-      <p-button
-        *ngIf="(battleState$ | async) !== null"
-        label="Clear the Web"
-        icon="pi pi-refresh"
-        (onClick)="resetBattle()"
-        severity="secondary"
-        size="large"
-        styleClass="battle-btn reset-btn"
-      />
-    </div>
-  </div>
+  <app-battle-controls
+    [isBattleActive]="(battleState$ | async) !== null"
+    (startBattle)="startBattle()"
+    (resetBattle)="resetBattle()"
+  />
 </div>
