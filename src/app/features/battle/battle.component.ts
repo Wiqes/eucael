@@ -191,7 +191,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         const isBlack = (x + z) % 2 === 0;
         const tileGeometry = new THREE.PlaneGeometry(tileSize, tileSize);
         const tileMaterial = new THREE.MeshStandardMaterial({
-          color: isBlack ? 0x0a0a0b : 0x27272a,
+          color: isBlack ? 0x0a0a0b : 0x47474a,
           roughness: 0.9,
           metalness: 0.1,
           emissive: isBlack ? 0x000000 : 0x0f0f10,
