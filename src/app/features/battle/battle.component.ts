@@ -1341,6 +1341,7 @@ export class BattleComponent implements OnInit, OnDestroy {
   }
 
   startBattle(): void {
+    const isMobile = this.isMobile();
     this.battleService.startBattle(
       {
         id: 'char1',
@@ -1349,7 +1350,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         maxHealth: 120,
         defense: 18,
         attack: 28,
-        color: '#3d6666',
+        color: isMobile ? '#ff6b6b' : '#3d6666',
       },
       {
         id: 'char2',
@@ -1358,7 +1359,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         maxHealth: 110,
         defense: 22,
         attack: 26,
-        color: '#34d3f5',
+        color: isMobile ? '#4ecdc4' : '#34d3f5',
       },
     );
   }
@@ -1402,6 +1403,10 @@ export class BattleComponent implements OnInit, OnDestroy {
   getHealthPercentage(character: BattleCharacter | null): number {
     if (!character) return 0;
     return (character.health / character.maxHealth) * 100;
+  }
+
+  private isMobile(): boolean {
+    return window.innerWidth < 768;
   }
 
   private onWindowResize(): void {
