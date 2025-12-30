@@ -270,8 +270,6 @@ export class BattleComponent implements OnInit, OnDestroy {
       metalness: 0.05,
       emissive: themeColor,
       emissiveIntensity: 0.4,
-      transparent: true,
-      opacity: 0.8,
     });
 
     // Center dorsal stripe
