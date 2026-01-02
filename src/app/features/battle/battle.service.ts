@@ -105,9 +105,11 @@ export class BattleService {
 
       this.battleStateSubject.next({ ...currentState });
 
-      // Check for winner
+      // Check for winner and delay endBattle to allow full animation to complete
       if (!defender.isAlive) {
-        this.endBattle();
+        setTimeout(() => {
+          this.endBattle();
+        }, 1500); // Additional delay for complete attack animation sequence
       }
     }, 350); // Delay matches the attack impact timing in animation
   }
