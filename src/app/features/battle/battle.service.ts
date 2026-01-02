@@ -82,11 +82,7 @@ export class BattleService {
     );
     if (isBlocked) finalDamage = Math.floor(finalDamage * 0.3);
 
-    // Apply damage
-    defender.health = Math.max(0, defender.health - finalDamage);
-    defender.isAlive = defender.health > 0;
-
-    // Create action
+    // Create action BEFORE applying damage
     const action: BattleAction = {
       attackerId: attacker.id,
       defenderId: defender.id,
@@ -97,12 +93,23 @@ export class BattleService {
 
     state.actions.push(action);
     this.actionSubject.next(action);
-    this.battleStateSubject.next({ ...state });
 
-    // Check for winner
-    if (!defender.isAlive) {
-      this.endBattle();
-    }
+    // Delay health update to sync with attack animation impact
+    setTimeout(() => {
+      const currentState = this.battleStateSubject.value;
+      if (!currentState || currentState.isComplete) return;
+
+      // Apply damage
+      defender.health = Math.max(0, defender.health - finalDamage);
+      defender.isAlive = defender.health > 0;
+
+      this.battleStateSubject.next({ ...currentState });
+
+      // Check for winner
+      if (!defender.isAlive) {
+        this.endBattle();
+      }
+    }, 350); // Delay matches the attack impact timing in animation
   }
 
   private endBattle(): void {
