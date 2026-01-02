@@ -12,13 +12,13 @@ import { ButtonModule } from 'primeng/button';
 export class BattleControlsComponent {
   @Input() isBattleActive = false;
   @Output() startBattle = new EventEmitter<void>();
-  @Output() resetBattle = new EventEmitter<void>();
+  @Output() terminateBattle = new EventEmitter<void>();
 
   onStartBattle(): void {
     this.startBattle.emit();
   }
 
-  onResetBattle(): void {
-    this.resetBattle.emit();
+  onTerminateBattle(): void {
+    this.terminateBattle.emit();
   }
 }

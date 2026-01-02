@@ -26,6 +26,6 @@
   <app-battle-controls
     [isBattleActive]="(battleState$ | async) !== null"
     (startBattle)="startBattle()"
-    (resetBattle)="resetBattle()"
+    (terminateBattle)="resetAndTerminateBattle()"
   />
 </div>

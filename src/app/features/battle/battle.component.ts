@@ -8,6 +8,7 @@ import { BattleVsBadgeComponent } from './battle-vs-badge/battle-vs-badge.compon
 import { VictoryBannerComponent } from './victory-banner/victory-banner.component';
 import { BattleControlsComponent } from './battle-controls/battle-controls.component';
 import { BattleCanvasComponent } from './battle-canvas/battle-canvas.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-battle',
@@ -28,6 +29,7 @@ export class BattleComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
   private battleService = inject(BattleService);
+  private router = inject(Router);
 
   battleState$ = this.battleService.battleState$;
   character1: BattleCharacter | null = null;
@@ -70,12 +72,13 @@ export class BattleComponent implements OnInit, OnDestroy {
     );
   }
 
-  resetBattle(): void {
+  resetAndTerminateBattle(): void {
     if (this.battleCanvas) {
       this.battleCanvas.clearCharacters();
     }
     this.battleService.resetBattle();
     this.character1 = null;
     this.character2 = null;
+    this.router.navigate(['/']);
   }
 }
