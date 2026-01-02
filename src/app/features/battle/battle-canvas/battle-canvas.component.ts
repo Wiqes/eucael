@@ -518,8 +518,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
 
     const webColor = new THREE.Color('#34f5dd');
-    for (let i = 1; i <= 4; i++) {
-      const auraGeometry = new THREE.IcosahedronGeometry(1 + i * 0.4, 1);
+    for (let i = 1; i <= 2; i++) {
+      const auraGeometry = new THREE.IcosahedronGeometry(2 + i * 0.4, 1);
       const auraMaterial = new THREE.MeshBasicMaterial({
         color: webColor,
         transparent: true,
