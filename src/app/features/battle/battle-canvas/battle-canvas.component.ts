@@ -500,12 +500,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     }
 
     const venomGeometry = new THREE.SphereGeometry(0.6, 24, 24);
-    const venomMaterial = new THREE.MeshBasicMaterial({
-      color: 0x00ff00,
-      transparent: true,
-      opacity: 0.3,
-    });
-    const venomSac = new THREE.Mesh(venomGeometry, venomMaterial);
+
+    const venomSac = new THREE.Mesh(venomGeometry, bodyMaterial);
     venomSac.position.set(0, 0.85, -0.6);
     group.add(venomSac);
 
