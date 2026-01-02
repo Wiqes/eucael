@@ -250,5 +250,9 @@
     }
   },
   "Summon": "Призвати",
-  "Summoner": "Призивач"
+  "Summoner": "Призивач",
+  "Battle": "Битва",
+  "Terminate": "Завершити",
+  "Release the Spiders!": "Випустити павуків!",
+  "VICTORY!": "ПЕРЕМОГА!"
 }

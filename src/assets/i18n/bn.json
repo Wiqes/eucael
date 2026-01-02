@@ -250,5 +250,9 @@
     }
   },
   "Summon": "ডাকা",
-  "Summoner": "ডাকনেওয়ালা"
+  "Summoner": "ডাকনেওয়ালা",
+  "Battle": "যুদ্ধ",
+  "Terminate": "সমাপ্ত করুন",
+  "Release the Spiders!": "মাকড়সা ছেড়ে দিন!",
+  "VICTORY!": "বিজয়!"
 }

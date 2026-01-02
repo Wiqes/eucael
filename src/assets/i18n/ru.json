@@ -250,5 +250,9 @@
     }
   },
   "Summon": "Призвать",
-  "Summoner": "Призыватель"
+  "Summoner": "Призыватель",
+  "Battle": "Битва",
+  "Terminate": "Завершить",
+  "Release the Spiders!": "Выпустить пауков!",
+  "VICTORY!": "ПОБЕДА!"
 }

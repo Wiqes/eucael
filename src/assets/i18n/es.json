@@ -250,5 +250,9 @@
     }
   },
   "Summon": "Invocar",
-  "Summoner": "Invocador"
+  "Summoner": "Invocador",
+  "Battle": "Batalla",
+  "Terminate": "Terminar",
+  "Release the Spiders!": "¡Libera las arañas!",
+  "VICTORY!": "¡VICTORIA!"
 }

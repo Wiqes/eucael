@@ -250,5 +250,9 @@
     }
   },
   "Summon": "召喚",
-  "Summoner": "召喚師"
+  "Summoner": "召喚師",
+  "Battle": "戦闘",
+  "Terminate": "終了する",
+  "Release the Spiders!": "蜘蛛を解放せよ!",
+  "VICTORY!": "勝利!"
 }

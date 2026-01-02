@@ -250,5 +250,9 @@
     }
   },
   "Summon": "召唤",
-  "Summoner": "召唤师"
+  "Summoner": "召唤师",
+  "Battle": "战斗",
+  "Terminate": "终止",
+  "Release the Spiders!": "释放蜘蛛！",
+  "VICTORY!": "胜利！"
 }

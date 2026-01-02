@@ -250,5 +250,9 @@
     }
   },
   "Summon": "소환",
-  "Summoner": "소환사"
+  "Summoner": "소환사",
+  "Battle": "전투",
+  "Terminate": "종료",
+  "Release the Spiders!": "거미를 풀어라!",
+  "VICTORY!": "승리!"
 }
