@@ -47,6 +47,11 @@ export class MenuComponent implements OnDestroy {
         command: () => this.router.navigate(['/messages']),
       },
       {
+        icon: 'pi pi-star',
+        label: this.translate.instant('Battle'),
+        command: () => this.router.navigate(['/battle']),
+      },
+      {
         icon: 'pi pi-bullseye',
         label: this.translate.instant('Summoner'),
         command: () => this.router.navigate(['/summoner']),

@@ -2,7 +2,7 @@
   <div class="control-buttons">
     <p-button
       *ngIf="!isBattleActive"
-      label="Release the Spiders!"
+      [label]="'Release the Spiders!' | translate"
       icon="pi pi-play"
       (onClick)="onStartBattle()"
       severity="success"
@@ -11,7 +11,7 @@
     />
     <p-button
       *ngIf="isBattleActive"
-      label="Terminate Battle"
+      [label]="'Terminate' | translate"
       icon="pi pi-times"
       (onClick)="onTerminateBattle()"
       severity="secondary"

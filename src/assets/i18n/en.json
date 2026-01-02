@@ -250,5 +250,9 @@
     }
   },
   "Summon": "Summon",
-  "Summoner": "Summoner"
+  "Summoner": "Summoner",
+  "Battle": "Battle",
+  "Terminate": "Terminate",
+  "Release the Spiders!": "Release the spiders!",
+  "VICTORY!": "VICTORY!"
 }
