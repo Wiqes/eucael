@@ -35,7 +35,6 @@
 }
 
 .glass-panel {
-  @extend %green-glass;
   border-radius: 12px;
   transition: all 0.3s ease;
 }
