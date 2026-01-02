@@ -339,7 +339,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     group.add(fovea);
 
     const legMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x0a0a0a).lerp(themeColor, 0.3),
+      color: new THREE.Color(0x000000).lerp(themeColor, 0.05),
       roughness: 0.7,
       metalness: 0.3,
       emissive: themeColor,
