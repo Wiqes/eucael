@@ -80,6 +80,14 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         this.character1 = state.team1[state.activeTeam1Index] || null;
         this.character2 = state.team2[state.activeTeam2Index] || null;
 
+        // Hide defeated characters immediately
+        if (this.character1?.health === 0 && this.character1Mesh) {
+          this.character1Mesh.visible = false;
+        }
+        if (this.character2?.health === 0 && this.character2Mesh) {
+          this.character2Mesh.visible = false;
+        }
+
         if (!this.character1Mesh && !this.character2Mesh) {
           this.createCharacters();
         } else {
