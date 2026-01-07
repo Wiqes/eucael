@@ -950,52 +950,234 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   }
 
   private createLightningStrike(from: THREE.Vector3, to: THREE.Vector3): void {
-    const points: THREE.Vector3[] = [];
-    const segments = 15;
+    // Camera shake effect
+    const originalCameraPos = this.camera.position.clone();
+    const shakeTimeline = gsap.timeline();
+    for (let i = 0; i < 8; i++) {
+      shakeTimeline.to(this.camera.position, {
+        x: originalCameraPos.x + (Math.random() - 0.5) * 0.3,
+        y: originalCameraPos.y + (Math.random() - 0.5) * 0.3,
+        z: originalCameraPos.z + (Math.random() - 0.5) * 0.2,
+        duration: 0.03,
+      });
+    }
+    shakeTimeline.to(this.camera.position, {
+      x: originalCameraPos.x,
+      y: originalCameraPos.y,
+      z: originalCameraPos.z,
+      duration: 0.1,
+    });
 
-    points.push(from.clone());
-    points[0].y += 8;
+    // Create multiple main lightning bolts
+    const boltCount = 3;
+    for (let b = 0; b < boltCount; b++) {
+      const points: THREE.Vector3[] = [];
+      const segments = 20;
 
-    for (let i = 1; i < segments; i++) {
-      const t = i / segments;
-      const point = new THREE.Vector3().lerpVectors(from, to, t);
-      point.y += 8 - t * 6;
-      point.x += (Math.random() - 0.5) * 0.5;
-      point.z += (Math.random() - 0.5) * 0.5;
-      points.push(point);
+      points.push(from.clone());
+      points[0].y += 10;
+
+      for (let i = 1; i < segments; i++) {
+        const t = i / segments;
+        const point = new THREE.Vector3().lerpVectors(from, to, t);
+        point.y += 10 - t * 8;
+        point.x += (Math.random() - 0.5) * 0.8;
+        point.z += (Math.random() - 0.5) * 0.8;
+        points.push(point);
+      }
+
+      points.push(to.clone());
+      points[points.length - 1].y += 2;
+
+      // Main bolt with glow
+      const lightningGeometry = new THREE.BufferGeometry().setFromPoints(points);
+      const lightningMaterial = new THREE.LineBasicMaterial({
+        color: b === 0 ? 0xffffff : 0xaaffff,
+        linewidth: 5,
+        transparent: true,
+        opacity: b === 0 ? 1 : 0.8,
+      });
+      const lightning = new THREE.Line(lightningGeometry, lightningMaterial);
+      this.scene.add(lightning);
+      this.lightningBolts.push(lightning as unknown as THREE.Mesh);
+
+      // Create branching bolts from random points
+      for (let branchIdx = 0; branchIdx < 5; branchIdx++) {
+        const branchStartIdx = Math.floor(Math.random() * (points.length - 5)) + 2;
+        const branchPoints: THREE.Vector3[] = [points[branchStartIdx].clone()];
+        const branchSegments = 5 + Math.floor(Math.random() * 5);
+
+        for (let i = 1; i <= branchSegments; i++) {
+          const lastPoint = branchPoints[branchPoints.length - 1];
+          const newPoint = lastPoint.clone();
+          newPoint.x += (Math.random() - 0.5) * 1.5;
+          newPoint.y += (Math.random() - 0.8) * 0.8;
+          newPoint.z += (Math.random() - 0.5) * 1.5;
+          branchPoints.push(newPoint);
+        }
+
+        const branchGeometry = new THREE.BufferGeometry().setFromPoints(branchPoints);
+        const branchMaterial = new THREE.LineBasicMaterial({
+          color: 0xaaffff,
+          linewidth: 2,
+          transparent: true,
+          opacity: 0.7,
+        });
+        const branch = new THREE.Line(branchGeometry, branchMaterial);
+        this.scene.add(branch);
+
+        gsap.to(branchMaterial, {
+          opacity: 0,
+          duration: 0.25,
+          delay: 0.05,
+          onComplete: () => {
+            this.scene.remove(branch);
+            branchGeometry.dispose();
+            branchMaterial.dispose();
+          },
+        });
+      }
+
+      gsap.to(lightningMaterial, {
+        opacity: 0,
+        duration: 0.35,
+        delay: 0.15 + b * 0.05,
+        onComplete: () => {
+          this.scene.remove(lightning);
+          lightningGeometry.dispose();
+          lightningMaterial.dispose();
+          const index = this.lightningBolts.indexOf(lightning as unknown as THREE.Mesh);
+          if (index > -1) this.lightningBolts.splice(index, 1);
+        },
+      });
     }
 
-    points.push(to.clone());
-    points[points.length - 1].y += 2;
+    // Intense glow lights
+    const mainGlowLight = new THREE.PointLight(0xffffff, 50, 15);
+    mainGlowLight.position.copy(to);
+    mainGlowLight.position.y += 2;
+    this.scene.add(mainGlowLight);
 
-    const lightningGeometry = new THREE.BufferGeometry().setFromPoints(points);
-    const lightningMaterial = new THREE.LineBasicMaterial({
-      color: 0xffff00,
-      linewidth: 3,
+    const topGlowLight = new THREE.PointLight(0xaaffff, 30, 12);
+    topGlowLight.position.copy(from);
+    topGlowLight.position.y += 10;
+    this.scene.add(topGlowLight);
+
+    // Electrical particles along the strike path
+    const particleCount = 200;
+    const particleGeometry = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
+    const particleVelocities: THREE.Vector3[] = [];
+
+    for (let i = 0; i < particleCount; i++) {
+      const t = Math.random();
+      particlePositions[i * 3] = from.x + (to.x - from.x) * t + (Math.random() - 0.5) * 2;
+      particlePositions[i * 3 + 1] = from.y + 10 - t * 8 + (Math.random() - 0.5) * 2;
+      particlePositions[i * 3 + 2] = from.z + (to.z - from.z) * t + (Math.random() - 0.5) * 2;
+
+      particleVelocities.push(
+        new THREE.Vector3(
+          (Math.random() - 0.5) * 0.3,
+          (Math.random() - 0.5) * 0.3,
+          (Math.random() - 0.5) * 0.3,
+        ),
+      );
+    }
+
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+    const particleMaterial = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.2,
       transparent: true,
       opacity: 1,
+      blending: THREE.AdditiveBlending,
+      map: this.circleTexture,
+      alphaTest: 0.01,
     });
-    const lightning = new THREE.Line(lightningGeometry, lightningMaterial);
-    this.scene.add(lightning);
-    this.lightningBolts.push(lightning as unknown as THREE.Mesh);
 
-    const glowLight = new THREE.PointLight(0xffff00, 30, 10);
-    glowLight.position.copy(to);
-    glowLight.position.y += 2;
-    this.scene.add(glowLight);
+    const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
+    this.scene.add(particleSystem);
 
-    for (let i = 0; i < 3; i++) {
+    gsap.to(particleMaterial, {
+      opacity: 0,
+      duration: 0.8,
+      onUpdate: () => {
+        const pos = particleGeometry.attributes['position'];
+        for (let i = 0; i < particleCount; i++) {
+          pos.array[i * 3] += particleVelocities[i].x;
+          pos.array[i * 3 + 1] += particleVelocities[i].y;
+          pos.array[i * 3 + 2] += particleVelocities[i].z;
+        }
+        pos.needsUpdate = true;
+      },
+      onComplete: () => {
+        this.scene.remove(particleSystem);
+        particleGeometry.dispose();
+        particleMaterial.dispose();
+      },
+    });
+
+    // Ground impact electrical discharge
+    const dischargeRingCount = 6;
+    for (let i = 0; i < dischargeRingCount; i++) {
+      const ringGeometry = new THREE.RingGeometry(0.5, 1, 32);
+      const ringMaterial = new THREE.MeshBasicMaterial({
+        color: i % 2 === 0 ? 0xffffff : 0xaaffff,
+        transparent: true,
+        opacity: 0.9,
+        side: THREE.DoubleSide,
+      });
+      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+      ring.position.copy(to);
+      ring.position.y = 0.1;
+      ring.rotation.x = -Math.PI / 2;
+      this.scene.add(ring);
+
+      gsap.to(ring.scale, {
+        x: 8 + i * 2,
+        y: 8 + i * 2,
+        duration: 0.6,
+        delay: i * 0.05,
+        ease: 'power2.out',
+      });
+
+      gsap.to(ringMaterial, {
+        opacity: 0,
+        duration: 0.6,
+        delay: i * 0.05,
+        onComplete: () => {
+          this.scene.remove(ring);
+          ringGeometry.dispose();
+          ringMaterial.dispose();
+        },
+      });
+    }
+
+    // Secondary flickering bolts
+    for (let i = 0; i < 8; i++) {
       setTimeout(() => {
-        const secondaryPoints: THREE.Vector3[] = points.map((p) => {
-          const newPoint = p.clone();
-          newPoint.x += (Math.random() - 0.5) * 0.3;
-          newPoint.z += (Math.random() - 0.5) * 0.3;
-          return newPoint;
-        });
-        const secGeometry = new THREE.BufferGeometry().setFromPoints(secondaryPoints);
+        const points: THREE.Vector3[] = [];
+        const segments = 15;
+
+        points.push(from.clone());
+        points[0].y += 10;
+
+        for (let j = 1; j < segments; j++) {
+          const t = j / segments;
+          const point = new THREE.Vector3().lerpVectors(from, to, t);
+          point.y += 10 - t * 8;
+          point.x += (Math.random() - 0.5) * 1.2;
+          point.z += (Math.random() - 0.5) * 1.2;
+          points.push(point);
+        }
+
+        points.push(to.clone());
+        points[points.length - 1].y += 2;
+
+        const secGeometry = new THREE.BufferGeometry().setFromPoints(points);
         const secMaterial = new THREE.LineBasicMaterial({
-          color: 0xffff00,
-          linewidth: 2,
+          color: 0xffffff,
+          linewidth: 3,
           transparent: true,
           opacity: 0.6,
         });
@@ -1004,34 +1186,32 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
         gsap.to(secMaterial, {
           opacity: 0,
-          duration: 0.2,
+          duration: 0.15,
           onComplete: () => {
             this.scene.remove(secLightning);
             secGeometry.dispose();
             secMaterial.dispose();
           },
         });
-      }, i * 50);
+      }, i * 40);
     }
 
-    gsap.to(lightningMaterial, {
-      opacity: 0,
-      duration: 0.3,
+    gsap.to(mainGlowLight, {
+      intensity: 0,
+      duration: 0.4,
       delay: 0.2,
       onComplete: () => {
-        this.scene.remove(lightning);
-        this.scene.remove(glowLight);
-        lightningGeometry.dispose();
-        lightningMaterial.dispose();
-        const index = this.lightningBolts.indexOf(lightning as unknown as THREE.Mesh);
-        if (index > -1) this.lightningBolts.splice(index, 1);
+        this.scene.remove(mainGlowLight);
       },
     });
 
-    gsap.to(glowLight, {
+    gsap.to(topGlowLight, {
       intensity: 0,
-      duration: 0.3,
+      duration: 0.4,
       delay: 0.2,
+      onComplete: () => {
+        this.scene.remove(topGlowLight);
+      },
     });
   }
 
