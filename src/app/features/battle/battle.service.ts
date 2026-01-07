@@ -86,9 +86,9 @@ export class BattleService {
     // Calculate damage
     const baseDamage = attacker.attack;
     const defenseMitigation = defender.defense * 0.5;
-    const isCritical = Math.random() > 0.8;
+    const isCritical = Math.random() > 0.5;
     const criticalMultiplier = isCritical ? 2 : 1;
-    const isBlocked = Math.random() > 0.1;
+    const isBlocked = Math.random() > 0.5;
 
     let finalDamage = Math.max(
       1,
