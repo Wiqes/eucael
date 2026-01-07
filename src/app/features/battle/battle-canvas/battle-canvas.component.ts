@@ -74,8 +74,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.battleService.battleState$.pipe(takeUntil(this.destroy$)).subscribe((state) => {
       if (state) {
-        this.character1 = state.character1;
-        this.character2 = state.character2;
+        this.character1 = state.team1[state.activeTeam1Index] || null;
+        this.character2 = state.team2[state.activeTeam2Index] || null;
 
         if (!this.character1Mesh && !this.character2Mesh) {
           this.createCharacters();

@@ -13,24 +13,29 @@ export class BattleService {
   public action$: Observable<BattleAction | null> = this.actionSubject.asObservable();
 
   startBattle(
-    character1: Omit<BattleCharacter, 'isAlive' | 'position'>,
-    character2: Omit<BattleCharacter, 'isAlive' | 'position'>,
+    team1: Omit<BattleCharacter, 'isAlive' | 'position'>[],
+    team2: Omit<BattleCharacter, 'isAlive' | 'position'>[],
   ): void {
-    const char1: BattleCharacter = {
-      ...character1,
-      isAlive: true,
-      position: { x: -2, y: 0.5, z: 3 },
-    };
+    if (team1.length === 0 || team2.length === 0) {
+      throw new Error('Both teams must have at least one character');
+    }
 
-    const char2: BattleCharacter = {
-      ...character2,
-      isAlive: true,
-      position: { x: 3, y: 0.5, z: -3 },
+    const prepareTeam = (
+      team: Omit<BattleCharacter, 'isAlive' | 'position'>[],
+      position: { x: number; y: number; z: number },
+    ): BattleCharacter[] => {
+      return team.map((char) => ({
+        ...char,
+        isAlive: true,
+        position,
+      }));
     };
 
     const initialState: BattleState = {
-      character1: char1,
-      character2: char2,
+      team1: prepareTeam(team1, { x: -2, y: 0.5, z: 3 }),
+      team2: prepareTeam(team2, { x: 3, y: 0.5, z: -3 }),
+      activeTeam1Index: 0,
+      activeTeam2Index: 0,
       actions: [],
       winner: null,
       isComplete: false,
@@ -59,10 +64,19 @@ export class BattleService {
     const state = this.battleStateSubject.value;
     if (!state || state.isComplete) return;
 
+    // Get active characters
+    const activeChar1 = state.team1[state.activeTeam1Index];
+    const activeChar2 = state.team2[state.activeTeam2Index];
+
+    if (!activeChar1 || !activeChar2) {
+      this.endBattle();
+      return;
+    }
+
     // Alternate turns
-    const isChar1Turn = state.actions.length % 2 === 0;
-    const attacker = isChar1Turn ? state.character1 : state.character2;
-    const defender = isChar1Turn ? state.character2 : state.character1;
+    const isTeam1Turn = state.actions.length % 2 === 0;
+    const attacker = isTeam1Turn ? activeChar1 : activeChar2;
+    const defender = isTeam1Turn ? activeChar2 : activeChar1;
 
     if (!attacker.isAlive || !defender.isAlive) {
       this.endBattle();
@@ -105,13 +119,35 @@ export class BattleService {
 
       this.battleStateSubject.next({ ...currentState });
 
-      // Check for winner and delay endBattle to allow full animation to complete
+      // Check if defender died and needs to be replaced
       if (!defender.isAlive) {
         setTimeout(() => {
-          this.endBattle();
+          this.handleCharacterDeath(isTeam1Turn);
         }, 1500); // Additional delay for complete attack animation sequence
       }
     }, 350); // Delay matches the attack impact timing in animation
+  }
+
+  private handleCharacterDeath(wasTeam1Attacking: boolean): void {
+    const state = this.battleStateSubject.value;
+    if (!state || state.isComplete) return;
+
+    // Determine which team lost a character
+    const defeatedTeamIndex = wasTeam1Attacking ? 'team2' : 'team1';
+    const activeIndexKey = wasTeam1Attacking ? 'activeTeam2Index' : 'activeTeam1Index';
+    const team = state[defeatedTeamIndex];
+    const currentIndex = state[activeIndexKey];
+
+    // Check if there's a next character available
+    const nextIndex = currentIndex + 1;
+    if (nextIndex < team.length) {
+      // Bring in the next character
+      state[activeIndexKey] = nextIndex;
+      this.battleStateSubject.next({ ...state });
+    } else {
+      // No more characters available, end battle
+      this.endBattle();
+    }
   }
 
   private endBattle(): void {
@@ -119,7 +155,15 @@ export class BattleService {
     if (!state) return;
 
     state.isComplete = true;
-    state.winner = state.character1.isAlive ? state.character1.name : state.character2.name;
+
+    // Determine winning team
+    const team1HasSurvivors = state.team1.some((char) => char.isAlive);
+    const winningTeam = team1HasSurvivors ? state.team1 : state.team2;
+    const aliveCharacters = winningTeam.filter((char) => char.isAlive);
+
+    // Set winner to the first alive character's name or team indicator
+    state.winner = aliveCharacters.length > 0 ? aliveCharacters[0].name : null;
+
     this.battleStateSubject.next({ ...state });
   }
 

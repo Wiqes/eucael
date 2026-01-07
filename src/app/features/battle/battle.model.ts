@@ -19,8 +19,10 @@ export interface BattleAction {
 }
 
 export interface BattleState {
-  character1: BattleCharacter;
-  character2: BattleCharacter;
+  team1: BattleCharacter[];
+  team2: BattleCharacter[];
+  activeTeam1Index: number;
+  activeTeam2Index: number;
   actions: BattleAction[];
   winner: string | null;
   isComplete: boolean;

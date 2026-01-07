@@ -7,13 +7,19 @@
     @if (battleState$ | async; as state) {
     <div class="battle-overlay">
       <!-- Character 1 Status - Left -->
-      <app-character-status-card [character]="state.character1" [alignment]="'left'" />
+      <app-character-status-card
+        [character]="state.team1[state.activeTeam1Index]"
+        [alignment]="'left'"
+      />
 
       <!-- VS Badge -->
       <app-battle-vs-badge />
 
       <!-- Character 2 Status - Right -->
-      <app-character-status-card [character]="state.character2" [alignment]="'right'" />
+      <app-character-status-card
+        [character]="state.team2[state.activeTeam2Index]"
+        [alignment]="'right'"
+      />
     </div>
 
     <!-- Victory Banner -->

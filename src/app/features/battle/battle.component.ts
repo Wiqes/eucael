@@ -38,8 +38,8 @@ export class BattleComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.battleService.battleState$.pipe(takeUntil(this.destroy$)).subscribe((state) => {
       if (state) {
-        this.character1 = state.character1;
-        this.character2 = state.character2;
+        this.character1 = state.team1[state.activeTeam1Index] || null;
+        this.character2 = state.team2[state.activeTeam2Index] || null;
       }
     });
   }
@@ -51,24 +51,37 @@ export class BattleComponent implements OnInit, OnDestroy {
 
   startBattle(): void {
     this.battleService.startBattle(
-      {
-        id: 'char1',
-        name: 'Celestial Guardian',
-        health: 120,
-        maxHealth: 120,
-        defense: 18,
-        attack: 28,
-        color: '#ff6b6b',
-      },
-      {
-        id: 'char2',
-        name: 'Azure Sentinel',
-        health: 110,
-        maxHealth: 110,
-        defense: 22,
-        attack: 26,
-        color: '#4ecdc4',
-      },
+      [
+        {
+          id: 'char1',
+          name: 'Celestial Guardian',
+          health: 220,
+          maxHealth: 220,
+          defense: 28,
+          attack: 48,
+          color: '#ff6b6b',
+        },
+      ],
+      [
+        {
+          id: 'char2',
+          name: 'Azure Sentinel',
+          health: 110,
+          maxHealth: 110,
+          defense: 22,
+          attack: 26,
+          color: '#4ecdc4',
+        },
+        {
+          id: 'char3',
+          name: 'Blue Sentinel',
+          health: 122,
+          maxHealth: 122,
+          defense: 23,
+          attack: 26,
+          color: '#0000ff',
+        },
+      ],
     );
   }
 
