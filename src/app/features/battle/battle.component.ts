@@ -53,6 +53,15 @@ export class BattleComponent implements OnInit, OnDestroy {
     this.battleService.startBattle(
       [
         {
+          id: 'char4',
+          name: 'Angel',
+          health: 20,
+          maxHealth: 20,
+          defense: 8,
+          attack: 8,
+          color: '#ffff00',
+        },
+        {
           id: 'char1',
           name: 'Celestial Guardian',
           health: 220,
