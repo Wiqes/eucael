@@ -44,10 +44,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private renderer!: THREE.WebGLRenderer;
   private character1Mesh!: THREE.Group;
   private character2Mesh!: THREE.Group;
-  private character1WebThread: THREE.Line | null = null;
-  private character2WebThread: THREE.Line | null = null;
-  private webThreadAnchor1!: THREE.Vector3;
-  private webThreadAnchor2!: THREE.Vector3;
   private animationFrameId: number | null = null;
   private destroy$ = new Subject<void>();
   private cameraOriginalPosition!: THREE.Vector3;
@@ -152,19 +148,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         }
       });
       this.character2Mesh = undefined as unknown as THREE.Group;
-    }
-
-    if (this.character1WebThread) {
-      this.scene.remove(this.character1WebThread);
-      this.character1WebThread.geometry.dispose();
-      (this.character1WebThread.material as THREE.Material).dispose();
-      this.character1WebThread = null;
-    }
-    if (this.character2WebThread) {
-      this.scene.remove(this.character2WebThread);
-      this.character2WebThread.geometry.dispose();
-      (this.character2WebThread.material as THREE.Material).dispose();
-      this.character2WebThread = null;
     }
 
     this.character1 = null;
@@ -285,10 +268,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     if (!character) return;
 
     const oldMesh = characterNumber === 1 ? this.character1Mesh : this.character2Mesh;
-    const oldWebThread =
-      characterNumber === 1 ? this.character1WebThread : this.character2WebThread;
 
-    // Remove old mesh and web thread
+    // Remove old mesh
     if (oldMesh) {
       this.scene.remove(oldMesh);
       oldMesh.traverse((child) => {
@@ -301,12 +282,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           }
         }
       });
-    }
-
-    if (oldWebThread) {
-      this.scene.remove(oldWebThread);
-      oldWebThread.geometry.dispose();
-      (oldWebThread.material as THREE.Material).dispose();
     }
 
     // Create new mesh with teleportation entrance effect
@@ -327,7 +302,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       character.position,
       characterNumber === 1 ? 'left' : 'right',
     );
-    this.createWebThread(newMesh, character.position, characterNumber);
   }
 
   private createCharacters(): void {
@@ -350,9 +324,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     this.createTeleportationEntrance(this.character1Mesh, this.character1.position, 'left');
     this.createTeleportationEntrance(this.character2Mesh, this.character2.position, 'right');
-
-    this.createWebThread(this.character1Mesh, this.character1.position, 1);
-    this.createWebThread(this.character2Mesh, this.character2.position, 2);
   }
 
   private createEnhancedCharacterMesh(
@@ -651,75 +622,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       duration: 0.8,
       ease: 'elastic.out(1, 0.5)',
     });
-  }
-
-  private createWebThread(
-    characterMesh: THREE.Group,
-    position: { x: number; y: number; z: number },
-    characterNum: 1 | 2,
-  ): void {
-    const anchorY = 8;
-    const anchor = new THREE.Vector3(position.x, anchorY, position.z);
-
-    if (characterNum === 1) {
-      this.webThreadAnchor1 = anchor;
-    } else {
-      this.webThreadAnchor2 = anchor;
-    }
-
-    const spiderBackOffset = new THREE.Vector3(0, 0.9, -0.6);
-    const spiderBackWorldPos = characterMesh.localToWorld(spiderBackOffset.clone());
-
-    const points = [anchor, spiderBackWorldPos];
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-    const webColor = new THREE.Color('#34f5dd');
-    const material = new THREE.MeshBasicMaterial({
-      color: webColor,
-      transparent: true,
-      opacity: 0.4,
-    });
-
-    const webThread = new THREE.Line(geometry, material);
-    this.scene.add(webThread);
-
-    if (characterNum === 1) {
-      this.character1WebThread = webThread;
-    } else {
-      this.character2WebThread = webThread;
-    }
-  }
-
-  private updateWebThreads(): void {
-    if (this.character1WebThread && this.character1Mesh && this.webThreadAnchor1) {
-      const spiderBackOffset = new THREE.Vector3(0, 0.9, -0.6);
-      const spiderBackWorldPos = this.character1Mesh.localToWorld(spiderBackOffset.clone());
-
-      const positions = this.character1WebThread.geometry.attributes['position'];
-      positions.setXYZ(
-        0,
-        this.webThreadAnchor1.x,
-        this.webThreadAnchor1.y,
-        this.webThreadAnchor1.z,
-      );
-      positions.setXYZ(1, spiderBackWorldPos.x, spiderBackWorldPos.y, spiderBackWorldPos.z);
-      positions.needsUpdate = true;
-    }
-
-    if (this.character2WebThread && this.character2Mesh && this.webThreadAnchor2) {
-      const spiderBackOffset = new THREE.Vector3(0, 0.9, -0.6);
-      const spiderBackWorldPos = this.character2Mesh.localToWorld(spiderBackOffset.clone());
-
-      const positions = this.character2WebThread.geometry.attributes['position'];
-      positions.setXYZ(
-        0,
-        this.webThreadAnchor2.x,
-        this.webThreadAnchor2.y,
-        this.webThreadAnchor2.z,
-      );
-      positions.setXYZ(1, spiderBackWorldPos.x, spiderBackWorldPos.y, spiderBackWorldPos.z);
-      positions.needsUpdate = true;
-    }
   }
 
   private animateAction(action: BattleAction): void {
@@ -1444,8 +1346,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         (bolt.material as THREE.LineBasicMaterial).opacity *= 0.95;
       }
     });
-
-    this.updateWebThreads();
 
     this.renderer.render(this.scene, this.camera);
   }
