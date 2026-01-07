@@ -50,6 +50,13 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private lightningBolts: THREE.Mesh[] = [];
   private timeSlowActive = false;
   private resizeHandler: () => void;
+  private lastTime = 0;
+  private particleAnimations: {
+    geometry: THREE.BufferGeometry;
+    velocities: number[];
+    particleCount: number;
+  }[] = [];
+  private resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   private battleService = inject(BattleService);
   private circleTexture!: THREE.Texture;
@@ -58,7 +65,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   character2: BattleCharacter | null = null;
 
   constructor() {
-    this.resizeHandler = this.onWindowResize.bind(this);
+    this.resizeHandler = this.throttleResize.bind(this);
     afterNextRender(() => {
       this.createCircleTexture();
       this.initScene();
@@ -115,6 +122,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     }
 
     window.removeEventListener('resize', this.resizeHandler);
+    this.particleAnimations = [];
+    gsap.killTweensOf('*');
     this.scene?.clear();
     this.renderer?.dispose();
     this.circleTexture?.dispose();
@@ -948,7 +957,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     shieldGroup.add(innerShield);
 
     // Energy particles around shield
-    const particleCount = 150;
+    const particleCount = 80;
     const particleGeometry = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     const particleVelocities: number[] = [];
@@ -1116,24 +1125,12 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       repeat: 2,
     });
 
-    // Animate particles spiraling
-    const particleAnimation = () => {
-      const positions = particleGeometry.attributes['position'].array as Float32Array;
-      for (let i = 0; i < particleCount; i++) {
-        const angle = particleVelocities[i * 2];
-        const speed = particleVelocities[i * 2 + 1];
-
-        particleVelocities[i * 2] += speed;
-        const newAngle = particleVelocities[i * 2];
-        const radius = Math.sqrt(positions[i * 3] ** 2 + positions[i * 3 + 2] ** 2);
-
-        positions[i * 3] = Math.cos(newAngle) * radius;
-        positions[i * 3 + 2] = Math.sin(newAngle) * radius;
-      }
-      particleGeometry.attributes['position'].needsUpdate = true;
-    };
-
-    const particleInterval = setInterval(particleAnimation, 16);
+    // Add to particle animations array for main animation loop
+    this.particleAnimations.push({
+      geometry: particleGeometry,
+      velocities: particleVelocities,
+      particleCount,
+    });
 
     // Fade out everything
     gsap.to([outerShieldMaterial, middleShieldMaterial, innerShieldMaterial, particleMaterial], {
@@ -1141,7 +1138,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       duration: 0.5,
       delay: 0.5,
       onComplete: () => {
-        clearInterval(particleInterval);
+        const index = this.particleAnimations.findIndex(
+          (anim) => anim.geometry === particleGeometry,
+        );
+        if (index > -1) this.particleAnimations.splice(index, 1);
         this.scene.remove(shieldGroup);
         this.scene.remove(mainLight);
         this.scene.remove(pulseLight);
@@ -1284,7 +1284,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.scene.add(topGlowLight);
 
     // Electrical particles along the strike path
-    const particleCount = 200;
+    const particleCount = 100;
     const particleGeometry = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     const particleVelocities: THREE.Vector3[] = [];
@@ -1474,7 +1474,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       });
     }
 
-    const particleCount = isCritical ? 500 : 300;
+    const particleCount = isCritical ? 200 : 120;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities: THREE.Vector3[] = [];
@@ -1678,7 +1678,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   }
 
   private createDisintegrationEffect(loser: THREE.Group): void {
-    const particleCount = 1000;
+    const particleCount = 300;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities: THREE.Vector3[] = [];
@@ -1732,22 +1732,53 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
   }
 
-  private animate(): void {
-    this.animationFrameId = requestAnimationFrame(() => this.animate());
+  private animate(currentTime = 0): void {
+    this.animationFrameId = requestAnimationFrame((time) => this.animate(time));
 
-    const time = Date.now() * 0.0001;
+    // Calculate delta time for consistent animations (available for future use)
+    // const deltaTime = this.lastTime ? (currentTime - this.lastTime) / 1000 : 0;
+    this.lastTime = currentTime;
+
+    const time = currentTime * 0.0001;
     if (!this.timeSlowActive) {
       this.camera.position.x = this.cameraOriginalPosition.x + Math.sin(time) * 0.3;
       this.camera.position.y = this.cameraOriginalPosition.y + Math.sin(time * 0.7) * 0.2;
     }
 
+    // Optimize lightning bolt updates
     this.lightningBolts.forEach((bolt) => {
       if (bolt.material) {
         (bolt.material as THREE.LineBasicMaterial).opacity *= 0.95;
       }
     });
 
+    // Update particle animations in main loop
+    this.particleAnimations.forEach((anim) => {
+      const positions = anim.geometry.attributes['position'].array as Float32Array;
+      for (let i = 0; i < anim.particleCount; i++) {
+        const speed = anim.velocities[i * 2 + 1];
+
+        anim.velocities[i * 2] += speed;
+        const newAngle = anim.velocities[i * 2];
+        const radius = Math.sqrt(positions[i * 3] ** 2 + positions[i * 3 + 2] ** 2);
+
+        positions[i * 3] = Math.cos(newAngle) * radius;
+        positions[i * 3 + 2] = Math.sin(newAngle) * radius;
+      }
+      anim.geometry.attributes['position'].needsUpdate = true;
+    });
+
     this.renderer.render(this.scene, this.camera);
+  }
+
+  private throttleResize(): void {
+    if (this.resizeTimeout) {
+      return;
+    }
+    this.resizeTimeout = setTimeout(() => {
+      this.onWindowResize();
+      this.resizeTimeout = null;
+    }, 100);
   }
 
   private onWindowResize(): void {
