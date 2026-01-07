@@ -58,7 +58,7 @@ export class BattleComponent implements OnInit, OnDestroy {
           health: 220,
           maxHealth: 220,
           defense: 28,
-          attack: 48,
+          attack: 88,
           color: '#ff6b6b',
         },
       ],
