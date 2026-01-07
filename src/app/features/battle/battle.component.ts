@@ -74,7 +74,7 @@ export class BattleComponent implements OnInit, OnDestroy {
         },
         {
           id: 'char3',
-          name: 'Blue Sentinel',
+          name: 'Blue Spider',
           health: 122,
           maxHealth: 122,
           defense: 23,

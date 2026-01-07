@@ -74,11 +74,23 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.battleService.battleState$.pipe(takeUntil(this.destroy$)).subscribe((state) => {
       if (state) {
+        const prevCharacter1 = this.character1;
+        const prevCharacter2 = this.character2;
+
         this.character1 = state.team1[state.activeTeam1Index] || null;
         this.character2 = state.team2[state.activeTeam2Index] || null;
 
         if (!this.character1Mesh && !this.character2Mesh) {
           this.createCharacters();
+        } else {
+          // Check if character1 changed (different id or character replaced)
+          if (prevCharacter1 && this.character1 && prevCharacter1.id !== this.character1.id) {
+            this.replaceCharacter(1);
+          }
+          // Check if character2 changed (different id or character replaced)
+          if (prevCharacter2 && this.character2 && prevCharacter2.id !== this.character2.id) {
+            this.replaceCharacter(2);
+          }
         }
       }
     });
@@ -258,6 +270,56 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         this.scene.add(tile);
       }
     }
+  }
+
+  private replaceCharacter(characterNumber: 1 | 2): void {
+    const character = characterNumber === 1 ? this.character1 : this.character2;
+    if (!character) return;
+
+    const oldMesh = characterNumber === 1 ? this.character1Mesh : this.character2Mesh;
+    const oldWebThread =
+      characterNumber === 1 ? this.character1WebThread : this.character2WebThread;
+
+    // Remove old mesh and web thread
+    if (oldMesh) {
+      this.scene.remove(oldMesh);
+      oldMesh.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.geometry.dispose();
+          if (Array.isArray(child.material)) {
+            child.material.forEach((mat) => mat.dispose());
+          } else {
+            child.material.dispose();
+          }
+        }
+      });
+    }
+
+    if (oldWebThread) {
+      this.scene.remove(oldWebThread);
+      oldWebThread.geometry.dispose();
+      (oldWebThread.material as THREE.Material).dispose();
+    }
+
+    // Create new mesh with teleportation entrance effect
+    const newMesh = this.createEnhancedCharacterMesh(character.color, character.position);
+
+    if (characterNumber === 1) {
+      newMesh.rotation.y = Math.PI / 3;
+      this.character1Mesh = newMesh;
+    } else {
+      newMesh.scale.x = -1;
+      newMesh.rotation.y = -Math.PI / 3;
+      this.character2Mesh = newMesh;
+    }
+
+    this.scene.add(newMesh);
+    this.createTeleportationEntrance(
+      newMesh,
+      character.position,
+      characterNumber === 1 ? 'left' : 'right',
+    );
+    this.createWebThread(newMesh, character.position, characterNumber);
   }
 
   private createCharacters(): void {
