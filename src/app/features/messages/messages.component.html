@@ -33,7 +33,9 @@
 
       <div class="chat-content">
         <div class="chat-header">
-          <div *ngIf="chat.profile?.name" class="chat-name">{{ chat.profile.name }}</div>
+          <div *ngIf="chat.profile.name || chat.profile.email" class="chat-name">
+            {{ chat.profile.name || chat.profile.email }}
+          </div>
           <div class="chat-time">
             {{ formatLastMessageTime(chat.lastMessageAt) }}
           </div>
