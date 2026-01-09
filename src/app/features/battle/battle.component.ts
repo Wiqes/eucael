@@ -53,34 +53,18 @@ export class BattleComponent implements OnInit, OnDestroy {
     this.battleService.startBattle(
       [
         {
-          id: 'char4',
-          name: 'Angel',
-          health: 20,
-          maxHealth: 20,
-          defense: 8,
-          attack: 8,
-          color: '#ffff00',
-        },
-        {
           id: 'char1',
           name: 'Celestial Guardian',
           health: 220,
           maxHealth: 220,
           defense: 28,
           attack: 88,
+          speed: 50,
+          focus: 30,
           color: '#ff6b6b',
         },
       ],
       [
-        {
-          id: 'char2',
-          name: 'Azure Sentinel',
-          health: 110,
-          maxHealth: 110,
-          defense: 22,
-          attack: 26,
-          color: '#4ecdc4',
-        },
         {
           id: 'char3',
           name: 'Blue Spider',
@@ -88,6 +72,8 @@ export class BattleComponent implements OnInit, OnDestroy {
           maxHealth: 122,
           defense: 23,
           attack: 26,
+          speed: 40,
+          focus: 20,
           color: '#0000ff',
         },
       ],

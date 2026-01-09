@@ -5,6 +5,8 @@ export interface BattleCharacter {
   maxHealth: number;
   defense: number;
   attack: number;
+  speed: number;
+  focus: number;
   position: { x: number; y: number; z: number };
   color: string;
   isAlive: boolean;
