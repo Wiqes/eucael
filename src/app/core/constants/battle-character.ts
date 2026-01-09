@@ -1,9 +1,13 @@
 import { BattleCharacter } from '../../features/battle/battle.model';
 
-export const BATTLE_CHARACTERS: Record<string, Omit<BattleCharacter, 'isAlive' | 'position'>> = {
+export const BATTLE_CHARACTERS: Record<
+  string,
+  Omit<BattleCharacter, 'isAlive' | 'position' | 'turnCount'>
+> = {
   RAT: {
     id: 'char1',
     name: 'Celestial Guardian',
+    race: 'rat',
     health: 85,
     maxHealth: 85,
     attack: 18,
@@ -15,6 +19,7 @@ export const BATTLE_CHARACTERS: Record<string, Omit<BattleCharacter, 'isAlive' |
   CAT: {
     id: 'char2',
     name: 'Blue Spider',
+    race: 'cat',
     health: 90,
     maxHealth: 90,
     attack: 22,
@@ -26,6 +31,7 @@ export const BATTLE_CHARACTERS: Record<string, Omit<BattleCharacter, 'isAlive' |
   BEAR: {
     id: 'char3',
     name: 'Yellow Bear',
+    race: 'bear',
     health: 130,
     maxHealth: 130,
     attack: 18,
@@ -37,6 +43,7 @@ export const BATTLE_CHARACTERS: Record<string, Omit<BattleCharacter, 'isAlive' |
   HORSE: {
     id: 'char4',
     name: 'White Horse',
+    race: 'horse',
     health: 110,
     maxHealth: 110,
     attack: 21,
@@ -48,6 +55,7 @@ export const BATTLE_CHARACTERS: Record<string, Omit<BattleCharacter, 'isAlive' |
   GIRAFFE: {
     id: 'char5',
     name: 'Black Giraffe',
+    race: 'giraffe',
     health: 95,
     maxHealth: 95,
     attack: 19,

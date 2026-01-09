@@ -1,6 +1,17 @@
+export interface PoisonEffect {
+  turnsRemaining: number;
+  damagePerTurn: number;
+}
+
+export interface DebuffEffect {
+  attackReduction: number;
+  accuracyReduction: number;
+}
+
 export interface BattleCharacter {
   id: string;
   name: string;
+  race: 'rat' | 'cat' | 'bear' | 'horse' | 'giraffe';
   health: number;
   maxHealth: number;
   defense: number;
@@ -10,14 +21,18 @@ export interface BattleCharacter {
   position: { x: number; y: number; z: number };
   color: string;
   isAlive: boolean;
+  turnCount: number;
+  poisonEffect?: PoisonEffect;
+  debuffEffect?: DebuffEffect;
 }
 
 export interface BattleAction {
   attackerId: string;
   defenderId: string;
   damage: number;
-  type: 'attack' | 'critical' | 'blocked';
+  type: 'attack' | 'critical' | 'blocked' | 'miss' | 'poison' | 'combo';
   timestamp: number;
+  message?: string;
 }
 
 export interface BattleState {
