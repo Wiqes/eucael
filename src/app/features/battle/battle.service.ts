@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Observable, takeWhile } from 'rxjs';
-import {
-  BattleCharacter,
-  BattleAction,
-  BattleState,
-  PoisonEffect,
-  DebuffEffect,
-} from './battle.model';
+import { BattleCharacter, BattleAction, BattleState } from './battle.model';
 
 @Injectable({
   providedIn: 'root',
@@ -80,18 +74,12 @@ export class BattleService {
       return;
     }
 
-    if (!activeChar1.isAlive || !activeChar2.isAlive) {
-      this.endBattle();
-      return;
-    }
-
     // Determine who goes first based on initiative
     const initiative1 = this.calculateInitiative(activeChar1);
     const initiative2 = this.calculateInitiative(activeChar2);
 
     const firstAttacker = initiative1 >= initiative2 ? activeChar1 : activeChar2;
     const firstDefender = initiative1 >= initiative2 ? activeChar2 : activeChar1;
-    const isTeam1First = initiative1 >= initiative2;
 
     // Execute first attack
     this.executeAttack(firstAttacker, firstDefender, state);
