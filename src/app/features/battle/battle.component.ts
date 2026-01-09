@@ -9,6 +9,7 @@ import { VictoryBannerComponent } from './victory-banner/victory-banner.componen
 import { BattleControlsComponent } from './battle-controls/battle-controls.component';
 import { BattleCanvasComponent } from './battle-canvas/battle-canvas.component';
 import { Router } from '@angular/router';
+import { BATTLE_CHARACTERS } from '../../core/constants/battle-character';
 
 @Component({
   selector: 'app-battle',
@@ -50,34 +51,7 @@ export class BattleComponent implements OnInit, OnDestroy {
   }
 
   startBattle(): void {
-    this.battleService.startBattle(
-      [
-        {
-          id: 'char1',
-          name: 'Celestial Guardian',
-          health: 220,
-          maxHealth: 220,
-          defense: 28,
-          attack: 88,
-          speed: 50,
-          focus: 30,
-          color: '#ff6b6b',
-        },
-      ],
-      [
-        {
-          id: 'char3',
-          name: 'Blue Spider',
-          health: 122,
-          maxHealth: 122,
-          defense: 23,
-          attack: 26,
-          speed: 40,
-          focus: 20,
-          color: '#0000ff',
-        },
-      ],
-    );
+    this.battleService.startBattle([BATTLE_CHARACTERS['RAT']], [BATTLE_CHARACTERS['BEAR']]);
   }
 
   resetAndTerminateBattle(): void {
