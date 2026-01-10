@@ -641,7 +641,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     if (!attacker || !defender) return;
 
     const isCritical = action.type === 'critical';
-    const isBlocked = action.type === 'blocked';
+    const isBlocked = action.type === 'miss';
 
     this.cinematicCameraZoom(attacker, defender, isCritical);
 
