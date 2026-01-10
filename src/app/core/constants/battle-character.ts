@@ -62,6 +62,6 @@ export const BATTLE_CHARACTERS: Record<
     defense: 14,
     speed: 13,
     focus: 24,
-    color: '#000000',
+    color: '#888888',
   },
 };
