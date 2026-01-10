@@ -847,12 +847,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       this.resetCamera();
       this.timeSlowActive = false;
     });
-
-    if (this.character1?.health === 0 || this.character2?.health === 0) {
-      timeline.call(() => {
-        this.playSpectacularDefeatAnimation();
-      });
-    }
   }
 
   private createChargingEffect(attacker: THREE.Group, isCritical: boolean): void {
@@ -1634,100 +1628,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         this.scene.remove(flash);
         flashGeometry.dispose();
         flashMaterial.dispose();
-      },
-    });
-  }
-
-  private playSpectacularDefeatAnimation(): void {
-    const loser = this.character1?.health === 0 ? this.character1Mesh : this.character2Mesh;
-
-    const timeline = gsap.timeline();
-
-    timeline.call(() => {
-      this.createDisintegrationEffect(loser);
-    });
-
-    timeline.to(loser.position, {
-      y: -2,
-      duration: 2.5,
-      ease: 'power2.in',
-    });
-
-    timeline.to(
-      loser.rotation,
-      {
-        x: Math.PI * 1.5,
-        y: Math.PI,
-        duration: 2.5,
-        ease: 'power2.in',
-      },
-      '<',
-    );
-
-    timeline.to(
-      loser.scale,
-      {
-        x: 0.3,
-        y: 0.3,
-        z: 0.3,
-        duration: 2.5,
-        ease: 'power2.in',
-      },
-      '<',
-    );
-  }
-
-  private createDisintegrationEffect(loser: THREE.Group): void {
-    const particleCount = 300;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const velocities: THREE.Vector3[] = [];
-
-    for (let i = 0; i < particleCount; i++) {
-      positions[i * 3] = loser.position.x + (Math.random() - 0.5) * 2;
-      positions[i * 3 + 1] = loser.position.y + Math.random() * 4;
-      positions[i * 3 + 2] = loser.position.z + (Math.random() - 0.5) * 2;
-
-      velocities.push(
-        new THREE.Vector3(
-          (Math.random() - 0.5) * 0.2,
-          Math.random() * 0.3,
-          (Math.random() - 0.5) * 0.2,
-        ),
-      );
-    }
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    const material = new THREE.PointsMaterial({
-      color: 0x666666,
-      size: 0.15,
-      transparent: true,
-      opacity: 0.8,
-      blending: THREE.AdditiveBlending,
-      map: this.circleTexture,
-      alphaTest: 0.01,
-    });
-
-    const particleSystem = new THREE.Points(geometry, material);
-    this.scene.add(particleSystem);
-
-    gsap.to(material, {
-      opacity: 0,
-      duration: 2.5,
-      onUpdate: () => {
-        const pos = geometry.attributes['position'];
-        for (let i = 0; i < particleCount; i++) {
-          pos.array[i * 3] += velocities[i].x;
-          pos.array[i * 3 + 1] += velocities[i].y;
-          pos.array[i * 3 + 2] += velocities[i].z;
-          velocities[i].y -= 0.01;
-        }
-        pos.needsUpdate = true;
-      },
-      onComplete: () => {
-        this.scene.remove(particleSystem);
-        geometry.dispose();
-        material.dispose();
       },
     });
   }
