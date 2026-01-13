@@ -6,7 +6,7 @@ export const BATTLE_CHARACTERS: Record<
 > = {
   RAT: {
     id: 'char1',
-    name: 'Celestial Guardian',
+    name: 'Red Rat',
     race: 'rat',
     health: 85,
     maxHealth: 85,
@@ -18,7 +18,7 @@ export const BATTLE_CHARACTERS: Record<
   },
   CAT: {
     id: 'char2',
-    name: 'Blue Spider',
+    name: 'Blue Cat',
     race: 'cat',
     health: 90,
     maxHealth: 90,
