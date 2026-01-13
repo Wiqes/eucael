@@ -10,7 +10,7 @@ export const BATTLE_CHARACTERS: Record<
     race: 'rat',
     health: 85,
     maxHealth: 85,
-    attack: 18,
+    attack: 186,
     defense: 12,
     speed: 22,
     focus: 20,
