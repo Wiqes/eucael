@@ -23,7 +23,7 @@
 
 .victory-content {
   text-align: center;
-  padding: 80px 100px;
+  padding: clamp(30px, 8vw, 80px) clamp(20px, 10vw, 100px);
   position: relative;
   z-index: 1;
   border: 3px solid;
@@ -38,6 +38,7 @@
     1;
   box-shadow: 0 0 60px rgba(52, 245, 221, 0.4), inset 0 0 80px rgba(52, 245, 221, 0.05),
     0 20px 60px rgba(0, 0, 0, 0.6);
+  max-width: 90vw;
 
   &::before {
     content: '';
@@ -72,13 +73,17 @@
 
 .victory-title {
   font-family: 'New Rocker', cursive;
-  font-size: 5rem;
+  font-size: clamp(1.5rem, 5vw + 1rem, 5rem);
   font-weight: 700;
   color: #ffffff;
   margin: 20px 0;
-  letter-spacing: 12px;
+  letter-spacing: clamp(2px, 0.5vw, 12px);
   text-transform: uppercase;
   position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
 
   background: linear-gradient(
     180deg,
@@ -93,15 +98,15 @@
 }
 
 .victory-subtitle {
-  font-size: 2.2rem;
+  font-size: clamp(1rem, 2vw + 0.5rem, 2.2rem);
   color: $primary-color;
   font-weight: 800;
-  letter-spacing: 16px;
+  letter-spacing: clamp(4px, 1vw, 16px);
   text-transform: uppercase;
   text-shadow: 0 0 25px rgba(52, 245, 221, 0.8), 0 0 50px rgba(52, 245, 221, 0.5),
     0 2px 10px rgba(0, 0, 0, 0.8);
   margin-top: 10px;
-  padding-top: 20px;
+  padding-top: clamp(10px, 2vw, 20px);
   border-top: 2px solid rgba(52, 245, 221, 0.3);
 }
 
@@ -111,23 +116,43 @@
   border-radius: 8px;
 }
 
+@media (max-width: 768px) {
+  .victory-content {
+    border-width: 2px;
+    
+    &::after {
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+    }
+  }
+
+  .victory-title {
+    margin: 15px 0;
+  }
+}
+
 @media (max-width: 1024px) {
   .victory-title {
-    font-size: 2.8rem;
+    font-size: clamp(2rem, 4vw + 0.5rem, 2.8rem);
   }
 }
 
 @media (max-width: 500px) {
   .victory-content {
-    padding: 30px 20px;
+    padding: clamp(20px, 5vw, 30px) clamp(15px, 4vw, 20px);
+    max-width: 95vw;
   }
 
   .victory-title {
-    font-size: 2rem;
+    margin: 10px 0;
+    letter-spacing: clamp(1px, 0.3vw, 4px);
   }
 
   .victory-subtitle {
-    font-size: 1rem;
+    letter-spacing: clamp(2px, 0.5vw, 8px);
+    padding-top: clamp(8px, 1.5vw, 15px);
   }
 
   .victory-icon {
@@ -137,7 +162,7 @@
 
 @media (max-width: 480px) {
   .victory-title {
-    font-size: 1.5rem;
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
   }
 
   .victory-icon {
@@ -145,6 +170,6 @@
   }
 
   .victory-content {
-    padding: 20px 15px;
+    padding: 15px 10px;
   }
 }
