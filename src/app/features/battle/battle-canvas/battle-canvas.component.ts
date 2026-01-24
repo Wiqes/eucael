@@ -634,7 +634,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   }
 
   private animateAction(action: BattleAction): void {
-    const isChar1Attacker = this.character1 && action.attackerId === this.character1.id;
+    const isChar1Attacker = this.character1 ? action.attackerId === this.character1.id : false;
     const attacker = isChar1Attacker ? this.character1Mesh : this.character2Mesh;
     const defender = isChar1Attacker ? this.character2Mesh : this.character1Mesh;
 
@@ -645,7 +645,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     this.cinematicCameraZoom(attacker, defender, isCritical);
 
-    const originalPos = { ...attacker.position };
+    const attackerBasePosition = this.getCharacterBasePosition(isChar1Attacker, attacker);
+    const defenderBasePosition = this.getCharacterBasePosition(!isChar1Attacker, defender);
+    const originalPos = { ...attackerBasePosition };
     const timeline = gsap.timeline();
 
     this.createChargingEffect(attacker, isCritical);
@@ -683,9 +685,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     );
 
     timeline.to(attacker.position, {
-      x: isChar1Attacker ? defender.position.x - 0.9 : defender.position.x + 0.9,
-      y: defender.position.y + 1,
-      z: isChar1Attacker ? defender.position.z - 1 : defender.position.z + 1,
+      x: isChar1Attacker ? defenderBasePosition.x - 0.9 : defenderBasePosition.x + 0.9,
+      y: defenderBasePosition.y + 1,
+      z: isChar1Attacker ? defenderBasePosition.z - 1 : defenderBasePosition.z + 1,
       duration: 0.15,
       ease: 'power4.inOut',
       onComplete: () => {
@@ -799,7 +801,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     );
 
     timeline.to(attacker.position, {
+      x: originalPos.x,
       y: originalPos.y,
+      z: originalPos.z,
       duration: 0.3,
       ease: 'bounce.out',
     });
@@ -824,8 +828,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     timeline.to(
       defender.position,
       {
-        x: isChar1Attacker ? this.character2!.position.x : this.character1!.position.x,
-        y: isChar1Attacker ? this.character2!.position.y : this.character1!.position.y,
+        x: defenderBasePosition.x,
+        y: defenderBasePosition.y,
+        z: defenderBasePosition.z,
         duration: 0.4,
         ease: 'power2.out',
       },
@@ -844,9 +849,32 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     );
 
     timeline.call(() => {
+      attacker.position.set(attackerBasePosition.x, attackerBasePosition.y, attackerBasePosition.z);
+      defender.position.set(defenderBasePosition.x, defenderBasePosition.y, defenderBasePosition.z);
       this.resetCamera();
       this.timeSlowActive = false;
     });
+  }
+
+  private getCharacterBasePosition(
+    isCharacter1: boolean,
+    characterMesh: THREE.Group,
+  ): { x: number; y: number; z: number } {
+    const character = isCharacter1 ? this.character1 : this.character2;
+
+    if (!character) {
+      return {
+        x: characterMesh.position.x,
+        y: characterMesh.position.y,
+        z: characterMesh.position.z,
+      };
+    }
+
+    return {
+      x: character.position.x,
+      y: character.position.y,
+      z: character.position.z,
+    };
   }
 
   private createChargingEffect(attacker: THREE.Group, isCritical: boolean): void {
