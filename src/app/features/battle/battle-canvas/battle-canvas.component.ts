@@ -407,7 +407,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         const legAngle = legAngles[legNum];
         const zAngle = (Math.PI / 2.8 + legNum * 0.05) * sideMultiplier;
 
-        const upperLegSegmentGeometry = new THREE.CylinderGeometry(0.08, 0.05, 1.3, 8);
+        const upperLegSegmentGeometry = new THREE.CylinderGeometry(0.12, 0.08, 1.35, 10);
 
         const upperLeg = new THREE.Mesh(upperLegSegmentGeometry, legMaterial);
         upperLeg.position.set(0.4 * sideMultiplier, -0.2, 0);
@@ -416,8 +416,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         upperLeg.receiveShadow = true;
         legGroup.add(upperLeg);
 
-        for (let h = 0; h < 8; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.009, 0.005, 0.2, 4);
+        for (let h = 0; h < 12; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.006, 0.28, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
@@ -430,7 +430,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           legGroup.add(bristle);
         }
 
-        const middleLegSegmentGeometry = new THREE.CylinderGeometry(0.06, 0.03, 0.65, 8);
+        const middleLegSegmentGeometry = new THREE.CylinderGeometry(0.1, 0.06, 0.7, 10);
 
         const middleLeg = new THREE.Mesh(middleLegSegmentGeometry, legMaterial);
         middleLeg.position.set(1.3 * sideMultiplier, -0.45, 0);
@@ -439,8 +439,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         middleLeg.receiveShadow = true;
         legGroup.add(middleLeg);
 
-        for (let h = 0; h < 8; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.01, 0.005, 0.3, 4);
+        for (let h = 0; h < 10; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.014, 0.006, 0.34, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
@@ -453,8 +453,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           legGroup.add(bristle);
         }
 
-        for (let h = 0; h < 6; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.008, 0.004, 0.25, 4);
+        for (let h = 0; h < 8; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.005, 0.3, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 6) * Math.PI * 2;
           bristle.position.set(
@@ -467,7 +467,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           legGroup.add(bristle);
         }
 
-        const lowerLegGeometry = new THREE.CylinderGeometry(0.03, 0.01, 0.9, 8);
+        const lowerLegGeometry = new THREE.CylinderGeometry(0.07, 0.03, 0.95, 10);
         const lowerLeg = new THREE.Mesh(lowerLegGeometry, legMaterial);
         lowerLeg.position.set(1.8 * sideMultiplier, -1.0, 0);
         lowerLeg.rotation.z = (Math.PI / 5.3) * sideMultiplier;
@@ -475,8 +475,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         lowerLeg.receiveShadow = true;
         legGroup.add(lowerLeg);
 
-        for (let h = 0; h < 7; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.009, 0.004, 0.1, 4);
+        for (let h = 0; h < 10; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.005, 0.16, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 7) * Math.PI * 2;
           bristle.position.set(
@@ -489,8 +489,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           legGroup.add(bristle);
         }
 
-        for (let h = 0; h < 4; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.006, 0.003, 0.2, 4);
+        for (let h = 0; h < 6; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.01, 0.004, 0.24, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 4) * Math.PI * 2;
           bristle.position.set(
