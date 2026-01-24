@@ -352,7 +352,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     const abdomenGeometry = new THREE.SphereGeometry(0.7, 20, 20);
     const abdomen = new THREE.Mesh(abdomenGeometry, bodyMaterial);
-    abdomen.position.set(0, 0.9, -0.6);
+    abdomen.position.set(0, 0.4, -0.6);
     abdomen.castShadow = true;
     abdomen.receiveShadow = true;
     group.add(abdomen);
@@ -375,14 +375,14 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const cephaloGeometry = new THREE.SphereGeometry(0.45, 20, 20);
     cephaloGeometry.scale(1.1, 0.7, 1.4);
     const cephalothorax = new THREE.Mesh(cephaloGeometry, bodyMaterial);
-    cephalothorax.position.set(0, 0.4, 0.3);
+    cephalothorax.position.set(0, 0.05, 0.3);
     cephalothorax.castShadow = true;
     cephalothorax.receiveShadow = true;
     group.add(cephalothorax);
 
     const foveaGeometry = new THREE.SphereGeometry(0.12, 16, 16);
     const fovea = new THREE.Mesh(foveaGeometry, stripeMaterial);
-    fovea.position.set(0, 0.68, 0.15);
+    fovea.position.set(0, 0.33, 0.15);
     fovea.scale.set(1.0, 0.6, 1.2);
     fovea.castShadow = true;
     fovea.receiveShadow = true;
@@ -407,101 +407,58 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         const legAngle = legAngles[legNum];
         const zAngle = (Math.PI / 2.8 + legNum * 0.05) * sideMultiplier;
 
-        const upperLegSegmentGeometry = new THREE.CylinderGeometry(0.08, 0.05, 1.3, 8);
+        const upperLen = 1.35;
+        const middleLen = 0.95;
+        const lowerLen = 0.8;
+        const tarsusLen = 0.6;
 
+        const upperLegPivot = new THREE.Group();
+        upperLegPivot.position.set(0.4 * sideMultiplier, -0.15, 0);
+        upperLegPivot.rotation.z = zAngle * 1.35;
+        legGroup.add(upperLegPivot);
+
+        const upperLegSegmentGeometry = new THREE.CylinderGeometry(0.08, 0.05, upperLen, 8);
         const upperLeg = new THREE.Mesh(upperLegSegmentGeometry, legMaterial);
-        upperLeg.position.set(0.4 * sideMultiplier, -0.2, 0);
-        upperLeg.rotation.z = zAngle * 1.2;
+        upperLeg.position.set(0, -upperLen / 2, 0);
         upperLeg.castShadow = true;
         upperLeg.receiveShadow = true;
-        legGroup.add(upperLeg);
+        upperLegPivot.add(upperLeg);
 
-        for (let h = 0; h < 8; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.009, 0.005, 0.2, 4);
-          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
-          const bristleAngle = (h / 8) * Math.PI * 2;
-          bristle.position.set(
-            0.5 * sideMultiplier + Math.cos(bristleAngle) * 0.09,
-            -0.2 + Math.sin(bristleAngle) * 0.09,
-            0,
-          );
-          bristle.rotation.z = zAngle * 1.15 + (Math.random() - 0.5) * 0.35;
-          bristle.rotation.y = bristleAngle;
-          legGroup.add(bristle);
-        }
+        const middleLegPivot = new THREE.Group();
+        middleLegPivot.position.set(0, -upperLen, 0);
+        middleLegPivot.rotation.z = zAngle * 0.8;
+        upperLegPivot.add(middleLegPivot);
 
-        const middleLegSegmentGeometry = new THREE.CylinderGeometry(0.06, 0.03, 0.65, 8);
-
+        const middleLegSegmentGeometry = new THREE.CylinderGeometry(0.06, 0.03, middleLen, 8);
         const middleLeg = new THREE.Mesh(middleLegSegmentGeometry, legMaterial);
-        middleLeg.position.set(1.3 * sideMultiplier, -0.45, 0);
-        middleLeg.rotation.z = zAngle * 0.75;
+        middleLeg.position.set(0, -middleLen / 2, 0);
         middleLeg.castShadow = true;
         middleLeg.receiveShadow = true;
-        legGroup.add(middleLeg);
+        middleLegPivot.add(middleLeg);
 
-        for (let h = 0; h < 8; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.01, 0.005, 0.3, 4);
-          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
-          const bristleAngle = (h / 8) * Math.PI * 2;
-          bristle.position.set(
-            1.1 * sideMultiplier + Math.cos(bristleAngle) * 0.09,
-            -0.3 + Math.sin(bristleAngle) * 0.03,
-            0,
-          );
-          bristle.rotation.z = zAngle * 0.95 + (Math.random() - 0.5) * 0.4;
-          bristle.rotation.y = bristleAngle;
-          legGroup.add(bristle);
-        }
+        const lowerLegPivot = new THREE.Group();
+        lowerLegPivot.position.set(0, -middleLen, 0);
+        lowerLegPivot.rotation.z = (Math.PI / 7) * sideMultiplier;
+        middleLegPivot.add(lowerLegPivot);
 
-        for (let h = 0; h < 6; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.008, 0.004, 0.25, 4);
-          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
-          const bristleAngle = (h / 6) * Math.PI * 2;
-          bristle.position.set(
-            1.3 * sideMultiplier + Math.cos(bristleAngle) * 0.07,
-            -0.45 + Math.sin(bristleAngle) * 0.07,
-            0,
-          );
-          bristle.rotation.z = zAngle * 0.7 + (Math.random() - 0.5) * 0.3;
-          bristle.rotation.y = bristleAngle;
-          legGroup.add(bristle);
-        }
-
-        const lowerLegGeometry = new THREE.CylinderGeometry(0.03, 0.01, 0.9, 8);
+        const lowerLegGeometry = new THREE.CylinderGeometry(0.03, 0.01, lowerLen, 8);
         const lowerLeg = new THREE.Mesh(lowerLegGeometry, legMaterial);
-        lowerLeg.position.set(1.8 * sideMultiplier, -1.0, 0);
-        lowerLeg.rotation.z = (Math.PI / 5.3) * sideMultiplier;
+        lowerLeg.position.set(0, -lowerLen / 2, 0);
         lowerLeg.castShadow = true;
         lowerLeg.receiveShadow = true;
-        legGroup.add(lowerLeg);
+        lowerLegPivot.add(lowerLeg);
 
-        for (let h = 0; h < 7; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.009, 0.004, 0.1, 4);
-          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
-          const bristleAngle = (h / 7) * Math.PI * 2;
-          bristle.position.set(
-            1.65 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
-            -0.75 + Math.sin(bristleAngle) * 0.08,
-            0,
-          );
-          bristle.rotation.z = (Math.PI / 8) * sideMultiplier + (Math.random() - 0.5) * 0.4;
-          bristle.rotation.y = bristleAngle;
-          legGroup.add(bristle);
-        }
+        const tarsusPivot = new THREE.Group();
+        tarsusPivot.position.set(0, -lowerLen, 0);
+        tarsusPivot.rotation.z = (Math.PI / 5) * sideMultiplier;
+        lowerLegPivot.add(tarsusPivot);
 
-        for (let h = 0; h < 4; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.006, 0.003, 0.2, 4);
-          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
-          const bristleAngle = (h / 4) * Math.PI * 2;
-          bristle.position.set(
-            1.8 * sideMultiplier + Math.cos(bristleAngle) * 0.05,
-            -1.0 + Math.sin(bristleAngle) * 0.05,
-            0,
-          );
-          bristle.rotation.z = (Math.PI / 6) * sideMultiplier + (Math.random() - 0.5) * 0.3;
-          bristle.rotation.y = bristleAngle;
-          legGroup.add(bristle);
-        }
+        const tarsusGeometry = new THREE.CylinderGeometry(0.02, 0.008, tarsusLen, 8);
+        const tarsus = new THREE.Mesh(tarsusGeometry, legMaterial);
+        tarsus.position.set(0, -tarsusLen / 2, 0);
+        tarsus.castShadow = true;
+        tarsus.receiveShadow = true;
+        tarsusPivot.add(tarsus);
 
         const legPositions = [0.5, 0.25, 0.0, -0.2];
         const zOffset = legPositions[legNum];
@@ -552,7 +509,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const venomGeometry = new THREE.SphereGeometry(0.6, 24, 24);
 
     const venomSac = new THREE.Mesh(venomGeometry, bodyMaterial);
-    venomSac.position.set(0, 0.85, -0.6);
+    venomSac.position.set(0, 0.35, -0.6);
     group.add(venomSac);
 
     const venomAnimationDelay = Math.random() * 1.5;
