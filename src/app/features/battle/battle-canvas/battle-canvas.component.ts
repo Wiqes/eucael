@@ -393,10 +393,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     }
 
     const eyeMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffffff,
+      color: 0x050505,
       roughness: 0.4,
       metalness: 0.2,
-      emissive: 0xffffff,
+      emissive: 0x00f5ff,
       emissiveIntensity: 0,
     });
 
