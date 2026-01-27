@@ -359,44 +359,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     cephalothorax.receiveShadow = true;
     group.add(cephalothorax);
 
-    const pedipalpGeometry = new THREE.CylinderGeometry(0.035, 0.025, 0.28, 10);
-    const pedipalpTipGeometry = new THREE.SphereGeometry(0.045, 10, 10);
-    for (const sideMultiplier of [-1, 1]) {
-      const pedipalp = new THREE.Mesh(pedipalpGeometry, bodyMaterial);
-      pedipalp.position.set(0.18 * sideMultiplier, 0.32, 0.45);
-      pedipalp.rotation.x = Math.PI / 2.2;
-      pedipalp.rotation.z = (Math.PI / 10) * sideMultiplier;
-      pedipalp.castShadow = true;
-      pedipalp.receiveShadow = true;
-      group.add(pedipalp);
-
-      const pedipalpTip = new THREE.Mesh(pedipalpTipGeometry, bodyMaterial);
-      pedipalpTip.position.set(0.2 * sideMultiplier, 0.26, 0.6);
-      pedipalpTip.scale.set(1.1, 0.8, 1.3);
-      pedipalpTip.castShadow = true;
-      pedipalpTip.receiveShadow = true;
-      group.add(pedipalpTip);
-    }
-
-    const cheliceraeGeometry = new THREE.SphereGeometry(0.08, 12, 12);
-    for (const sideMultiplier of [-1, 1]) {
-      const chelicera = new THREE.Mesh(cheliceraeGeometry, bodyMaterial);
-      chelicera.position.set(0.11 * sideMultiplier, 0.3, 0.5);
-      chelicera.scale.set(0.8, 0.6, 1.1);
-      chelicera.castShadow = true;
-      chelicera.receiveShadow = true;
-      group.add(chelicera);
-
-      const fangGeometry = new THREE.CylinderGeometry(0.015, 0.005, 0.18, 8);
-      const fang = new THREE.Mesh(fangGeometry, bodyMaterial);
-      fang.position.set(0.12 * sideMultiplier, 0.21, 0.57);
-      fang.rotation.x = Math.PI / 2.1;
-      fang.rotation.z = (Math.PI / 16) * sideMultiplier;
-      fang.castShadow = true;
-      fang.receiveShadow = true;
-      group.add(fang);
-    }
-
     const legMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0x000000).lerp(themeColor, 0.05),
       roughness: 0.7,
