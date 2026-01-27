@@ -407,10 +407,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         const legAngle = legAngles[legNum];
         const zAngle = (Math.PI / 2.8 + legNum * 0.05) * sideMultiplier;
 
-        const upperLegSegmentGeometry = new THREE.CylinderGeometry(0.12, 0.08, 1.35, 10);
+        const upperLegSegmentGeometry = new THREE.CylinderGeometry(0.12, 0.08, 1.1, 10);
 
         const upperLeg = new THREE.Mesh(upperLegSegmentGeometry, legMaterial);
-        upperLeg.position.set(0.4 * sideMultiplier, -0.2, 0);
+        upperLeg.position.set(0.35 * sideMultiplier, -0.15, 0);
         upperLeg.rotation.z = zAngle * 1.2;
         upperLeg.castShadow = true;
         upperLeg.receiveShadow = true;
@@ -421,8 +421,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
-            0.5 * sideMultiplier + Math.cos(bristleAngle) * 0.09,
-            -0.2 + Math.sin(bristleAngle) * 0.09,
+            0.42 * sideMultiplier + Math.cos(bristleAngle) * 0.085,
+            -0.15 + Math.sin(bristleAngle) * 0.085,
             0,
           );
           bristle.rotation.z = zAngle * 1.15 + (Math.random() - 0.5) * 0.35;
@@ -430,10 +430,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           legGroup.add(bristle);
         }
 
-        const middleLegSegmentGeometry = new THREE.CylinderGeometry(0.1, 0.06, 0.7, 10);
+        const middleLegSegmentGeometry = new THREE.CylinderGeometry(0.1, 0.06, 0.6, 10);
 
         const middleLeg = new THREE.Mesh(middleLegSegmentGeometry, legMaterial);
-        middleLeg.position.set(1.3 * sideMultiplier, -0.45, 0);
+        middleLeg.position.set(1.05 * sideMultiplier, -0.35, 0);
         middleLeg.rotation.z = zAngle * 0.75;
         middleLeg.castShadow = true;
         middleLeg.receiveShadow = true;
@@ -444,8 +444,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
-            1.1 * sideMultiplier + Math.cos(bristleAngle) * 0.09,
-            -0.3 + Math.sin(bristleAngle) * 0.03,
+            0.95 * sideMultiplier + Math.cos(bristleAngle) * 0.085,
+            -0.25 + Math.sin(bristleAngle) * 0.03,
             0,
           );
           bristle.rotation.z = zAngle * 0.95 + (Math.random() - 0.5) * 0.4;
@@ -458,8 +458,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 6) * Math.PI * 2;
           bristle.position.set(
-            1.3 * sideMultiplier + Math.cos(bristleAngle) * 0.07,
-            -0.45 + Math.sin(bristleAngle) * 0.07,
+            1.05 * sideMultiplier + Math.cos(bristleAngle) * 0.065,
+            -0.35 + Math.sin(bristleAngle) * 0.065,
             0,
           );
           bristle.rotation.z = zAngle * 0.7 + (Math.random() - 0.5) * 0.3;
@@ -467,9 +467,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           legGroup.add(bristle);
         }
 
-        const lowerLegGeometry = new THREE.CylinderGeometry(0.07, 0.03, 0.95, 10);
+        const lowerLegGeometry = new THREE.CylinderGeometry(0.07, 0.03, 0.8, 10);
         const lowerLeg = new THREE.Mesh(lowerLegGeometry, legMaterial);
-        lowerLeg.position.set(1.8 * sideMultiplier, -1.0, 0);
+        lowerLeg.position.set(1.5 * sideMultiplier, -0.85, 0);
         lowerLeg.rotation.z = (Math.PI / 5.3) * sideMultiplier;
         lowerLeg.castShadow = true;
         lowerLeg.receiveShadow = true;
@@ -480,8 +480,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 7) * Math.PI * 2;
           bristle.position.set(
-            1.65 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
-            -0.75 + Math.sin(bristleAngle) * 0.08,
+            1.4 * sideMultiplier + Math.cos(bristleAngle) * 0.075,
+            -0.65 + Math.sin(bristleAngle) * 0.075,
             0,
           );
           bristle.rotation.z = (Math.PI / 8) * sideMultiplier + (Math.random() - 0.5) * 0.4;
@@ -494,8 +494,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 4) * Math.PI * 2;
           bristle.position.set(
-            1.8 * sideMultiplier + Math.cos(bristleAngle) * 0.05,
-            -1.0 + Math.sin(bristleAngle) * 0.05,
+            1.5 * sideMultiplier + Math.cos(bristleAngle) * 0.05,
+            -0.85 + Math.sin(bristleAngle) * 0.05,
             0,
           );
           bristle.rotation.z = (Math.PI / 6) * sideMultiplier + (Math.random() - 0.5) * 0.3;
