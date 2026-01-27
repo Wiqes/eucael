@@ -48,11 +48,11 @@ export class BattleService {
     this.battleStateSubject.next(initialState);
 
     // Auto-play battle with turns
-    //this.executeAutoPlay();
+    this.executeAutoPlay();
   }
 
   private executeAutoPlay(): void {
-    interval(3000)
+    interval(4000)
       .pipe(
         takeWhile(() => {
           const state = this.battleStateSubject.value;

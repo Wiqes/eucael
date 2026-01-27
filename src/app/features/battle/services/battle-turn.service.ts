@@ -54,7 +54,7 @@ export class BattleTurnService {
       setTimeout(() => {
         this.effectsService.applyEndOfTurnEffects(state, actionSubject, onCharacterDeath);
       }, 500);
-    }, 1500);
+    }, 2000);
   }
 
   private executeAttack(
