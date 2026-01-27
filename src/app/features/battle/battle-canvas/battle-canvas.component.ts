@@ -51,6 +51,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private timeSlowActive = false;
   private resizeHandler: () => void;
   private lastTime = 0;
+  private readonly spiderGroundOffset = -0.6;
   private particleAnimations: {
     geometry: THREE.BufferGeometry;
     velocities: number[];
@@ -609,7 +610,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       });
     }
 
-    group.position.set(position.x, position.y, position.z);
+    group.position.set(position.x, position.y + this.spiderGroundOffset, position.z);
     return group;
   }
 
@@ -618,7 +619,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     targetPos: { x: number; y: number; z: number },
     side: 'left' | 'right',
   ): void {
-    characterMesh.position.set(targetPos.x, targetPos.y, targetPos.z);
+    characterMesh.position.set(targetPos.x, targetPos.y + this.spiderGroundOffset, targetPos.z);
     characterMesh.scale.set(0.01, 0.01, 0.01);
     characterMesh.visible = false;
 
@@ -876,7 +877,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     return {
       x: character.position.x,
-      y: character.position.y,
+      y: character.position.y + this.spiderGroundOffset,
       z: character.position.z,
     };
   }
