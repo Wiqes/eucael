@@ -572,12 +572,12 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         legGroup.rotation.set(baseRotationX, baseRotationY, baseRotationZ);
 
         const animateLegRandomly = () => {
-          const stride = 0.08 + Math.random() * 0.18;
-          const lift = 0.12 + Math.random() * 0.2;
-          const splay = 0.05 + Math.random() * 0.08;
+          const stride = 0.08 + Math.random() * 0.08;
+          const lift = 0.08 + Math.random() * 0.08;
+          const splay = 0;
           const moveDuration = 0.32 + Math.random() * 0.45;
           const settleDuration = 0.22 + Math.random() * 0.35;
-          const pauseDuration = 0.18 + Math.random() * 0.45;
+          const pauseDuration = 2 + Math.random() * 8;
           const twitchChance = Math.random();
 
           const timeline = gsap.timeline({
@@ -591,14 +591,14 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
               x: baseRotationX - lift,
               y: baseRotationY - stride,
               z: baseRotationZ + splay * sideMultiplier,
-              duration: moveDuration * 0.5,
+              duration: moveDuration * 0.9,
               ease: 'sine.out',
             })
             .to(legGroup.rotation, {
               x: baseRotationX + lift * 0.35,
               y: baseRotationY + stride,
-              z: baseRotationZ - splay * 0.6 * sideMultiplier,
-              duration: moveDuration * 0.7,
+              z: baseRotationZ - 0,
+              duration: moveDuration * 1.2,
               ease: 'sine.in',
             })
             .to(legGroup.rotation, {
@@ -614,13 +614,13 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
               x: baseRotationX + (Math.random() * 0.08 - 0.04),
               y: baseRotationY + (Math.random() * 0.12 - 0.06),
               z: baseRotationZ + (Math.random() * 0.12 - 0.06) * sideMultiplier,
-              duration: 0.06 + Math.random() * 0.08,
+              duration: 2 + Math.random() * 0.08,
               ease: 'power3.inOut',
             });
           }
         };
 
-        const initialDelay = Math.random() * 1.5;
+        const initialDelay = 2 + Math.random() * 8;
         gsap.delayedCall(initialDelay, animateLegRandomly);
       }
     }
