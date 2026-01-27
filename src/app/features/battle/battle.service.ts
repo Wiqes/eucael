@@ -36,8 +36,8 @@ export class BattleService {
     };
 
     const initialState: BattleState = {
-      team1: prepareTeam(team1, { x: -2, y: 0.5, z: 3 }),
-      team2: prepareTeam(team2, { x: 3, y: 0.5, z: -3 }),
+      team1: prepareTeam(team1, { x: -2, y: 0.35, z: 3 }),
+      team2: prepareTeam(team2, { x: 3, y: 0.35, z: -3 }),
       activeTeam1Index: 0,
       activeTeam2Index: 0,
       actions: [],
