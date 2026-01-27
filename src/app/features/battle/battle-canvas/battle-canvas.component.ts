@@ -351,29 +351,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       emissiveIntensity: 0.2,
     });
 
-    const abdomenGeometry = new THREE.SphereGeometry(0.8, 20, 20);
-    abdomenGeometry.scale(0.95, 0.65, 1.3);
-    const abdomen = new THREE.Mesh(abdomenGeometry, bodyMaterial);
-    abdomen.position.set(0, 0.85, -0.75);
-    abdomen.castShadow = true;
-    abdomen.receiveShadow = true;
-    group.add(abdomen);
-
-    const stripeGeometry = new THREE.SphereGeometry(0.7, 20, 20);
-    const stripeMaterial = new THREE.MeshStandardMaterial({
-      color: themeColor,
-      roughness: 0.85,
-      metalness: 0.05,
-      emissive: themeColor,
-      emissiveIntensity: 0.4,
-    });
-
-    const dorsalStripe = new THREE.Mesh(stripeGeometry, stripeMaterial);
-    dorsalStripe.position.copy(abdomen.position);
-    dorsalStripe.scale.set(0.28, 0.45, 1.1);
-    dorsalStripe.castShadow = true;
-    group.add(dorsalStripe);
-
     const cephaloGeometry = new THREE.SphereGeometry(0.48, 20, 20);
     cephaloGeometry.scale(1.05, 0.38, 1.0);
     const cephalothorax = new THREE.Mesh(cephaloGeometry, bodyMaterial);
@@ -381,14 +358,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     cephalothorax.castShadow = true;
     cephalothorax.receiveShadow = true;
     group.add(cephalothorax);
-
-    const foveaGeometry = new THREE.SphereGeometry(0.085, 16, 16);
-    const fovea = new THREE.Mesh(foveaGeometry, stripeMaterial);
-    fovea.position.set(0, 0.6, 0.06);
-    fovea.scale.set(1.2, 0.3, 1.4);
-    fovea.castShadow = true;
-    fovea.receiveShadow = true;
-    group.add(fovea);
 
     const legMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0x000000).lerp(themeColor, 0.05),
@@ -555,7 +524,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       }
     }
 
-    const venomGeometry = new THREE.SphereGeometry(0.6, 24, 24);
+    const venomGeometry = new THREE.SphereGeometry(0.65, 24, 24);
 
     const venomSac = new THREE.Mesh(venomGeometry, bodyMaterial);
     venomSac.position.set(0, 0.85, -0.6);
@@ -563,9 +532,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     const venomAnimationDelay = Math.random() * 1.5;
     gsap.to(venomSac.scale, {
-      x: 1.2,
-      y: 1.2,
-      z: 1.2,
+      x: 1.05,
+      y: 1.05,
+      z: 1.05,
       duration: 1.5,
       repeat: -1,
       yoyo: true,
