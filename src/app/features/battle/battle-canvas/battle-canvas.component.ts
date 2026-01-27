@@ -413,10 +413,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
 
     const eyePositions = [
-      { radius: 0.08, x: -0.23, y: 0.56, z: 0.72 },
-      { radius: 0.08, x: -0.07, y: 0.56, z: 0.72 },
-      { radius: 0.04, x: -0.33, y: 0.58, z: 0.66 },
-      { radius: 0.04, x: 0.05, y: 0.58, z: 0.66 },
+      { radius: 0.08, x: -0.25, y: 0.56, z: 0.72 },
+      { radius: 0.08, x: -0.05, y: 0.56, z: 0.72 },
+      { radius: 0.06, x: -0.33, y: 0.58, z: 0.66 },
+      { radius: 0.06, x: 0.09, y: 0.58, z: 0.66 },
     ];
 
     eyePositions.forEach(({ radius, x, y, z }) => {
