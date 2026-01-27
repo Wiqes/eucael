@@ -359,6 +359,39 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     cephalothorax.receiveShadow = true;
     group.add(cephalothorax);
 
+    const cheliceraMaterial = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(0x050505).lerp(themeColor, 0.2),
+      roughness: 0.6,
+      metalness: 0.35,
+      emissive: themeColor,
+      emissiveIntensity: 0.18,
+    });
+
+    for (let side = 0; side < 2; side++) {
+      const sideMultiplier = side === 0 ? -1 : 1;
+      const cheliceraGroup = new THREE.Group();
+
+      const cheliceraBaseGeometry = new THREE.CylinderGeometry(0.07, 0.05, 0.18, 10);
+      const cheliceraBase = new THREE.Mesh(cheliceraBaseGeometry, cheliceraMaterial);
+      cheliceraBase.position.set(0.12 * sideMultiplier, 0.26, 0.52);
+      cheliceraBase.rotation.x = Math.PI / 8;
+      cheliceraBase.rotation.z = (Math.PI / 10) * sideMultiplier;
+      cheliceraBase.castShadow = true;
+      cheliceraBase.receiveShadow = true;
+      cheliceraGroup.add(cheliceraBase);
+
+      const fangGeometry = new THREE.ConeGeometry(0.03, 0.2, 10);
+      const fang = new THREE.Mesh(fangGeometry, cheliceraMaterial);
+      fang.position.set(0.14 * sideMultiplier, 0.14, 0.6);
+      fang.rotation.x = Math.PI / 2 + Math.PI / 10;
+      fang.rotation.z = (Math.PI / 12) * sideMultiplier;
+      fang.castShadow = true;
+      fang.receiveShadow = true;
+      cheliceraGroup.add(fang);
+
+      group.add(cheliceraGroup);
+    }
+
     const legMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0x000000).lerp(themeColor, 0.05),
       roughness: 0.7,
