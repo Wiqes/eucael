@@ -738,82 +738,106 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
         const defenderTimeline = gsap.timeline();
 
+        // Initial impact - spider gets hit and compressed
         defenderTimeline.to(defender.position, {
-          y: defender.position.y + 0.8,
-          duration: 0.08,
-          ease: 'power3.out',
+          y: defender.position.y + 0.5,
+          duration: 0.06,
+          ease: 'power4.out',
         });
 
+        // Dramatic rotation and twist on impact
         defenderTimeline.to(
           defender.rotation,
           {
-            z: (isChar1Attacker ? 1 : -1) * 0.6,
-            y: (isChar1Attacker ? 1 : -1) * Math.PI * 0.15,
-            x: 0.3,
-            duration: 0.08,
-            ease: 'power2.out',
+            z: (isChar1Attacker ? 1 : -1) * 0.8,
+            y: (isChar1Attacker ? 1 : -1) * Math.PI * 0.25,
+            x: 0.5,
+            duration: 0.06,
+            ease: 'power3.out',
           },
           '<',
         );
 
-        const defenderScaleX = isChar1Attacker ? -0.7 : 0.7;
+        // Squash effect on impact
+        const defenderScaleX = isChar1Attacker ? -0.6 : 0.6;
         defenderTimeline.to(
           defender.scale,
           {
             x: defenderScaleX,
-            y: 0.7,
-            z: 0.85,
-            duration: 0.08,
-            ease: 'power2.in',
+            y: 0.6,
+            z: 0.75,
+            duration: 0.06,
+            ease: 'power3.in',
           },
           '<',
         );
 
+        // Spider gets launched backwards with tumbling motion
         defenderTimeline.to(defender.position, {
-          x: defender.position.x + (isChar1Attacker ? 1.2 : -1.2),
-          y: defender.position.y + 0.3,
-          z: defender.position.z + (isChar1Attacker ? 0.2 : -0.2),
-          duration: 0.15,
-          ease: 'power2.out',
+          x: defender.position.x + (isChar1Attacker ? 1.8 : -1.8),
+          y: defender.position.y + 1.2,
+          z: defender.position.z + (isChar1Attacker ? 0.6 : -0.6),
+          duration: 0.18,
+          ease: 'power3.out',
         });
 
+        // Tumbling rotation - multiple spins
         defenderTimeline.to(
           defender.rotation,
           {
-            z: (isChar1Attacker ? 1 : -1) * 0.3,
-            x: -0.2,
-            duration: 0.15,
+            z: (isChar1Attacker ? 1 : -1) * Math.PI * 1.2,
+            y: (isChar1Attacker ? 1 : -1) * Math.PI * 0.6,
+            x: Math.PI * 0.8,
+            duration: 0.18,
             ease: 'power2.out',
           },
           '<',
         );
 
-        defenderTimeline.to(defender.position, {
-          x: defender.position.x + (isChar1Attacker ? 2.0 : -2.0),
-          y: defender.position.y,
-          duration: 0.18,
-          ease: 'power1.out',
-        });
-
+        // Stretch effect during flight
         defenderTimeline.to(
-          defender.rotation,
+          defender.scale,
           {
-            z: (isChar1Attacker ? 1 : -1) * 0.15,
-            x: 0.1,
-            duration: 0.18,
-            ease: 'power2.inOut',
+            x: isChar1Attacker ? -1.1 : 1.1,
+            y: 0.85,
+            z: 1.05,
+            duration: 0.12,
+            ease: 'power1.out',
           },
           '<',
         );
 
+        // Continue tumbling and falling
+        defenderTimeline.to(defender.position, {
+          x: defender.position.x + (isChar1Attacker ? 2.5 : -2.5),
+          y: defender.position.y + 0.2,
+          z: defender.position.z + (isChar1Attacker ? 0.4 : -0.4),
+          duration: 0.2,
+          ease: 'power1.in',
+        });
+
+        // More rotation during fall
+        defenderTimeline.to(
+          defender.rotation,
+          {
+            z: (isChar1Attacker ? 1 : -1) * Math.PI * 2.2,
+            y: (isChar1Attacker ? 1 : -1) * Math.PI * 1.1,
+            x: Math.PI * 1.3,
+            duration: 0.2,
+            ease: 'power1.in',
+          },
+          '<',
+        );
+
+        // Wobble and bounce on recovery
         defenderTimeline.to(
           defender.scale,
           {
-            x: isChar1Attacker ? -0.95 : 0.95,
-            y: 0.95,
-            z: 0.95,
-            duration: 0.12,
-            ease: 'elastic.out(1.2, 0.5)',
+            x: isChar1Attacker ? -0.9 : 0.9,
+            y: 1.1,
+            z: 0.9,
+            duration: 0.15,
+            ease: 'elastic.out(1.5, 0.6)',
           },
           '<',
         );
@@ -869,8 +893,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         x: defenderBasePosition.x,
         y: defenderBasePosition.y,
         z: defenderBasePosition.z,
-        duration: 0.4,
-        ease: 'power2.out',
+        duration: 0.5,
+        ease: 'power2.inOut',
       },
       '-=0.5',
     );
@@ -880,10 +904,24 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       {
         z: 0,
         y: isChar1Attacker ? -Math.PI / 3 : Math.PI / 3,
-        duration: 0.4,
-        ease: 'power2.out',
+        x: 0,
+        duration: 0.5,
+        ease: 'elastic.out(1, 0.5)',
       },
       '<',
+    );
+
+    // Final scale recovery with slight overshoot
+    timeline.to(
+      defender.scale,
+      {
+        x: isChar1Attacker ? -1 : 1,
+        y: 1,
+        z: 1,
+        duration: 0.3,
+        ease: 'elastic.out(1.1, 0.4)',
+      },
+      '<+=0.1',
     );
 
     timeline.call(() => {
