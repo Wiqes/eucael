@@ -524,10 +524,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       }
     }
 
-    const venomGeometry = new THREE.SphereGeometry(0.65, 24, 24);
+    const venomGeometry = new THREE.SphereGeometry(0.6, 24, 24);
 
     const venomSac = new THREE.Mesh(venomGeometry, bodyMaterial);
-    venomSac.position.set(0, 0.85, -0.6);
+    venomSac.position.set(0, 0.7, -0.6);
     group.add(venomSac);
 
     const venomAnimationDelay = Math.random() * 1.5;
