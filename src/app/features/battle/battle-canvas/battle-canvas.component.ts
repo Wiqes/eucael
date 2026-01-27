@@ -567,35 +567,57 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         group.add(legGroup);
 
         const baseRotationY = legAngle;
+        const baseRotationX = -0.02 + (Math.random() - 0.5) * 0.04;
+        const baseRotationZ = (Math.PI / 120) * sideMultiplier + (Math.random() - 0.5) * 0.02;
+        legGroup.rotation.set(baseRotationX, baseRotationY, baseRotationZ);
 
         const animateLegRandomly = () => {
-          const safeZRotation = (Math.random() * 0.25 - 0.125) * sideMultiplier;
-          const safeFrontBackRotation = baseRotationY + (Math.random() * 0.15 - 0.075);
-          const safeVerticalRotation = Math.random() * 0.3 - 0.15;
+          const stride = 0.08 + Math.random() * 0.18;
+          const lift = 0.12 + Math.random() * 0.2;
+          const splay = 0.05 + Math.random() * 0.08;
+          const moveDuration = 0.32 + Math.random() * 0.45;
+          const settleDuration = 0.22 + Math.random() * 0.35;
+          const pauseDuration = 0.18 + Math.random() * 0.45;
+          const twitchChance = Math.random();
 
-          const moveDuration = 0.15 + Math.random() * 0.15;
-          const pauseDuration = 0.1 + Math.random() * 0.4;
-
-          gsap.to(legGroup.rotation, {
-            x: safeVerticalRotation,
-            y: safeFrontBackRotation,
-            z: safeZRotation,
-            duration: moveDuration,
-            ease: 'power2.inOut',
+          const timeline = gsap.timeline({
             onComplete: () => {
-              gsap.to(legGroup.rotation, {
-                x: 0,
-                y: baseRotationY,
-                z: 0,
-                duration: moveDuration * 0.8,
-                ease: 'power2.inOut',
-                delay: pauseDuration,
-                onComplete: () => {
-                  animateLegRandomly();
-                },
-              });
+              gsap.delayedCall(pauseDuration, animateLegRandomly);
             },
           });
+
+          timeline
+            .to(legGroup.rotation, {
+              x: baseRotationX - lift,
+              y: baseRotationY - stride,
+              z: baseRotationZ + splay * sideMultiplier,
+              duration: moveDuration * 0.5,
+              ease: 'sine.out',
+            })
+            .to(legGroup.rotation, {
+              x: baseRotationX + lift * 0.35,
+              y: baseRotationY + stride,
+              z: baseRotationZ - splay * 0.6 * sideMultiplier,
+              duration: moveDuration * 0.7,
+              ease: 'sine.in',
+            })
+            .to(legGroup.rotation, {
+              x: baseRotationX,
+              y: baseRotationY,
+              z: baseRotationZ,
+              duration: settleDuration,
+              ease: 'power2.out',
+            });
+
+          if (twitchChance < 0.35) {
+            timeline.to(legGroup.rotation, {
+              x: baseRotationX + (Math.random() * 0.08 - 0.04),
+              y: baseRotationY + (Math.random() * 0.12 - 0.06),
+              z: baseRotationZ + (Math.random() * 0.12 - 0.06) * sideMultiplier,
+              duration: 0.06 + Math.random() * 0.08,
+              ease: 'power3.inOut',
+            });
+          }
         };
 
         const initialDelay = Math.random() * 1.5;
