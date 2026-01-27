@@ -351,14 +351,15 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       emissiveIntensity: 0.2,
     });
 
-    const abdomenGeometry = new THREE.SphereGeometry(0.7, 20, 20);
+    const abdomenGeometry = new THREE.SphereGeometry(0.8, 20, 20);
+    abdomenGeometry.scale(0.95, 0.65, 1.3);
     const abdomen = new THREE.Mesh(abdomenGeometry, bodyMaterial);
-    abdomen.position.set(0, 0.9, -0.6);
+    abdomen.position.set(0, 0.85, -0.75);
     abdomen.castShadow = true;
     abdomen.receiveShadow = true;
     group.add(abdomen);
 
-    const stripeGeometry = new THREE.SphereGeometry(0.72, 20, 20);
+    const stripeGeometry = new THREE.SphereGeometry(0.7, 20, 20);
     const stripeMaterial = new THREE.MeshStandardMaterial({
       color: themeColor,
       roughness: 0.85,
@@ -369,22 +370,22 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     const dorsalStripe = new THREE.Mesh(stripeGeometry, stripeMaterial);
     dorsalStripe.position.copy(abdomen.position);
-    dorsalStripe.scale.set(0.25, 1.05, 0.9);
+    dorsalStripe.scale.set(0.28, 0.45, 1.1);
     dorsalStripe.castShadow = true;
     group.add(dorsalStripe);
 
-    const cephaloGeometry = new THREE.SphereGeometry(0.45, 20, 20);
-    cephaloGeometry.scale(1.1, 0.7, 1.4);
+    const cephaloGeometry = new THREE.SphereGeometry(0.48, 20, 20);
+    cephaloGeometry.scale(1.05, 0.38, 1.0);
     const cephalothorax = new THREE.Mesh(cephaloGeometry, bodyMaterial);
-    cephalothorax.position.set(0, 0.4, 0.3);
+    cephalothorax.position.set(0, 0.45, 0.18);
     cephalothorax.castShadow = true;
     cephalothorax.receiveShadow = true;
     group.add(cephalothorax);
 
-    const foveaGeometry = new THREE.SphereGeometry(0.12, 16, 16);
+    const foveaGeometry = new THREE.SphereGeometry(0.085, 16, 16);
     const fovea = new THREE.Mesh(foveaGeometry, stripeMaterial);
-    fovea.position.set(0, 0.68, 0.15);
-    fovea.scale.set(1.0, 0.6, 1.2);
+    fovea.position.set(0, 0.6, 0.06);
+    fovea.scale.set(1.2, 0.3, 1.4);
     fovea.castShadow = true;
     fovea.receiveShadow = true;
     group.add(fovea);
