@@ -14,7 +14,7 @@ export const BATTLE_CHARACTERS: Record<
     defense: 12,
     speed: 22,
     focus: 20,
-    color: '#050505',
+    color: '#ffffff',
   },
   CAT: {
     id: 'char2',
@@ -26,7 +26,7 @@ export const BATTLE_CHARACTERS: Record<
     defense: 13,
     speed: 23,
     focus: 14,
-    color: '#050505',
+    color: '#ffffff',
   },
   BEAR: {
     id: 'char3',
@@ -38,7 +38,7 @@ export const BATTLE_CHARACTERS: Record<
     defense: 22,
     speed: 10,
     focus: 10,
-    color: '#050505',
+    color: '#ffffff',
   },
   HORSE: {
     id: 'char4',
@@ -50,7 +50,7 @@ export const BATTLE_CHARACTERS: Record<
     defense: 14,
     speed: 20,
     focus: 10,
-    color: '#050505',
+    color: '#ffffff',
   },
   GIRAFFE: {
     id: 'char5',
@@ -62,6 +62,6 @@ export const BATTLE_CHARACTERS: Record<
     defense: 14,
     speed: 13,
     focus: 24,
-    color: '#050505',
+    color: '#ffffff',
   },
 };
