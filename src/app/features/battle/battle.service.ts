@@ -88,16 +88,26 @@ export class BattleService {
     const team = state[defeatedTeamIndex];
     const currentIndex = state[activeIndexKey];
 
-    // Check if there's a next character available
-    const nextIndex = currentIndex + 1;
-    if (nextIndex < team.length) {
-      // Bring in the next character
-      state[activeIndexKey] = nextIndex;
+    // Move to the next alive character if available
+    const nextAliveIndex = this.getNextAliveIndex(team, currentIndex);
+    if (nextAliveIndex !== null) {
+      state[activeIndexKey] = nextAliveIndex;
       this.battleStateSubject.next({ ...state });
-    } else {
-      // No more characters available, end battle
-      this.endBattle();
+      return;
     }
+
+    // No alive characters available for the defeated team, end battle
+    this.endBattle();
+  }
+
+  private getNextAliveIndex(team: BattleCharacter[], currentIndex: number): number | null {
+    const forwardIndex = team.findIndex((char, index) => index > currentIndex && char.isAlive);
+    if (forwardIndex !== -1) {
+      return forwardIndex;
+    }
+
+    const anyAliveIndex = team.findIndex((char) => char.isAlive);
+    return anyAliveIndex !== -1 ? anyAliveIndex : null;
   }
 
   private endBattle(): void {
