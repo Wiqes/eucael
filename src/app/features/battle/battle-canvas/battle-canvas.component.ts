@@ -621,44 +621,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       delay: venomAnimationDelay,
     });
 
-    const webColor = new THREE.Color('#34f5dd');
-    for (let i = 1; i <= 2; i++) {
-      const auraGeometry = new THREE.IcosahedronGeometry(2 + i * 0.4, 1);
-      const auraMaterial = new THREE.MeshBasicMaterial({
-        color: webColor,
-        transparent: true,
-        opacity: 0.05,
-        side: THREE.BackSide,
-        wireframe: true,
-      });
-      const aura = new THREE.Mesh(auraGeometry, auraMaterial);
-      aura.position.y = 0.8;
-      group.add(aura);
-
-      const rotationSpeedX = (Math.random() - 0.5) * 0.5;
-      const rotationSpeedY = (Math.random() - 0.5) * 0.5;
-      const rotationSpeedZ = (Math.random() - 0.5) * 0.5;
-
-      gsap.to(aura.scale, {
-        x: 1.15,
-        y: 1.15,
-        z: 1.15,
-        duration: 1.5 + i * 0.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
-
-      gsap.to(aura.rotation, {
-        x: `+=${Math.PI * 2 * rotationSpeedX}`,
-        y: `+=${Math.PI * 2 * rotationSpeedY}`,
-        z: `+=${Math.PI * 2 * rotationSpeedZ}`,
-        duration: 3 + Math.random() * 2,
-        repeat: -1,
-        ease: 'none',
-      });
-    }
-
     group.position.set(position.x, position.y + this.spiderGroundOffset, position.z);
     return group;
   }
