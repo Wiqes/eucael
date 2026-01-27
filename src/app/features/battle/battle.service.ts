@@ -52,7 +52,7 @@ export class BattleService {
   }
 
   private executeAutoPlay(): void {
-    interval(2000)
+    interval(3000)
       .pipe(
         takeWhile(() => {
           const state = this.battleStateSubject.value;
