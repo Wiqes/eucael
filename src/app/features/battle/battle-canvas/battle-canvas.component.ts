@@ -392,6 +392,52 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       group.add(cheliceraGroup);
     }
 
+    const eyeMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      roughness: 0.4,
+      metalness: 0.2,
+      emissive: 0xffffff,
+      emissiveIntensity: 0,
+    });
+
+    const eyeHighlightMaterial = new THREE.MeshBasicMaterial({
+      color: 0x000000,
+      transparent: true,
+      opacity: 0,
+    });
+
+    const eyeGlowMaterial = new THREE.MeshBasicMaterial({
+      color: themeColor,
+      transparent: true,
+      opacity: 0,
+    });
+
+    const eyePositions = [
+      { radius: 0.08, x: -0.23, y: 0.56, z: 0.72 },
+      { radius: 0.08, x: -0.07, y: 0.56, z: 0.72 },
+      { radius: 0.04, x: -0.33, y: 0.58, z: 0.66 },
+      { radius: 0.04, x: 0.05, y: 0.58, z: 0.66 },
+    ];
+
+    eyePositions.forEach(({ radius, x, y, z }) => {
+      const eyeGeometry = new THREE.SphereGeometry(radius, 16, 16);
+      const eye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+      eye.position.set(x, y, z);
+      eye.castShadow = true;
+      eye.receiveShadow = true;
+      group.add(eye);
+
+      const highlightGeometry = new THREE.SphereGeometry(radius * 0.3, 8, 8);
+      const highlight = new THREE.Mesh(highlightGeometry, eyeHighlightMaterial);
+      highlight.position.set(x + radius * 0.25, y + radius * 0.25, z + radius * 0.25);
+      group.add(highlight);
+
+      const glowGeometry = new THREE.SphereGeometry(radius * 1.5, 12, 12);
+      const glow = new THREE.Mesh(glowGeometry, eyeGlowMaterial);
+      glow.position.set(x, y, z + radius * 0.1);
+      group.add(glow);
+    });
+
     const legMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0x000000).lerp(themeColor, 0.05),
       roughness: 0.7,
