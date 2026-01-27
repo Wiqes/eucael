@@ -359,13 +359,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     cephalothorax.receiveShadow = true;
     group.add(cephalothorax);
 
-    const cheliceraMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x050505).lerp(themeColor, 0.2),
-      roughness: 0.6,
-      metalness: 0.35,
-      emissive: themeColor,
-      emissiveIntensity: 0.18,
-    });
+    const cheliceraMaterial = bodyMaterial;
 
     for (let side = 0; side < 2; side++) {
       const sideMultiplier = side === 0 ? -1 : 1;
@@ -438,13 +432,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       group.add(glow);
     });
 
-    const legMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x000000).lerp(themeColor, 0.3),
-      roughness: 0.02,
-      metalness: 0,
-      emissive: themeColor,
-      emissiveIntensity: 0.95,
-    });
+    const legMaterial = bodyMaterial;
 
     const legAngles = [Math.PI / 5, Math.PI / 12, -Math.PI / 12, -Math.PI / 4];
 
