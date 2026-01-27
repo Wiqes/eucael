@@ -344,11 +344,11 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const themeColor = new THREE.Color(color);
 
     const bodyMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x1a1a1a).lerp(themeColor, 0.3),
-      roughness: 0.9,
-      metalness: 0.1,
+      color: new THREE.Color(0x1a0f0a).lerp(themeColor, 0.15),
+      roughness: 0.95,
+      metalness: 0.0,
       emissive: themeColor,
-      emissiveIntensity: 0.2,
+      emissiveIntensity: 0.02,
     });
 
     const cephaloGeometry = new THREE.SphereGeometry(0.48, 20, 20);
@@ -439,11 +439,11 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
 
     const legMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x000000).lerp(themeColor, 0.05),
-      roughness: 0.7,
-      metalness: 0.3,
+      color: new THREE.Color(0x000000).lerp(themeColor, 0.3),
+      roughness: 0.02,
+      metalness: 0,
       emissive: themeColor,
-      emissiveIntensity: 0.15,
+      emissiveIntensity: 0.95,
     });
 
     const legAngles = [Math.PI / 5, Math.PI / 12, -Math.PI / 12, -Math.PI / 4];
