@@ -51,7 +51,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private timeSlowActive = false;
   private resizeHandler: () => void;
   private lastTime = 0;
-  private readonly spiderGroundOffset = -0.6;
+  private readonly spiderGroundOffset = -0.65;
   private particleAnimations: {
     geometry: THREE.BufferGeometry;
     velocities: number[];
