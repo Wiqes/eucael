@@ -6,7 +6,7 @@ export const BATTLE_CHARACTERS: Record<
 > = {
   RAT: {
     id: 'char1',
-    name: 'Red Rat',
+    name: 'Shelob',
     race: 'rat',
     health: 85,
     maxHealth: 85,
@@ -18,7 +18,7 @@ export const BATTLE_CHARACTERS: Record<
   },
   CAT: {
     id: 'char2',
-    name: 'Blue Cat',
+    name: 'Aragog',
     race: 'cat',
     health: 90,
     maxHealth: 90,
@@ -30,7 +30,7 @@ export const BATTLE_CHARACTERS: Record<
   },
   BEAR: {
     id: 'char3',
-    name: 'Yellow Bear',
+    name: 'Anansi',
     race: 'bear',
     health: 130,
     maxHealth: 130,
@@ -42,7 +42,7 @@ export const BATTLE_CHARACTERS: Record<
   },
   HORSE: {
     id: 'char4',
-    name: 'White Horse',
+    name: 'Arachne',
     race: 'horse',
     health: 110,
     maxHealth: 110,
@@ -54,7 +54,7 @@ export const BATTLE_CHARACTERS: Record<
   },
   GIRAFFE: {
     id: 'char5',
-    name: 'Black Giraffe',
+    name: 'Ungoliant',
     race: 'giraffe',
     health: 95,
     maxHealth: 95,
