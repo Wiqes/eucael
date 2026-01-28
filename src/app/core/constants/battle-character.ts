@@ -38,7 +38,7 @@ export const BATTLE_CHARACTERS: Record<
     defense: 22,
     speed: 10,
     focus: 10,
-    color: '#34f5f5',
+    color: '#444444',
   },
   HORSE: {
     id: 'char4',
@@ -50,7 +50,7 @@ export const BATTLE_CHARACTERS: Record<
     defense: 14,
     speed: 20,
     focus: 10,
-    color: '#ffff00',
+    color: '#34f5dd',
   },
   GIRAFFE: {
     id: 'char5',
@@ -62,6 +62,6 @@ export const BATTLE_CHARACTERS: Record<
     defense: 14,
     speed: 13,
     focus: 24,
-    color: '#444444',
+    color: '#0000ff',
   },
 };
