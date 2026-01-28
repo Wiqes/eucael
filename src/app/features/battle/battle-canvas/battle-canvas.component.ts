@@ -332,7 +332,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
 
     const cephaloMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x1a1a1a).lerp(themeColor, 0.3),
+      color: new THREE.Color(0x1a1a1a).lerp(themeColor, 0.9),
       roughness: 0.9,
       metalness: 0.1,
       emissive: themeColor,
