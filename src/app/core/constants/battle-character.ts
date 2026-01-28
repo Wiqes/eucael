@@ -50,7 +50,7 @@ export const BATTLE_CHARACTERS: Record<
     defense: 14,
     speed: 20,
     focus: 10,
-    color: '#34f5dd',
+    color: '#ffff00',
   },
   GIRAFFE: {
     id: 'char5',
@@ -62,6 +62,6 @@ export const BATTLE_CHARACTERS: Record<
     defense: 14,
     speed: 13,
     focus: 24,
-    color: '#0000ff',
+    color: '#34f5dd',
   },
 };
