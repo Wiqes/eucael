@@ -14,12 +14,12 @@ export class CharacterStatusCardComponent {
   @Input({ required: true }) character!: BattleCharacter;
   @Input() alignment: 'left' | 'right' = 'left';
 
-  getHealthPercentage(): number {
+  get healthPercentage(): number {
     if (!this.character) return 0;
     return (this.character.health / this.character.maxHealth) * 100;
   }
 
-  getHealthBarClass(): string {
+  get healthBarClass(): string {
     return this.alignment === 'left' ? 'character1' : 'character2';
   }
 }

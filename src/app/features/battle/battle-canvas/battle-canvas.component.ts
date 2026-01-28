@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { BattleService } from '../battle.service';
-import { BattleCharacter, BattleAction } from '../battle.model';
+import { BattleCharacter, BattleAction, Position3d } from '../battle.model';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -42,14 +42,14 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
-  private character1Mesh!: THREE.Group;
-  private character2Mesh!: THREE.Group;
+  private character1Mesh: THREE.Group | null = null;
+  private character2Mesh: THREE.Group | null = null;
   private animationFrameId: number | null = null;
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
   private cameraOriginalPosition!: THREE.Vector3;
   private lightningBolts: THREE.Mesh[] = [];
   private timeSlowActive = false;
-  private resizeHandler: () => void;
+  private readonly resizeHandler = this.throttleResize.bind(this);
   private lastTime = 0;
   private readonly spiderGroundOffset = -0.65;
   private particleAnimations: {
@@ -59,14 +59,13 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   }[] = [];
   private resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  private battleService = inject(BattleService);
+  private readonly battleService = inject(BattleService);
   private circleTexture!: THREE.Texture;
 
   character1: BattleCharacter | null = null;
   character2: BattleCharacter | null = null;
 
   constructor() {
-    this.resizeHandler = this.throttleResize.bind(this);
     afterNextRender(() => {
       this.createCircleTexture();
       this.initScene();
@@ -131,37 +130,29 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   }
 
   clearCharacters(): void {
-    if (this.character1Mesh) {
-      this.scene.remove(this.character1Mesh);
-      this.character1Mesh.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          child.geometry.dispose();
-          if (Array.isArray(child.material)) {
-            child.material.forEach((mat) => mat.dispose());
-          } else {
-            child.material.dispose();
-          }
-        }
-      });
-      this.character1Mesh = undefined as unknown as THREE.Group;
-    }
-    if (this.character2Mesh) {
-      this.scene.remove(this.character2Mesh);
-      this.character2Mesh.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          child.geometry.dispose();
-          if (Array.isArray(child.material)) {
-            child.material.forEach((mat) => mat.dispose());
-          } else {
-            child.material.dispose();
-          }
-        }
-      });
-      this.character2Mesh = undefined as unknown as THREE.Group;
-    }
+    this.disposeCharacterMesh(this.character1Mesh);
+    this.disposeCharacterMesh(this.character2Mesh);
+    this.character1Mesh = null;
+    this.character2Mesh = null;
 
     this.character1 = null;
     this.character2 = null;
+  }
+
+  private disposeCharacterMesh(mesh: THREE.Group | null): void {
+    if (!mesh) return;
+
+    this.scene.remove(mesh);
+    mesh.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.geometry.dispose();
+        if (Array.isArray(child.material)) {
+          child.material.forEach((mat) => mat.dispose());
+        } else {
+          child.material.dispose();
+        }
+      }
+    });
   }
 
   private createCircleTexture(): void {
@@ -280,19 +271,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const oldMesh = characterNumber === 1 ? this.character1Mesh : this.character2Mesh;
 
     // Remove old mesh
-    if (oldMesh) {
-      this.scene.remove(oldMesh);
-      oldMesh.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          child.geometry.dispose();
-          if (Array.isArray(child.material)) {
-            child.material.forEach((mat) => mat.dispose());
-          } else {
-            child.material.dispose();
-          }
-        }
-      });
-    }
+    this.disposeCharacterMesh(oldMesh);
 
     // Create new mesh with teleportation entrance effect
     const newMesh = this.createEnhancedCharacterMesh(character.color, character.position);
@@ -317,29 +296,29 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private createCharacters(): void {
     if (!this.character1 || !this.character2) return;
 
-    this.character1Mesh = this.createEnhancedCharacterMesh(
+    const character1Mesh = this.createEnhancedCharacterMesh(
       this.character1.color,
       this.character1.position,
     );
-    this.character1Mesh.rotation.y = Math.PI / 3;
-    this.scene.add(this.character1Mesh);
+    character1Mesh.rotation.y = Math.PI / 3;
+    this.scene.add(character1Mesh);
 
-    this.character2Mesh = this.createEnhancedCharacterMesh(
+    const character2Mesh = this.createEnhancedCharacterMesh(
       this.character2.color,
       this.character2.position,
     );
-    this.character2Mesh.scale.x = -1;
-    this.character2Mesh.rotation.y = -Math.PI / 3;
-    this.scene.add(this.character2Mesh);
+    character2Mesh.scale.x = -1;
+    character2Mesh.rotation.y = -Math.PI / 3;
+    this.scene.add(character2Mesh);
 
-    this.createTeleportationEntrance(this.character1Mesh, this.character1.position, 'left');
-    this.createTeleportationEntrance(this.character2Mesh, this.character2.position, 'right');
+    this.character1Mesh = character1Mesh;
+    this.character2Mesh = character2Mesh;
+
+    this.createTeleportationEntrance(character1Mesh, this.character1.position, 'left');
+    this.createTeleportationEntrance(character2Mesh, this.character2.position, 'right');
   }
 
-  private createEnhancedCharacterMesh(
-    color: string,
-    position: { x: number; y: number; z: number },
-  ): THREE.Group {
+  private createEnhancedCharacterMesh(color: string, position: Position3d): THREE.Group {
     const group = new THREE.Group();
     const themeColor = new THREE.Color(color);
 
@@ -591,7 +570,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
   private createTeleportationEntrance(
     characterMesh: THREE.Group,
-    targetPos: { x: number; y: number; z: number },
+    targetPos: Position3d,
     side: 'left' | 'right',
   ): void {
     characterMesh.position.set(targetPos.x, targetPos.y + this.spiderGroundOffset, targetPos.z);

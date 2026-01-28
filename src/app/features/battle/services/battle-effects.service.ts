@@ -6,6 +6,8 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class BattleEffectsService {
+  private readonly poisonDeathDelayMs = 1000;
+
   applyEndOfTurnEffects(
     state: BattleState,
     actionSubject: Subject<BattleAction | null>,
@@ -43,16 +45,14 @@ export class BattleEffectsService {
     character.health = Math.max(0, character.health - poisonDamage);
     character.isAlive = character.health > 0;
 
-    const action: BattleAction = {
+    this.emitAction(state, actionSubject, {
       attackerId: '',
       defenderId: character.id,
       damage: poisonDamage,
       type: 'poison',
       timestamp: Date.now(),
       message: `${character.name} takes poison damage!`,
-    };
-    state.actions.push(action);
-    actionSubject.next(action);
+    });
 
     character.poisonEffect.turnsRemaining--;
     if (character.poisonEffect.turnsRemaining <= 0) {
@@ -62,7 +62,16 @@ export class BattleEffectsService {
     if (!character.isAlive) {
       setTimeout(() => {
         onCharacterDeath(!isTeam1);
-      }, 1000);
+      }, this.poisonDeathDelayMs);
     }
+  }
+
+  private emitAction(
+    state: BattleState,
+    actionSubject: Subject<BattleAction | null>,
+    action: BattleAction,
+  ): void {
+    state.actions.push(action);
+    actionSubject.next(action);
   }
 }

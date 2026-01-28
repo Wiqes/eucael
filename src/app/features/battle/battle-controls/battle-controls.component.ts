@@ -12,8 +12,8 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class BattleControlsComponent {
   @Input() isBattleActive = false;
-  @Output() startBattle = new EventEmitter<void>();
-  @Output() terminateBattle = new EventEmitter<void>();
+  @Output() readonly startBattle = new EventEmitter<void>();
+  @Output() readonly terminateBattle = new EventEmitter<void>();
 
   onStartBattle(): void {
     this.startBattle.emit();

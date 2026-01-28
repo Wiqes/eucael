@@ -6,6 +6,19 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class BattleRacialSkillsService {
+  private readonly poisonBaseChance = 20;
+  private readonly poisonFocusFactor = 0.5;
+  private readonly poisonSpeedFactor = 0.3;
+  private readonly poisonAttackFactor = 0.3;
+  private readonly poisonFocusDamageFactor = 0.5;
+  private readonly poisonTurns = 3;
+  private readonly comboBaseChance = 25;
+  private readonly comboSpeedFactor = 0.6;
+  private readonly comboDamageFactor = 0.6;
+  private readonly comboDamageDelayMs = 500;
+  private readonly debuffAttackFactor = 0.4;
+  private readonly debuffAccuracyFactor = 0.3;
+
   applyRacialSkills(
     attacker: BattleCharacter,
     defender: BattleCharacter,
@@ -32,27 +45,29 @@ export class BattleRacialSkillsService {
     actionSubject: Subject<BattleAction | null>,
   ): void {
     // Poison chance = 20% + (FOCUS × 0.5%) + (SPD × 0.3%)
-    const poisonChance = 20 + attacker.focus * 0.5 + attacker.speed * 0.3;
+    const poisonChance =
+      this.poisonBaseChance +
+      attacker.focus * this.poisonFocusFactor +
+      attacker.speed * this.poisonSpeedFactor;
 
     if (Math.random() * 100 < poisonChance) {
       // Poison damage = ATK × 0.3 + FOCUS × 0.5
-      const poisonDamage = attacker.attack * 0.3 + attacker.focus * 0.5;
+      const poisonDamage =
+        attacker.attack * this.poisonAttackFactor + attacker.focus * this.poisonFocusDamageFactor;
 
       defender.poisonEffect = {
-        turnsRemaining: 3,
+        turnsRemaining: this.poisonTurns,
         damagePerTurn: Math.floor(poisonDamage),
       };
 
-      const action: BattleAction = {
+      this.emitAction(state, actionSubject, {
         attackerId: attacker.id,
         defenderId: defender.id,
         damage: 0,
         type: 'poison',
         timestamp: Date.now(),
         message: `${defender.name} is poisoned!`,
-      };
-      state.actions.push(action);
-      actionSubject.next(action);
+      });
     }
   }
 
@@ -63,40 +78,47 @@ export class BattleRacialSkillsService {
     actionSubject: Subject<BattleAction | null>,
   ): void {
     // Second hit chance = 25% + (SPD × 0.6%)
-    const comboChance = 25 + attacker.speed * 0.6;
+    const comboChance = this.comboBaseChance + attacker.speed * this.comboSpeedFactor;
 
     if (Math.random() * 100 < comboChance) {
       // Second hit = ATK × 0.6
-      const comboDamage = Math.floor(attacker.attack * 0.6);
+      const comboDamage = Math.floor(attacker.attack * this.comboDamageFactor);
 
-      const action: BattleAction = {
+      this.emitAction(state, actionSubject, {
         attackerId: attacker.id,
         defenderId: defender.id,
         damage: comboDamage,
         type: 'combo',
         timestamp: Date.now(),
         message: `${attacker.name} combo strike!`,
-      };
-      state.actions.push(action);
-      actionSubject.next(action);
+      });
 
       // Apply combo damage after a short delay
       setTimeout(() => {
         defender.health = Math.max(0, defender.health - comboDamage);
         defender.isAlive = defender.health > 0;
-      }, 500);
+      }, this.comboDamageDelayMs);
     }
   }
 
   private applyDistanceControl(attacker: BattleCharacter, defender: BattleCharacter): void {
     // Attack reduction = FOCUS × 0.4
-    const attackReduction = attacker.focus * 0.4;
+    const attackReduction = attacker.focus * this.debuffAttackFactor;
     // Accuracy reduction = FOCUS × 0.3%
-    const accuracyReduction = attacker.focus * 0.3;
+    const accuracyReduction = attacker.focus * this.debuffAccuracyFactor;
 
     defender.debuffEffect = {
       attackReduction: attackReduction,
       accuracyReduction: accuracyReduction,
     };
+  }
+
+  private emitAction(
+    state: BattleState,
+    actionSubject: Subject<BattleAction | null>,
+    action: BattleAction,
+  ): void {
+    state.actions.push(action);
+    actionSubject.next(action);
   }
 }

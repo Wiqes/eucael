@@ -1,3 +1,13 @@
+export type BattleRace = 'rat' | 'cat' | 'bear' | 'horse' | 'giraffe';
+
+export type BattleActionType = 'attack' | 'critical' | 'blocked' | 'miss' | 'poison' | 'combo';
+
+export interface Position3d {
+  x: number;
+  y: number;
+  z: number;
+}
+
 export interface PoisonEffect {
   turnsRemaining: number;
   damagePerTurn: number;
@@ -11,14 +21,14 @@ export interface DebuffEffect {
 export interface BattleCharacter {
   id: string;
   name: string;
-  race: 'rat' | 'cat' | 'bear' | 'horse' | 'giraffe';
+  race: BattleRace;
   health: number;
   maxHealth: number;
   defense: number;
   attack: number;
   speed: number;
   focus: number;
-  position: { x: number; y: number; z: number };
+  position: Position3d;
   color: string;
   isAlive: boolean;
   turnCount: number;
@@ -30,7 +40,7 @@ export interface BattleAction {
   attackerId: string;
   defenderId: string;
   damage: number;
-  type: 'attack' | 'critical' | 'blocked' | 'miss' | 'poison' | 'combo';
+  type: BattleActionType;
   timestamp: number;
   message?: string;
 }

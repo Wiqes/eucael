@@ -14,6 +14,10 @@ export class BattleTurnService {
   private readonly damageService = inject(BattleDamageService);
   private readonly racialSkillsService = inject(BattleRacialSkillsService);
   private readonly effectsService = inject(BattleEffectsService);
+  private readonly counterAttackDelayMs = 2000;
+  private readonly effectsDelayMs = 500;
+  private readonly damageApplyDelayMs = 350;
+  private readonly deathNotificationDelayMs = 1500;
 
   executeTurn(
     state: BattleState,
@@ -53,8 +57,8 @@ export class BattleTurnService {
       // Apply end-of-turn effects after both attacks
       setTimeout(() => {
         this.effectsService.applyEndOfTurnEffects(state, actionSubject, onCharacterDeath);
-      }, 500);
-    }, 2000);
+      }, this.effectsDelayMs);
+    }, this.counterAttackDelayMs);
   }
 
   private executeAttack(
@@ -90,16 +94,13 @@ export class BattleTurnService {
     this.racialSkillsService.applyRacialSkills(attacker, defender, state, actionSubject);
 
     // Create action
-    const action: BattleAction = {
+    this.emitAction(state, actionSubject, {
       attackerId: attacker.id,
       defenderId: defender.id,
       damage: finalDamage,
       type: isCritical ? 'critical' : 'attack',
       timestamp: Date.now(),
-    };
-
-    state.actions.push(action);
-    actionSubject.next(action);
+    });
 
     // Apply damage with delay
     setTimeout(() => {
@@ -112,9 +113,9 @@ export class BattleTurnService {
         setTimeout(() => {
           const wasTeam1Attacking = attacker === state.team1[state.activeTeam1Index];
           onCharacterDeath(wasTeam1Attacking);
-        }, 1500);
+        }, this.deathNotificationDelayMs);
       }
-    }, 350);
+    }, this.damageApplyDelayMs);
   }
 
   private executeMiss(
@@ -123,14 +124,21 @@ export class BattleTurnService {
     state: BattleState,
     actionSubject: Subject<BattleAction | null>,
   ): void {
-    const action: BattleAction = {
+    this.emitAction(state, actionSubject, {
       attackerId: attacker.id,
       defenderId: defender.id,
       damage: 0,
       type: 'miss',
       timestamp: Date.now(),
       message: `${attacker.name} missed!`,
-    };
+    });
+  }
+
+  private emitAction(
+    state: BattleState,
+    actionSubject: Subject<BattleAction | null>,
+    action: BattleAction,
+  ): void {
     state.actions.push(action);
     actionSubject.next(action);
   }

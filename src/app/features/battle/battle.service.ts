@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Observable, takeWhile } from 'rxjs';
-import { BattleCharacter, BattleAction, BattleState } from './battle.model';
+import { BattleCharacter, BattleAction, BattleState, Position3d } from './battle.model';
 import { BattleTurnService } from './services/battle-turn.service';
 
 @Injectable({
@@ -8,12 +8,15 @@ import { BattleTurnService } from './services/battle-turn.service';
 })
 export class BattleService {
   private readonly turnService = inject(BattleTurnService);
+  private readonly autoPlayIntervalMs = 4000;
+  private readonly team1StartPosition: Position3d = { x: -2, y: 0.35, z: 3 };
+  private readonly team2StartPosition: Position3d = { x: 3, y: 0.35, z: -3 };
 
-  private battleStateSubject = new BehaviorSubject<BattleState | null>(null);
-  public battleState$: Observable<BattleState | null> = this.battleStateSubject.asObservable();
+  private readonly battleStateSubject = new BehaviorSubject<BattleState | null>(null);
+  readonly battleState$: Observable<BattleState | null> = this.battleStateSubject.asObservable();
 
-  private actionSubject = new BehaviorSubject<BattleAction | null>(null);
-  public action$: Observable<BattleAction | null> = this.actionSubject.asObservable();
+  private readonly actionSubject = new BehaviorSubject<BattleAction | null>(null);
+  readonly action$: Observable<BattleAction | null> = this.actionSubject.asObservable();
 
   startBattle(
     team1: Omit<BattleCharacter, 'isAlive' | 'position' | 'turnCount'>[],
@@ -23,21 +26,9 @@ export class BattleService {
       throw new Error('Both teams must have at least one character');
     }
 
-    const prepareTeam = (
-      team: Omit<BattleCharacter, 'isAlive' | 'position' | 'turnCount'>[],
-      position: { x: number; y: number; z: number },
-    ): BattleCharacter[] => {
-      return team.map((char) => ({
-        ...char,
-        isAlive: true,
-        position,
-        turnCount: 0,
-      }));
-    };
-
     const initialState: BattleState = {
-      team1: prepareTeam(team1, { x: -2, y: 0.35, z: 3 }),
-      team2: prepareTeam(team2, { x: 3, y: 0.35, z: -3 }),
+      team1: this.prepareTeam(team1, this.team1StartPosition),
+      team2: this.prepareTeam(team2, this.team2StartPosition),
       activeTeam1Index: 0,
       activeTeam2Index: 0,
       actions: [],
@@ -52,7 +43,7 @@ export class BattleService {
   }
 
   private executeAutoPlay(): void {
-    interval(4000)
+    interval(this.autoPlayIntervalMs)
       .pipe(
         takeWhile(() => {
           const state = this.battleStateSubject.value;
@@ -130,5 +121,17 @@ export class BattleService {
   resetBattle(): void {
     this.battleStateSubject.next(null);
     this.actionSubject.next(null);
+  }
+
+  private prepareTeam(
+    team: Omit<BattleCharacter, 'isAlive' | 'position' | 'turnCount'>[],
+    position: Position3d,
+  ): BattleCharacter[] {
+    return team.map((char) => ({
+      ...char,
+      isAlive: true,
+      position,
+      turnCount: 0,
+    }));
   }
 }
