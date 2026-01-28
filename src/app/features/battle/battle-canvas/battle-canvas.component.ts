@@ -321,18 +321,27 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private createEnhancedCharacterMesh(color: string, position: Position3d): THREE.Group {
     const group = new THREE.Group();
     const themeColor = new THREE.Color(color);
+    const whiteColor = new THREE.Color('#ffffff');
 
     const bodyMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0xffffff).lerp(themeColor, 0.85),
+      color: new THREE.Color(0xffffff).lerp(whiteColor, 0.85),
       roughness: 0.2,
       metalness: 0.1,
-      emissive: themeColor,
+      emissive: whiteColor,
       emissiveIntensity: 2.5,
+    });
+
+    const cephaloMaterial = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(0x1a1a1a).lerp(themeColor, 0.3),
+      roughness: 0.9,
+      metalness: 0.1,
+      emissive: themeColor,
+      emissiveIntensity: 0.2,
     });
 
     const cephaloGeometry = new THREE.SphereGeometry(0.48, 20, 20);
     cephaloGeometry.scale(1.05, 0.38, 1.0);
-    const cephalothorax = new THREE.Mesh(cephaloGeometry, bodyMaterial);
+    const cephalothorax = new THREE.Mesh(cephaloGeometry, cephaloMaterial);
     cephalothorax.position.set(0, 0.45, 0.18);
     cephalothorax.castShadow = true;
     cephalothorax.receiveShadow = true;
@@ -548,7 +557,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     const venomGeometry = new THREE.SphereGeometry(0.6, 24, 24);
 
-    const venomSac = new THREE.Mesh(venomGeometry, bodyMaterial);
+    const venomSac = new THREE.Mesh(venomGeometry, cephaloMaterial);
     venomSac.position.set(0, 0.7, -0.6);
     group.add(venomSac);
 
