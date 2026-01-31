@@ -43,6 +43,9 @@ import { Subject, takeUntil } from 'rxjs';
   ],
 })
 export class BattleCanvasComponent implements OnInit, OnDestroy {
+    // Track all active poison effects globally
+    private activePoisonObjects: THREE.Object3D[] = [];
+    private activePoisonTweens: gsap.core.Tween[] = [];
   @ViewChild('battleCanvas', { static: true })
   canvasRef!: ElementRef<HTMLCanvasElement>;
 
@@ -718,7 +721,19 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
   }
 
+  private cleanupPoisonEffects(): void {
+    // Remove all poison objects from scene and kill their tweens
+    this.activePoisonObjects.forEach(obj => {
+      if (obj.parent) this.scene.remove(obj);
+    });
+    this.activePoisonObjects = [];
+    this.activePoisonTweens.forEach(tween => tween.kill());
+    this.activePoisonTweens = [];
+  }
+
   private animateAction(action: BattleAction): void {
+    // Always cleanup poison effects before starting a new action
+    this.cleanupPoisonEffects();
     const isChar1Attacker = this.character1 ? action.attackerId === this.character1.id : false;
     const attacker = isChar1Attacker ? this.character1Mesh : this.character2Mesh;
     const defender = isChar1Attacker ? this.character2Mesh : this.character1Mesh;
@@ -754,8 +769,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       defender.rotation.set(0, !isChar1Attacker ? Math.PI / 3 : -Math.PI / 3, 0);
       defender.scale.set(!isChar1Attacker ? 1 : -1, 1, 1);
 
+      // Poison effect tracking
+      let poisonCleanup: (() => void) | null = null;
       if (isPoisoned) {
-        this.createChargingEffect(attacker, isCritical);
+        poisonCleanup = this.createChargingEffect(attacker, isCritical);
       }
 
       if (isBlocked) {
@@ -1036,6 +1053,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         defender.scale.set(!isChar1Attacker ? 1 : -1, 1, 1);
         this.resetCamera();
         this.timeSlowActive = false;
+        // Cleanup poison effect if present
+        if (poisonCleanup) poisonCleanup();
       });
 
       return timeline;
@@ -1076,13 +1095,15 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     };
   }
 
-  private createChargingEffect(attacker: THREE.Group, isCritical: boolean): void {
+  private createChargingEffect(attacker: THREE.Group, isCritical: boolean): () => void {
     const venomColor = isCritical ? 0xff0000 : 0x00ff00;
     const chargeLight = new THREE.PointLight(venomColor, 5, 5);
     chargeLight.position.copy(attacker.position);
     chargeLight.position.y += 1;
     this.scene.add(chargeLight);
 
+    const poisonObjects: THREE.Object3D[] = [];
+    const poisonTweens: gsap.core.Tween[] = [];
     for (let i = 0; i < 12; i++) {
       const dropletGeometry = new THREE.SphereGeometry(0.12, 8, 8);
       dropletGeometry.scale(1, 1.5, 1);
@@ -1101,8 +1122,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         attacker.position.z + Math.sin(angle) * radius,
       );
       this.scene.add(droplet);
+      poisonObjects.push(droplet);
 
-      gsap.to(droplet.position, {
+      const tween = gsap.to(droplet.position, {
         x: attacker.position.x,
         y: attacker.position.y + 0.5,
         z: attacker.position.z,
@@ -1114,22 +1136,39 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           dropletMaterial.dispose();
         },
       });
+      poisonTweens.push(tween);
     }
 
-    gsap.to(chargeLight, {
+    this.scene.add(chargeLight);
+    poisonObjects.push(chargeLight);
+
+    const chargeTween = gsap.to(chargeLight, {
       intensity: isCritical ? 30 : 20,
       duration: 0.4,
       ease: 'power2.in',
       onComplete: () => {
-        gsap.to(chargeLight, {
+        const fadeTween = gsap.to(chargeLight, {
           intensity: 0,
           duration: 0.2,
           onComplete: () => {
             this.scene.remove(chargeLight);
           },
         });
+        poisonTweens.push(fadeTween);
       },
     });
+    poisonTweens.push(chargeTween);
+
+    // Register globally for cleanup
+    this.activePoisonObjects.push(...poisonObjects);
+    this.activePoisonTweens.push(...poisonTweens);
+    // Return cleanup function
+    return () => {
+      poisonObjects.forEach(obj => {
+        if (obj.parent) this.scene.remove(obj);
+      });
+      poisonTweens.forEach(tween => tween.kill());
+    };
   }
 
   private createEnergyShield(defender: THREE.Group): void {
