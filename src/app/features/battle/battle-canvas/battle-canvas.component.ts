@@ -484,7 +484,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       for (let legNum = 0; legNum < 4; legNum++) {
         const legGroup = new THREE.Group();
 
-        const legAngle = legAngles[legNum];
+        const legAngle = legAngles[legNum] * (side === 0 ? 1 : -1);
         const zAngle = (Math.PI / 2.8 + legNum * 0.05) * sideMultiplier;
 
         const upperLegLength = 0.8;
