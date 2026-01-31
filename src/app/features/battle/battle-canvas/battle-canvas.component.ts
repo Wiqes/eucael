@@ -147,12 +147,85 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       if (child instanceof THREE.Mesh) {
         child.geometry.dispose();
         if (Array.isArray(child.material)) {
-          child.material.forEach((mat) => mat.dispose());
+          child.material.forEach((mat) => {
+            mat.map?.dispose();
+            mat.emissiveMap?.dispose();
+            mat.roughnessMap?.dispose();
+            mat.metalnessMap?.dispose();
+            mat.normalMap?.dispose();
+            mat.dispose();
+          });
         } else {
+          child.material.map?.dispose();
+          child.material.emissiveMap?.dispose();
+          child.material.roughnessMap?.dispose();
+          child.material.metalnessMap?.dispose();
+          child.material.normalMap?.dispose();
           child.material.dispose();
         }
       }
     });
+  }
+
+  private createTarantulaPatternTexture(
+    baseColor: THREE.Color,
+    accentColor: THREE.Color,
+  ): THREE.CanvasTexture {
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d')!;
+
+    ctx.fillStyle = baseColor.getStyle();
+    ctx.fillRect(0, 0, size, size);
+
+    const radial = ctx.createRadialGradient(size / 2, size / 2, 20, size / 2, size / 2, size / 2);
+    radial.addColorStop(0, 'rgba(0, 0, 0, 0.05)');
+    radial.addColorStop(1, 'rgba(0, 0, 0, 0.35)');
+    ctx.fillStyle = radial;
+    ctx.fillRect(0, 0, size, size);
+
+    ctx.strokeStyle = accentColor.getStyle();
+    ctx.globalAlpha = 0.35;
+    ctx.lineWidth = 20;
+    for (let i = -size; i <= size * 2; i += 48) {
+      ctx.beginPath();
+      ctx.moveTo(i, -20);
+      ctx.lineTo(i + size * 0.7, size + 20);
+      ctx.stroke();
+    }
+
+    ctx.globalAlpha = 0.25;
+    for (let i = 0; i < 60; i++) {
+      const radius = 6 + Math.random() * 14;
+      const x = Math.random() * size;
+      const y = Math.random() * size;
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.globalAlpha = 0.25;
+    ctx.fillStyle = accentColor.getStyle();
+    for (let i = 0; i < 40; i++) {
+      const radius = 4 + Math.random() * 10;
+      const x = Math.random() * size;
+      const y = Math.random() * size;
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.globalAlpha = 1;
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(1.6, 1.6);
+    texture.anisotropy = 4;
+    return texture;
   }
 
   private createCircleTexture(): void {
@@ -322,6 +395,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const group = new THREE.Group();
     const themeColor = new THREE.Color(color);
     const whiteColor = new THREE.Color('#ffffff');
+    const deepShadow = new THREE.Color(0x0a0a0a).lerp(themeColor, 0.35);
+    const patternTexture = this.createTarantulaPatternTexture(deepShadow, themeColor);
 
     const bodyMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0xffffff).lerp(whiteColor, 0.85),
@@ -335,6 +410,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       color: new THREE.Color(0x1a1a1a).lerp(themeColor, 0.9),
       roughness: 0.9,
       metalness: 0.1,
+      map: patternTexture,
       emissive: themeColor,
       emissiveIntensity: 0.2,
     });
@@ -557,7 +633,16 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     const venomGeometry = new THREE.SphereGeometry(0.6, 24, 24);
 
-    const venomSac = new THREE.Mesh(venomGeometry, cephaloMaterial);
+    const venomSacMaterial = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(0x121212).lerp(themeColor, 0.7),
+      roughness: 0.85,
+      metalness: 0.1,
+      map: patternTexture,
+      emissive: themeColor,
+      emissiveIntensity: 0.15,
+    });
+
+    const venomSac = new THREE.Mesh(venomGeometry, venomSacMaterial);
     venomSac.position.set(0, 0.7, -0.6);
     group.add(venomSac);
 
