@@ -725,9 +725,17 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     if (!attacker || !defender) return;
 
+    // Kill any previous tweens on attacker and defender to prevent overlap
+    gsap.killTweensOf(attacker.position);
+    gsap.killTweensOf(attacker.rotation);
+    gsap.killTweensOf(attacker.scale);
+    gsap.killTweensOf(defender.position);
+    gsap.killTweensOf(defender.rotation);
+    gsap.killTweensOf(defender.scale);
+
     const runAttackAnimation = (impactActionType: BattleActionType): gsap.core.Timeline => {
       const isCritical = impactActionType === 'critical';
-      const isBlocked = impactActionType === 'blocked';
+      const isBlocked = impactActionType === 'miss';
       const isPoisoned = impactActionType === 'poison';
       const impactAction: BattleAction = { ...action, type: impactActionType };
 
@@ -737,6 +745,14 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       const defenderBasePosition = this.getCharacterBasePosition(!isChar1Attacker, defender);
       const originalPos = { ...attackerBasePosition };
       const timeline = gsap.timeline();
+
+      // Reset transforms to base state before animating
+      attacker.position.set(attackerBasePosition.x, attackerBasePosition.y, attackerBasePosition.z);
+      attacker.rotation.set(0, isChar1Attacker ? Math.PI / 3 : -Math.PI / 3, 0);
+      attacker.scale.set(isChar1Attacker ? 1 : -1, 1, 1);
+      defender.position.set(defenderBasePosition.x, defenderBasePosition.y, defenderBasePosition.z);
+      defender.rotation.set(0, !isChar1Attacker ? Math.PI / 3 : -Math.PI / 3, 0);
+      defender.scale.set(!isChar1Attacker ? 1 : -1, 1, 1);
 
       if (isPoisoned) {
         this.createChargingEffect(attacker, isCritical);
@@ -791,14 +807,12 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           const defenderTimeline = gsap.timeline();
 
           if (!isBlocked) {
-            // Initial impact - spider gets hit and compressed
             defenderTimeline.to(defender.position, {
               y: defender.position.y + 0.5,
               duration: 0.06,
               ease: 'power4.out',
             });
 
-            // Dramatic rotation and twist on impact
             defenderTimeline.to(
               defender.rotation,
               {
@@ -811,7 +825,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
               '<',
             );
 
-            // Squash effect on impact
             const defenderScaleX = isChar1Attacker ? -0.6 : 0.6;
             defenderTimeline.to(
               defender.scale,
@@ -825,7 +838,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
               '<',
             );
 
-            // Spider gets launched backwards with tumbling motion
             defenderTimeline.to(defender.position, {
               x: defender.position.x + (isChar1Attacker ? 1.8 : -1.8),
               y: defender.position.y + 1.2,
@@ -834,7 +846,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
               ease: 'power3.out',
             });
 
-            // Tumbling rotation - multiple spins
             defenderTimeline.to(
               defender.rotation,
               {
@@ -847,7 +858,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
               '<',
             );
 
-            // Stretch effect during flight
             defenderTimeline.to(
               defender.scale,
               {
@@ -860,7 +870,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
               '<',
             );
 
-            // Continue tumbling and falling
             defenderTimeline.to(defender.position, {
               x: defender.position.x + (isChar1Attacker ? 2.5 : -2.5),
               y: defender.position.y + 0.2,
@@ -869,7 +878,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
               ease: 'power1.in',
             });
 
-            // More rotation during fall
             defenderTimeline.to(
               defender.rotation,
               {
@@ -882,7 +890,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
               '<',
             );
 
-            // Wobble and bounce on recovery
             defenderTimeline.to(
               defender.scale,
               {
@@ -895,7 +902,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
               '<',
             );
           } else {
-            // Blocked - minimal recoil animation
             defenderTimeline.to(defender.position, {
               y: defender.position.y + 0.2,
               duration: 0.08,
@@ -999,7 +1005,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           '<',
         );
 
-        // Final scale recovery with slight overshoot
         timeline.to(
           defender.scale,
           {
@@ -1014,16 +1019,21 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       }
 
       timeline.call(() => {
+        // Reset transforms to base state after animation
         attacker.position.set(
           attackerBasePosition.x,
           attackerBasePosition.y,
           attackerBasePosition.z,
         );
+        attacker.rotation.set(0, isChar1Attacker ? Math.PI / 3 : -Math.PI / 3, 0);
+        attacker.scale.set(isChar1Attacker ? 1 : -1, 1, 1);
         defender.position.set(
           defenderBasePosition.x,
           defenderBasePosition.y,
           defenderBasePosition.z,
         );
+        defender.rotation.set(0, !isChar1Attacker ? Math.PI / 3 : -Math.PI / 3, 0);
+        defender.scale.set(!isChar1Attacker ? 1 : -1, 1, 1);
         this.resetCamera();
         this.timeSlowActive = false;
       });
@@ -1648,7 +1658,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
   private createMassiveImpact(position: THREE.Vector3, action: BattleAction): void {
     const isCritical = action.type === 'critical';
-    const color = isCritical ? 0xff0044 : action.type === 'blocked' ? 0x00aaff : 0x34f5dd;
+    const color = isCritical ? 0xff0044 : action.type === 'miss' ? 0x00aaff : 0x34f5dd;
 
     for (let i = 0; i < 3; i++) {
       const ringGeometry = new THREE.RingGeometry(0.5, 0.8, 32);

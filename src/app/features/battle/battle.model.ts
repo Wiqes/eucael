@@ -1,6 +1,6 @@
 export type BattleRace = 'rat' | 'cat' | 'bear' | 'horse' | 'giraffe';
 
-export type BattleActionType = 'attack' | 'critical' | 'blocked' | 'miss' | 'poison' | 'combo';
+export type BattleActionType = 'attack' | 'critical' | 'miss' | 'poison' | 'combo';
 
 export interface Position3d {
   x: number;
