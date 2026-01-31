@@ -725,12 +725,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     if (!attacker || !defender) return;
 
-    const runAttackAnimation = (
-      impactActionType: BattleActionType,
-      isCritical: boolean,
-      isBlocked: boolean,
-      isPoisoned = false,
-    ): gsap.core.Timeline => {
+    const runAttackAnimation = (impactActionType: BattleActionType): gsap.core.Timeline => {
+      const isCritical = impactActionType === 'critical';
+      const isBlocked = impactActionType === 'blocked';
+      const isPoisoned = impactActionType === 'poison';
       const impactAction: BattleAction = { ...action, type: impactActionType };
 
       this.cinematicCameraZoom(attacker, defender, isCritical);
@@ -1034,20 +1032,17 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     };
 
     if (action.type === 'combo') {
-      const firstTimeline = runAttackAnimation('attack', false, false);
+      const firstTimeline = runAttackAnimation('attack');
       setTimeout(
         () => {
-          runAttackAnimation('attack', false, false);
+          runAttackAnimation('attack');
         },
         (firstTimeline.duration() + 0.1) * 500,
       );
       return;
     }
 
-    const isCritical = action.type === 'critical';
-    const isBlocked = action.type === 'miss';
-    const isPoisoned = action.type === 'poison';
-    runAttackAnimation(action.type, isCritical, isBlocked, isPoisoned);
+    runAttackAnimation(action.type);
   }
 
   private getCharacterBasePosition(
