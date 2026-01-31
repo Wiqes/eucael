@@ -395,6 +395,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const group = new THREE.Group();
     const themeColor = new THREE.Color(color);
     const whiteColor = new THREE.Color('#ffffff');
+    const blackColor = new THREE.Color('#000000');
     const deepShadow = new THREE.Color(0x0a0a0a).lerp(themeColor, 0.35);
     const patternTexture = this.createTarantulaPatternTexture(deepShadow, themeColor);
 
@@ -451,8 +452,39 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     }
 
     const legMaterial = bodyMaterial;
+    const jointMaterial = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(0x111111).lerp(blackColor, 0.65),
+      roughness: 0.55,
+      metalness: 0.2,
+      emissive: blackColor,
+      emissiveIntensity: 0.08,
+    });
 
     const legAngles = [Math.PI / 5, Math.PI / 12, -Math.PI / 12, -Math.PI / 4];
+
+    const addJointAtEnds = (
+      legParent: THREE.Group,
+      segment: THREE.Mesh,
+      segmentLength: number,
+      radius: number,
+    ): void => {
+      const jointGeometry = new THREE.SphereGeometry(radius, 12, 12);
+
+      const addJoint = (offsetY: number) => {
+        const joint = new THREE.Mesh(jointGeometry, jointMaterial);
+        const jointAnchor = new THREE.Object3D();
+        jointAnchor.position.copy(segment.position);
+        jointAnchor.rotation.copy(segment.rotation);
+        joint.position.set(0, offsetY, 0);
+        joint.castShadow = true;
+        joint.receiveShadow = true;
+        jointAnchor.add(joint);
+        legParent.add(jointAnchor);
+      };
+
+      addJoint(-segmentLength / 2);
+      addJoint(segmentLength / 2);
+    };
 
     for (let side = 0; side < 2; side++) {
       const sideMultiplier = side === 0 ? -1 : 1;
@@ -498,6 +530,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         middleLeg.castShadow = true;
         middleLeg.receiveShadow = true;
         legGroup.add(middleLeg);
+
+        addJointAtEnds(legGroup, middleLeg, middleLegLength, 0.065);
 
         for (let h = 0; h < 10; h++) {
           const bristleGeometry = new THREE.CylinderGeometry(0.014, 0.006, 0.34, 4);
