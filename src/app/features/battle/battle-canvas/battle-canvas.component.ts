@@ -452,13 +452,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     }
 
     const legMaterial = bodyMaterial;
-    const jointMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x111111).lerp(blackColor, 0.65),
-      roughness: 0.55,
-      metalness: 0.2,
-      emissive: blackColor,
-      emissiveIntensity: 0.08,
-    });
 
     const legAngles = [Math.PI / 5, Math.PI / 12, -Math.PI / 12, -Math.PI / 4];
 
@@ -471,7 +464,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       const jointGeometry = new THREE.SphereGeometry(radius, 12, 12);
 
       const addJoint = (offsetY: number) => {
-        const joint = new THREE.Mesh(jointGeometry, jointMaterial);
+        const joint = new THREE.Mesh(jointGeometry, legMaterial);
         const jointAnchor = new THREE.Object3D();
         jointAnchor.position.copy(segment.position);
         jointAnchor.rotation.copy(segment.rotation);
@@ -482,7 +475,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         legParent.add(jointAnchor);
       };
 
-      addJoint(-segmentLength / 2);
       addJoint(segmentLength / 2);
     };
 
@@ -531,7 +523,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         middleLeg.receiveShadow = true;
         legGroup.add(middleLeg);
 
-        addJointAtEnds(legGroup, middleLeg, middleLegLength, 0.065);
+        addJointAtEnds(legGroup, middleLeg, middleLegLength, 0.07);
 
         for (let h = 0; h < 10; h++) {
           const bristleGeometry = new THREE.CylinderGeometry(0.014, 0.006, 0.34, 4);
