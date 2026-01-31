@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { BattleService } from '../battle.service';
-import { BattleCharacter, BattleAction, Position3d } from '../battle.model';
+import { BattleCharacter, BattleAction, BattleActionType, Position3d } from '../battle.model';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -395,7 +395,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const group = new THREE.Group();
     const themeColor = new THREE.Color(color);
     const whiteColor = new THREE.Color('#ffffff');
-    const blackColor = new THREE.Color('#000000');
     const deepShadow = new THREE.Color(0x0a0a0a).lerp(themeColor, 0.35);
     const patternTexture = this.createTarantulaPatternTexture(deepShadow, themeColor);
 
@@ -719,295 +718,325 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     if (!attacker || !defender) return;
 
-    const isCritical = action.type === 'critical';
-    const isBlocked = action.type === 'miss';
+    const runAttackAnimation = (
+      impactActionType: BattleActionType,
+      isCritical: boolean,
+      isBlocked: boolean,
+    ): gsap.core.Timeline => {
+      const impactAction: BattleAction = { ...action, type: impactActionType };
 
-    this.cinematicCameraZoom(attacker, defender, isCritical);
+      this.cinematicCameraZoom(attacker, defender, isCritical);
 
-    const attackerBasePosition = this.getCharacterBasePosition(isChar1Attacker, attacker);
-    const defenderBasePosition = this.getCharacterBasePosition(!isChar1Attacker, defender);
-    const originalPos = { ...attackerBasePosition };
-    const timeline = gsap.timeline();
+      const attackerBasePosition = this.getCharacterBasePosition(isChar1Attacker, attacker);
+      const defenderBasePosition = this.getCharacterBasePosition(!isChar1Attacker, defender);
+      const originalPos = { ...attackerBasePosition };
+      const timeline = gsap.timeline();
 
-    this.createChargingEffect(attacker, isCritical);
+      this.createChargingEffect(attacker, isCritical);
 
-    if (isBlocked) {
-      timeline.call(() => {
-        this.createEnergyShield(defender);
-      });
-    }
+      if (isBlocked) {
+        timeline.call(() => {
+          this.createEnergyShield(defender);
+        });
+      }
 
-    if (isCritical) {
-      this.timeSlowActive = true;
-      timeline.call(() => {
-        this.createLightningStrike(attacker.position, defender.position);
-      });
-    }
+      if (isCritical) {
+        this.timeSlowActive = true;
+        timeline.call(() => {
+          this.createLightningStrike(attacker.position, defender.position);
+        });
+      }
 
-    const attackerScaleX = isChar1Attacker ? 1.3 : -1.3;
-    timeline.to(attacker.scale, {
-      x: attackerScaleX,
-      y: 0.7,
-      z: 1.3,
-      duration: 0.2,
-      ease: 'power2.in',
-    });
-
-    timeline.to(
-      attacker.rotation,
-      {
-        y: isChar1Attacker ? Math.PI + Math.PI * 2 : -Math.PI - Math.PI * 2,
-        duration: 0.15,
-        ease: 'power4.inOut',
-      },
-      '<',
-    );
-
-    timeline.to(attacker.position, {
-      x: isChar1Attacker ? defenderBasePosition.x - 0.9 : defenderBasePosition.x + 0.9,
-      y: defenderBasePosition.y + 1,
-      z: isChar1Attacker ? defenderBasePosition.z - 1 : defenderBasePosition.z + 1,
-      duration: 0.15,
-      ease: 'power4.inOut',
-      onComplete: () => {
-        this.createMassiveImpact(defender.position, action);
-        this.createEnergyWave(defender.position, isCritical);
-
-        if (isCritical) {
-          this.screenFlash();
-        }
-
-        const defenderTimeline = gsap.timeline();
-
-        if (!isBlocked) {
-          // Initial impact - spider gets hit and compressed
-          defenderTimeline.to(defender.position, {
-            y: defender.position.y + 0.5,
-            duration: 0.06,
-            ease: 'power4.out',
-          });
-
-          // Dramatic rotation and twist on impact
-          defenderTimeline.to(
-            defender.rotation,
-            {
-              z: (isChar1Attacker ? 1 : -1) * 0.8,
-              y: (isChar1Attacker ? 1 : -1) * Math.PI * 0.25,
-              x: 0.5,
-              duration: 0.06,
-              ease: 'power3.out',
-            },
-            '<',
-          );
-
-          // Squash effect on impact
-          const defenderScaleX = isChar1Attacker ? -0.6 : 0.6;
-          defenderTimeline.to(
-            defender.scale,
-            {
-              x: defenderScaleX,
-              y: 0.6,
-              z: 0.75,
-              duration: 0.06,
-              ease: 'power3.in',
-            },
-            '<',
-          );
-
-          // Spider gets launched backwards with tumbling motion
-          defenderTimeline.to(defender.position, {
-            x: defender.position.x + (isChar1Attacker ? 1.8 : -1.8),
-            y: defender.position.y + 1.2,
-            z: defender.position.z + (isChar1Attacker ? 0.6 : -0.6),
-            duration: 0.18,
-            ease: 'power3.out',
-          });
-
-          // Tumbling rotation - multiple spins
-          defenderTimeline.to(
-            defender.rotation,
-            {
-              z: (isChar1Attacker ? 1 : -1) * Math.PI * 1.2,
-              y: (isChar1Attacker ? 1 : -1) * Math.PI * 0.6,
-              x: Math.PI * 0.8,
-              duration: 0.18,
-              ease: 'power2.out',
-            },
-            '<',
-          );
-
-          // Stretch effect during flight
-          defenderTimeline.to(
-            defender.scale,
-            {
-              x: isChar1Attacker ? -1.1 : 1.1,
-              y: 0.85,
-              z: 1.05,
-              duration: 0.12,
-              ease: 'power1.out',
-            },
-            '<',
-          );
-
-          // Continue tumbling and falling
-          defenderTimeline.to(defender.position, {
-            x: defender.position.x + (isChar1Attacker ? 2.5 : -2.5),
-            y: defender.position.y + 0.2,
-            z: defender.position.z + (isChar1Attacker ? 0.4 : -0.4),
-            duration: 0.2,
-            ease: 'power1.in',
-          });
-
-          // More rotation during fall
-          defenderTimeline.to(
-            defender.rotation,
-            {
-              z: (isChar1Attacker ? 1 : -1) * Math.PI * 2.2,
-              y: (isChar1Attacker ? 1 : -1) * Math.PI * 1.1,
-              x: Math.PI * 1.3,
-              duration: 0.2,
-              ease: 'power1.in',
-            },
-            '<',
-          );
-
-          // Wobble and bounce on recovery
-          defenderTimeline.to(
-            defender.scale,
-            {
-              x: isChar1Attacker ? -0.9 : 0.9,
-              y: 1.1,
-              z: 0.9,
-              duration: 0.15,
-              ease: 'elastic.out(1.5, 0.6)',
-            },
-            '<',
-          );
-        } else {
-          // Blocked - minimal recoil animation
-          defenderTimeline.to(defender.position, {
-            y: defender.position.y + 0.2,
-            duration: 0.08,
-            ease: 'power2.out',
-          });
-
-          defenderTimeline.to(
-            defender.rotation,
-            {
-              x: -0.1,
-              duration: 0.08,
-              ease: 'power2.out',
-            },
-            '<',
-          );
-
-          defenderTimeline.to(defender.position, {
-            y: defender.position.y,
-            duration: 0.15,
-            ease: 'bounce.out',
-          });
-
-          defenderTimeline.to(
-            defender.rotation,
-            {
-              x: 0,
-              duration: 0.15,
-              ease: 'power2.out',
-            },
-            '<',
-          );
-        }
-      },
-    });
-
-    timeline.to(attacker.position, {
-      x: originalPos.x,
-      y: originalPos.y + 3,
-      z: originalPos.z,
-      duration: 0.4,
-      ease: 'power2.in',
-    });
-
-    timeline.to(
-      attacker.rotation,
-      {
-        x: Math.PI * 2,
-        duration: 0.4,
+      const attackerScaleX = isChar1Attacker ? 1.3 : -1.3;
+      timeline.to(attacker.scale, {
+        x: attackerScaleX,
+        y: 0.7,
+        z: 1.3,
+        duration: 0.2,
         ease: 'power2.in',
-      },
-      '<',
-    );
-
-    timeline.to(attacker.position, {
-      x: originalPos.x,
-      y: originalPos.y,
-      z: originalPos.z,
-      duration: 0.3,
-      ease: 'bounce.out',
-    });
-
-    timeline.to(
-      attacker.rotation,
-      {
-        x: 0,
-        y: isChar1Attacker ? Math.PI / 3 : -Math.PI / 3,
-        duration: 0.3,
-      },
-      '<',
-    );
-
-    timeline.to(attacker.scale, {
-      x: isChar1Attacker ? 1 : -1,
-      y: 1,
-      z: 1,
-      duration: 0.2,
-    });
-
-    if (!isBlocked) {
-      timeline.to(
-        defender.position,
-        {
-          x: defenderBasePosition.x,
-          y: defenderBasePosition.y,
-          z: defenderBasePosition.z,
-          duration: 0.5,
-          ease: 'power2.inOut',
-        },
-        '-=0.5',
-      );
+      });
 
       timeline.to(
-        defender.rotation,
+        attacker.rotation,
         {
-          z: 0,
-          y: isChar1Attacker ? -Math.PI / 3 : Math.PI / 3,
-          x: 0,
-          duration: 0.5,
-          ease: 'elastic.out(1, 0.5)',
+          y: isChar1Attacker ? Math.PI + Math.PI * 2 : -Math.PI - Math.PI * 2,
+          duration: 0.15,
+          ease: 'power4.inOut',
         },
         '<',
       );
 
-      // Final scale recovery with slight overshoot
-      timeline.to(
-        defender.scale,
-        {
-          x: isChar1Attacker ? -1 : 1,
-          y: 1,
-          z: 1,
-          duration: 0.3,
-          ease: 'elastic.out(1.1, 0.4)',
+      timeline.to(attacker.position, {
+        x: isChar1Attacker ? defenderBasePosition.x - 0.9 : defenderBasePosition.x + 0.9,
+        y: defenderBasePosition.y + 1,
+        z: isChar1Attacker ? defenderBasePosition.z - 1 : defenderBasePosition.z + 1,
+        duration: 0.15,
+        ease: 'power4.inOut',
+        onComplete: () => {
+          this.createMassiveImpact(defender.position, impactAction);
+          this.createEnergyWave(defender.position, isCritical);
+
+          if (isCritical) {
+            this.screenFlash();
+          }
+
+          const defenderTimeline = gsap.timeline();
+
+          if (!isBlocked) {
+            // Initial impact - spider gets hit and compressed
+            defenderTimeline.to(defender.position, {
+              y: defender.position.y + 0.5,
+              duration: 0.06,
+              ease: 'power4.out',
+            });
+
+            // Dramatic rotation and twist on impact
+            defenderTimeline.to(
+              defender.rotation,
+              {
+                z: (isChar1Attacker ? 1 : -1) * 0.8,
+                y: (isChar1Attacker ? 1 : -1) * Math.PI * 0.25,
+                x: 0.5,
+                duration: 0.06,
+                ease: 'power3.out',
+              },
+              '<',
+            );
+
+            // Squash effect on impact
+            const defenderScaleX = isChar1Attacker ? -0.6 : 0.6;
+            defenderTimeline.to(
+              defender.scale,
+              {
+                x: defenderScaleX,
+                y: 0.6,
+                z: 0.75,
+                duration: 0.06,
+                ease: 'power3.in',
+              },
+              '<',
+            );
+
+            // Spider gets launched backwards with tumbling motion
+            defenderTimeline.to(defender.position, {
+              x: defender.position.x + (isChar1Attacker ? 1.8 : -1.8),
+              y: defender.position.y + 1.2,
+              z: defender.position.z + (isChar1Attacker ? 0.6 : -0.6),
+              duration: 0.18,
+              ease: 'power3.out',
+            });
+
+            // Tumbling rotation - multiple spins
+            defenderTimeline.to(
+              defender.rotation,
+              {
+                z: (isChar1Attacker ? 1 : -1) * Math.PI * 1.2,
+                y: (isChar1Attacker ? 1 : -1) * Math.PI * 0.6,
+                x: Math.PI * 0.8,
+                duration: 0.18,
+                ease: 'power2.out',
+              },
+              '<',
+            );
+
+            // Stretch effect during flight
+            defenderTimeline.to(
+              defender.scale,
+              {
+                x: isChar1Attacker ? -1.1 : 1.1,
+                y: 0.85,
+                z: 1.05,
+                duration: 0.12,
+                ease: 'power1.out',
+              },
+              '<',
+            );
+
+            // Continue tumbling and falling
+            defenderTimeline.to(defender.position, {
+              x: defender.position.x + (isChar1Attacker ? 2.5 : -2.5),
+              y: defender.position.y + 0.2,
+              z: defender.position.z + (isChar1Attacker ? 0.4 : -0.4),
+              duration: 0.2,
+              ease: 'power1.in',
+            });
+
+            // More rotation during fall
+            defenderTimeline.to(
+              defender.rotation,
+              {
+                z: (isChar1Attacker ? 1 : -1) * Math.PI * 2.2,
+                y: (isChar1Attacker ? 1 : -1) * Math.PI * 1.1,
+                x: Math.PI * 1.3,
+                duration: 0.2,
+                ease: 'power1.in',
+              },
+              '<',
+            );
+
+            // Wobble and bounce on recovery
+            defenderTimeline.to(
+              defender.scale,
+              {
+                x: isChar1Attacker ? -0.9 : 0.9,
+                y: 1.1,
+                z: 0.9,
+                duration: 0.15,
+                ease: 'elastic.out(1.5, 0.6)',
+              },
+              '<',
+            );
+          } else {
+            // Blocked - minimal recoil animation
+            defenderTimeline.to(defender.position, {
+              y: defender.position.y + 0.2,
+              duration: 0.08,
+              ease: 'power2.out',
+            });
+
+            defenderTimeline.to(
+              defender.rotation,
+              {
+                x: -0.1,
+                duration: 0.08,
+                ease: 'power2.out',
+              },
+              '<',
+            );
+
+            defenderTimeline.to(defender.position, {
+              y: defender.position.y,
+              duration: 0.15,
+              ease: 'bounce.out',
+            });
+
+            defenderTimeline.to(
+              defender.rotation,
+              {
+                x: 0,
+                duration: 0.15,
+                ease: 'power2.out',
+              },
+              '<',
+            );
+          }
         },
-        '<+=0.1',
+      });
+
+      timeline.to(attacker.position, {
+        x: originalPos.x,
+        y: originalPos.y + 3,
+        z: originalPos.z,
+        duration: 0.4,
+        ease: 'power2.in',
+      });
+
+      timeline.to(
+        attacker.rotation,
+        {
+          x: Math.PI * 2,
+          duration: 0.4,
+          ease: 'power2.in',
+        },
+        '<',
       );
+
+      timeline.to(attacker.position, {
+        x: originalPos.x,
+        y: originalPos.y,
+        z: originalPos.z,
+        duration: 0.3,
+        ease: 'bounce.out',
+      });
+
+      timeline.to(
+        attacker.rotation,
+        {
+          x: 0,
+          y: isChar1Attacker ? Math.PI / 3 : -Math.PI / 3,
+          duration: 0.3,
+        },
+        '<',
+      );
+
+      timeline.to(attacker.scale, {
+        x: isChar1Attacker ? 1 : -1,
+        y: 1,
+        z: 1,
+        duration: 0.2,
+      });
+
+      if (!isBlocked) {
+        timeline.to(
+          defender.position,
+          {
+            x: defenderBasePosition.x,
+            y: defenderBasePosition.y,
+            z: defenderBasePosition.z,
+            duration: 0.5,
+            ease: 'power2.inOut',
+          },
+          '-=0.5',
+        );
+
+        timeline.to(
+          defender.rotation,
+          {
+            z: 0,
+            y: isChar1Attacker ? -Math.PI / 3 : Math.PI / 3,
+            x: 0,
+            duration: 0.5,
+            ease: 'elastic.out(1, 0.5)',
+          },
+          '<',
+        );
+
+        // Final scale recovery with slight overshoot
+        timeline.to(
+          defender.scale,
+          {
+            x: isChar1Attacker ? -1 : 1,
+            y: 1,
+            z: 1,
+            duration: 0.3,
+            ease: 'elastic.out(1.1, 0.4)',
+          },
+          '<+=0.1',
+        );
+      }
+
+      timeline.call(() => {
+        attacker.position.set(
+          attackerBasePosition.x,
+          attackerBasePosition.y,
+          attackerBasePosition.z,
+        );
+        defender.position.set(
+          defenderBasePosition.x,
+          defenderBasePosition.y,
+          defenderBasePosition.z,
+        );
+        this.resetCamera();
+        this.timeSlowActive = false;
+      });
+
+      return timeline;
+    };
+
+    if (action.type === 'combo') {
+      const firstTimeline = runAttackAnimation('attack', false, false);
+      setTimeout(
+        () => {
+          runAttackAnimation('attack', false, false);
+        },
+        (firstTimeline.duration() + 0.1) * 500,
+      );
+      return;
     }
 
-    timeline.call(() => {
-      attacker.position.set(attackerBasePosition.x, attackerBasePosition.y, attackerBasePosition.z);
-      defender.position.set(defenderBasePosition.x, defenderBasePosition.y, defenderBasePosition.z);
-      this.resetCamera();
-      this.timeSlowActive = false;
-    });
+    const isCritical = action.type === 'critical';
+    const isBlocked = action.type === 'miss';
+    runAttackAnimation(action.type, isCritical, isBlocked);
   }
 
   private getCharacterBasePosition(

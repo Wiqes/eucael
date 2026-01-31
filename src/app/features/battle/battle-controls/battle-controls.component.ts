@@ -15,15 +15,10 @@ export class BattleControlsComponent {
   @Input() isBattleActive = false;
   @Input() isAwaitingPlayerAction = false;
   @Output() readonly startBattle = new EventEmitter<void>();
-  @Output() readonly terminateBattle = new EventEmitter<void>();
   @Output() readonly playerAction = new EventEmitter<BattleActionType>();
 
   onStartBattle(): void {
     this.startBattle.emit();
-  }
-
-  onTerminateBattle(): void {
-    this.terminateBattle.emit();
   }
 
   onPlayerAction(actionType: BattleActionType): void {
