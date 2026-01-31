@@ -18,19 +18,26 @@ import { Subject, takeUntil } from 'rxjs';
   selector: 'app-battle-canvas',
   standalone: true,
   imports: [CommonModule],
-  template: '<canvas #battleCanvas></canvas>',
+  template:
+    '<canvas #battleCanvas style="width:100%;height:100%;display:block;position:absolute;top:0;left:0;"></canvas>',
   styles: [
     `
       :host {
         display: block;
         width: 100%;
         height: 100%;
+        position: relative;
       }
 
       canvas {
-        width: 100%;
-        height: 100%;
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 100%;
+        max-height: 100%;
         display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
       }
     `,
   ],
