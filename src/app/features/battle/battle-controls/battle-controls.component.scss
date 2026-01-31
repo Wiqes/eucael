@@ -1,17 +1,21 @@
 @use 'variables' as *;
 
 .control-panel {
-  padding: 20px 24px;
+  padding: 0;
   display: flex;
+  position: absolute;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  bottom: 20px;
+  width: 100%;
   gap: 16px;
 }
 
 .control-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  padding-right: 40px;
   width: 100%;
   gap: 12px;
   flex-wrap: wrap;
