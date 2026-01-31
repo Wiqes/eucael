@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BattleCharacter, BattleAction, BattleState } from '../battle.model';
+import { BattleCharacter, BattleAction, BattleActionType, BattleState } from '../battle.model';
 import { Subject } from 'rxjs';
 import { BattleInitiativeService } from './battle-initiative.service';
 import { BattleDamageService } from './battle-damage.service';
@@ -19,6 +19,34 @@ export class BattleTurnService {
   private readonly damageApplyDelayMs = 350;
   private readonly deathNotificationDelayMs = 1500;
 
+  getCounterAttackDelayMs(): number {
+    return this.counterAttackDelayMs;
+  }
+
+  getEffectsDelayMs(): number {
+    return this.effectsDelayMs;
+  }
+
+  getTurnOrder(
+    team1: BattleCharacter,
+    team2: BattleCharacter,
+  ): {
+    firstAttacker: BattleCharacter;
+    firstDefender: BattleCharacter;
+    firstAttackerIsTeam1: boolean;
+  } {
+    const initiative1 = this.initiativeService.calculateInitiative(team1);
+    const initiative2 = this.initiativeService.calculateInitiative(team2);
+
+    const firstAttackerIsTeam1 = initiative1 >= initiative2;
+
+    return {
+      firstAttacker: firstAttackerIsTeam1 ? team1 : team2,
+      firstDefender: firstAttackerIsTeam1 ? team2 : team1,
+      firstAttackerIsTeam1,
+    };
+  }
+
   executeTurn(
     state: BattleState,
     actionSubject: Subject<BattleAction | null>,
@@ -36,22 +64,23 @@ export class BattleTurnService {
       return;
     }
 
-    // Determine who goes first based on initiative
-    const initiative1 = this.initiativeService.calculateInitiative(activeChar1);
-    const initiative2 = this.initiativeService.calculateInitiative(activeChar2);
-
-    const firstAttacker = initiative1 >= initiative2 ? activeChar1 : activeChar2;
-    const firstDefender = initiative1 >= initiative2 ? activeChar2 : activeChar1;
+    const { firstAttacker, firstDefender } = this.getTurnOrder(activeChar1, activeChar2);
 
     // Execute first attack
-    this.executeAttack(firstAttacker, firstDefender, state, actionSubject, onCharacterDeath);
+    this.executeAutoAttack(firstAttacker, firstDefender, state, actionSubject, onCharacterDeath);
 
     // Check if defender is still alive for counter-attack
     setTimeout(() => {
       if (state.isComplete) return;
 
       if (firstDefender.isAlive) {
-        this.executeAttack(firstDefender, firstAttacker, state, actionSubject, onCharacterDeath);
+        this.executeAutoAttack(
+          firstDefender,
+          firstAttacker,
+          state,
+          actionSubject,
+          onCharacterDeath,
+        );
       }
 
       // Apply end-of-turn effects after both attacks
@@ -61,7 +90,66 @@ export class BattleTurnService {
     }, this.counterAttackDelayMs);
   }
 
-  private executeAttack(
+  executeAutoAttack(
+    attacker: BattleCharacter,
+    defender: BattleCharacter,
+    state: BattleState,
+    actionSubject: Subject<BattleAction | null>,
+    onCharacterDeath: (wasTeam1Attacking: boolean) => void,
+  ): void {
+    this.executeAutoAttackInternal(attacker, defender, state, actionSubject, onCharacterDeath);
+  }
+
+  executePlayerAttack(
+    attacker: BattleCharacter,
+    defender: BattleCharacter,
+    state: BattleState,
+    actionSubject: Subject<BattleAction | null>,
+    onCharacterDeath: (wasTeam1Attacking: boolean) => void,
+    actionType: BattleActionType,
+  ): void {
+    attacker.turnCount++;
+
+    if (actionType === 'miss') {
+      this.executeMiss(attacker, defender, state, actionSubject);
+      return;
+    }
+
+    if (actionType === 'poison') {
+      this.racialSkillsService.applyForcedPoison(attacker, defender, state, actionSubject);
+      return;
+    }
+
+    if (actionType === 'combo') {
+      this.racialSkillsService.applyForcedCombo(attacker, defender, state, actionSubject, () =>
+        this.handleDeathCallback(attacker, defender, state, onCharacterDeath),
+      );
+      return;
+    }
+
+    const baseDamage = this.damageService.calculateBaseDamage(attacker, defender);
+    const finalDamage = Math.floor(actionType === 'critical' ? baseDamage * 1.5 : baseDamage);
+
+    this.emitAction(state, actionSubject, {
+      attackerId: attacker.id,
+      defenderId: defender.id,
+      damage: finalDamage,
+      type: actionType,
+      timestamp: Date.now(),
+    });
+
+    this.applyDamageWithDelay(attacker, defender, state, onCharacterDeath, finalDamage);
+  }
+
+  applyEndOfTurnEffects(
+    state: BattleState,
+    actionSubject: Subject<BattleAction | null>,
+    onCharacterDeath: (wasTeam1Attacking: boolean) => void,
+  ): void {
+    this.effectsService.applyEndOfTurnEffects(state, actionSubject, onCharacterDeath);
+  }
+
+  private executeAutoAttackInternal(
     attacker: BattleCharacter,
     defender: BattleCharacter,
     state: BattleState,
@@ -102,20 +190,7 @@ export class BattleTurnService {
       timestamp: Date.now(),
     });
 
-    // Apply damage with delay
-    setTimeout(() => {
-      if (state.isComplete) return;
-
-      defender.health = Math.max(0, defender.health - finalDamage);
-      defender.isAlive = defender.health > 0;
-
-      if (!defender.isAlive) {
-        setTimeout(() => {
-          const wasTeam1Attacking = attacker === state.team1[state.activeTeam1Index];
-          onCharacterDeath(wasTeam1Attacking);
-        }, this.deathNotificationDelayMs);
-      }
-    }, this.damageApplyDelayMs);
+    this.applyDamageWithDelay(attacker, defender, state, onCharacterDeath, finalDamage);
   }
 
   private executeMiss(
@@ -141,5 +216,41 @@ export class BattleTurnService {
   ): void {
     state.actions.push(action);
     actionSubject.next(action);
+  }
+
+  private applyDamageWithDelay(
+    attacker: BattleCharacter,
+    defender: BattleCharacter,
+    state: BattleState,
+    onCharacterDeath: (wasTeam1Attacking: boolean) => void,
+    finalDamage: number,
+  ): void {
+    setTimeout(() => {
+      if (state.isComplete) return;
+
+      defender.health = Math.max(0, defender.health - finalDamage);
+      defender.isAlive = defender.health > 0;
+
+      if (!defender.isAlive) {
+        setTimeout(() => {
+          const wasTeam1Attacking = attacker === state.team1[state.activeTeam1Index];
+          onCharacterDeath(wasTeam1Attacking);
+        }, this.deathNotificationDelayMs);
+      }
+    }, this.damageApplyDelayMs);
+  }
+
+  private handleDeathCallback(
+    attacker: BattleCharacter,
+    defender: BattleCharacter,
+    state: BattleState,
+    onCharacterDeath: (wasTeam1Attacking: boolean) => void,
+  ): void {
+    if (!defender.isAlive) {
+      setTimeout(() => {
+        const wasTeam1Attacking = attacker === state.team1[state.activeTeam1Index];
+        onCharacterDeath(wasTeam1Attacking);
+      }, this.deathNotificationDelayMs);
+    }
   }
 }

@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TranslateModule } from '@ngx-translate/core';
+import { BattleActionType } from '../battle.model';
 
 @Component({
   selector: 'app-battle-controls',
@@ -12,8 +13,10 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class BattleControlsComponent {
   @Input() isBattleActive = false;
+  @Input() isAwaitingPlayerAction = false;
   @Output() readonly startBattle = new EventEmitter<void>();
   @Output() readonly terminateBattle = new EventEmitter<void>();
+  @Output() readonly playerAction = new EventEmitter<BattleActionType>();
 
   onStartBattle(): void {
     this.startBattle.emit();
@@ -21,5 +24,9 @@ export class BattleControlsComponent {
 
   onTerminateBattle(): void {
     this.terminateBattle.emit();
+  }
+
+  onPlayerAction(actionType: BattleActionType): void {
+    this.playerAction.emit(actionType);
   }
 }

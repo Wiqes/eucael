@@ -19,4 +19,47 @@
       styleClass="battle-btn reset-btn"
     />
   </div>
+
+  <div class="control-buttons" *ngIf="isBattleActive && isAwaitingPlayerAction">
+    <p-button
+      [label]="'Attack' | translate"
+      icon="pi pi-send"
+      (onClick)="onPlayerAction('attack')"
+      severity="primary"
+      size="large"
+      styleClass="battle-btn attack-btn"
+    />
+    <p-button
+      [label]="'Critical' | translate"
+      icon="pi pi-bolt"
+      (onClick)="onPlayerAction('critical')"
+      severity="danger"
+      size="large"
+      styleClass="battle-btn critical-btn"
+    />
+    <p-button
+      [label]="'Combo' | translate"
+      icon="pi pi-clone"
+      (onClick)="onPlayerAction('combo')"
+      severity="info"
+      size="large"
+      styleClass="battle-btn combo-btn"
+    />
+    <p-button
+      [label]="'Poison' | translate"
+      icon="pi pi-bullseye"
+      (onClick)="onPlayerAction('poison')"
+      severity="help"
+      size="large"
+      styleClass="battle-btn poison-btn"
+    />
+    <p-button
+      [label]="'Miss' | translate"
+      icon="pi pi-times-circle"
+      (onClick)="onPlayerAction('miss')"
+      severity="secondary"
+      size="large"
+      styleClass="battle-btn miss-btn"
+    />
+  </div>
 </div>

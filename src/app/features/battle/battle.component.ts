@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BattleService } from './battle.service';
-import { BattleCharacter, BattleState } from './battle.model';
+import { BattleActionType, BattleCharacter, BattleState } from './battle.model';
 import { Subject, map, takeUntil } from 'rxjs';
 import { CharacterStatusCardComponent } from './character-status-card/character-status-card.component';
 import { BattleVsBadgeComponent } from './battle-vs-badge/battle-vs-badge.component';
@@ -34,6 +34,7 @@ export class BattleComponent implements OnInit, OnDestroy {
 
   readonly battleState$ = this.battleService.battleState$;
   readonly isBattleActive$ = this.battleState$.pipe(map((state) => state !== null));
+  readonly awaitingPlayerAction$ = this.battleService.awaitingPlayerAction$;
   character1: BattleCharacter | null = null;
   character2: BattleCharacter | null = null;
 
@@ -63,6 +64,10 @@ export class BattleComponent implements OnInit, OnDestroy {
     this.character1 = null;
     this.character2 = null;
     this.router.navigate(['/']);
+  }
+
+  onPlayerAction(actionType: BattleActionType): void {
+    this.battleService.performPlayerAction(actionType);
   }
 
   private updateActiveCharacters(state: BattleState | null): void {

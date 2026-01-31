@@ -38,6 +38,55 @@ export class BattleRacialSkillsService {
     }
   }
 
+  applyForcedPoison(
+    attacker: BattleCharacter,
+    defender: BattleCharacter,
+    state: BattleState,
+    actionSubject: Subject<BattleAction | null>,
+  ): void {
+    const poisonDamage =
+      attacker.attack * this.poisonAttackFactor + attacker.focus * this.poisonFocusDamageFactor;
+
+    defender.poisonEffect = {
+      turnsRemaining: this.poisonTurns,
+      damagePerTurn: Math.floor(poisonDamage),
+    };
+
+    this.emitAction(state, actionSubject, {
+      attackerId: attacker.id,
+      defenderId: defender.id,
+      damage: 0,
+      type: 'poison',
+      timestamp: Date.now(),
+      message: `${defender.name} is poisoned!`,
+    });
+  }
+
+  applyForcedCombo(
+    attacker: BattleCharacter,
+    defender: BattleCharacter,
+    state: BattleState,
+    actionSubject: Subject<BattleAction | null>,
+    onAfterDamage?: () => void,
+  ): void {
+    const comboDamage = Math.floor(attacker.attack * this.comboDamageFactor);
+
+    this.emitAction(state, actionSubject, {
+      attackerId: attacker.id,
+      defenderId: defender.id,
+      damage: comboDamage,
+      type: 'combo',
+      timestamp: Date.now(),
+      message: `${attacker.name} combo strike!`,
+    });
+
+    setTimeout(() => {
+      defender.health = Math.max(0, defender.health - comboDamage);
+      defender.isAlive = defender.health > 0;
+      onAfterDamage?.();
+    }, this.comboDamageDelayMs);
+  }
+
   private applyPoisonBite(
     attacker: BattleCharacter,
     defender: BattleCharacter,

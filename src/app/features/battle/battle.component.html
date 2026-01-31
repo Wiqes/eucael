@@ -32,7 +32,9 @@
   <!-- Control Panel -->
   <app-battle-controls
     [isBattleActive]="(isBattleActive$ | async) ?? false"
+    [isAwaitingPlayerAction]="(awaitingPlayerAction$ | async) ?? false"
     (startBattle)="startBattle()"
     (terminateBattle)="resetAndTerminateBattle()"
+    (playerAction)="onPlayerAction($event)"
   />
 </div>
