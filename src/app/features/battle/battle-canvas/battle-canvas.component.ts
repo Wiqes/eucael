@@ -729,6 +729,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       impactActionType: BattleActionType,
       isCritical: boolean,
       isBlocked: boolean,
+      isPoisoned = false,
     ): gsap.core.Timeline => {
       const impactAction: BattleAction = { ...action, type: impactActionType };
 
@@ -739,7 +740,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       const originalPos = { ...attackerBasePosition };
       const timeline = gsap.timeline();
 
-      this.createChargingEffect(attacker, isCritical);
+      if (isPoisoned) {
+        this.createChargingEffect(attacker, isCritical);
+      }
 
       if (isBlocked) {
         timeline.call(() => {
@@ -1043,7 +1046,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     const isCritical = action.type === 'critical';
     const isBlocked = action.type === 'miss';
-    runAttackAnimation(action.type, isCritical, isBlocked);
+    const isPoisoned = action.type === 'poison';
+    runAttackAnimation(action.type, isCritical, isBlocked, isPoisoned);
   }
 
   private getCharacterBasePosition(
