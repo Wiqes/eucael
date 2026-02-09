@@ -1741,86 +1741,122 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       duration: 0.1,
     });
 
-    // Create multiple main lightning bolts
-    const boltCount = 3;
-    for (let b = 0; b < boltCount; b++) {
-      const points: THREE.Vector3[] = [];
-      const segments = 20;
-
-      points.push(from.clone());
-      points[0].y += 10;
+    // Create multiple main lightning bolts with animated jitter + glow
+    const createBoltPoints = (start: THREE.Vector3, end: THREE.Vector3, segments: number) => {
+      const boltPoints: THREE.Vector3[] = [];
+      boltPoints.push(start.clone());
+      boltPoints[0].y += 10;
 
       for (let i = 1; i < segments; i++) {
         const t = i / segments;
-        const point = new THREE.Vector3().lerpVectors(from, to, t);
+        const point = new THREE.Vector3().lerpVectors(start, end, t);
         point.y += 10 - t * 8;
-        point.x += (Math.random() - 0.5) * 0.8;
-        point.z += (Math.random() - 0.5) * 0.8;
-        points.push(point);
+        const wander = 0.8 + Math.sin(t * Math.PI * 2) * 0.6;
+        point.x += (Math.random() - 0.5) * wander;
+        point.z += (Math.random() - 0.5) * wander;
+        boltPoints.push(point);
       }
 
-      points.push(to.clone());
-      points[points.length - 1].y += 2;
+      boltPoints.push(end.clone());
+      boltPoints[boltPoints.length - 1].y += 2;
+      return boltPoints;
+    };
 
-      // Main bolt with glow
-      const lightningGeometry = new THREE.BufferGeometry().setFromPoints(points);
-      const lightningMaterial = new THREE.LineBasicMaterial({
-        color: b === 0 ? 0xffffff : 0xaaffff,
-        linewidth: 5,
+    const spawnBolt = (points: THREE.Vector3[], color: number, opacity: number, jitter: number) => {
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const material = new THREE.LineBasicMaterial({
+        color,
         transparent: true,
-        opacity: b === 0 ? 1 : 0.8,
+        opacity,
+        blending: THREE.AdditiveBlending,
       });
-      const lightning = new THREE.Line(lightningGeometry, lightningMaterial);
-      this.scene.add(lightning);
-      this.lightningBolts.push(lightning as unknown as THREE.Mesh);
+      const line = new THREE.Line(geometry, material);
+      this.scene.add(line);
+      this.lightningBolts.push(line as unknown as THREE.Mesh);
+
+      const basePoints = points.map((point) => point.clone());
+      const positions = geometry.attributes['position'] as THREE.BufferAttribute;
+
+      const updateBolt = () => {
+        for (let i = 0; i < basePoints.length; i++) {
+          const base = basePoints[i];
+          const offset = i === 0 || i === basePoints.length - 1 ? 0 : jitter;
+          positions.setXYZ(
+            i,
+            base.x + (Math.random() - 0.5) * offset,
+            base.y + (Math.random() - 0.5) * offset,
+            base.z + (Math.random() - 0.5) * offset,
+          );
+        }
+        positions.needsUpdate = true;
+      };
+
+      updateBolt();
+
+      const flickerTween = gsap.to(material, {
+        opacity: Math.max(0.15, opacity * 0.25),
+        duration: 0.06,
+        repeat: 6,
+        yoyo: true,
+        onUpdate: updateBolt,
+      });
+
+      return { line, geometry, material, flickerTween };
+    };
+
+    const boltCount = 3;
+    for (let b = 0; b < boltCount; b++) {
+      const points = createBoltPoints(from, to, 26 + b * 3);
+
+      const core = spawnBolt(points, b === 0 ? 0xffffff : 0xb8ffff, 1, 0.55);
+      const glow = spawnBolt(points, 0x7fffff, 0.45, 0.25);
 
       // Create branching bolts from random points
-      for (let branchIdx = 0; branchIdx < 5; branchIdx++) {
-        const branchStartIdx = Math.floor(Math.random() * (points.length - 5)) + 2;
+      for (let branchIdx = 0; branchIdx < 6; branchIdx++) {
+        const branchStartIdx = Math.floor(Math.random() * (points.length - 6)) + 2;
         const branchPoints: THREE.Vector3[] = [points[branchStartIdx].clone()];
-        const branchSegments = 5 + Math.floor(Math.random() * 5);
+        const branchSegments = 6 + Math.floor(Math.random() * 5);
 
         for (let i = 1; i <= branchSegments; i++) {
           const lastPoint = branchPoints[branchPoints.length - 1];
           const newPoint = lastPoint.clone();
-          newPoint.x += (Math.random() - 0.5) * 1.5;
-          newPoint.y += (Math.random() - 0.8) * 0.8;
-          newPoint.z += (Math.random() - 0.5) * 1.5;
+          newPoint.x += (Math.random() - 0.5) * 1.6;
+          newPoint.y += (Math.random() - 0.8) * 0.9;
+          newPoint.z += (Math.random() - 0.5) * 1.6;
           branchPoints.push(newPoint);
         }
 
-        const branchGeometry = new THREE.BufferGeometry().setFromPoints(branchPoints);
-        const branchMaterial = new THREE.LineBasicMaterial({
-          color: 0xaaffff,
-          linewidth: 2,
-          transparent: true,
-          opacity: 0.7,
-        });
-        const branch = new THREE.Line(branchGeometry, branchMaterial);
-        this.scene.add(branch);
-
-        gsap.to(branchMaterial, {
+        const branch = spawnBolt(branchPoints, 0xaaffff, 0.6, 0.35);
+        gsap.to(branch.material, {
           opacity: 0,
-          duration: 0.25,
-          delay: 0.05,
+          duration: 0.2,
+          delay: 0.08,
           onComplete: () => {
-            this.scene.remove(branch);
-            branchGeometry.dispose();
-            branchMaterial.dispose();
+            branch.flickerTween.kill();
+            this.scene.remove(branch.line);
+            branch.geometry.dispose();
+            branch.material.dispose();
           },
         });
       }
 
-      gsap.to(lightningMaterial, {
+      gsap.to([core.material, glow.material], {
         opacity: 0,
         duration: 0.35,
         delay: 0.15 + b * 0.05,
         onComplete: () => {
-          this.scene.remove(lightning);
-          lightningGeometry.dispose();
-          lightningMaterial.dispose();
-          const index = this.lightningBolts.indexOf(lightning as unknown as THREE.Mesh);
-          if (index > -1) this.lightningBolts.splice(index, 1);
+          core.flickerTween.kill();
+          glow.flickerTween.kill();
+          this.scene.remove(core.line);
+          this.scene.remove(glow.line);
+          core.geometry.dispose();
+          glow.geometry.dispose();
+          core.material.dispose();
+          glow.material.dispose();
+          const coreIndex = this.lightningBolts.indexOf(core.line as unknown as THREE.Mesh);
+          if (coreIndex > -1) this.lightningBolts.splice(coreIndex, 1);
+          const glowIndex = this.lightningBolts.indexOf(glow.line as unknown as THREE.Mesh);
+          if (glowIndex > -1) this.lightningBolts.splice(glowIndex, 1);
         },
       });
     }
