@@ -744,6 +744,40 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.activePoisonTweens = [];
   }
 
+  private animatePoisonTick(defender: THREE.Group, action: BattleAction): void {
+    const pulseGeometry = new THREE.SphereGeometry(1.2, 16, 16);
+    const pulseMaterial = new THREE.MeshBasicMaterial({
+      color: 0x00ff88,
+      transparent: true,
+      opacity: 0.6,
+      wireframe: true,
+    });
+    const pulse = new THREE.Mesh(pulseGeometry, pulseMaterial);
+    pulse.position.copy(defender.position);
+    pulse.position.y += 1.2;
+    this.scene.add(pulse);
+
+    gsap.to(pulse.scale, {
+      x: 2,
+      y: 2,
+      z: 2,
+      duration: 0.4,
+      ease: 'power2.out',
+    });
+
+    gsap.to(pulseMaterial, {
+      opacity: 0,
+      duration: 0.4,
+      onComplete: () => {
+        this.scene.remove(pulse);
+        pulseGeometry.dispose();
+        pulseMaterial.dispose();
+      },
+    });
+
+    this.createMassiveImpact(defender.position, action);
+  }
+
   private animateAction(action: BattleAction): void {
     // Always cleanup poison effects before starting a new action
     this.cleanupPoisonEffects();
@@ -754,8 +788,27 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       this.comboTimeoutId = null;
     }
     const isChar1Attacker = this.character1 ? action.attackerId === this.character1.id : false;
-    const attacker = isChar1Attacker ? this.character1Mesh : this.character2Mesh;
-    const defender = isChar1Attacker ? this.character2Mesh : this.character1Mesh;
+    const isChar2Attacker = this.character2 ? action.attackerId === this.character2.id : false;
+    const attacker = isChar1Attacker
+      ? this.character1Mesh
+      : isChar2Attacker
+        ? this.character2Mesh
+        : null;
+
+    const isChar1Defender = this.character1 ? action.defenderId === this.character1.id : false;
+    const isChar2Defender = this.character2 ? action.defenderId === this.character2.id : false;
+    const defender = isChar1Defender
+      ? this.character1Mesh
+      : isChar2Defender
+        ? this.character2Mesh
+        : null;
+
+    if (action.type === 'poison' && !action.attackerId) {
+      if (defender) {
+        this.animatePoisonTick(defender, action);
+      }
+      return;
+    }
 
     if (!attacker || !defender) return;
 
