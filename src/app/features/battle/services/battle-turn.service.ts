@@ -185,7 +185,7 @@ export class BattleTurnService {
     const hitChance = this.damageService.calculateHitChance(attacker, defender);
 
     if (!this.damageService.isHit(hitChance)) {
-      this.executeMiss(attacker, defender, state, actionSubject);
+      this.executeSkipAttack(attacker, defender, state, actionSubject);
       return;
     }
 
@@ -229,6 +229,22 @@ export class BattleTurnService {
       type: 'miss',
       timestamp: Date.now(),
       message: `${attacker.name} missed!`,
+    });
+  }
+
+  private executeSkipAttack(
+    attacker: BattleCharacter,
+    defender: BattleCharacter,
+    state: BattleState,
+    actionSubject: Subject<BattleAction | null>,
+  ): void {
+    this.emitAction(state, actionSubject, {
+      attackerId: attacker.id,
+      defenderId: defender.id,
+      damage: 0,
+      type: 'skip',
+      timestamp: Date.now(),
+      message: `${attacker.name} skipped their turn!`,
     });
   }
 

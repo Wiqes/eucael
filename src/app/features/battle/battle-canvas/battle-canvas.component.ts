@@ -1031,6 +1031,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       const isCritical = impactActionType === 'critical';
       const isBlocked = impactActionType === 'miss';
       const isPoisoned = impactActionType === 'poison';
+      const isSkip = impactActionType === 'skip';
       const impactAction: BattleAction = { ...action, type: impactActionType };
 
       this.cinematicCameraZoom(attacker, defender, isCritical);
@@ -1058,6 +1059,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         timeline.call(() => {
           this.createEnergyShield(defender);
         });
+      }
+
+      if (isSkip) {
+        return timeline; // No further animation for skip, but return timeline for potential chaining
       }
 
       if (isCritical) {
