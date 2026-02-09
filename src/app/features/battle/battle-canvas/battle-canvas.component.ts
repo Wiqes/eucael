@@ -745,37 +745,244 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   }
 
   private animatePoisonTick(defender: THREE.Group, action: BattleAction): void {
-    const pulseGeometry = new THREE.SphereGeometry(1.2, 16, 16);
-    const pulseMaterial = new THREE.MeshBasicMaterial({
-      color: 0x00ff88,
+    const poisonGroup = new THREE.Group();
+    poisonGroup.position.copy(defender.position);
+    poisonGroup.position.y += 1.1;
+    this.scene.add(poisonGroup);
+
+    const toxicColor = new THREE.Color(0x7cff6b);
+    const emissiveColor = new THREE.Color(0x35ff7a);
+
+    const ringGeometry = new THREE.TorusGeometry(1.4, 0.08, 18, 80);
+    const ringMaterial = new THREE.MeshStandardMaterial({
+      color: toxicColor,
+      emissive: emissiveColor,
+      emissiveIntensity: 1.3,
       transparent: true,
-      opacity: 0.6,
-      wireframe: true,
-    });
-    const pulse = new THREE.Mesh(pulseGeometry, pulseMaterial);
-    pulse.position.copy(defender.position);
-    pulse.position.y += 1.2;
-    this.scene.add(pulse);
-
-    gsap.to(pulse.scale, {
-      x: 2,
-      y: 2,
-      z: 2,
-      duration: 0.4,
-      ease: 'power2.out',
+      opacity: 0.85,
     });
 
-    gsap.to(pulseMaterial, {
-      opacity: 0,
-      duration: 0.4,
-      onComplete: () => {
-        this.scene.remove(pulse);
-        pulseGeometry.dispose();
-        pulseMaterial.dispose();
-      },
+    const ring1 = new THREE.Mesh(ringGeometry, ringMaterial);
+    ring1.rotation.x = Math.PI / 2;
+    poisonGroup.add(ring1);
+
+    const ring2 = new THREE.Mesh(ringGeometry, ringMaterial.clone());
+    ring2.rotation.x = Math.PI / 2;
+    ring2.rotation.z = Math.PI / 3;
+    ring2.scale.set(0.7, 0.7, 0.7);
+    poisonGroup.add(ring2);
+
+    const poisonLight = new THREE.PointLight(0x7cff6b, 3, 6);
+    poisonLight.position.copy(poisonGroup.position);
+    poisonLight.position.y += 0.4;
+    this.scene.add(poisonLight);
+
+    const sporeSprites: THREE.Sprite[] = [];
+    const sporeMaterial = new THREE.SpriteMaterial({
+      map: this.circleTexture,
+      color: 0x7cff6b,
+      transparent: true,
+      opacity: 0.8,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+
+    for (let i = 0; i < 16; i++) {
+      const sprite = new THREE.Sprite(sporeMaterial.clone());
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 0.4 + Math.random() * 0.8;
+      sprite.position.set(
+        Math.cos(angle) * radius,
+        0.2 + Math.random() * 0.8,
+        Math.sin(angle) * radius,
+      );
+      const scale = 0.2 + Math.random() * 0.35;
+      sprite.scale.set(scale, scale, scale);
+      poisonGroup.add(sprite);
+      sporeSprites.push(sprite);
+    }
+
+    const materialSnapshots: Array<{
+      material: THREE.Material;
+      color?: THREE.Color;
+      emissive?: THREE.Color;
+      emissiveIntensity?: number;
+    }> = [];
+
+    defender.traverse((child) => {
+      if (!(child instanceof THREE.Mesh)) return;
+      const materials = Array.isArray(child.material) ? child.material : [child.material];
+      materials.forEach((material) => {
+        const mat = material as THREE.MeshStandardMaterial;
+        const snapshot: {
+          material: THREE.Material;
+          color?: THREE.Color;
+          emissive?: THREE.Color;
+          emissiveIntensity?: number;
+        } = { material: mat };
+        if ('color' in mat && mat.color) {
+          snapshot.color = mat.color.clone();
+        }
+        if ('emissive' in mat && mat.emissive) {
+          snapshot.emissive = mat.emissive.clone();
+          snapshot.emissiveIntensity = mat.emissiveIntensity;
+        }
+        materialSnapshots.push(snapshot);
+      });
+    });
+
+    const poisonTweens: gsap.core.Tween[] = [];
+
+    materialSnapshots.forEach((snapshot) => {
+      const mat = snapshot.material as THREE.MeshStandardMaterial;
+      if (snapshot.color) {
+        poisonTweens.push(
+          gsap.to(mat.color, {
+            r: toxicColor.r,
+            g: toxicColor.g,
+            b: toxicColor.b,
+            duration: 0.25,
+            yoyo: true,
+            repeat: 1,
+            ease: 'sine.inOut',
+            onComplete: () => {
+              if (snapshot.color) mat.color.copy(snapshot.color);
+            },
+          }),
+        );
+      }
+      if (snapshot.emissive) {
+        poisonTweens.push(
+          gsap.to(mat.emissive, {
+            r: emissiveColor.r,
+            g: emissiveColor.g,
+            b: emissiveColor.b,
+            duration: 0.25,
+            yoyo: true,
+            repeat: 1,
+            ease: 'sine.inOut',
+            onComplete: () => {
+              if (snapshot.emissive) mat.emissive.copy(snapshot.emissive);
+            },
+          }),
+        );
+        poisonTweens.push(
+          gsap.to(mat, {
+            emissiveIntensity: (snapshot.emissiveIntensity ?? 0.6) + 0.8,
+            duration: 0.25,
+            yoyo: true,
+            repeat: 1,
+            ease: 'sine.inOut',
+            onComplete: () => {
+              mat.emissiveIntensity = snapshot.emissiveIntensity ?? mat.emissiveIntensity;
+            },
+          }),
+        );
+      }
+    });
+
+    poisonTweens.push(
+      gsap.to(ring1.scale, {
+        x: 1.9,
+        y: 1.9,
+        z: 1.9,
+        duration: 0.7,
+        ease: 'power2.out',
+      }),
+    );
+    poisonTweens.push(
+      gsap.to(ring1.material, {
+        opacity: 0,
+        duration: 0.7,
+        ease: 'power2.out',
+      }),
+    );
+    poisonTweens.push(
+      gsap.to(ring2.scale, {
+        x: 2.3,
+        y: 2.3,
+        z: 2.3,
+        duration: 0.8,
+        ease: 'power2.out',
+        delay: 0.05,
+      }),
+    );
+    poisonTweens.push(
+      gsap.to(ring2.material, {
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        delay: 0.05,
+      }),
+    );
+
+    poisonTweens.push(
+      gsap.to(ring1.rotation, {
+        z: Math.PI * 1.2,
+        duration: 0.7,
+        ease: 'power2.out',
+      }),
+    );
+    poisonTweens.push(
+      gsap.to(ring2.rotation, {
+        z: -Math.PI * 1.2,
+        duration: 0.8,
+        ease: 'power2.out',
+      }),
+    );
+
+    sporeSprites.forEach((sprite) => {
+      const driftAngle = Math.random() * Math.PI * 2;
+      const driftRadius = 0.6 + Math.random() * 0.8;
+      const driftDelay = Math.random() * 0.15;
+      poisonTweens.push(
+        gsap.to(sprite.position, {
+          x: Math.cos(driftAngle) * driftRadius,
+          y: sprite.position.y + 1 + Math.random() * 0.6,
+          z: Math.sin(driftAngle) * driftRadius,
+          duration: 0.9,
+          delay: driftDelay,
+          ease: 'power2.out',
+        }),
+      );
+      poisonTweens.push(
+        gsap.to(sprite.material, {
+          opacity: 0,
+          duration: 0.9,
+          delay: driftDelay,
+          ease: 'power2.out',
+        }),
+      );
+    });
+
+    poisonTweens.push(
+      gsap.to(poisonLight, {
+        intensity: 0,
+        duration: 0.7,
+        ease: 'power2.out',
+        onComplete: () => {
+          this.scene.remove(poisonLight);
+        },
+      }),
+    );
+
+    this.activePoisonObjects.push(poisonGroup, poisonLight);
+    this.activePoisonTweens.push(...poisonTweens);
+
+    const cleanupTween = gsap.delayedCall(0.95, () => {
+      this.scene.remove(poisonGroup);
+      ringGeometry.dispose();
+      ringMaterial.dispose();
+      (ring2.material as THREE.Material).dispose();
+      sporeSprites.forEach((sprite) => {
+        if (sprite.material instanceof THREE.Material) {
+          sprite.material.dispose();
+        }
+      });
     });
 
     this.createMassiveImpact(defender.position, action);
+    this.activePoisonTweens.push(cleanupTween);
   }
 
   private animateAction(action: BattleAction): void {
