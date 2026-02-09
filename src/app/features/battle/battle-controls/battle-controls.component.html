@@ -44,6 +44,14 @@
       styleClass="battle-btn poison-btn"
     />
     <p-button
+      [label]="'Shield' | translate"
+      icon="pi pi-shield"
+      (onClick)="onPlayerAction('shield')"
+      severity="secondary"
+      size="large"
+      styleClass="battle-btn shield-btn"
+    />
+    <p-button
       [label]="'Miss' | translate"
       icon="pi pi-times-circle"
       (onClick)="onPlayerAction('miss')"

@@ -1339,6 +1339,11 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       return timeline;
     };
 
+    if (action.type === 'shield') {
+      this.createEnergyShield(attacker);
+      return;
+    }
+
     if (action.type === 'combo') {
       const firstTimeline = runAttackAnimation('attack');
       this.comboTimeoutId = setTimeout(

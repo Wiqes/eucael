@@ -1,6 +1,6 @@
 export type BattleRace = 'rat' | 'cat' | 'bear' | 'horse' | 'giraffe';
 
-export type BattleActionType = 'attack' | 'critical' | 'miss' | 'poison' | 'combo';
+export type BattleActionType = 'attack' | 'critical' | 'miss' | 'poison' | 'combo' | 'shield';
 
 export interface Position3d {
   x: number;
@@ -16,6 +16,10 @@ export interface PoisonEffect {
 export interface DebuffEffect {
   attackReduction: number;
   accuracyReduction: number;
+}
+
+export interface ShieldEffect {
+  blocksNextAttack: boolean;
 }
 
 export interface BattleCharacter {
@@ -34,6 +38,7 @@ export interface BattleCharacter {
   turnCount: number;
   poisonEffect?: PoisonEffect;
   debuffEffect?: DebuffEffect;
+  shieldEffect?: ShieldEffect;
 }
 
 export interface BattleAction {

@@ -110,6 +110,24 @@ export class BattleTurnService {
   ): void {
     attacker.turnCount++;
 
+    if (actionType === 'shield') {
+      attacker.shieldEffect = { blocksNextAttack: true };
+      this.emitAction(state, actionSubject, {
+        attackerId: attacker.id,
+        defenderId: defender.id,
+        damage: 0,
+        type: 'shield',
+        timestamp: Date.now(),
+        message: `${attacker.name} raised a shield!`,
+      });
+      return;
+    }
+
+    if (this.consumeShield(defender)) {
+      this.executeMiss(attacker, defender, state, actionSubject);
+      return;
+    }
+
     if (actionType === 'miss') {
       this.executeMiss(attacker, defender, state, actionSubject);
       return;
@@ -157,6 +175,11 @@ export class BattleTurnService {
     onCharacterDeath: (wasTeam1Attacking: boolean) => void,
   ): void {
     attacker.turnCount++;
+
+    if (this.consumeShield(defender)) {
+      this.executeMiss(attacker, defender, state, actionSubject);
+      return;
+    }
 
     // Check hit chance
     const hitChance = this.damageService.calculateHitChance(attacker, defender);
@@ -207,6 +230,12 @@ export class BattleTurnService {
       timestamp: Date.now(),
       message: `${attacker.name} missed!`,
     });
+  }
+
+  private consumeShield(defender: BattleCharacter): boolean {
+    if (!defender.shieldEffect?.blocksNextAttack) return false;
+    delete defender.shieldEffect;
+    return true;
   }
 
   private emitAction(
