@@ -62,6 +62,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private readonly targetFps = 30;
   private lastFrameTime = 0;
   private isPaused = false;
+  private comboTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  private actionToken = 0;
   private readonly visibilityHandler = this.handleVisibilityChange.bind(this);
   private readonly resizeHandler = this.throttleResize.bind(this);
   private lastTime = 0;
@@ -134,6 +136,11 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
+    }
+
+    if (this.comboTimeoutId) {
+      clearTimeout(this.comboTimeoutId);
+      this.comboTimeoutId = null;
     }
 
     document.removeEventListener('visibilitychange', this.visibilityHandler);
@@ -740,6 +747,12 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private animateAction(action: BattleAction): void {
     // Always cleanup poison effects before starting a new action
     this.cleanupPoisonEffects();
+    this.actionToken += 1;
+    const currentActionToken = this.actionToken;
+    if (this.comboTimeoutId) {
+      clearTimeout(this.comboTimeoutId);
+      this.comboTimeoutId = null;
+    }
     const isChar1Attacker = this.character1 ? action.attackerId === this.character1.id : false;
     const attacker = isChar1Attacker ? this.character1Mesh : this.character2Mesh;
     const defender = isChar1Attacker ? this.character2Mesh : this.character1Mesh;
@@ -1068,9 +1081,13 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     if (action.type === 'combo') {
       const firstTimeline = runAttackAnimation('attack');
-      setTimeout(
+      this.comboTimeoutId = setTimeout(
         () => {
+          if (this.actionToken !== currentActionToken) {
+            return;
+          }
           runAttackAnimation('attack');
+          this.comboTimeoutId = null;
         },
         (firstTimeline.duration() + 0.1) * 500,
       );
