@@ -43,9 +43,9 @@ import { Subject, takeUntil } from 'rxjs';
   ],
 })
 export class BattleCanvasComponent implements OnInit, OnDestroy {
-    // Track all active poison effects globally
-    private activePoisonObjects: THREE.Object3D[] = [];
-    private activePoisonTweens: gsap.core.Tween[] = [];
+  // Track all active poison effects globally
+  private activePoisonObjects: THREE.Object3D[] = [];
+  private activePoisonTweens: gsap.core.Tween[] = [];
   @ViewChild('battleCanvas', { static: true })
   canvasRef!: ElementRef<HTMLCanvasElement>;
 
@@ -59,6 +59,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private cameraOriginalPosition!: THREE.Vector3;
   private lightningBolts: THREE.Mesh[] = [];
   private timeSlowActive = false;
+  private readonly targetFps = 30;
+  private lastFrameTime = 0;
+  private isPaused = false;
+  private readonly visibilityHandler = this.handleVisibilityChange.bind(this);
   private readonly resizeHandler = this.throttleResize.bind(this);
   private lastTime = 0;
   private readonly spiderGroundOffset = -0.65;
@@ -80,6 +84,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       this.createCircleTexture();
       this.initScene();
       this.animate();
+      document.addEventListener('visibilitychange', this.visibilityHandler);
       window.addEventListener('resize', this.resizeHandler);
     });
   }
@@ -131,6 +136,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       cancelAnimationFrame(this.animationFrameId);
     }
 
+    document.removeEventListener('visibilitychange', this.visibilityHandler);
     window.removeEventListener('resize', this.resizeHandler);
     this.particleAnimations = [];
     gsap.killTweensOf('*');
@@ -723,11 +729,11 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
   private cleanupPoisonEffects(): void {
     // Remove all poison objects from scene and kill their tweens
-    this.activePoisonObjects.forEach(obj => {
+    this.activePoisonObjects.forEach((obj) => {
       if (obj.parent) this.scene.remove(obj);
     });
     this.activePoisonObjects = [];
-    this.activePoisonTweens.forEach(tween => tween.kill());
+    this.activePoisonTweens.forEach((tween) => tween.kill());
     this.activePoisonTweens = [];
   }
 
@@ -1164,10 +1170,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.activePoisonTweens.push(...poisonTweens);
     // Return cleanup function
     return () => {
-      poisonObjects.forEach(obj => {
+      poisonObjects.forEach((obj) => {
         if (obj.parent) this.scene.remove(obj);
       });
-      poisonTweens.forEach(tween => tween.kill());
+      poisonTweens.forEach((tween) => tween.kill());
     };
   }
 
@@ -1899,7 +1905,16 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   }
 
   private animate(currentTime = 0): void {
+    if (this.isPaused) {
+      return;
+    }
     this.animationFrameId = requestAnimationFrame((time) => this.animate(time));
+
+    const frameInterval = 1000 / this.targetFps;
+    if (currentTime - this.lastFrameTime < frameInterval) {
+      return;
+    }
+    this.lastFrameTime = currentTime;
 
     // Calculate delta time for consistent animations (available for future use)
     // const deltaTime = this.lastTime ? (currentTime - this.lastTime) / 1000 : 0;
@@ -1935,6 +1950,23 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
 
     this.renderer.render(this.scene, this.camera);
+  }
+
+  private handleVisibilityChange(): void {
+    if (document.hidden) {
+      this.isPaused = true;
+      if (this.animationFrameId !== null) {
+        cancelAnimationFrame(this.animationFrameId);
+        this.animationFrameId = null;
+      }
+      return;
+    }
+
+    if (this.isPaused) {
+      this.isPaused = false;
+      this.lastFrameTime = 0;
+      this.animate();
+    }
   }
 
   private throttleResize(): void {
