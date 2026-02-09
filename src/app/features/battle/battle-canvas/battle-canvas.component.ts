@@ -1741,16 +1741,20 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       duration: 0.1,
     });
 
+    const startAnchor = from.clone();
+    const endAnchor = to.clone();
+    startAnchor.y += 6.5;
+    endAnchor.y += 1.2;
+
     // Create multiple main lightning bolts with animated jitter + glow
     const createBoltPoints = (start: THREE.Vector3, end: THREE.Vector3, segments: number) => {
       const boltPoints: THREE.Vector3[] = [];
       boltPoints.push(start.clone());
-      boltPoints[0].y += 10;
 
       for (let i = 1; i < segments; i++) {
         const t = i / segments;
         const point = new THREE.Vector3().lerpVectors(start, end, t);
-        point.y += 10 - t * 8;
+        point.y += 0.8 - t * 0.8;
         const wander = 0.8 + Math.sin(t * Math.PI * 2) * 0.6;
         point.x += (Math.random() - 0.5) * wander;
         point.z += (Math.random() - 0.5) * wander;
@@ -1758,7 +1762,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       }
 
       boltPoints.push(end.clone());
-      boltPoints[boltPoints.length - 1].y += 2;
       return boltPoints;
     };
 
@@ -1806,7 +1809,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     const boltCount = 3;
     for (let b = 0; b < boltCount; b++) {
-      const points = createBoltPoints(from, to, 26 + b * 3);
+      const points = createBoltPoints(startAnchor, endAnchor, 26 + b * 3);
 
       const core = spawnBolt(points, b === 0 ? 0xffffff : 0xb8ffff, 1, 0.55);
       const glow = spawnBolt(points, 0x7fffff, 0.45, 0.25);
@@ -1863,13 +1866,11 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     // Intense glow lights
     const mainGlowLight = new THREE.PointLight(0xffffff, 50, 15);
-    mainGlowLight.position.copy(to);
-    mainGlowLight.position.y += 2;
+    mainGlowLight.position.copy(endAnchor);
     this.scene.add(mainGlowLight);
 
     const topGlowLight = new THREE.PointLight(0xaaffff, 30, 12);
-    topGlowLight.position.copy(from);
-    topGlowLight.position.y += 10;
+    topGlowLight.position.copy(startAnchor);
     this.scene.add(topGlowLight);
 
     // Electrical particles along the strike path
@@ -1880,9 +1881,12 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     for (let i = 0; i < particleCount; i++) {
       const t = Math.random();
-      particlePositions[i * 3] = from.x + (to.x - from.x) * t + (Math.random() - 0.5) * 2;
-      particlePositions[i * 3 + 1] = from.y + 10 - t * 8 + (Math.random() - 0.5) * 2;
-      particlePositions[i * 3 + 2] = from.z + (to.z - from.z) * t + (Math.random() - 0.5) * 2;
+      particlePositions[i * 3] =
+        startAnchor.x + (endAnchor.x - startAnchor.x) * t + (Math.random() - 0.5) * 2;
+      particlePositions[i * 3 + 1] =
+        startAnchor.y + (endAnchor.y - startAnchor.y) * t + (Math.random() - 0.5) * 2;
+      particlePositions[i * 3 + 2] =
+        startAnchor.z + (endAnchor.z - startAnchor.z) * t + (Math.random() - 0.5) * 2;
 
       particleVelocities.push(
         new THREE.Vector3(
@@ -1937,7 +1941,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         side: THREE.DoubleSide,
       });
       const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-      ring.position.copy(to);
+      ring.position.copy(endAnchor);
       ring.position.y = 0.1;
       ring.rotation.x = -Math.PI / 2;
       this.scene.add(ring);
@@ -1968,20 +1972,18 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         const points: THREE.Vector3[] = [];
         const segments = 15;
 
-        points.push(from.clone());
-        points[0].y += 10;
+        points.push(startAnchor.clone());
 
         for (let j = 1; j < segments; j++) {
           const t = j / segments;
-          const point = new THREE.Vector3().lerpVectors(from, to, t);
-          point.y += 10 - t * 8;
+          const point = new THREE.Vector3().lerpVectors(startAnchor, endAnchor, t);
+          point.y += 0.8 - t * 0.8;
           point.x += (Math.random() - 0.5) * 1.2;
           point.z += (Math.random() - 0.5) * 1.2;
           points.push(point);
         }
 
-        points.push(to.clone());
-        points[points.length - 1].y += 2;
+        points.push(endAnchor.clone());
 
         const secGeometry = new THREE.BufferGeometry().setFromPoints(points);
         const secMaterial = new THREE.LineBasicMaterial({
