@@ -337,12 +337,18 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       for (let z = 0; z < boardSize; z++) {
         const isBlack = (x + z) % 2 === 0;
         const tileGeometry = new THREE.PlaneGeometry(tileSize, tileSize);
-        const tileMaterial = new THREE.MeshStandardMaterial({
-          color: isBlack ? 0x0a0a0b : 0x47474a,
-          roughness: 0.9,
-          metalness: 0.1,
-          emissive: isBlack ? 0x000000 : 0x0f0f10,
-          emissiveIntensity: isBlack ? 0.1 : 0.3,
+        const tileMaterial = new THREE.MeshPhysicalMaterial({
+          color: isBlack ? 0x1a6f7a : 0x2ab4c7,
+          roughness: 0.25,
+          metalness: 0.05,
+          transmission: 0.6,
+          thickness: 0.4,
+          transparent: true,
+          opacity: 0.85,
+          clearcoat: 0.8,
+          clearcoatRoughness: 0.2,
+          emissive: 0x0b3b40,
+          emissiveIntensity: isBlack ? 0.2 : 0.35,
         });
         const tile = new THREE.Mesh(tileGeometry, tileMaterial);
         tile.rotation.x = -Math.PI / 2;
@@ -2323,7 +2329,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   }
 
-  private getViewportSettings(width: number, height: number): {
+  private getViewportSettings(
+    width: number,
+    height: number,
+  ): {
     fov: number;
     cameraZ: number;
     cameraY: number;
