@@ -344,7 +344,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           transmission: 0.6,
           thickness: 0.4,
           transparent: true,
-          opacity: 0.85,
+          opacity: 0.6,
           clearcoat: 0.8,
           clearcoatRoughness: 0.2,
           emissive: 0x0b3b40,
