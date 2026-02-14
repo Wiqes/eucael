@@ -44,7 +44,7 @@
 
 @media (max-width: 580px) {
   .battle-arena {
-    padding: 10px 10px 80px 10px;
+    padding: 10px;
     gap: 10px;
   }
 
@@ -52,7 +52,7 @@
     flex-direction: column-reverse;
     gap: 10px;
     height: 100%;
-    padding: 10px;
+    padding: 10px 10px 80px 10px;
   }
 }
 

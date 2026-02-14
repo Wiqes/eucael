@@ -68,7 +68,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     gap: 10px;
-    padding-right: 12px;
+    padding-right: 18px;
 
     ::ng-deep .control-buttons,
     ::ng-deep .p-button-label {
@@ -94,5 +94,11 @@
     :deep(.p-button-icon) {
       margin: 0;
     }
+  }
+}
+
+@media (max-width: 480px) {
+  .control-buttons {
+    padding-right: 12px;
   }
 }
