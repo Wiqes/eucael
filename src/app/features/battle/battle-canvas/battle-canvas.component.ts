@@ -74,6 +74,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     particleCount: number;
   }[] = [];
   private resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+  private baseCameraFov = 60;
 
   private readonly battleService = inject(BattleService);
   private circleTexture!: THREE.Texture;
@@ -272,20 +273,16 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const canvas = this.canvasRef.nativeElement;
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
+    const viewport = this.getViewportSettings(width, height);
 
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x0a0a0b);
 
-    this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
-    const isMobile = width < 500;
-    const isTablet = width < 680;
+    this.baseCameraFov = viewport.fov;
+    this.camera = new THREE.PerspectiveCamera(this.baseCameraFov, width / height, 0.1, 1000);
 
-    if (!isTablet) {
-      this.scene.fog = new THREE.FogExp2(0x0a0a0b, 0.08);
-    }
-    const cameraZ = isMobile ? 12 : 10;
-    const cameraY = isMobile ? 5 : 4;
-    this.camera.position.set(0, cameraY, cameraZ);
+    this.scene.fog = viewport.useFog ? new THREE.FogExp2(0x0a0a0b, 0.08) : null;
+    this.camera.position.set(0, viewport.cameraY, viewport.cameraZ);
     this.camera.lookAt(0, 1, 0);
     this.cameraOriginalPosition = this.camera.position.clone();
 
@@ -2175,7 +2172,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       });
 
       gsap.to(this.camera, {
-        fov: 50,
+        fov: Math.max(this.baseCameraFov - 10, 45),
         duration: 0.3,
         ease: 'power2.inOut',
         onUpdate: () => {
@@ -2195,7 +2192,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
 
     gsap.to(this.camera, {
-      fov: 60,
+      fov: this.baseCameraFov,
       duration: 0.5,
       ease: 'power2.out',
       onUpdate: () => {
@@ -2310,23 +2307,55 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const canvas = this.canvasRef.nativeElement;
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
+    const viewport = this.getViewportSettings(width, height);
 
     this.camera.aspect = width / height;
+    this.camera.fov = viewport.fov;
     this.camera.updateProjectionMatrix();
 
-    const isMobile = width < 500;
-    const isTablet = width < 680;
+    this.scene.fog = viewport.useFog ? new THREE.FogExp2(0x0a0a0b, 0.08) : null;
 
-    if (!isTablet) {
-      this.scene.fog = new THREE.FogExp2(0x0a0a0b, 0.08);
-    }
-
-    const cameraZ = isMobile ? 12 : 10;
-    const cameraY = isMobile ? 5 : 4;
-    this.camera.position.set(0, cameraY, cameraZ);
-    this.cameraOriginalPosition = new THREE.Vector3(0, cameraY, cameraZ);
+    this.camera.position.set(0, viewport.cameraY, viewport.cameraZ);
+    this.cameraOriginalPosition = new THREE.Vector3(0, viewport.cameraY, viewport.cameraZ);
+    this.baseCameraFov = viewport.fov;
 
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  }
+
+  private getViewportSettings(width: number, height: number): {
+    fov: number;
+    cameraZ: number;
+    cameraY: number;
+    useFog: boolean;
+  } {
+    const aspect = width / height;
+    const isMobile = width < 520;
+    const isTablet = width < 720;
+    const isPortrait = aspect < 0.9;
+    const isCompact = isMobile || isPortrait;
+
+    let fov = 60;
+    let cameraZ = 10;
+    let cameraY = 4;
+
+    if (isCompact) {
+      fov = 68;
+      cameraZ = 12.5;
+      cameraY = 5;
+    }
+
+    if (width < 380 || height < 520) {
+      fov = 72;
+      cameraZ = 13.5;
+      cameraY = 5.5;
+    }
+
+    return {
+      fov,
+      cameraZ,
+      cameraY,
+      useFog: !isTablet,
+    };
   }
 }
