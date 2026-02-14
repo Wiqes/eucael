@@ -353,7 +353,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         tile.rotation.x = -Math.PI / 2;
         tile.position.set(
           (x - halfBoard) * tileSize + tileSize / 2,
-          -1,
+          0,
           (z - halfBoard) * tileSize + tileSize / 2,
         );
         tile.receiveShadow = true;
