@@ -65,12 +65,38 @@
   .control-buttons {
     justify-content: center;
     width: 100%;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
     gap: 10px;
 
     :deep(.p-button) {
-      width: 100%;
-      min-width: unset;
+      width: auto;
+      min-width: 44px;
+      padding: 10px 12px;
+    }
+
+    :deep(.control-buttons .p-button-label) {
+      display: none !important;
+    }
+
+    :deep(.p-button-icon) {
+      margin: 0;
+    }
+  }
+
+  .start-button-wrapper {
+    :deep(.p-button) {
+      width: auto;
+      min-width: 56px;
+      padding: 12px 14px;
+    }
+
+    :deep(.p-button-label) {
+      display: none;
+    }
+
+    :deep(.p-button-icon) {
+      margin: 0;
     }
   }
 }
