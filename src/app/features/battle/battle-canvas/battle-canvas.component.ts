@@ -511,14 +511,14 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         const legAngle = legAngles[legNum] * (side === 0 ? 1 : -1);
         const zAngle = (Math.PI / 2.8 + legNum * 0.05) * sideMultiplier;
 
-        const upperLegLength = 0.8;
+        const upperLegLength = 0.5;
         const middleLegLength = 0.55;
         const lowerLegLength = 0.7;
 
         const upperLegSegmentGeometry = new THREE.CylinderGeometry(0.12, 0.08, upperLegLength, 10);
 
         const upperLeg = new THREE.Mesh(upperLegSegmentGeometry, legMaterial);
-        upperLeg.position.set(0.3 * sideMultiplier, -0.1, 0);
+        upperLeg.position.set(0.2 * sideMultiplier, -0.1, 0);
         upperLeg.rotation.z = zAngle * 1.2;
         upperLeg.castShadow = true;
         upperLeg.receiveShadow = true;
@@ -529,7 +529,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
-            0.36 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
+            0.25 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
             -0.1 + Math.sin(bristleAngle) * 0.08,
             0,
           );
@@ -541,7 +541,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         const middleLegSegmentGeometry = new THREE.CylinderGeometry(0.1, 0.06, middleLegLength, 10);
 
         const middleLeg = new THREE.Mesh(middleLegSegmentGeometry, legMaterial);
-        middleLeg.position.set(0.85 * sideMultiplier, -0.28, 0);
+        middleLeg.position.set(0.65 * sideMultiplier, -0.28, 0);
         middleLeg.rotation.z = zAngle * 0.75;
         middleLeg.castShadow = true;
         middleLeg.receiveShadow = true;
@@ -554,7 +554,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
-            0.8 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
+            0.6 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
             -0.2 + Math.sin(bristleAngle) * 0.03,
             0,
           );
@@ -568,7 +568,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 6) * Math.PI * 2;
           bristle.position.set(
-            0.9 * sideMultiplier + Math.cos(bristleAngle) * 0.06,
+            0.7 * sideMultiplier + Math.cos(bristleAngle) * 0.06,
             -0.28 + Math.sin(bristleAngle) * 0.06,
             0,
           );
@@ -579,7 +579,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
         const lowerLegGeometry = new THREE.CylinderGeometry(0.07, 0.03, lowerLegLength, 10);
         const lowerLeg = new THREE.Mesh(lowerLegGeometry, legMaterial);
-        lowerLeg.position.set(1.2 * sideMultiplier, -0.7, 0);
+        lowerLeg.position.set(1.025 * sideMultiplier, -0.7, 0);
         lowerLeg.rotation.z = (Math.PI / 5.3) * sideMultiplier;
         lowerLeg.castShadow = true;
         lowerLeg.receiveShadow = true;
@@ -590,7 +590,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 7) * Math.PI * 2;
           bristle.position.set(
-            1.1 * sideMultiplier + Math.cos(bristleAngle) * 0.07,
+            0.925 * sideMultiplier + Math.cos(bristleAngle) * 0.07,
             -0.55 + Math.sin(bristleAngle) * 0.07,
             0,
           );
@@ -604,7 +604,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 4) * Math.PI * 2;
           bristle.position.set(
-            1.2 * sideMultiplier + Math.cos(bristleAngle) * 0.05,
+            1.025 * sideMultiplier + Math.cos(bristleAngle) * 0.05,
             -0.7 + Math.sin(bristleAngle) * 0.05,
             0,
           );
