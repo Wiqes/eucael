@@ -524,8 +524,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         upperLeg.receiveShadow = true;
         legGroup.add(upperLeg);
 
-        for (let h = 0; h < 12; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.006, 0.14, 4);
+        for (let h = 0; h < 22; h++) {
+          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.006, 0.22, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
