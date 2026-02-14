@@ -681,7 +681,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       }
     }
 
-    const venomGeometry = new THREE.SphereGeometry(0.6, 24, 24);
+    const venomGeometry = new THREE.SphereGeometry(0.75, 30, 30);
 
     const venomSacMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0x121212).lerp(themeColor, 0.7),
@@ -693,7 +693,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
 
     const venomSac = new THREE.Mesh(venomGeometry, venomSacMaterial);
-    venomSac.position.set(0, 0.7, -0.6);
+    venomSac.position.set(0, 0.9, -0.7);
     group.add(venomSac);
 
     const venomAnimationDelay = Math.random() * 1.5;
@@ -701,7 +701,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       x: 1.05,
       y: 1.05,
       z: 1.05,
-      duration: 1.5,
+      duration: 2,
       repeat: -1,
       yoyo: true,
       ease: 'sine.inOut',
