@@ -441,7 +441,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
 
     const cephaloGeometry = new THREE.SphereGeometry(0.48, 20, 20);
-    cephaloGeometry.scale(1.05, 0.38, 1.0);
+    cephaloGeometry.scale(1.2, 0.48, 1.35);
     const cephalothorax = new THREE.Mesh(cephaloGeometry, cephaloMaterial);
     cephalothorax.position.set(0, 0.45, 0.18);
     cephalothorax.castShadow = true;
