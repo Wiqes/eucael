@@ -13,9 +13,9 @@
   <div *ngIf="isBattleActive && isAwaitingPlayerAction" class="control-buttons">
     <p-button
       [label]="'Attack' | translate"
-      icon="pi pi-send"
+      icon="pi pi-hammer"
       (onClick)="onPlayerAction('attack')"
-      severity="primary"
+      severity="help"
       size="large"
       styleClass="battle-btn attack-btn"
     />
@@ -39,7 +39,7 @@
       [label]="'Poison' | translate"
       icon="pi pi-bullseye"
       (onClick)="onPlayerAction('poison')"
-      severity="help"
+      severity="primary"
       size="large"
       styleClass="battle-btn poison-btn"
     />
