@@ -335,10 +335,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     for (let x = 0; x < boardSize; x++) {
       for (let z = 0; z < boardSize; z++) {
-        const isBlack = (x + z) % 2 === 0;
         const tileGeometry = new THREE.PlaneGeometry(tileSize, tileSize);
         const tileMaterial = new THREE.MeshPhysicalMaterial({
-          color: isBlack ? 0x1a6f7a : 0x2ab4c7,
+          color: 0x1a6f7a,
           roughness: 0.25,
           metalness: 0.05,
           transmission: 0.6,
@@ -348,7 +347,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           clearcoat: 0.8,
           clearcoatRoughness: 0.2,
           emissive: 0x0b3b40,
-          emissiveIntensity: isBlack ? 0.2 : 0.35,
+          emissiveIntensity: 0.2,
         });
         const tile = new THREE.Mesh(tileGeometry, tileMaterial);
         tile.rotation.x = -Math.PI / 2;
