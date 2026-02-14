@@ -454,7 +454,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       const sideMultiplier = side === 0 ? -1 : 1;
       const cheliceraGroup = new THREE.Group();
 
-      const cheliceraBaseGeometry = new THREE.CylinderGeometry(0.07, 0.05, 0.18, 10);
+      const cheliceraBaseGeometry = new THREE.CylinderGeometry(0.07, 0.1, 0.18, 10);
       const cheliceraBase = new THREE.Mesh(cheliceraBaseGeometry, cheliceraMaterial);
       cheliceraBase.position.set(0.12 * sideMultiplier, 0.26, 0.52);
       cheliceraBase.rotation.x = Math.PI / 8;
@@ -463,7 +463,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       cheliceraBase.receiveShadow = true;
       cheliceraGroup.add(cheliceraBase);
 
-      const fangGeometry = new THREE.ConeGeometry(0.03, 0.2, 10);
+      const fangGeometry = new THREE.ConeGeometry(0.06, 0.4, 20);
       const fang = new THREE.Mesh(fangGeometry, cheliceraMaterial);
       fang.position.set(0.14 * sideMultiplier, 0.14, 0.6);
       fang.rotation.x = Math.PI / 2 + Math.PI / 10;
