@@ -525,7 +525,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         legGroup.add(upperLeg);
 
         for (let h = 0; h < 12; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.006, 0.28, 4);
+          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.006, 0.14, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
@@ -550,7 +550,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         addJointAtEnds(legGroup, middleLeg, middleLegLength, 0.07);
 
         for (let h = 0; h < 10; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.014, 0.006, 0.34, 4);
+          const bristleGeometry = new THREE.CylinderGeometry(0.014, 0.006, 0.17, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
@@ -564,7 +564,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         }
 
         for (let h = 0; h < 8; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.005, 0.3, 4);
+          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.005, 0.15, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 6) * Math.PI * 2;
           bristle.position.set(
@@ -586,7 +586,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         legGroup.add(lowerLeg);
 
         for (let h = 0; h < 10; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.005, 0.16, 4);
+          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.005, 0.08, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 7) * Math.PI * 2;
           bristle.position.set(
@@ -600,7 +600,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         }
 
         for (let h = 0; h < 6; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.01, 0.004, 0.24, 4);
+          const bristleGeometry = new THREE.CylinderGeometry(0.01, 0.004, 0.12, 4);
           const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
           const bristleAngle = (h / 4) * Math.PI * 2;
           bristle.position.set(
