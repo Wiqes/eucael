@@ -74,14 +74,3 @@
     }
   }
 }
-
-@media (max-width: 480px) {
-  .control-buttons {
-    gap: 8px;
-  }
-
-  :deep(.p-button) {
-    font-size: 0.9rem;
-    padding: 0.6rem 1rem;
-  }
-}
