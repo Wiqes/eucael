@@ -204,42 +204,67 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     ctx.fillStyle = baseColor.getStyle();
     ctx.fillRect(0, 0, size, size);
 
+    // Subtle gradient for depth and dimension
     const radial = ctx.createRadialGradient(size / 2, size / 2, 20, size / 2, size / 2, size / 2);
-    radial.addColorStop(0, 'rgba(0, 0, 0, 0.05)');
-    radial.addColorStop(1, 'rgba(0, 0, 0, 0.35)');
+    radial.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
+    radial.addColorStop(0.7, 'rgba(0, 0, 0, 0.1)');
+    radial.addColorStop(1, 'rgba(0, 0, 0, 0.4)');
     ctx.fillStyle = radial;
     ctx.fillRect(0, 0, size, size);
 
+    // Chevron pattern down the center (like real tarantulas)
     ctx.strokeStyle = accentColor.getStyle();
-    ctx.globalAlpha = 0.35;
-    ctx.lineWidth = 20;
-    for (let i = -size; i <= size * 2; i += 48) {
+    ctx.fillStyle = accentColor.getStyle();
+    ctx.globalAlpha = 0.5;
+    ctx.lineWidth = 3;
+    ctx.lineJoin = 'round';
+
+    for (let i = 0; i < 5; i++) {
+      const y = (i + 0.5) * (size / 5);
+      const centerX = size / 2;
+      const chevronWidth = 40 + Math.sin(i * 0.8) * 10;
+      const chevronHeight = 15;
+
       ctx.beginPath();
-      ctx.moveTo(i, -20);
-      ctx.lineTo(i + size * 0.7, size + 20);
+      ctx.moveTo(centerX - chevronWidth, y - chevronHeight);
+      ctx.lineTo(centerX, y);
+      ctx.lineTo(centerX + chevronWidth, y - chevronHeight);
       ctx.stroke();
     }
 
-    ctx.globalAlpha = 0.25;
-    for (let i = 0; i < 60; i++) {
-      const radius = 6 + Math.random() * 14;
+    // Add subtle hair-like texture with fine lines
+    ctx.globalAlpha = 0.15;
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 80; i++) {
       const x = Math.random() * size;
       const y = Math.random() * size;
+      const length = 8 + Math.random() * 12;
+      const angle = Math.random() * Math.PI * 2;
+
       ctx.beginPath();
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
-      ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + Math.cos(angle) * length, y + Math.sin(angle) * length);
+      ctx.strokeStyle = i % 3 === 0 ? accentColor.getStyle() : 'rgba(0, 0, 0, 0.6)';
+      ctx.stroke();
     }
 
-    ctx.globalAlpha = 0.25;
-    ctx.fillStyle = accentColor.getStyle();
-    for (let i = 0; i < 40; i++) {
-      const radius = 4 + Math.random() * 10;
+    // Organic spots with variation
+    ctx.globalAlpha = 0.3;
+    for (let i = 0; i < 25; i++) {
       const x = Math.random() * size;
       const y = Math.random() * size;
+      const radiusX = 3 + Math.random() * 6;
+      const radiusY = 3 + Math.random() * 6;
+      const rotation = Math.random() * Math.PI;
+
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rotation);
       ctx.beginPath();
-      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.ellipse(0, 0, radiusX, radiusY, 0, 0, Math.PI * 2);
+      ctx.fillStyle = i % 2 === 0 ? accentColor.getStyle() : 'rgba(0, 0, 0, 0.5)';
       ctx.fill();
+      ctx.restore();
     }
 
     ctx.globalAlpha = 1;
