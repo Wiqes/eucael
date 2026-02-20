@@ -2,7 +2,6 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { IUser } from '../../models/entities/user.model';
 import { DataAccessService } from '../data-access/data-access.service';
 import { IAnimal } from '../../models/entities/animal.model';
-import { IProfile } from '../../models/entities/profile.model';
 import { AuthTokenStateService } from './auth-token-state.service';
 import { Base64Service } from '../base64.service';
 

@@ -67,6 +67,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
       if (token) {
         this.chatService.connect(token);
         this.stateService.setProfileFromToken(token);
+        this.stateService.addUserDataToState();
       }
     });
   }
