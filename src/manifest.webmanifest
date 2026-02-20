@@ -1,7 +1,7 @@
 {
-  "name": "Celestiel",
-  "short_name": "Celestiel",
-  "description": "Celestiel - Summon legendary mythological familiars in this strategic gaming experience",
+  "name": "Fading Love - Dark PvP RPG",
+  "short_name": "Fading Love",
+  "description": "Fading Love - Deploy five mystical spiders to harvest Shadow, create Dark Elves, and consume their fading love energy to evolve and dominate the arena in this dark PvP RPG.",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
