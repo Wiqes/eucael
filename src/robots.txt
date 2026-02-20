@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://celestiel.net/sitemap.xml
+Sitemap: https://fading.love/sitemap.xml
 
 # Disallow admin areas
 Disallow: /admin/
