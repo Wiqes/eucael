@@ -414,10 +414,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       rows: number;
       lineWidth: number;
     }[] = [
-      { color: 'rgba(0,120,210,0.40)', amplitude: 28, frequency: 0.018, rows: 18, lineWidth: 0.2 },
-      { color: 'rgba(0,160,230,0.28)', amplitude: 14, frequency: 0.035, rows: 30, lineWidth: 0.2 },
-      { color: 'rgba(20,210,240,0.20)', amplitude: 7, frequency: 0.07, rows: 48, lineWidth: 0.2 },
-      { color: 'rgba(80,230,255,0.12)', amplitude: 3, frequency: 0.14, rows: 72, lineWidth: 0.2 },
+      { color: 'rgba(0,120,210,0.40)', amplitude: 28, frequency: 0.018, rows: 18, lineWidth: 0.4 },
+      { color: 'rgba(0,160,230,0.28)', amplitude: 14, frequency: 0.035, rows: 30, lineWidth: 0.4 },
+      { color: 'rgba(20,210,240,0.20)', amplitude: 7, frequency: 0.07, rows: 48, lineWidth: 0.4 },
+      { color: 'rgba(80,230,255,0.12)', amplitude: 3, frequency: 0.14, rows: 72, lineWidth: 0.4 },
     ];
 
     for (const layer of waveLayers) {
@@ -437,19 +437,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         }
         ctx.stroke();
       }
-    }
-
-    // Foam / white-cap streaks
-    ctx.strokeStyle = 'rgba(190,245,255,0.14)';
-    ctx.lineWidth = 1.4;
-    for (let i = 0; i < 120; i++) {
-      const fy = Math.random() * size;
-      const fx = Math.random() * size;
-      const len = 20 + Math.random() * 80;
-      ctx.beginPath();
-      ctx.moveTo(fx, fy);
-      ctx.quadraticCurveTo(fx + len * 0.5, fy + (Math.random() - 0.5) * 8, fx + len, fy);
-      ctx.stroke();
     }
 
     // Specular glint dots
