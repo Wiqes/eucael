@@ -8,6 +8,12 @@ $primary-color-light: #34f5f5;
 $main-black: #3f3f46;
 $red-color: #ff0044aa;
 $gallery-gap: 1vw;
+$orange-linear-gradient: linear-gradient(
+  90deg,
+  rgba(244, 63, 94, 0.95) 0%,
+  rgba(251, 146, 60, 1) 50%,
+  rgba(244, 63, 94, 0.95) 100%
+);
 
 %light-blue-glass {
   background:
