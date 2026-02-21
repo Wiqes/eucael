@@ -67,7 +67,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private readonly visibilityHandler = this.handleVisibilityChange.bind(this);
   private readonly resizeHandler = this.throttleResize.bind(this);
   private lastTime = 0;
-  private readonly spiderGroundOffset = -0.65;
+  private readonly spiderGroundOffset = 0;
   private particleAnimations: {
     geometry: THREE.BufferGeometry;
     velocities: number[];
@@ -77,6 +77,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private baseCameraFov = 60;
   private groundWaterTexture: THREE.CanvasTexture | null = null;
   private groundWaterNormalMap: THREE.CanvasTexture | null = null;
+  private groundMaterial: THREE.MeshPhysicalMaterial | null = null;
 
   private readonly battleService = inject(BattleService);
   private circleTexture!: THREE.Texture;
@@ -351,19 +352,20 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const groundMaterial = new THREE.MeshPhysicalMaterial({
       map: this.groundWaterTexture,
       normalMap: this.groundWaterNormalMap,
-      normalScale: new THREE.Vector2(0.6, 0.6),
+      normalScale: new THREE.Vector2(0.7, 0.7),
       color: 0x0055cc,
-      roughness: 0.08,
+      roughness: 0.06,
       metalness: 0.05,
       transmission: 0.18,
       thickness: 0.4,
       transparent: true,
-      opacity: 0.82,
+      opacity: 0.85,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.08,
+      clearcoatRoughness: 0.06,
       emissive: 0x0b3b40,
-      emissiveIntensity: 0.2,
+      emissiveIntensity: 0.25,
     });
+    this.groundMaterial = groundMaterial;
 
     const groundGeometry = new THREE.PlaneGeometry(groundSize, groundSize);
     const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
@@ -2407,10 +2409,20 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       this.camera.position.y = this.cameraOriginalPosition.y + Math.sin(time * 0.7) * 0.2;
     }
 
-    // Scroll the normal map UV to simulate flowing water (color map is clamped, no tiling seams)
+    // Scroll normal-map UV at higher speed for more active waves; also pulse
+    // normalScale and emissiveIntensity each frame to give a living-sea feel.
     if (this.groundWaterNormalMap) {
-      this.groundWaterNormalMap.offset.x -= 0.00012;
-      this.groundWaterNormalMap.offset.y += 0.00006;
+      this.groundWaterNormalMap.offset.x -= 0.00058;
+      this.groundWaterNormalMap.offset.y += 0.00032;
+      this.groundWaterNormalMap.needsUpdate = true;
+    }
+    if (this.groundMaterial) {
+      const wt = currentTime * 0.001;
+      const ns = 0.65 + Math.sin(wt * 0.9) * 0.28 + Math.sin(wt * 1.7 + 1.2) * 0.12;
+      this.groundMaterial.normalScale.set(ns, ns);
+      this.groundMaterial.emissiveIntensity =
+        0.22 + Math.sin(wt * 0.6) * 0.1 + Math.sin(wt * 1.3 + 0.8) * 0.05;
+      this.groundMaterial.roughness = 0.06 + Math.abs(Math.sin(wt * 0.4)) * 0.06;
     }
 
     // Optimize lightning bolt updates
