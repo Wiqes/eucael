@@ -390,10 +390,16 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     ctx.fillRect(0, 0, size, size);
 
     // Wave layers – sinusoidal strokes at varying frequencies / amplitudes
-    const waveLayers: { color: string; amplitude: number; frequency: number; rows: number; lineWidth: number }[] = [
+    const waveLayers: {
+      color: string;
+      amplitude: number;
+      frequency: number;
+      rows: number;
+      lineWidth: number;
+    }[] = [
       { color: 'rgba(0,120,210,0.40)', amplitude: 20, frequency: 0.035, rows: 14, lineWidth: 2.2 },
-      { color: 'rgba(0,160,230,0.28)', amplitude: 11, frequency: 0.060, rows: 22, lineWidth: 1.6 },
-      { color: 'rgba(20,210,240,0.18)', amplitude:  6, frequency: 0.110, rows: 34, lineWidth: 1.0 },
+      { color: 'rgba(0,160,230,0.28)', amplitude: 11, frequency: 0.06, rows: 22, lineWidth: 1.6 },
+      { color: 'rgba(20,210,240,0.18)', amplitude: 6, frequency: 0.11, rows: 34, lineWidth: 1.0 },
     ];
 
     for (const layer of waveLayers) {
@@ -431,7 +437,13 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     ctx.fillStyle = 'rgba(210,245,255,0.10)';
     for (let i = 0; i < 70; i++) {
       ctx.beginPath();
-      ctx.arc(Math.random() * size, Math.random() * size, 0.8 + Math.random() * 2.8, 0, Math.PI * 2);
+      ctx.arc(
+        Math.random() * size,
+        Math.random() * size,
+        0.8 + Math.random() * 2.8,
+        0,
+        Math.PI * 2,
+      );
       ctx.fill();
     }
 
@@ -458,15 +470,15 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         const nx =
           Math.sin(x * 0.09 + y * 0.06) * 0.55 +
           Math.sin(x * 0.035 + 0.9) * 0.25 +
-          Math.sin(y * 0.05 + x * 0.03) * 0.20;
+          Math.sin(y * 0.05 + x * 0.03) * 0.2;
         const ny =
           Math.cos(y * 0.09 + x * 0.05) * 0.55 +
           Math.cos(y * 0.038 + 1.2) * 0.25 +
-          Math.cos(x * 0.06 + y * 0.04) * 0.20;
+          Math.cos(x * 0.06 + y * 0.04) * 0.2;
         const idx = (y * size + x) * 4;
-        data[idx]     = Math.round((nx * 0.5 + 0.5) * 255); // R → tangent X
+        data[idx] = Math.round((nx * 0.5 + 0.5) * 255); // R → tangent X
         data[idx + 1] = Math.round((ny * 0.5 + 0.5) * 255); // G → tangent Y
-        data[idx + 2] = 255;                                  // B → surface normal Z
+        data[idx + 2] = 255; // B → surface normal Z
         data[idx + 3] = 255;
       }
     }
