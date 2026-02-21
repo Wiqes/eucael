@@ -1147,34 +1147,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const toxicColor = new THREE.Color(0x39ff14);
     const emissiveColor = new THREE.Color(0x00ff44);
 
-    // --- TOXIC ORB: inflates then bursts outward ---
-    const orbGeo = new THREE.SphereGeometry(0.15, 20, 20);
-    const orbMat = new THREE.MeshPhysicalMaterial({
-      color: 0x39ff14,
-      emissive: new THREE.Color(0x00ff44),
-      emissiveIntensity: 4,
-      transparent: true,
-      opacity: 0.75,
-    });
-    const orb = new THREE.Mesh(orbGeo, orbMat);
-    orb.position.copy(defender.position);
-    orb.position.y += 1.5;
-    this.scene.add(orb);
-
-    gsap.to(orb.scale, { x: 16, y: 16, z: 16, duration: 0.3, ease: 'expo.out' });
-    gsap.to(orbMat, {
-      opacity: 0,
-      emissiveIntensity: 0,
-      duration: 0.45,
-      delay: 0.15,
-      ease: 'expo.in',
-      onComplete: () => {
-        this.scene.remove(orb);
-        orbGeo.dispose();
-        orbMat.dispose();
-      },
-    });
-
     // --- GROUND POOL: toxic puddle spreading from feet ---
     const poolGeo = new THREE.CircleGeometry(0.1, 48);
     const poolMat = new THREE.MeshBasicMaterial({
