@@ -472,8 +472,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   }
 
   private createSeaWaterNormalMap(): THREE.CanvasTexture {
-    // 512px – frequencies chosen so that k * freq * size == 2π * integer,
-    // guaranteeing perfectly seamless tiling when repeat > 1.
+    // 512px – ALL frequencies are integer multiples of 2π/size so each
+    // term wraps back to its starting value at both the right and bottom
+    // edges, guaranteeing zero-seam tiling in RepeatWrapping.
     const size = 512;
     const canvas = document.createElement('canvas');
     canvas.width = size;
@@ -482,22 +483,23 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     const imageData = ctx.createImageData(size, size);
     const data = imageData.data;
-    // Seamless frequencies: f = n * (2π / size)
-    const f1 = (4 * Math.PI * 2) / size; // 4 cycles across
-    const f2 = (7 * Math.PI * 2) / size; // 7 cycles across
-    const f3 = (11 * Math.PI * 2) / size; // 11 cycles across
+
+    // k(n) = n * 2π / size  →  sin(x * k(n)) completes exactly n full
+    // cycles across [0, size), so the texture tiles with no seam.
+    const k = (n: number) => (n * Math.PI * 2) / size;
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        // Composite sine waves – all periods are exact divisors of canvas size
+        // Every coefficient is an integer multiple of 2π/size in BOTH axes,
+        // so cross-terms like sin(x*k(4) + y*k(3)) are seamless in x AND y.
         const nx =
-          Math.sin(x * f1 + y * f2 * 0.5) * 0.5 +
-          Math.sin(x * f2 - y * f1 * 0.7) * 0.3 +
-          Math.sin(x * f3 + y * f3 * 0.4) * 0.2;
+          Math.sin(x * k(4) + y * k(3)) * 0.45 +
+          Math.sin(x * k(7) + y * k(5)) * 0.3 +
+          Math.sin(x * k(11) - y * k(8)) * 0.25;
         const ny =
-          Math.cos(y * f1 + x * f2 * 0.5) * 0.5 +
-          Math.cos(y * f2 - x * f1 * 0.7) * 0.3 +
-          Math.cos(y * f3 + x * f3 * 0.4) * 0.2;
+          Math.cos(y * k(4) + x * k(3)) * 0.45 +
+          Math.cos(y * k(7) + x * k(5)) * 0.3 +
+          Math.cos(y * k(11) - x * k(8)) * 0.25;
         const idx = (y * size + x) * 4;
         data[idx] = Math.round((nx * 0.5 + 0.5) * 255); // R → tangent X
         data[idx + 1] = Math.round((ny * 0.5 + 0.5) * 255); // G → tangent Y
@@ -510,7 +512,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const texture = new THREE.CanvasTexture(canvas);
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
-    // 4 repeats is safe because all frequencies divide the texture evenly.
     texture.repeat.set(4, 4);
     return texture;
   }
