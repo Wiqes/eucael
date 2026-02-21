@@ -374,7 +374,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   }
 
   private createSeaWaterTexture(): THREE.CanvasTexture {
-    const size = 512;
+    // Large canvas — covers the whole ground as one seamless image, no tiling.
+    const size = 1024;
     const canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
@@ -383,13 +384,23 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     // Deep ocean background gradient
     const bg = ctx.createLinearGradient(0, 0, size, size);
     bg.addColorStop(0, '#001840');
-    bg.addColorStop(0.45, '#003070');
-    bg.addColorStop(0.8, '#004488');
+    bg.addColorStop(0.38, '#002d6a');
+    bg.addColorStop(0.65, '#003d88');
     bg.addColorStop(1, '#001840');
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, size, size);
 
-    // Wave layers – sinusoidal strokes at varying frequencies / amplitudes
+    // Macro colour patches – gives depth variation across the surface
+    const patchGrad = ctx.createRadialGradient(
+      size * 0.35, size * 0.45, 0,
+      size * 0.35, size * 0.45, size * 0.55,
+    );
+    patchGrad.addColorStop(0, 'rgba(0,80,180,0.35)');
+    patchGrad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = patchGrad;
+    ctx.fillRect(0, 0, size, size);
+
+    // Wave layers – many rows of sinusoidal strokes at varying frequencies
     const waveLayers: {
       color: string;
       amplitude: number;
@@ -397,9 +408,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       rows: number;
       lineWidth: number;
     }[] = [
-      { color: 'rgba(0,120,210,0.40)', amplitude: 20, frequency: 0.035, rows: 14, lineWidth: 2.2 },
-      { color: 'rgba(0,160,230,0.28)', amplitude: 11, frequency: 0.06, rows: 22, lineWidth: 1.6 },
-      { color: 'rgba(20,210,240,0.18)', amplitude: 6, frequency: 0.11, rows: 34, lineWidth: 1.0 },
+      { color: 'rgba(0,120,210,0.40)', amplitude: 28, frequency: 0.018, rows: 18, lineWidth: 2.8 },
+      { color: 'rgba(0,160,230,0.28)', amplitude: 14, frequency: 0.035, rows: 30, lineWidth: 1.8 },
+      { color: 'rgba(20,210,240,0.20)', amplitude:  7, frequency: 0.070, rows: 48, lineWidth: 1.1 },
+      { color: 'rgba(80,230,255,0.12)', amplitude:  3, frequency: 0.140, rows: 72, lineWidth: 0.7 },
     ];
 
     for (const layer of waveLayers) {
@@ -407,40 +419,46 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       ctx.lineWidth = layer.lineWidth;
       for (let r = 0; r < layer.rows; r++) {
         const yBase = ((r + 0.5) / layer.rows) * size;
+        const phaseShift = r * 0.63; // stagger each row so they don't align
         ctx.beginPath();
         ctx.moveTo(0, yBase);
         for (let x = 0; x <= size; x += 2) {
           const y =
             yBase +
-            Math.sin(x * layer.frequency) * layer.amplitude +
-            Math.sin(x * layer.frequency * 0.48 + 1.3) * (layer.amplitude * 0.38);
+            Math.sin(x * layer.frequency + phaseShift) * layer.amplitude +
+            Math.sin(x * layer.frequency * 0.51 + phaseShift * 1.7) * (layer.amplitude * 0.42);
           ctx.lineTo(x, y);
         }
         ctx.stroke();
       }
     }
 
-    // Foam streaks
-    ctx.strokeStyle = 'rgba(180,240,255,0.13)';
-    ctx.lineWidth = 1.2;
-    for (let i = 0; i < 50; i++) {
+    // Foam / white-cap streaks
+    ctx.strokeStyle = 'rgba(190,245,255,0.14)';
+    ctx.lineWidth = 1.4;
+    for (let i = 0; i < 120; i++) {
       const fy = Math.random() * size;
       const fx = Math.random() * size;
-      const len = 15 + Math.random() * 55;
+      const len = 20 + Math.random() * 80;
       ctx.beginPath();
       ctx.moveTo(fx, fy);
-      ctx.quadraticCurveTo(fx + len * 0.5, fy + (Math.random() - 0.5) * 6, fx + len, fy);
+      ctx.quadraticCurveTo(
+        fx + len * 0.5,
+        fy + (Math.random() - 0.5) * 8,
+        fx + len,
+        fy,
+      );
       ctx.stroke();
     }
 
     // Specular glint dots
-    ctx.fillStyle = 'rgba(210,245,255,0.10)';
-    for (let i = 0; i < 70; i++) {
+    ctx.fillStyle = 'rgba(220,250,255,0.11)';
+    for (let i = 0; i < 160; i++) {
       ctx.beginPath();
       ctx.arc(
         Math.random() * size,
         Math.random() * size,
-        0.8 + Math.random() * 2.8,
+        0.8 + Math.random() * 3.2,
         0,
         Math.PI * 2,
       );
@@ -448,14 +466,16 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     }
 
     const texture = new THREE.CanvasTexture(canvas);
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(6, 6);
+    // No tiling – single copy covers the whole ground without seam lines.
+    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
     return texture;
   }
 
   private createSeaWaterNormalMap(): THREE.CanvasTexture {
-    const size = 256;
+    // 512px – frequencies chosen so that k * freq * size == 2π * integer,
+    // guaranteeing perfectly seamless tiling when repeat > 1.
+    const size = 512;
     const canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
@@ -463,22 +483,26 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     const imageData = ctx.createImageData(size, size);
     const data = imageData.data;
+    // Seamless frequencies: f = n * (2π / size)
+    const f1 = (4 * Math.PI * 2) / size;  // 4 cycles across
+    const f2 = (7 * Math.PI * 2) / size;  // 7 cycles across
+    const f3 = (11 * Math.PI * 2) / size; // 11 cycles across
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        // Composite sine waves approximate a water-surface normal map
+        // Composite sine waves – all periods are exact divisors of canvas size
         const nx =
-          Math.sin(x * 0.09 + y * 0.06) * 0.55 +
-          Math.sin(x * 0.035 + 0.9) * 0.25 +
-          Math.sin(y * 0.05 + x * 0.03) * 0.2;
+          Math.sin(x * f1 + y * f2 * 0.5) * 0.50 +
+          Math.sin(x * f2 - y * f1 * 0.7) * 0.30 +
+          Math.sin(x * f3 + y * f3 * 0.4) * 0.20;
         const ny =
-          Math.cos(y * 0.09 + x * 0.05) * 0.55 +
-          Math.cos(y * 0.038 + 1.2) * 0.25 +
-          Math.cos(x * 0.06 + y * 0.04) * 0.2;
+          Math.cos(y * f1 + x * f2 * 0.5) * 0.50 +
+          Math.cos(y * f2 - x * f1 * 0.7) * 0.30 +
+          Math.cos(y * f3 + x * f3 * 0.4) * 0.20;
         const idx = (y * size + x) * 4;
-        data[idx] = Math.round((nx * 0.5 + 0.5) * 255); // R → tangent X
+        data[idx]     = Math.round((nx * 0.5 + 0.5) * 255); // R → tangent X
         data[idx + 1] = Math.round((ny * 0.5 + 0.5) * 255); // G → tangent Y
-        data[idx + 2] = 255; // B → surface normal Z
+        data[idx + 2] = 255;                                  // B → surface Z
         data[idx + 3] = 255;
       }
     }
@@ -487,7 +511,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const texture = new THREE.CanvasTexture(canvas);
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(8, 8);
+    // 4 repeats is safe because all frequencies divide the texture evenly.
+    texture.repeat.set(4, 4);
     return texture;
   }
 
@@ -2382,11 +2407,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       this.camera.position.y = this.cameraOriginalPosition.y + Math.sin(time * 0.7) * 0.2;
     }
 
-    // Animate sea water texture UV offset for flowing water effect
-    if (this.groundWaterTexture) {
-      this.groundWaterTexture.offset.x += 0.00018;
-      this.groundWaterTexture.offset.y += 0.00009;
-    }
+    // Scroll the normal map UV to simulate flowing water (color map is clamped, no tiling seams)
     if (this.groundWaterNormalMap) {
       this.groundWaterNormalMap.offset.x -= 0.00012;
       this.groundWaterNormalMap.offset.y += 0.00006;
