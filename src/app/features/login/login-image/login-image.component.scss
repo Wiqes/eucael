@@ -59,8 +59,13 @@
       width: 80%;
 
       .title {
-        color: #880e4f;
-        background-image: linear-gradient(45deg, #c6c2ff, #8664e3 33%, #4718c7 67%, #100442 100%);
+        color: #34f5dd;
+        background-image: linear-gradient(
+          90deg,
+          rgba(244, 63, 94, 0.95) 0%,
+          rgba(251, 146, 60, 1) 50%,
+          rgba(244, 63, 94, 0.95) 100%
+        );
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;

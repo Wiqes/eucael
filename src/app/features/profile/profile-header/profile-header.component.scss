@@ -15,7 +15,7 @@
     margin: 32px 0 16px 0;
     position: relative;
 
-    @extend %green-glass;
+    @extend %orange-glass;
   }
 }
 
@@ -41,7 +41,9 @@
       .profile-avatar {
         width: 140px !important;
         height: 140px !important;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(52, 245, 221, 0.2);
+        box-shadow:
+          0 15px 35px rgba(0, 0, 0, 0.3),
+          0 5px 15px rgba(52, 245, 221, 0.2);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         isolation: isolate;
