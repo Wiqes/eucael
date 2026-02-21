@@ -66,6 +66,20 @@ for (const file of cssFiles) {
   renameSync(join(browserDir, file), join(cssDir, file));
 }
 
+// --- Patch CSS files ---
+// Font/asset URLs in the CSS are relative to the original browser/ root, e.g. url("./media/...").
+// After moving into css/ the correct relative path becomes url("../media/...").
+for (const file of cssFiles) {
+  const cssPath = join(cssDir, file);
+  let css = readFileSync(cssPath, 'utf8');
+  // Replace url("./media/  →  url("../media/  (handles both quote styles)
+  css = css.replaceAll('url("./media/', 'url("../media/');
+  css = css.replaceAll("url('./media/", "url('../media/");
+  // Also fix any unquoted url(./media/
+  css = css.replaceAll('url(./media/', 'url(../media/');
+  writeFileSync(cssPath, css, 'utf8');
+}
+
 // --- Patch index.html ---
 // Replace JS file references
 for (const [oldName, newName] of jsRenameMap) {
