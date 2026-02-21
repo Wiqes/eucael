@@ -14,8 +14,8 @@ import { BattleTurnService } from './services/battle-turn.service';
 })
 export class BattleService {
   private readonly turnService = inject(BattleTurnService);
-  private readonly team1StartPosition: Position3d = { x: -2, y: 0, z: 3 };
-  private readonly team2StartPosition: Position3d = { x: 3, y: 0, z: -3 };
+  private readonly team1StartPosition: Position3d = { x: -2, y: -1, z: 3 };
+  private readonly team2StartPosition: Position3d = { x: 3, y: -1, z: -3 };
 
   private readonly battleStateSubject = new BehaviorSubject<BattleState | null>(null);
   readonly battleState$: Observable<BattleState | null> = this.battleStateSubject.asObservable();

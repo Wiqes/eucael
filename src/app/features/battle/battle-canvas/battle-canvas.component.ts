@@ -67,7 +67,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private readonly visibilityHandler = this.handleVisibilityChange.bind(this);
   private readonly resizeHandler = this.throttleResize.bind(this);
   private lastTime = 0;
-  private readonly spiderGroundOffset = 0;
+  private readonly spiderGroundOffset = 0.4;
   private particleAnimations: {
     geometry: THREE.BufferGeometry;
     velocities: number[];
