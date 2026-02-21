@@ -1147,33 +1147,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const toxicColor = new THREE.Color(0x39ff14);
     const emissiveColor = new THREE.Color(0x00ff44);
 
-    // --- GROUND POOL: toxic puddle spreading from feet ---
-    const poolGeo = new THREE.CircleGeometry(0.1, 48);
-    const poolMat = new THREE.MeshBasicMaterial({
-      color: 0x00ff44,
-      transparent: true,
-      opacity: 0.6,
-      side: THREE.DoubleSide,
-    });
-    const pool = new THREE.Mesh(poolGeo, poolMat);
-    pool.rotation.x = -Math.PI / 2;
-    pool.position.copy(defender.position);
-    pool.position.y = 0.05;
-    this.scene.add(pool);
-
-    gsap.to(pool.scale, { x: 20, y: 20, z: 1, duration: 1.1, ease: 'power3.out' });
-    gsap.to(poolMat, {
-      opacity: 0,
-      duration: 0.8,
-      delay: 0.4,
-      ease: 'power2.in',
-      onComplete: () => {
-        this.scene.remove(pool);
-        poolGeo.dispose();
-        poolMat.dispose();
-      },
-    });
-
     // --- 5 STACKED EXPANDING RINGS with spin ---
     for (let i = 0; i < 5; i++) {
       const rGeo = new THREE.TorusGeometry(0.5 + i * 0.12, 0.065 - i * 0.004, 16, 80);
