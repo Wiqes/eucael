@@ -1476,12 +1476,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       defender.rotation.set(0, !isChar1Attacker ? Math.PI / 3 : -Math.PI / 3, 0);
       defender.scale.set(!isChar1Attacker ? 1 : -1, 1, 1);
 
-      // Poison effect tracking
-      let poisonCleanup: (() => void) | null = null;
-      if (isPoisoned) {
-        poisonCleanup = this.createChargingEffect(attacker, isCritical);
-      }
-
       if (isBlocked) {
         timeline.call(() => {
           this.createEnergyShield(defender);
@@ -1768,8 +1762,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         defender.scale.set(!isChar1Attacker ? 1 : -1, 1, 1);
         this.resetCamera();
         this.timeSlowActive = false;
-        // Cleanup poison effect if present
-        if (poisonCleanup) poisonCleanup();
       });
 
       return timeline;
