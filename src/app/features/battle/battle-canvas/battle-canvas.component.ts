@@ -362,7 +362,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       for (let z = 0; z < boardSize; z++) {
         const tileGeometry = new THREE.PlaneGeometry(tileSize, tileSize);
         const tileMaterial = new THREE.MeshPhysicalMaterial({
-          color: 0x1a6f7a,
+          color: 0x0044ff,
           roughness: 0.25,
           metalness: 0.05,
           transmission: 0.2,
@@ -2055,7 +2055,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
   private createMassiveImpact(position: THREE.Vector3, action: BattleAction): void {
     const isCritical = action.type === 'critical';
-    const color = isCritical ? 0xff0044 : action.type === 'miss' ? 0x00aaff : 0xa020f0;
+    const color = isCritical ? 0xff0044 : action.type === 'miss' ? 0x00aaff : 0x0044ff;
 
     for (let i = 0; i < 3; i++) {
       const ringGeometry = new THREE.RingGeometry(0.5, 0.8, 32);
@@ -2153,7 +2153,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private createEnergyWave(position: THREE.Vector3, isCritical: boolean): void {
     const waveGeometry = new THREE.SphereGeometry(1, 32, 32);
     const waveMaterial = new THREE.MeshBasicMaterial({
-      color: isCritical ? 0xff0044 : 0xa020f0,
+      color: isCritical ? 0xff0044 : 0x0044ff,
       transparent: true,
       opacity: 0.5,
       side: THREE.BackSide,
