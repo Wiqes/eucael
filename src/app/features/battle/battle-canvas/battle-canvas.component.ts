@@ -309,7 +309,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.baseCameraFov = viewport.fov;
     this.camera = new THREE.PerspectiveCamera(this.baseCameraFov, width / height, 0.1, 1000);
 
-    this.scene.fog = viewport.useFog ? new THREE.FogExp2(0x0a0a0b, 0.08) : null;
+    this.scene.fog = viewport.useFog ? new THREE.FogExp2(0x0a0a0b, 0.02) : null;
     this.camera.position.set(0, viewport.cameraY, viewport.cameraZ);
     this.camera.lookAt(0, 1, 0);
     this.cameraOriginalPosition = this.camera.position.clone();
@@ -343,7 +343,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.scene.add(mainLight);
 
     const tileSize = 1.5;
-    const boardSize = 28;
+    const boardSize = 88;
     const groundSize = tileSize * boardSize;
 
     this.groundWaterTexture = this.createSeaWaterTexture();
@@ -2666,7 +2666,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.camera.fov = viewport.fov;
     this.camera.updateProjectionMatrix();
 
-    this.scene.fog = viewport.useFog ? new THREE.FogExp2(0x0a0a0b, 0.08) : null;
+    this.scene.fog = viewport.useFog ? new THREE.FogExp2(0x0a0a0b, 0.02) : null;
 
     this.camera.position.set(0, viewport.cameraY, viewport.cameraZ);
     this.cameraOriginalPosition = new THREE.Vector3(0, viewport.cameraY, viewport.cameraZ);
@@ -2711,7 +2711,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       fov,
       cameraZ,
       cameraY,
-      useFog: !isTablet,
+      useFog: true,
     };
   }
 }
