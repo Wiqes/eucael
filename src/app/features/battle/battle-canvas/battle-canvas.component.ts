@@ -414,10 +414,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       rows: number;
       lineWidth: number;
     }[] = [
-      { color: 'rgba(0,120,210,0.40)', amplitude: 28, frequency: 0.018, rows: 18, lineWidth: 2.8 },
-      { color: 'rgba(0,160,230,0.28)', amplitude: 14, frequency: 0.035, rows: 30, lineWidth: 1.8 },
-      { color: 'rgba(20,210,240,0.20)', amplitude: 7, frequency: 0.07, rows: 48, lineWidth: 1.1 },
-      { color: 'rgba(80,230,255,0.12)', amplitude: 3, frequency: 0.14, rows: 72, lineWidth: 0.7 },
+      { color: 'rgba(0,120,210,0.40)', amplitude: 28, frequency: 0.018, rows: 18, lineWidth: 0.2 },
+      { color: 'rgba(0,160,230,0.28)', amplitude: 14, frequency: 0.035, rows: 30, lineWidth: 0.2 },
+      { color: 'rgba(20,210,240,0.20)', amplitude: 7, frequency: 0.07, rows: 48, lineWidth: 0.2 },
+      { color: 'rgba(80,230,255,0.12)', amplitude: 3, frequency: 0.14, rows: 72, lineWidth: 0.2 },
     ];
 
     for (const layer of waveLayers) {
