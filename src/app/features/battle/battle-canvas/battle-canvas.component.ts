@@ -75,6 +75,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   }[] = [];
   private resizeTimeout: ReturnType<typeof setTimeout> | null = null;
   private baseCameraFov = 60;
+  private groundWaterTexture: THREE.CanvasTexture | null = null;
+  private groundWaterNormalMap: THREE.CanvasTexture | null = null;
 
   private readonly battleService = inject(BattleService);
   private circleTexture!: THREE.Texture;
@@ -341,35 +343,140 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     const tileSize = 1.5;
     const boardSize = 28;
-    const halfBoard = boardSize / 2;
+    const groundSize = tileSize * boardSize;
 
-    for (let x = 0; x < boardSize; x++) {
-      for (let z = 0; z < boardSize; z++) {
-        const tileGeometry = new THREE.PlaneGeometry(tileSize, tileSize);
-        const tileMaterial = new THREE.MeshPhysicalMaterial({
-          color: 0x0044ff,
-          roughness: 0.25,
-          metalness: 0.05,
-          transmission: 0.2,
-          thickness: 0.4,
-          transparent: true,
-          opacity: 0.6,
-          clearcoat: 0.8,
-          clearcoatRoughness: 0.2,
-          emissive: 0x0b3b40,
-          emissiveIntensity: 0.2,
-        });
-        const tile = new THREE.Mesh(tileGeometry, tileMaterial);
-        tile.rotation.x = -Math.PI / 2;
-        tile.position.set(
-          (x - halfBoard) * tileSize + tileSize / 2,
-          0,
-          (z - halfBoard) * tileSize + tileSize / 2,
-        );
-        tile.receiveShadow = true;
-        this.scene.add(tile);
+    this.groundWaterTexture = this.createSeaWaterTexture();
+    this.groundWaterNormalMap = this.createSeaWaterNormalMap();
+
+    const groundMaterial = new THREE.MeshPhysicalMaterial({
+      map: this.groundWaterTexture,
+      normalMap: this.groundWaterNormalMap,
+      normalScale: new THREE.Vector2(0.6, 0.6),
+      color: 0x0055cc,
+      roughness: 0.08,
+      metalness: 0.05,
+      transmission: 0.18,
+      thickness: 0.4,
+      transparent: true,
+      opacity: 0.82,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.08,
+      emissive: 0x0b3b40,
+      emissiveIntensity: 0.2,
+    });
+
+    const groundGeometry = new THREE.PlaneGeometry(groundSize, groundSize);
+    const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+    groundMesh.rotation.x = -Math.PI / 2;
+    groundMesh.position.set(0, 0, 0);
+    groundMesh.receiveShadow = true;
+    this.scene.add(groundMesh);
+  }
+
+  private createSeaWaterTexture(): THREE.CanvasTexture {
+    const size = 512;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d')!;
+
+    // Deep ocean background gradient
+    const bg = ctx.createLinearGradient(0, 0, size, size);
+    bg.addColorStop(0, '#001840');
+    bg.addColorStop(0.45, '#003070');
+    bg.addColorStop(0.8, '#004488');
+    bg.addColorStop(1, '#001840');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, size, size);
+
+    // Wave layers – sinusoidal strokes at varying frequencies / amplitudes
+    const waveLayers: { color: string; amplitude: number; frequency: number; rows: number; lineWidth: number }[] = [
+      { color: 'rgba(0,120,210,0.40)', amplitude: 20, frequency: 0.035, rows: 14, lineWidth: 2.2 },
+      { color: 'rgba(0,160,230,0.28)', amplitude: 11, frequency: 0.060, rows: 22, lineWidth: 1.6 },
+      { color: 'rgba(20,210,240,0.18)', amplitude:  6, frequency: 0.110, rows: 34, lineWidth: 1.0 },
+    ];
+
+    for (const layer of waveLayers) {
+      ctx.strokeStyle = layer.color;
+      ctx.lineWidth = layer.lineWidth;
+      for (let r = 0; r < layer.rows; r++) {
+        const yBase = ((r + 0.5) / layer.rows) * size;
+        ctx.beginPath();
+        ctx.moveTo(0, yBase);
+        for (let x = 0; x <= size; x += 2) {
+          const y =
+            yBase +
+            Math.sin(x * layer.frequency) * layer.amplitude +
+            Math.sin(x * layer.frequency * 0.48 + 1.3) * (layer.amplitude * 0.38);
+          ctx.lineTo(x, y);
+        }
+        ctx.stroke();
       }
     }
+
+    // Foam streaks
+    ctx.strokeStyle = 'rgba(180,240,255,0.13)';
+    ctx.lineWidth = 1.2;
+    for (let i = 0; i < 50; i++) {
+      const fy = Math.random() * size;
+      const fx = Math.random() * size;
+      const len = 15 + Math.random() * 55;
+      ctx.beginPath();
+      ctx.moveTo(fx, fy);
+      ctx.quadraticCurveTo(fx + len * 0.5, fy + (Math.random() - 0.5) * 6, fx + len, fy);
+      ctx.stroke();
+    }
+
+    // Specular glint dots
+    ctx.fillStyle = 'rgba(210,245,255,0.10)';
+    for (let i = 0; i < 70; i++) {
+      ctx.beginPath();
+      ctx.arc(Math.random() * size, Math.random() * size, 0.8 + Math.random() * 2.8, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(6, 6);
+    return texture;
+  }
+
+  private createSeaWaterNormalMap(): THREE.CanvasTexture {
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d')!;
+
+    const imageData = ctx.createImageData(size, size);
+    const data = imageData.data;
+
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        // Composite sine waves approximate a water-surface normal map
+        const nx =
+          Math.sin(x * 0.09 + y * 0.06) * 0.55 +
+          Math.sin(x * 0.035 + 0.9) * 0.25 +
+          Math.sin(y * 0.05 + x * 0.03) * 0.20;
+        const ny =
+          Math.cos(y * 0.09 + x * 0.05) * 0.55 +
+          Math.cos(y * 0.038 + 1.2) * 0.25 +
+          Math.cos(x * 0.06 + y * 0.04) * 0.20;
+        const idx = (y * size + x) * 4;
+        data[idx]     = Math.round((nx * 0.5 + 0.5) * 255); // R → tangent X
+        data[idx + 1] = Math.round((ny * 0.5 + 0.5) * 255); // G → tangent Y
+        data[idx + 2] = 255;                                  // B → surface normal Z
+        data[idx + 3] = 255;
+      }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(8, 8);
+    return texture;
   }
 
   private replaceCharacter(characterNumber: 1 | 2): void {
@@ -2261,6 +2368,16 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     if (!this.timeSlowActive) {
       this.camera.position.x = this.cameraOriginalPosition.x + Math.sin(time) * 0.3;
       this.camera.position.y = this.cameraOriginalPosition.y + Math.sin(time * 0.7) * 0.2;
+    }
+
+    // Animate sea water texture UV offset for flowing water effect
+    if (this.groundWaterTexture) {
+      this.groundWaterTexture.offset.x += 0.00018;
+      this.groundWaterTexture.offset.y += 0.00009;
+    }
+    if (this.groundWaterNormalMap) {
+      this.groundWaterNormalMap.offset.x -= 0.00012;
+      this.groundWaterNormalMap.offset.y += 0.00006;
     }
 
     // Optimize lightning bolt updates
