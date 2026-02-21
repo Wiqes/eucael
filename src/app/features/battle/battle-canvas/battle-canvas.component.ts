@@ -392,8 +392,12 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
     // Macro colour patches – gives depth variation across the surface
     const patchGrad = ctx.createRadialGradient(
-      size * 0.35, size * 0.45, 0,
-      size * 0.35, size * 0.45, size * 0.55,
+      size * 0.35,
+      size * 0.45,
+      0,
+      size * 0.35,
+      size * 0.45,
+      size * 0.55,
     );
     patchGrad.addColorStop(0, 'rgba(0,80,180,0.35)');
     patchGrad.addColorStop(1, 'rgba(0,0,0,0)');
@@ -410,8 +414,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     }[] = [
       { color: 'rgba(0,120,210,0.40)', amplitude: 28, frequency: 0.018, rows: 18, lineWidth: 2.8 },
       { color: 'rgba(0,160,230,0.28)', amplitude: 14, frequency: 0.035, rows: 30, lineWidth: 1.8 },
-      { color: 'rgba(20,210,240,0.20)', amplitude:  7, frequency: 0.070, rows: 48, lineWidth: 1.1 },
-      { color: 'rgba(80,230,255,0.12)', amplitude:  3, frequency: 0.140, rows: 72, lineWidth: 0.7 },
+      { color: 'rgba(20,210,240,0.20)', amplitude: 7, frequency: 0.07, rows: 48, lineWidth: 1.1 },
+      { color: 'rgba(80,230,255,0.12)', amplitude: 3, frequency: 0.14, rows: 72, lineWidth: 0.7 },
     ];
 
     for (const layer of waveLayers) {
@@ -442,12 +446,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       const len = 20 + Math.random() * 80;
       ctx.beginPath();
       ctx.moveTo(fx, fy);
-      ctx.quadraticCurveTo(
-        fx + len * 0.5,
-        fy + (Math.random() - 0.5) * 8,
-        fx + len,
-        fy,
-      );
+      ctx.quadraticCurveTo(fx + len * 0.5, fy + (Math.random() - 0.5) * 8, fx + len, fy);
       ctx.stroke();
     }
 
@@ -484,25 +483,25 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const imageData = ctx.createImageData(size, size);
     const data = imageData.data;
     // Seamless frequencies: f = n * (2π / size)
-    const f1 = (4 * Math.PI * 2) / size;  // 4 cycles across
-    const f2 = (7 * Math.PI * 2) / size;  // 7 cycles across
+    const f1 = (4 * Math.PI * 2) / size; // 4 cycles across
+    const f2 = (7 * Math.PI * 2) / size; // 7 cycles across
     const f3 = (11 * Math.PI * 2) / size; // 11 cycles across
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
         // Composite sine waves – all periods are exact divisors of canvas size
         const nx =
-          Math.sin(x * f1 + y * f2 * 0.5) * 0.50 +
-          Math.sin(x * f2 - y * f1 * 0.7) * 0.30 +
-          Math.sin(x * f3 + y * f3 * 0.4) * 0.20;
+          Math.sin(x * f1 + y * f2 * 0.5) * 0.5 +
+          Math.sin(x * f2 - y * f1 * 0.7) * 0.3 +
+          Math.sin(x * f3 + y * f3 * 0.4) * 0.2;
         const ny =
-          Math.cos(y * f1 + x * f2 * 0.5) * 0.50 +
-          Math.cos(y * f2 - x * f1 * 0.7) * 0.30 +
-          Math.cos(y * f3 + x * f3 * 0.4) * 0.20;
+          Math.cos(y * f1 + x * f2 * 0.5) * 0.5 +
+          Math.cos(y * f2 - x * f1 * 0.7) * 0.3 +
+          Math.cos(y * f3 + x * f3 * 0.4) * 0.2;
         const idx = (y * size + x) * 4;
-        data[idx]     = Math.round((nx * 0.5 + 0.5) * 255); // R → tangent X
+        data[idx] = Math.round((nx * 0.5 + 0.5) * 255); // R → tangent X
         data[idx + 1] = Math.round((ny * 0.5 + 0.5) * 255); // G → tangent Y
-        data[idx + 2] = 255;                                  // B → surface Z
+        data[idx + 2] = 255; // B → surface Z
         data[idx + 3] = 255;
       }
     }
