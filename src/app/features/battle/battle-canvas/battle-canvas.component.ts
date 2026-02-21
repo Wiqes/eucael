@@ -355,7 +355,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.scene.add(accentLight);
 
     const tileSize = 1.5;
-    const boardSize = 20;
+    const boardSize = 28;
     const halfBoard = boardSize / 2;
 
     for (let x = 0; x < boardSize; x++) {
