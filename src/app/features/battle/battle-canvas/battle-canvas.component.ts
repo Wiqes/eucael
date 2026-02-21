@@ -1811,82 +1811,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     };
   }
 
-  private createChargingEffect(attacker: THREE.Group, isCritical: boolean): () => void {
-    const venomColor = isCritical ? 0xff0000 : 0x00ff00;
-    const chargeLight = new THREE.PointLight(venomColor, 5, 5);
-    chargeLight.position.copy(attacker.position);
-    chargeLight.position.y += 1;
-    this.scene.add(chargeLight);
-
-    const poisonObjects: THREE.Object3D[] = [];
-    const poisonTweens: gsap.core.Tween[] = [];
-    for (let i = 0; i < 12; i++) {
-      const dropletGeometry = new THREE.SphereGeometry(0.12, 8, 8);
-      dropletGeometry.scale(1, 1.5, 1);
-      const dropletMaterial = new THREE.MeshBasicMaterial({
-        color: venomColor,
-        transparent: true,
-        opacity: 0.9,
-      });
-      const droplet = new THREE.Mesh(dropletGeometry, dropletMaterial);
-
-      const angle = (i / 12) * Math.PI * 2;
-      const radius = 1.5;
-      droplet.position.set(
-        attacker.position.x + Math.cos(angle) * radius,
-        attacker.position.y + 1,
-        attacker.position.z + Math.sin(angle) * radius,
-      );
-      this.scene.add(droplet);
-      poisonObjects.push(droplet);
-
-      const tween = gsap.to(droplet.position, {
-        x: attacker.position.x,
-        y: attacker.position.y + 0.5,
-        z: attacker.position.z,
-        duration: 0.5,
-        ease: 'power2.in',
-        onComplete: () => {
-          this.scene.remove(droplet);
-          dropletGeometry.dispose();
-          dropletMaterial.dispose();
-        },
-      });
-      poisonTweens.push(tween);
-    }
-
-    this.scene.add(chargeLight);
-    poisonObjects.push(chargeLight);
-
-    const chargeTween = gsap.to(chargeLight, {
-      intensity: isCritical ? 30 : 20,
-      duration: 0.4,
-      ease: 'power2.in',
-      onComplete: () => {
-        const fadeTween = gsap.to(chargeLight, {
-          intensity: 0,
-          duration: 0.2,
-          onComplete: () => {
-            this.scene.remove(chargeLight);
-          },
-        });
-        poisonTweens.push(fadeTween);
-      },
-    });
-    poisonTweens.push(chargeTween);
-
-    // Register globally for cleanup
-    this.activePoisonObjects.push(...poisonObjects);
-    this.activePoisonTweens.push(...poisonTweens);
-    // Return cleanup function
-    return () => {
-      poisonObjects.forEach((obj) => {
-        if (obj.parent) this.scene.remove(obj);
-      });
-      poisonTweens.forEach((tween) => tween.kill());
-    };
-  }
-
   private createEnergyShield(defender: THREE.Group): void {
     const shieldGroup = new THREE.Group();
     shieldGroup.position.copy(defender.position);
@@ -2451,7 +2375,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
   private createMassiveImpact(position: THREE.Vector3, action: BattleAction): void {
     const isCritical = action.type === 'critical';
-    const color = isCritical ? 0xff0044 : action.type === 'miss' ? 0x00aaff : 0x0044ff;
+    const color = action.type === 'miss' ? 0x00aaff : 0x0044ff;
 
     for (let i = 0; i < 3; i++) {
       const ringGeometry = new THREE.RingGeometry(0.5, 0.8, 32);
@@ -2549,7 +2473,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private createEnergyWave(position: THREE.Vector3, isCritical: boolean): void {
     const waveGeometry = new THREE.SphereGeometry(1, 32, 32);
     const waveMaterial = new THREE.MeshBasicMaterial({
-      color: isCritical ? 0xff0044 : 0x0044ff,
+      color: 0x0044ff,
       transparent: true,
       opacity: 0.5,
       side: THREE.BackSide,
