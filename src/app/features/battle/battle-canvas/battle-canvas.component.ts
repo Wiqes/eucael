@@ -339,21 +339,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     mainLight.shadow.camera.bottom = -15;
     this.scene.add(mainLight);
 
-    const rimLight1 = new THREE.PointLight(0x34f5dd, 3, 8);
-    rimLight1.position.set(-4, 3, -2);
-    this.scene.add(rimLight1);
-
-    const rimLight2 = new THREE.PointLight(0x34f5f5, 3, 8);
-    rimLight2.position.set(4, 3, -2);
-    this.scene.add(rimLight2);
-
-    const accentLight = new THREE.SpotLight(0x34f5dd, 2);
-    accentLight.position.set(0, 8, 0);
-    accentLight.angle = Math.PI / 4;
-    accentLight.penumbra = 0.5;
-    accentLight.castShadow = true;
-    this.scene.add(accentLight);
-
     const tileSize = 1.5;
     const boardSize = 28;
     const halfBoard = boardSize / 2;
