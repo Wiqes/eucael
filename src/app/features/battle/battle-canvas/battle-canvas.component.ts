@@ -960,12 +960,12 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       sporeSprites.push(sprite);
     }
 
-    const materialSnapshots: Array<{
+    const materialSnapshots: {
       material: THREE.Material;
       color?: THREE.Color;
       emissive?: THREE.Color;
       emissiveIntensity?: number;
-    }> = [];
+    }[] = [];
 
     defender.traverse((child) => {
       if (!(child instanceof THREE.Mesh)) return;
@@ -1143,6 +1143,330 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.activePoisonTweens.push(cleanupTween);
   }
 
+  private animatePoisonAttack(defender: THREE.Group): void {
+    const toxicColor = new THREE.Color(0x39ff14);
+    const emissiveColor = new THREE.Color(0x00ff44);
+
+    // --- TOXIC ORB: inflates then bursts outward ---
+    const orbGeo = new THREE.SphereGeometry(0.15, 20, 20);
+    const orbMat = new THREE.MeshPhysicalMaterial({
+      color: 0x39ff14,
+      emissive: new THREE.Color(0x00ff44),
+      emissiveIntensity: 4,
+      transparent: true,
+      opacity: 0.75,
+    });
+    const orb = new THREE.Mesh(orbGeo, orbMat);
+    orb.position.copy(defender.position);
+    orb.position.y += 1.5;
+    this.scene.add(orb);
+
+    gsap.to(orb.scale, { x: 16, y: 16, z: 16, duration: 0.3, ease: 'expo.out' });
+    gsap.to(orbMat, {
+      opacity: 0,
+      emissiveIntensity: 0,
+      duration: 0.45,
+      delay: 0.15,
+      ease: 'expo.in',
+      onComplete: () => {
+        this.scene.remove(orb);
+        orbGeo.dispose();
+        orbMat.dispose();
+      },
+    });
+
+    // --- GROUND POOL: toxic puddle spreading from feet ---
+    const poolGeo = new THREE.CircleGeometry(0.1, 48);
+    const poolMat = new THREE.MeshBasicMaterial({
+      color: 0x00ff44,
+      transparent: true,
+      opacity: 0.6,
+      side: THREE.DoubleSide,
+    });
+    const pool = new THREE.Mesh(poolGeo, poolMat);
+    pool.rotation.x = -Math.PI / 2;
+    pool.position.copy(defender.position);
+    pool.position.y = 0.05;
+    this.scene.add(pool);
+
+    gsap.to(pool.scale, { x: 20, y: 20, z: 1, duration: 1.1, ease: 'power3.out' });
+    gsap.to(poolMat, {
+      opacity: 0,
+      duration: 0.8,
+      delay: 0.4,
+      ease: 'power2.in',
+      onComplete: () => {
+        this.scene.remove(pool);
+        poolGeo.dispose();
+        poolMat.dispose();
+      },
+    });
+
+    // --- 5 STACKED EXPANDING RINGS with spin ---
+    for (let i = 0; i < 5; i++) {
+      const rGeo = new THREE.TorusGeometry(0.5 + i * 0.12, 0.065 - i * 0.004, 16, 80);
+      const rMat = new THREE.MeshStandardMaterial({
+        color: toxicColor,
+        emissive: emissiveColor,
+        emissiveIntensity: 1.6 - i * 0.12,
+        transparent: true,
+        opacity: 0.92 - i * 0.05,
+      });
+      const ring = new THREE.Mesh(rGeo, rMat);
+      ring.position.copy(defender.position);
+      ring.position.y = 0.2 + i * 0.4;
+      ring.rotation.x = Math.PI / 2;
+      this.scene.add(ring);
+
+      const delay = i * 0.065;
+      const dur = 0.75 + i * 0.1;
+      const spinDir = i % 2 === 0 ? 1 : -1;
+      gsap.to(ring.scale, { x: 4, y: 4, z: 4, duration: dur, delay, ease: 'power2.out' });
+      gsap.to(ring.rotation, {
+        z: spinDir * Math.PI * 2.5,
+        duration: dur,
+        delay,
+        ease: 'power2.out',
+      });
+      gsap.to(rMat, {
+        opacity: 0,
+        duration: dur,
+        delay,
+        ease: 'power2.out',
+        onComplete: () => {
+          this.scene.remove(ring);
+          rGeo.dispose();
+          rMat.dispose();
+        },
+      });
+    }
+
+    // --- HELIX VORTEX: 40 spores spiralling upward around the defender ---
+    const helixMat = new THREE.SpriteMaterial({
+      map: this.circleTexture,
+      color: 0x7cff6b,
+      transparent: true,
+      opacity: 1,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const helixCount = 40;
+    for (let i = 0; i < helixCount; i++) {
+      const t = i / helixCount;
+      const angle = t * Math.PI * 6;
+      const height = t * 3.2;
+      const radius = 0.75 + Math.sin(t * Math.PI) * 0.45;
+      const sprite = new THREE.Sprite(helixMat.clone());
+      sprite.position.set(
+        defender.position.x + Math.cos(angle) * radius,
+        defender.position.y + height,
+        defender.position.z + Math.sin(angle) * radius,
+      );
+      const sc = 0.1 + Math.random() * 0.14;
+      sprite.scale.set(sc, sc, sc);
+      this.scene.add(sprite);
+
+      gsap.to(sprite.position, {
+        x: defender.position.x + Math.cos(angle + Math.PI) * (radius + 1.0),
+        y: sprite.position.y + 1.8 + Math.random() * 0.8,
+        z: defender.position.z + Math.sin(angle + Math.PI) * (radius + 1.0),
+        duration: 1.0 + Math.random() * 0.5,
+        delay: t * 0.45,
+        ease: 'power2.out',
+      });
+      gsap.to(sprite.material, {
+        opacity: 0,
+        duration: 0.7,
+        delay: 0.35 + t * 0.45,
+        ease: 'power2.in',
+        onComplete: () => {
+          this.scene.remove(sprite);
+          (sprite.material as THREE.Material).dispose();
+        },
+      });
+    }
+
+    // --- BURST EXPLOSION: 90 particles launched outward ---
+    const particleCount = 90;
+    const burstGeo = new THREE.BufferGeometry();
+    const burstPos = new Float32Array(particleCount * 3);
+    const burstVel: THREE.Vector3[] = [];
+    for (let i = 0; i < particleCount; i++) {
+      burstPos[i * 3] = defender.position.x;
+      burstPos[i * 3 + 1] = defender.position.y + 1.5;
+      burstPos[i * 3 + 2] = defender.position.z;
+      const a = (i / particleCount) * Math.PI * 2;
+      const va = (Math.random() - 0.25) * Math.PI;
+      const spd = 0.3 + Math.random() * 0.5;
+      burstVel.push(
+        new THREE.Vector3(
+          Math.cos(a) * Math.cos(va) * spd,
+          Math.abs(Math.sin(va)) * spd + 0.04,
+          Math.sin(a) * Math.cos(va) * spd,
+        ),
+      );
+    }
+    burstGeo.setAttribute('position', new THREE.BufferAttribute(burstPos, 3));
+    const burstMat = new THREE.PointsMaterial({
+      color: 0x39ff14,
+      size: 0.2,
+      transparent: true,
+      opacity: 1,
+      blending: THREE.AdditiveBlending,
+      map: this.circleTexture,
+      alphaTest: 0.01,
+    });
+    const burstSystem = new THREE.Points(burstGeo, burstMat);
+    this.scene.add(burstSystem);
+
+    gsap.to(burstMat, {
+      opacity: 0,
+      duration: 1.3,
+      onUpdate: () => {
+        const pos = burstGeo.attributes['position'] as THREE.BufferAttribute;
+        for (let i = 0; i < particleCount; i++) {
+          pos.array[i * 3] += burstVel[i].x;
+          pos.array[i * 3 + 1] += burstVel[i].y;
+          pos.array[i * 3 + 2] += burstVel[i].z;
+          burstVel[i].y -= 0.018;
+        }
+        pos.needsUpdate = true;
+      },
+      onComplete: () => {
+        this.scene.remove(burstSystem);
+        burstGeo.dispose();
+        burstMat.dispose();
+      },
+    });
+
+    // --- DUAL PULSING LIGHTS ---
+    const light1 = new THREE.PointLight(0x39ff14, 0, 9);
+    light1.position.copy(defender.position);
+    light1.position.y += 1.5;
+    this.scene.add(light1);
+
+    const light2 = new THREE.PointLight(0x00ff44, 0, 5);
+    light2.position.copy(defender.position);
+    light2.position.y += 0.3;
+    this.scene.add(light2);
+
+    gsap.to(light1, {
+      intensity: 10,
+      duration: 0.08,
+      ease: 'expo.out',
+      onComplete: () => {
+        gsap.to(light1, {
+          intensity: 0,
+          duration: 0.85,
+          ease: 'power2.out',
+          onComplete: () => {
+            this.scene.remove(light1);
+          },
+        });
+      },
+    });
+    gsap.to(light2, {
+      intensity: 6,
+      duration: 0.18,
+      ease: 'expo.out',
+      onComplete: () => {
+        gsap.to(light2, {
+          intensity: 0,
+          duration: 0.75,
+          delay: 0.15,
+          ease: 'power2.out',
+          onComplete: () => {
+            this.scene.remove(light2);
+          },
+        });
+      },
+    });
+
+    // --- CAMERA SHAKE ---
+    const origCam = this.camera.position.clone();
+    const shakeTl = gsap.timeline();
+    const shakeStrength = 0.18;
+    for (let i = 0; i < 5; i++) {
+      shakeTl.to(this.camera.position, {
+        x: origCam.x + (Math.random() - 0.5) * shakeStrength,
+        y: origCam.y + (Math.random() - 0.5) * shakeStrength * 0.5,
+        duration: 0.055,
+        ease: 'none',
+      });
+    }
+    shakeTl.to(this.camera.position, { x: origCam.x, y: origCam.y, duration: 0.07, ease: 'none' });
+
+    // --- DEFENDER MATERIAL FLASH (5 rapid pulses) ---
+    const materialSnapshots: {
+      material: THREE.Material;
+      color?: THREE.Color;
+      emissive?: THREE.Color;
+      emissiveIntensity?: number;
+    }[] = [];
+
+    defender.traverse((child) => {
+      if (!(child instanceof THREE.Mesh)) return;
+      const materials = Array.isArray(child.material) ? child.material : [child.material];
+      materials.forEach((material) => {
+        const mat = material as THREE.MeshStandardMaterial;
+        const snapshot: {
+          material: THREE.Material;
+          color?: THREE.Color;
+          emissive?: THREE.Color;
+          emissiveIntensity?: number;
+        } = { material: mat };
+        if ('color' in mat && mat.color) snapshot.color = mat.color.clone();
+        if ('emissive' in mat && mat.emissive) {
+          snapshot.emissive = mat.emissive.clone();
+          snapshot.emissiveIntensity = mat.emissiveIntensity;
+        }
+        materialSnapshots.push(snapshot);
+      });
+    });
+
+    materialSnapshots.forEach((snapshot) => {
+      const mat = snapshot.material as THREE.MeshStandardMaterial;
+      if (snapshot.color) {
+        gsap.to(mat.color, {
+          r: toxicColor.r,
+          g: toxicColor.g,
+          b: toxicColor.b,
+          duration: 0.12,
+          yoyo: true,
+          repeat: 5,
+          ease: 'sine.inOut',
+          onComplete: () => {
+            if (snapshot.color) mat.color.copy(snapshot.color);
+          },
+        });
+      }
+      if (snapshot.emissive) {
+        gsap.to(mat.emissive, {
+          r: emissiveColor.r,
+          g: emissiveColor.g,
+          b: emissiveColor.b,
+          duration: 0.12,
+          yoyo: true,
+          repeat: 5,
+          ease: 'sine.inOut',
+          onComplete: () => {
+            if (snapshot.emissive) mat.emissive.copy(snapshot.emissive);
+          },
+        });
+        gsap.to(mat, {
+          emissiveIntensity: (snapshot.emissiveIntensity ?? 0.6) + 2.5,
+          duration: 0.12,
+          yoyo: true,
+          repeat: 5,
+          ease: 'sine.inOut',
+          onComplete: () => {
+            mat.emissiveIntensity = snapshot.emissiveIntensity ?? mat.emissiveIntensity;
+          },
+        });
+      }
+    });
+  }
+
   private animateAction(action: BattleAction): void {
     // Always cleanup poison effects before starting a new action
     this.cleanupPoisonEffects();
@@ -1261,6 +1585,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
           if (isCritical) {
             this.screenFlash();
+          }
+
+          if (isPoisoned) {
+            this.animatePoisonAttack(defender);
           }
 
           const defenderTimeline = gsap.timeline();
