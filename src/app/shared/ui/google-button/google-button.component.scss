@@ -8,6 +8,10 @@
   padding: 12px !important;
 }
 
+:host ::ng-deep .p-button-label {
+  font-weight: 900 !important;
+}
+
 :host {
   width: 100%;
 }
