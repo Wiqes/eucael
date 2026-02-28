@@ -1879,11 +1879,13 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
 
     const particleMaterial = new THREE.PointsMaterial({
+      map: this.circleTexture,
       color: 0x00ffff,
-      size: 0.15,
+      size: 0.35,
       transparent: true,
       opacity: 0.8,
       blending: THREE.AdditiveBlending,
+      depthWrite: false,
     });
 
     const particles = new THREE.Points(particleGeometry, particleMaterial);
@@ -2140,11 +2142,13 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
 
     const particleMaterial = new THREE.PointsMaterial({
+      map: this.circleTexture,
       color: 0x00ffff,
-      size: 0.15,
+      size: 0.35,
       transparent: true,
       opacity: 0.8,
       blending: THREE.AdditiveBlending,
+      depthWrite: false,
     });
 
     const particles = new THREE.Points(particleGeometry, particleMaterial);
