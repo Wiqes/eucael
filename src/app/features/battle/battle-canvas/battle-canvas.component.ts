@@ -1881,7 +1881,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const particleMaterial = new THREE.PointsMaterial({
       map: this.circleTexture,
       color: 0x00ffff,
-      size: 0.35,
+      size: 0.18,
       transparent: true,
       opacity: 0.8,
       blending: THREE.AdditiveBlending,
@@ -2144,7 +2144,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const particleMaterial = new THREE.PointsMaterial({
       map: this.circleTexture,
       color: 0x00ffff,
-      size: 0.35,
+      size: 0.18,
       transparent: true,
       opacity: 0.8,
       blending: THREE.AdditiveBlending,
