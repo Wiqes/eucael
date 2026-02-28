@@ -75,6 +75,19 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   }[] = [];
   private resizeTimeout: ReturnType<typeof setTimeout> | null = null;
   private baseCameraFov = 60;
+  private persistentShields = new Map<
+    THREE.Group,
+    {
+      shieldGroup: THREE.Group;
+      mainLight: THREE.PointLight;
+      pulseLight: THREE.PointLight;
+      particleAnimIndex: number;
+      materials: THREE.Material[];
+      geometries: THREE.BufferGeometry[];
+      rings: THREE.Mesh[];
+      idleTweens: gsap.core.Tween[];
+    }
+  >();
   private groundWaterTexture: THREE.CanvasTexture | null = null;
   private groundWaterNormalMap: THREE.CanvasTexture | null = null;
   private groundMaterial: THREE.MeshPhysicalMaterial | null = null;
@@ -151,6 +164,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     window.removeEventListener('resize', this.resizeHandler);
     this.particleAnimations = [];
     gsap.killTweensOf('*');
+    this.persistentShields.forEach((_, character) => this.disposePersistentShield(character));
+    this.persistentShields.clear();
     this.scene?.clear();
     this.renderer?.dispose();
     this.circleTexture?.dispose();
@@ -1465,7 +1480,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
 
       if (isBlocked) {
         timeline.call(() => {
-          this.createEnergyShield(defender);
+          this.breakPersistentEnergyShield(defender);
         });
       }
 
@@ -1755,7 +1770,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     };
 
     if (action.type === 'shield') {
-      this.createEnergyShield(attacker);
+      this.createPersistentEnergyShield(attacker);
       return;
     }
 
@@ -2054,6 +2069,440 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       duration: 0.5,
       delay: 0.5,
     });
+  }
+
+  private createPersistentEnergyShield(character: THREE.Group): void {
+    // Remove any existing persistent shield on this character first
+    this.disposePersistentShield(character);
+
+    const shieldGroup = new THREE.Group();
+    shieldGroup.position.copy(character.position);
+    shieldGroup.position.y += 1;
+    this.scene.add(shieldGroup);
+
+    // Outer hexagonal shield with energy flow
+    const outerShieldGeometry = new THREE.IcosahedronGeometry(2.5, 2);
+    const outerShieldMaterial = new THREE.MeshPhongMaterial({
+      color: 0x00ffff,
+      transparent: true,
+      opacity: 0.6,
+      wireframe: true,
+      side: THREE.DoubleSide,
+      emissive: 0x00ffff,
+      emissiveIntensity: 0.8,
+    });
+    const outerShield = new THREE.Mesh(outerShieldGeometry, outerShieldMaterial);
+    shieldGroup.add(outerShield);
+
+    // Middle solid energy layer
+    const middleShieldGeometry = new THREE.SphereGeometry(2.2, 32, 32);
+    const middleShieldMaterial = new THREE.MeshPhongMaterial({
+      color: 0x4499ff,
+      transparent: true,
+      opacity: 0.4,
+      side: THREE.DoubleSide,
+      emissive: 0x2266ff,
+      emissiveIntensity: 1.2,
+    });
+    const middleShield = new THREE.Mesh(middleShieldGeometry, middleShieldMaterial);
+    shieldGroup.add(middleShield);
+
+    // Inner core with pulsing energy
+    const innerShieldGeometry = new THREE.IcosahedronGeometry(1.8, 1);
+    const innerShieldMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.9,
+      wireframe: true,
+      side: THREE.DoubleSide,
+    });
+    const innerShield = new THREE.Mesh(innerShieldGeometry, innerShieldMaterial);
+    shieldGroup.add(innerShield);
+
+    // Energy particles around shield
+    const particleCount = 80;
+    const particleGeometry = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
+    const particleVelocities: number[] = [];
+
+    for (let i = 0; i < particleCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 2 + Math.random() * 1.5;
+      const height = (Math.random() - 0.5) * 3;
+
+      particlePositions[i * 3] = Math.cos(angle) * radius;
+      particlePositions[i * 3 + 1] = height;
+      particlePositions[i * 3 + 2] = Math.sin(angle) * radius;
+
+      particleVelocities.push(angle, Math.random() * 0.02 + 0.01);
+    }
+
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+
+    const particleMaterial = new THREE.PointsMaterial({
+      color: 0x00ffff,
+      size: 0.15,
+      transparent: true,
+      opacity: 0.8,
+      blending: THREE.AdditiveBlending,
+    });
+
+    const particles = new THREE.Points(particleGeometry, particleMaterial);
+    shieldGroup.add(particles);
+
+    // Expanding energy rings (initial activation effect)
+    const rings: THREE.Mesh[] = [];
+    for (let i = 0; i < 3; i++) {
+      const ringGeometry = new THREE.TorusGeometry(1.5, 0.1, 16, 50);
+      const ringMaterial = new THREE.MeshBasicMaterial({
+        color: 0x00ffff,
+        transparent: true,
+        opacity: 0.8,
+        side: THREE.DoubleSide,
+      });
+      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+      ring.rotation.x = Math.PI / 2;
+      ring.scale.set(0.1, 0.1, 0.1);
+      shieldGroup.add(ring);
+      rings.push(ring);
+
+      gsap.to(ring.scale, {
+        x: 2,
+        y: 2,
+        z: 2,
+        duration: 0.8,
+        delay: i * 0.1,
+        ease: 'power2.out',
+      });
+
+      gsap.to(ringMaterial, {
+        opacity: 0,
+        duration: 0.8,
+        delay: i * 0.1,
+      });
+    }
+
+    // Dynamic bright lights
+    const mainLight = new THREE.PointLight(0x00ffff, 30, 8);
+    mainLight.position.copy(shieldGroup.position);
+    this.scene.add(mainLight);
+
+    const pulseLight = new THREE.PointLight(0xffffff, 20, 6);
+    pulseLight.position.copy(shieldGroup.position);
+    this.scene.add(pulseLight);
+
+    // Hexagonal flash effect (initial activation)
+    const flashGeometry = new THREE.RingGeometry(0.5, 3, 6);
+    const flashMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1,
+      side: THREE.DoubleSide,
+    });
+    const flash = new THREE.Mesh(flashGeometry, flashMaterial);
+    flash.position.copy(shieldGroup.position);
+    flash.lookAt(this.camera.position);
+    this.scene.add(flash);
+
+    gsap.to(flash.scale, {
+      x: 3,
+      y: 3,
+      z: 3,
+      duration: 0.3,
+      ease: 'power2.out',
+    });
+
+    gsap.to(flashMaterial, {
+      opacity: 0,
+      duration: 0.3,
+      onComplete: () => {
+        this.scene.remove(flash);
+        flashGeometry.dispose();
+        flashMaterial.dispose();
+      },
+    });
+
+    // Camera shake on activation
+    const originalCameraPos = this.camera.position.clone();
+    const shakeTimeline = gsap.timeline();
+    for (let i = 0; i < 6; i++) {
+      shakeTimeline.to(this.camera.position, {
+        x: originalCameraPos.x + (Math.random() - 0.5) * 0.2,
+        y: originalCameraPos.y + (Math.random() - 0.5) * 0.2,
+        z: originalCameraPos.z + (Math.random() - 0.5) * 0.15,
+        duration: 0.03,
+      });
+    }
+    shakeTimeline.to(this.camera.position, {
+      x: originalCameraPos.x,
+      y: originalCameraPos.y,
+      z: originalCameraPos.z,
+      duration: 0.05,
+    });
+
+    // Initial shield activation animations
+    gsap.to(outerShield.rotation, {
+      x: Math.PI * 2,
+      y: Math.PI * 2,
+      duration: 0.8,
+    });
+
+    gsap.to(innerShield.rotation, {
+      x: -Math.PI * 2,
+      z: Math.PI * 2,
+      duration: 0.8,
+    });
+
+    gsap.to(middleShield.scale, {
+      x: 1.3,
+      y: 1.3,
+      z: 1.3,
+      duration: 0.2,
+      yoyo: true,
+      repeat: 1,
+      ease: 'power2.inOut',
+    });
+
+    gsap.to(shieldGroup.scale, {
+      x: 1.2,
+      y: 1.2,
+      z: 1.2,
+      duration: 0.15,
+      yoyo: true,
+      repeat: 1,
+      ease: 'elastic.out(1, 0.3)',
+    });
+
+    // Initial pulse for lights
+    gsap.to(mainLight, {
+      intensity: 50,
+      duration: 0.1,
+      yoyo: true,
+      repeat: 3,
+    });
+
+    gsap.to(pulseLight, {
+      intensity: 35,
+      duration: 0.15,
+      yoyo: true,
+      repeat: 2,
+    });
+
+    // Add to particle animations for main animation loop
+    const particleAnimIndex =
+      this.particleAnimations.push({
+        geometry: particleGeometry,
+        velocities: particleVelocities,
+        particleCount,
+      }) - 1;
+
+    // Idle looping animations (persist until shield is broken)
+    const idleTweens: gsap.core.Tween[] = [];
+
+    // Slow continuous rotation of outer shell
+    idleTweens.push(
+      gsap.to(outerShield.rotation, {
+        x: '+=6.28', // Math.PI * 2
+        y: '+=6.28',
+        duration: 4,
+        repeat: -1,
+        ease: 'none',
+      }),
+    );
+
+    // Counter-rotate inner shell
+    idleTweens.push(
+      gsap.to(innerShield.rotation, {
+        x: '-=6.28',
+        z: '+=6.28',
+        duration: 3,
+        repeat: -1,
+        ease: 'none',
+      }),
+    );
+
+    // Gentle pulse on middle layer
+    idleTweens.push(
+      gsap.to(middleShield.scale, {
+        x: 1.15,
+        y: 1.15,
+        z: 1.15,
+        duration: 1.2,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut',
+      }),
+    );
+
+    // Gentle opacity pulse on middle layer
+    idleTweens.push(
+      gsap.to(middleShieldMaterial, {
+        opacity: 0.55,
+        duration: 1.5,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut',
+      }),
+    );
+
+    // Idle light pulsing
+    idleTweens.push(
+      gsap.to(mainLight, {
+        intensity: 15,
+        duration: 1.0,
+        delay: 0.5,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut',
+      }),
+    );
+
+    idleTweens.push(
+      gsap.to(pulseLight, {
+        intensity: 10,
+        duration: 0.8,
+        delay: 0.5,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut',
+      }),
+    );
+
+    // Store persistent shield data for later removal
+    this.persistentShields.set(character, {
+      shieldGroup,
+      mainLight,
+      pulseLight,
+      particleAnimIndex,
+      materials: [outerShieldMaterial, middleShieldMaterial, innerShieldMaterial, particleMaterial],
+      geometries: [
+        outerShieldGeometry,
+        middleShieldGeometry,
+        innerShieldGeometry,
+        particleGeometry,
+      ],
+      rings,
+      idleTweens,
+    });
+  }
+
+  private breakPersistentEnergyShield(character: THREE.Group): void {
+    const shieldData = this.persistentShields.get(character);
+    if (!shieldData) {
+      // Fallback: no persistent shield found, play the one-shot version
+      this.createEnergyShield(character);
+      return;
+    }
+
+    const { shieldGroup, mainLight, pulseLight, materials, geometries, rings, idleTweens } =
+      shieldData;
+
+    // Kill all idle looping tweens
+    idleTweens.forEach((tween) => tween.kill());
+
+    // Camera shake on shield break
+    const originalCameraPos = this.camera.position.clone();
+    const shakeTimeline = gsap.timeline();
+    for (let i = 0; i < 8; i++) {
+      shakeTimeline.to(this.camera.position, {
+        x: originalCameraPos.x + (Math.random() - 0.5) * 0.3,
+        y: originalCameraPos.y + (Math.random() - 0.5) * 0.3,
+        z: originalCameraPos.z + (Math.random() - 0.5) * 0.2,
+        duration: 0.03,
+      });
+    }
+    shakeTimeline.to(this.camera.position, {
+      x: originalCameraPos.x,
+      y: originalCameraPos.y,
+      z: originalCameraPos.z,
+      duration: 0.05,
+    });
+
+    // Bright flash on break
+    gsap.to(mainLight, {
+      intensity: 60,
+      duration: 0.1,
+      yoyo: true,
+      repeat: 1,
+    });
+
+    gsap.to(pulseLight, {
+      intensity: 45,
+      duration: 0.1,
+      yoyo: true,
+      repeat: 1,
+    });
+
+    // Scale up rapidly then shatter
+    gsap.to(shieldGroup.scale, {
+      x: 1.6,
+      y: 1.6,
+      z: 1.6,
+      duration: 0.15,
+      ease: 'power4.out',
+    });
+
+    // Fade out all materials and lights
+    gsap.to(materials, {
+      opacity: 0,
+      duration: 0.4,
+      delay: 0.15,
+      onComplete: () => {
+        // Remove particle animation
+        const particleGeometry = geometries[3];
+        const index = this.particleAnimations.findIndex(
+          (anim) => anim.geometry === particleGeometry,
+        );
+        if (index > -1) this.particleAnimations.splice(index, 1);
+
+        this.scene.remove(shieldGroup);
+        this.scene.remove(mainLight);
+        this.scene.remove(pulseLight);
+
+        // Dispose geometries and materials
+        geometries.forEach((g) => g.dispose());
+        materials.forEach((m) => m.dispose());
+        rings.forEach((ring) => {
+          ring.geometry.dispose();
+          (ring.material as THREE.Material).dispose();
+        });
+
+        this.persistentShields.delete(character);
+      },
+    });
+
+    gsap.to([mainLight, pulseLight], {
+      intensity: 0,
+      duration: 0.4,
+      delay: 0.15,
+    });
+  }
+
+  private disposePersistentShield(character: THREE.Group): void {
+    const shieldData = this.persistentShields.get(character);
+    if (!shieldData) return;
+
+    const { shieldGroup, mainLight, pulseLight, materials, geometries, rings, idleTweens } =
+      shieldData;
+
+    idleTweens.forEach((tween) => tween.kill());
+
+    const particleGeometry = geometries[3];
+    const index = this.particleAnimations.findIndex((anim) => anim.geometry === particleGeometry);
+    if (index > -1) this.particleAnimations.splice(index, 1);
+
+    this.scene.remove(shieldGroup);
+    this.scene.remove(mainLight);
+    this.scene.remove(pulseLight);
+
+    geometries.forEach((g) => g.dispose());
+    materials.forEach((m) => m.dispose());
+    rings.forEach((ring) => {
+      ring.geometry.dispose();
+      (ring.material as THREE.Material).dispose();
+    });
+
+    this.persistentShields.delete(character);
   }
 
   private createLightningStrike(from: THREE.Vector3, to: THREE.Vector3): void {
