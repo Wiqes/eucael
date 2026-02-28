@@ -4,7 +4,6 @@ import { BattleService } from './battle.service';
 import { BattleActionType, BattleCharacter, BattleState } from './battle.model';
 import { Subject, map, takeUntil } from 'rxjs';
 import { CharacterStatusCardComponent } from './character-status-card/character-status-card.component';
-import { BattleVsBadgeComponent } from './battle-vs-badge/battle-vs-badge.component';
 import { VictoryBannerComponent } from './victory-banner/victory-banner.component';
 import { BattleControlsComponent } from './battle-controls/battle-controls.component';
 import { BattleCanvasComponent } from './battle-canvas/battle-canvas.component';
@@ -17,7 +16,6 @@ import { BATTLE_CHARACTERS } from '../../core/constants/battle-character';
   imports: [
     CommonModule,
     CharacterStatusCardComponent,
-    BattleVsBadgeComponent,
     VictoryBannerComponent,
     BattleControlsComponent,
     BattleCanvasComponent,
