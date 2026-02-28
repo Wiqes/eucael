@@ -33,23 +33,23 @@ $orange-linear-gradient: linear-gradient(
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
 }
 
-%cyan-glass {
+%mint-glass {
   background:
-    radial-gradient(circle at 15% 25%, rgba(52, 245, 245, 0.55) 0%, transparent 50%),
-    radial-gradient(circle at 85% 15%, rgba(0, 210, 255, 0.45) 0%, transparent 55%),
-    radial-gradient(circle at 50% 90%, rgba(52, 245, 221, 0.35) 0%, transparent 50%),
-    radial-gradient(circle at 70% 50%, rgba(0, 180, 220, 0.25) 0%, transparent 40%),
+    radial-gradient(circle at 15% 25%, rgba(152, 255, 238, 0.6) 0%, transparent 122%),
+    radial-gradient(circle at 85% 15%, rgba(120, 240, 214, 0.53) 0%, transparent 90%),
+    radial-gradient(circle at 50% 90%, rgba(160, 255, 234, 0.4) 0%, transparent 80%),
+    radial-gradient(circle at 70% 50%, rgba(100, 230, 191, 0.28) 0%, transparent 65%),
     linear-gradient(
       145deg,
-      rgba(10, 30, 40, 0.6) 0%,
-      rgba(15, 25, 35, 0.4) 30%,
-      rgba(8, 20, 30, 0.5) 60%,
-      rgba(15, 25, 35, 0.4) 100%
+      rgba(10, 35, 25, 0.6) 0%,
+      rgba(12, 30, 22, 0.4) 30%,
+      rgba(8, 28, 20, 0.5) 60%,
+      rgba(12, 30, 22, 0.4) 100%
     );
-  border: 1px solid rgba(52, 245, 235, 0.25);
+  border: 1px solid rgba(52, 245, 180, 0.25);
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.4),
-    0 0 15px rgba(52, 245, 221, 0.08),
+    0 0 15px rgba(52, 245, 180, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
