@@ -7,6 +7,9 @@ import { Subject } from 'rxjs';
 })
 export class BattleEffectsService {
   private readonly poisonDeathDelayMs = 1000;
+  private readonly poisonTickIntervalMs = 3000;
+  private readonly poisonTickCount = 4;
+  private poisonTimers = new Map<string, ReturnType<typeof setTimeout>[]>();
 
   applyEndOfTurnEffects(
     state: BattleState,
@@ -14,32 +17,56 @@ export class BattleEffectsService {
     onCharacterDeath: (wasTeam1: boolean) => void,
   ): void {
     if (!state || state.isComplete) return;
+    // Poison damage is now handled autonomously via startAutonomousPoisonTicks
+  }
 
-    // Apply poison damage to active characters
-    this.applyPoisonDamage(
-      state.team1[state.activeTeam1Index],
-      state,
-      actionSubject,
-      true,
-      onCharacterDeath,
-    );
-    this.applyPoisonDamage(
-      state.team2[state.activeTeam2Index],
-      state,
-      actionSubject,
-      false,
-      onCharacterDeath,
-    );
+  startAutonomousPoisonTicks(
+    character: BattleCharacter,
+    state: BattleState,
+    actionSubject: Subject<BattleAction | null>,
+    onCharacterDeath: (wasTeam1: boolean) => void,
+  ): void {
+    // Clear any existing timers for this character
+    this.clearPoisonTimersForCharacter(character.id);
+
+    const isTeam1 = state.team1.some((c) => c.id === character.id);
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    for (let i = 0; i < this.poisonTickCount; i++) {
+      const timer = setTimeout(
+        () => {
+          this.applyPoisonDamage(character, state, actionSubject, isTeam1, onCharacterDeath);
+        },
+        (i + 1) * this.poisonTickIntervalMs,
+      );
+      timers.push(timer);
+    }
+
+    this.poisonTimers.set(character.id, timers);
+  }
+
+  clearPoisonTimersForCharacter(characterId: string): void {
+    const timers = this.poisonTimers.get(characterId);
+    if (timers) {
+      timers.forEach((t) => clearTimeout(t));
+      this.poisonTimers.delete(characterId);
+    }
+  }
+
+  clearAllPoisonTimers(): void {
+    this.poisonTimers.forEach((timers) => timers.forEach((t) => clearTimeout(t)));
+    this.poisonTimers.clear();
   }
 
   private applyPoisonDamage(
-    character: BattleCharacter | undefined,
+    character: BattleCharacter,
     state: BattleState,
     actionSubject: Subject<BattleAction | null>,
     isTeam1: boolean,
     onCharacterDeath: (wasTeam1: boolean) => void,
   ): void {
     if (!character || !character.poisonEffect || !character.isAlive) return;
+    if (state.isComplete) return;
 
     const poisonDamage = character.poisonEffect.damagePerTurn;
     character.health = Math.max(0, character.health - poisonDamage);
@@ -57,9 +84,11 @@ export class BattleEffectsService {
     character.poisonEffect.turnsRemaining--;
     if (character.poisonEffect.turnsRemaining <= 0) {
       delete character.poisonEffect;
+      this.clearPoisonTimersForCharacter(character.id);
     }
 
     if (!character.isAlive) {
+      this.clearPoisonTimersForCharacter(character.id);
       setTimeout(() => {
         onCharacterDeath(!isTeam1);
       }, this.poisonDeathDelayMs);

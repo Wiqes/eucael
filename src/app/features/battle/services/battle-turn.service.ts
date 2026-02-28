@@ -134,7 +134,13 @@ export class BattleTurnService {
     }
 
     if (actionType === 'poison') {
-      this.racialSkillsService.applyForcedPoison(attacker, defender, state, actionSubject);
+      this.racialSkillsService.applyForcedPoison(
+        attacker,
+        defender,
+        state,
+        actionSubject,
+        onCharacterDeath,
+      );
       return;
     }
 
@@ -202,7 +208,13 @@ export class BattleTurnService {
     finalDamage = Math.floor(finalDamage);
 
     // Apply racial skills
-    this.racialSkillsService.applyRacialSkills(attacker, defender, state, actionSubject);
+    this.racialSkillsService.applyRacialSkills(
+      attacker,
+      defender,
+      state,
+      actionSubject,
+      onCharacterDeath,
+    );
 
     // Create action
     this.emitAction(state, actionSubject, {

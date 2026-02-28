@@ -1,17 +1,19 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BattleCharacter, BattleAction, BattleState } from '../battle.model';
 import { Subject } from 'rxjs';
+import { BattleEffectsService } from './battle-effects.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BattleRacialSkillsService {
+  private readonly effectsService = inject(BattleEffectsService);
   private readonly poisonBaseChance = 20;
   private readonly poisonFocusFactor = 0.5;
   private readonly poisonSpeedFactor = 0.3;
   private readonly poisonAttackFactor = 0.3;
   private readonly poisonFocusDamageFactor = 0.5;
-  private readonly poisonTurns = 3;
+  private readonly poisonTurns = 4;
   private readonly comboBaseChance = 25;
   private readonly comboSpeedFactor = 0.6;
   private readonly comboDamageFactor = 0.6;
@@ -24,10 +26,11 @@ export class BattleRacialSkillsService {
     defender: BattleCharacter,
     state: BattleState,
     actionSubject: Subject<BattleAction | null>,
+    onCharacterDeath: (wasTeam1: boolean) => void,
   ): void {
     switch (attacker.race) {
       case 'rat':
-        this.applyPoisonBite(attacker, defender, state, actionSubject);
+        this.applyPoisonBite(attacker, defender, state, actionSubject, onCharacterDeath);
         break;
       case 'cat':
         this.applyComboStrike(attacker, defender, state, actionSubject);
@@ -43,6 +46,7 @@ export class BattleRacialSkillsService {
     defender: BattleCharacter,
     state: BattleState,
     actionSubject: Subject<BattleAction | null>,
+    onCharacterDeath: (wasTeam1: boolean) => void,
   ): void {
     const poisonDamage =
       attacker.attack * this.poisonAttackFactor + attacker.focus * this.poisonFocusDamageFactor;
@@ -60,6 +64,13 @@ export class BattleRacialSkillsService {
       timestamp: Date.now(),
       message: `${defender.name} is poisoned!`,
     });
+
+    this.effectsService.startAutonomousPoisonTicks(
+      defender,
+      state,
+      actionSubject,
+      onCharacterDeath,
+    );
   }
 
   applyForcedCombo(
@@ -92,6 +103,7 @@ export class BattleRacialSkillsService {
     defender: BattleCharacter,
     state: BattleState,
     actionSubject: Subject<BattleAction | null>,
+    onCharacterDeath: (wasTeam1: boolean) => void,
   ): void {
     // Poison chance = 20% + (FOCUS × 0.5%) + (SPD × 0.3%)
     const poisonChance =
@@ -117,6 +129,13 @@ export class BattleRacialSkillsService {
         timestamp: Date.now(),
         message: `${defender.name} is poisoned!`,
       });
+
+      this.effectsService.startAutonomousPoisonTicks(
+        defender,
+        state,
+        actionSubject,
+        onCharacterDeath,
+      );
     }
   }
 

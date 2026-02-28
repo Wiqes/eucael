@@ -8,12 +8,14 @@ import {
   Position3d,
 } from './battle.model';
 import { BattleTurnService } from './services/battle-turn.service';
+import { BattleEffectsService } from './services/battle-effects.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BattleService {
   private readonly turnService = inject(BattleTurnService);
+  private readonly effectsService = inject(BattleEffectsService);
   private readonly team1StartPosition: Position3d = { x: -2, y: -1, z: 3 };
   private readonly team2StartPosition: Position3d = { x: 3, y: -1, z: -3 };
 
@@ -208,6 +210,7 @@ export class BattleService {
     if (!state) return;
 
     state.isComplete = true;
+    this.effectsService.clearAllPoisonTimers();
 
     // Determine winning team
     const team1HasSurvivors = state.team1.some((char) => char.isAlive);
@@ -224,6 +227,7 @@ export class BattleService {
   }
 
   resetBattle(): void {
+    this.effectsService.clearAllPoisonTimers();
     this.battleStateSubject.next(null);
     this.actionSubject.next(null);
     this.awaitingPlayerActionSubject.next(false);
