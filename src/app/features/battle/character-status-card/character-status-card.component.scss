@@ -115,9 +115,16 @@
 }
 
 .glass-panel {
-  @extend %orange-glass;
   border-radius: 12px;
   transition: all 0.3s ease;
+}
+
+.right > .glass-panel {
+  @extend %cyan-glass;
+}
+
+.left > .glass-panel {
+  @extend %orange-glass;
 }
 
 @keyframes slideInLeftDramatic {
