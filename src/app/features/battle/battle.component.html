@@ -21,7 +21,7 @@
 
       <!-- Victory Banner -->
       @if (state.isComplete && state.winner) {
-        <app-victory-banner [winner]="state.winner" />
+        <app-victory-banner [winner]="state.winner" (terminateBattle)="resetAndTerminateBattle()" />
       }
     }
   </div>
@@ -31,7 +31,6 @@
     [isBattleActive]="(isBattleActive$ | async) ?? false"
     [isAwaitingPlayerAction]="(awaitingPlayerAction$ | async) ?? false"
     (startBattle)="startBattle()"
-    (terminateBattle)="resetAndTerminateBattle()"
     (playerAction)="onPlayerAction($event)"
   />
 </div>

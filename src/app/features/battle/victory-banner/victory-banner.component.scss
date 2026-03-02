@@ -114,6 +114,10 @@ $accent: #7b8cad;
   border-top: 1px solid rgba($silver, 0.18);
 }
 
+.terminate-btn {
+  margin-top: clamp(16px, 3vw, 32px);
+}
+
 .glass-panel {
   background:
     linear-gradient(135deg, rgba($midnight, 0.96) 0%, rgba($deep-navy, 0.93) 100%),
