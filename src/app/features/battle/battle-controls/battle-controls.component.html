@@ -1,12 +1,21 @@
 <div class="control-panel glass-panel">
-  <div *ngIf="!isBattleActive" class="start-button-wrapper">
+  <div class="main-button-wrapper">
     <p-button
+      *ngIf="!isBattleActive"
       [label]="'Release the Spiders!' | translate"
       icon="pi pi-play"
       (onClick)="onStartBattle()"
       severity="success"
       size="large"
       styleClass="battle-btn start-btn"
+    />
+    <p-button
+      [label]="'Terminate Battle' | translate"
+      icon="pi pi-stop"
+      (onClick)="onTerminateBattle()"
+      severity="success"
+      size="large"
+      styleClass="battle-btn terminate-btn"
     />
   </div>
 
