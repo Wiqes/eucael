@@ -45,6 +45,7 @@ export class BattleComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.battleService.resetBattle();
   }
 
   startBattle(): void {
