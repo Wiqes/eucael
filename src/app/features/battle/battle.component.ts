@@ -48,10 +48,7 @@ export class BattleComponent implements OnInit, OnDestroy {
   }
 
   startBattle(): void {
-    this.battleService.startBattle(
-      [BATTLE_CHARACTERS['HORSE'], BATTLE_CHARACTERS['BEAR']],
-      [BATTLE_CHARACTERS['GIRAFFE'], BATTLE_CHARACTERS['CAT'], BATTLE_CHARACTERS['RAT']],
-    );
+    this.battleService.startBattle([BATTLE_CHARACTERS['HORSE']], [BATTLE_CHARACTERS['GIRAFFE']]);
   }
 
   resetAndTerminateBattle(): void {

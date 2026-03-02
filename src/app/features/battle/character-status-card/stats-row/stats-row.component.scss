@@ -1,0 +1,43 @@
+@use 'variables' as *;
+
+.stats-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+
+  :deep(.p-chip) {
+    border: 1px solid rgba(52, 245, 221, 0.3) !important;
+    color: $text-color !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    box-shadow: 0 0 15px rgba(52, 245, 221, 0.2);
+
+    &:hover {
+      background: rgba(52, 245, 221, 0.25) !important;
+      transform: scale(1.05);
+    }
+
+    transition: all 0.2s ease;
+  }
+}
+
+@media (max-width: 1024px) {
+  .stats-row {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 580px) {
+  .stats-row {
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  :deep(.p-chip) {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
