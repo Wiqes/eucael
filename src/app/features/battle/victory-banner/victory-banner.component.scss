@@ -168,13 +168,3 @@ $accent: #7b8cad;
     font-size: 3rem;
   }
 }
-
-@media (max-width: 480px) {
-  .victory-title {
-    font-size: clamp(1.2rem, 4vw, 1.5rem);
-  }
-
-  .victory-icon {
-    font-size: 2.5rem;
-  }
-}
