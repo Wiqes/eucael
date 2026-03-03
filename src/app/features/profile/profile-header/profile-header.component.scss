@@ -42,13 +42,15 @@
         width: 140px !important;
         height: 140px !important;
         box-shadow:
-          0 15px 35px rgba(0, 0, 0, 0.3),
-          0 5px 15px rgba(52, 245, 221, 0.2);
+          0 0 12px rgba(244, 63, 94, 0.6),
+          0 0 30px rgba(251, 146, 60, 0.4),
+          0 0 60px rgba(244, 63, 94, 0.25),
+          0 15px 35px rgba(0, 0, 0, 0.4);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         isolation: isolate;
         transform: translateZ(2px);
-        border: 2px solid #34f5f5;
+        border: 1px solid rgba(251, 146, 60, 0.3);
       }
     }
   }
