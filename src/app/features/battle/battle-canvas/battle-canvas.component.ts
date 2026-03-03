@@ -2993,24 +2993,15 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   } {
     const aspect = width / height;
     const isMobile = width < 520;
-    const isTablet = width < 720;
     const isPortrait = aspect < 0.9;
-    const isCompact = isMobile || isPortrait;
+    const isCompact = isMobile || isPortrait || height < 520;
 
-    let fov = 60;
+    const fov = 60;
     let cameraZ = 10;
-    let cameraY = 4;
+    const cameraY = 4;
 
     if (isCompact) {
-      fov = 68;
-      cameraZ = 12.5;
-      cameraY = 5;
-    }
-
-    if (width < 380 || height < 520) {
-      fov = 72;
-      cameraZ = 13.5;
-      cameraY = 5.5;
+      cameraZ = 12;
     }
 
     return {
