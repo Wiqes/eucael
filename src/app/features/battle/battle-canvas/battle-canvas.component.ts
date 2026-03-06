@@ -91,6 +91,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private groundWaterTexture: THREE.CanvasTexture | null = null;
   private groundWaterNormalMap: THREE.CanvasTexture | null = null;
   private groundMaterial: THREE.MeshPhysicalMaterial | null = null;
+  private starField: THREE.Points | null = null;
+  private ambientParticles: THREE.Points | null = null;
+  private ambientParticleVelocities: Float32Array | null = null;
 
   private readonly battleService = inject(BattleService);
   private circleTexture!: THREE.Texture;
@@ -166,6 +169,13 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     gsap.killTweensOf('*');
     this.persistentShields.forEach((_, character) => this.disposePersistentShield(character));
     this.persistentShields.clear();
+    this.starField?.geometry.dispose();
+    (this.starField?.material as THREE.Material)?.dispose();
+    this.starField = null;
+    this.ambientParticles?.geometry.dispose();
+    (this.ambientParticles?.material as THREE.Material)?.dispose();
+    this.ambientParticles = null;
+    this.ambientParticleVelocities = null;
     this.scene?.clear();
     this.renderer?.dispose();
     this.circleTexture?.dispose();
@@ -357,6 +367,18 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     mainLight.shadow.camera.bottom = -15;
     this.scene.add(mainLight);
 
+    const fillLight = new THREE.DirectionalLight(0x4488ff, 0.6);
+    fillLight.position.set(-5, 8, -3);
+    this.scene.add(fillLight);
+
+    const rimLight1 = new THREE.PointLight(0x2266ff, 1.5, 25);
+    rimLight1.position.set(-8, 3, 0);
+    this.scene.add(rimLight1);
+
+    const rimLight2 = new THREE.PointLight(0x00ccaa, 1.2, 25);
+    rimLight2.position.set(8, 3, 0);
+    this.scene.add(rimLight2);
+
     const tileSize = 1.5;
     const boardSize = 88;
     const groundSize = tileSize * boardSize;
@@ -388,6 +410,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     groundMesh.position.set(0, 0, 0);
     groundMesh.receiveShadow = true;
     this.scene.add(groundMesh);
+
+    this.createStarfield();
+    this.createAmbientParticles();
   }
 
   private createSeaWaterTexture(): THREE.CanvasTexture {
@@ -518,6 +543,88 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(4, 4);
     return texture;
+  }
+
+  private createStarfield(): void {
+    const starCount = 2000;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(starCount * 3);
+    const colors = new Float32Array(starCount * 3);
+
+    for (let i = 0; i < starCount; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      const radius = 80 + Math.random() * 120;
+
+      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+      positions[i * 3 + 1] = Math.abs(radius * Math.cos(phi)) * 0.6 + 5;
+      positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
+
+      const colorChoice = Math.random();
+      if (colorChoice < 0.6) {
+        colors[i * 3] = 0.8 + Math.random() * 0.2;
+        colors[i * 3 + 1] = 0.85 + Math.random() * 0.15;
+        colors[i * 3 + 2] = 1.0;
+      } else if (colorChoice < 0.85) {
+        colors[i * 3] = 0.4 + Math.random() * 0.3;
+        colors[i * 3 + 1] = 0.6 + Math.random() * 0.3;
+        colors[i * 3 + 2] = 1.0;
+      } else {
+        colors[i * 3] = 1.0;
+        colors[i * 3 + 1] = 0.8 + Math.random() * 0.2;
+        colors[i * 3 + 2] = 0.6 + Math.random() * 0.4;
+      }
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+      size: 0.6,
+      map: this.circleTexture,
+      transparent: true,
+      opacity: 0.85,
+      vertexColors: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      sizeAttenuation: true,
+      fog: false,
+    });
+
+    this.starField = new THREE.Points(geometry, material);
+    this.scene.add(this.starField);
+  }
+
+  private createAmbientParticles(): void {
+    const particleCount = 120;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    this.ambientParticleVelocities = new Float32Array(particleCount * 3);
+
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 20;
+      positions[i * 3 + 1] = 0.5 + Math.random() * 6;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 16;
+
+      this.ambientParticleVelocities[i * 3] = (Math.random() - 0.5) * 0.003;
+      this.ambientParticleVelocities[i * 3 + 1] = 0.001 + Math.random() * 0.004;
+      this.ambientParticleVelocities[i * 3 + 2] = (Math.random() - 0.5) * 0.003;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const material = new THREE.PointsMaterial({
+      map: this.circleTexture,
+      color: 0x4488ff,
+      size: 0.12,
+      transparent: true,
+      opacity: 0.4,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+
+    this.ambientParticles = new THREE.Points(geometry, material);
+    this.scene.add(this.ambientParticles);
   }
 
   private replaceCharacter(characterNumber: 1 | 2): void {
@@ -2929,6 +3036,29 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       }
       anim.geometry.attributes['position'].needsUpdate = true;
     });
+
+    if (this.starField) {
+      this.starField.rotation.y += 0.00008;
+    }
+
+    if (this.ambientParticles && this.ambientParticleVelocities) {
+      const ambPos = this.ambientParticles.geometry.attributes['position'].array as Float32Array;
+      const vel = this.ambientParticleVelocities;
+      const count = ambPos.length / 3;
+      for (let i = 0; i < count; i++) {
+        ambPos[i * 3] += vel[i * 3];
+        ambPos[i * 3 + 1] += vel[i * 3 + 1];
+        ambPos[i * 3 + 2] += vel[i * 3 + 2];
+        if (ambPos[i * 3 + 1] > 8) {
+          ambPos[i * 3 + 1] = 0.5;
+          ambPos[i * 3] = (Math.random() - 0.5) * 20;
+          ambPos[i * 3 + 2] = (Math.random() - 0.5) * 16;
+        }
+      }
+      this.ambientParticles.geometry.attributes['position'].needsUpdate = true;
+      (this.ambientParticles.material as THREE.PointsMaterial).opacity =
+        0.3 + Math.sin(currentTime * 0.001) * 0.1;
+    }
 
     this.renderer.render(this.scene, this.camera);
   }
