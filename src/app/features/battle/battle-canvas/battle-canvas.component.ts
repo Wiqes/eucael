@@ -1744,7 +1744,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           runAttackAnimation('attack');
           this.comboTimeoutId = null;
         },
-        (firstTimeline.duration() + 0.1) * 1000,
+        (firstTimeline.duration() + 0.1) * 500,
       );
       return;
     }
