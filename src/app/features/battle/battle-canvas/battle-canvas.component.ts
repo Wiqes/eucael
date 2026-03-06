@@ -748,12 +748,10 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       legParent: THREE.Group,
       segment: THREE.Mesh,
       segmentLength: number,
-      radius: number,
+      geometry: THREE.BufferGeometry,
     ): void => {
-      const jointGeometry = new THREE.SphereGeometry(radius, 12, 12);
-
       const addJoint = (offsetY: number) => {
-        const joint = new THREE.Mesh(jointGeometry, legMaterial);
+        const joint = new THREE.Mesh(geometry, legMaterial);
         const jointAnchor = new THREE.Object3D();
         jointAnchor.position.copy(segment.position);
         jointAnchor.rotation.copy(segment.rotation);
@@ -767,6 +765,17 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       addJoint(segmentLength / 2);
     };
 
+    // Shared geometries — created once, reused across all 8 legs
+    const upperLegGeo = new THREE.CylinderGeometry(0.12, 0.08, 0.5, 10);
+    const middleLegGeo = new THREE.CylinderGeometry(0.1, 0.06, 0.55, 10);
+    const lowerLegGeo = new THREE.CylinderGeometry(0.07, 0.03, 0.7, 10);
+    const jointGeo = new THREE.SphereGeometry(0.07, 12, 12);
+    const bristleUpperGeo = new THREE.CylinderGeometry(0.012, 0.006, 0.22, 4);
+    const bristleMid1Geo = new THREE.CylinderGeometry(0.014, 0.006, 0.17, 4);
+    const bristleMid2Geo = new THREE.CylinderGeometry(0.012, 0.005, 0.15, 4);
+    const bristleLow1Geo = new THREE.CylinderGeometry(0.012, 0.005, 0.08, 4);
+    const bristleLow2Geo = new THREE.CylinderGeometry(0.01, 0.004, 0.12, 4);
+
     for (let side = 0; side < 2; side++) {
       const sideMultiplier = side === 0 ? -1 : 1;
 
@@ -776,13 +785,9 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         const legAngle = legAngles[legNum] * (side === 0 ? 1 : -1);
         const zAngle = (Math.PI / 2.8 + legNum * 0.05) * sideMultiplier;
 
-        const upperLegLength = 0.5;
         const middleLegLength = 0.55;
-        const lowerLegLength = 0.7;
 
-        const upperLegSegmentGeometry = new THREE.CylinderGeometry(0.12, 0.08, upperLegLength, 10);
-
-        const upperLeg = new THREE.Mesh(upperLegSegmentGeometry, legMaterial);
+        const upperLeg = new THREE.Mesh(upperLegGeo, legMaterial);
         upperLeg.position.set(0.2 * sideMultiplier, -0.1, 0);
         upperLeg.rotation.z = zAngle * 1.2;
         upperLeg.castShadow = true;
@@ -790,8 +795,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         legGroup.add(upperLeg);
 
         for (let h = 0; h < 22; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.006, 0.22, 4);
-          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
+          const bristle = new THREE.Mesh(bristleUpperGeo, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
             0.25 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
@@ -803,20 +807,17 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           legGroup.add(bristle);
         }
 
-        const middleLegSegmentGeometry = new THREE.CylinderGeometry(0.1, 0.06, middleLegLength, 10);
-
-        const middleLeg = new THREE.Mesh(middleLegSegmentGeometry, legMaterial);
+        const middleLeg = new THREE.Mesh(middleLegGeo, legMaterial);
         middleLeg.position.set(0.65 * sideMultiplier, -0.28, 0);
         middleLeg.rotation.z = zAngle * 0.75;
         middleLeg.castShadow = true;
         middleLeg.receiveShadow = true;
         legGroup.add(middleLeg);
 
-        addJointAtEnds(legGroup, middleLeg, middleLegLength, 0.07);
+        addJointAtEnds(legGroup, middleLeg, middleLegLength, jointGeo);
 
         for (let h = 0; h < 10; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.014, 0.006, 0.17, 4);
-          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
+          const bristle = new THREE.Mesh(bristleMid1Geo, legMaterial);
           const bristleAngle = (h / 8) * Math.PI * 2;
           bristle.position.set(
             0.6 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
@@ -829,8 +830,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         }
 
         for (let h = 0; h < 8; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.005, 0.15, 4);
-          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
+          const bristle = new THREE.Mesh(bristleMid2Geo, legMaterial);
           const bristleAngle = (h / 6) * Math.PI * 2;
           bristle.position.set(
             0.7 * sideMultiplier + Math.cos(bristleAngle) * 0.06,
@@ -842,8 +842,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           legGroup.add(bristle);
         }
 
-        const lowerLegGeometry = new THREE.CylinderGeometry(0.07, 0.03, lowerLegLength, 10);
-        const lowerLeg = new THREE.Mesh(lowerLegGeometry, legMaterial);
+        const lowerLeg = new THREE.Mesh(lowerLegGeo, legMaterial);
         lowerLeg.position.set(1.025 * sideMultiplier, -0.7, 0);
         lowerLeg.rotation.z = (Math.PI / 5.3) * sideMultiplier;
         lowerLeg.castShadow = true;
@@ -851,8 +850,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         legGroup.add(lowerLeg);
 
         for (let h = 0; h < 10; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.012, 0.005, 0.08, 4);
-          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
+          const bristle = new THREE.Mesh(bristleLow1Geo, legMaterial);
           const bristleAngle = (h / 7) * Math.PI * 2;
           bristle.position.set(
             0.925 * sideMultiplier + Math.cos(bristleAngle) * 0.07,
@@ -865,8 +863,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         }
 
         for (let h = 0; h < 6; h++) {
-          const bristleGeometry = new THREE.CylinderGeometry(0.01, 0.004, 0.12, 4);
-          const bristle = new THREE.Mesh(bristleGeometry, legMaterial);
+          const bristle = new THREE.Mesh(bristleLow2Geo, legMaterial);
           const bristleAngle = (h / 4) * Math.PI * 2;
           bristle.position.set(
             1.025 * sideMultiplier + Math.cos(bristleAngle) * 0.05,
@@ -2554,15 +2551,15 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       return { line, geometry, material, flickerTween };
     };
 
-    const boltCount = 3;
+    const boltCount = 2;
     for (let b = 0; b < boltCount; b++) {
-      const points = createBoltPoints(startAnchor, endAnchor, 26 + b * 3);
+      const points = createBoltPoints(startAnchor, endAnchor, 18 + b * 3);
 
       const core = spawnBolt(points, b === 0 ? 0xffffff : 0xb8ffff, 1, 0.55);
       const glow = spawnBolt(points, 0x7fffff, 0.45, 0.25);
 
       // Create branching bolts from random points
-      for (let branchIdx = 0; branchIdx < 3; branchIdx++) {
+      for (let branchIdx = 0; branchIdx < 2; branchIdx++) {
         const branchStartIdx = Math.floor(Math.random() * (points.length - 6)) + 2;
         const branchPoints: THREE.Vector3[] = [points[branchStartIdx].clone()];
         const branchSegments = 6 + Math.floor(Math.random() * 5);
@@ -2621,7 +2618,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.scene.add(topGlowLight);
 
     // Electrical particles along the strike path
-    const particleCount = 50;
+    const particleCount = 30;
     const particleGeometry = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     const particleVelocities: THREE.Vector3[] = [];
@@ -2678,7 +2675,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
 
     // Ground impact electrical discharge
-    const dischargeRingCount = 6;
+    const dischargeRingCount = 3;
     for (let i = 0; i < dischargeRingCount; i++) {
       const ringGeometry = new THREE.RingGeometry(0.5, 1, 32);
       const ringMaterial = new THREE.MeshBasicMaterial({
@@ -2711,47 +2708,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           ringMaterial.dispose();
         },
       });
-    }
-
-    // Secondary flickering bolts
-    for (let i = 0; i < 4; i++) {
-      setTimeout(() => {
-        const points: THREE.Vector3[] = [];
-        const segments = 15;
-
-        points.push(startAnchor.clone());
-
-        for (let j = 1; j < segments; j++) {
-          const t = j / segments;
-          const point = new THREE.Vector3().lerpVectors(startAnchor, endAnchor, t);
-          point.y += 0.8 - t * 0.8;
-          point.x += (Math.random() - 0.5) * 1.2;
-          point.z += (Math.random() - 0.5) * 1.2;
-          points.push(point);
-        }
-
-        points.push(endAnchor.clone());
-
-        const secGeometry = new THREE.BufferGeometry().setFromPoints(points);
-        const secMaterial = new THREE.LineBasicMaterial({
-          color: 0xffffff,
-          linewidth: 3,
-          transparent: true,
-          opacity: 0.6,
-        });
-        const secLightning = new THREE.Line(secGeometry, secMaterial);
-        this.scene.add(secLightning);
-
-        gsap.to(secMaterial, {
-          opacity: 0,
-          duration: 0.15,
-          onComplete: () => {
-            this.scene.remove(secLightning);
-            secGeometry.dispose();
-            secMaterial.dispose();
-          },
-        });
-      }, i * 40);
     }
 
     gsap.to(mainGlowLight, {
@@ -2812,7 +2768,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       });
     }
 
-    const particleCount = isCritical ? 100 : 60;
+    const particleCount = isCritical ? 60 : 40;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities: THREE.Vector3[] = [];
@@ -3013,15 +2969,12 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       this.groundMaterial.roughness = 0.06 + Math.abs(Math.sin(wt * 0.4)) * 0.06;
     }
 
-    // Decay lightning bolt opacity and prune invisible ones
+    // Prune fully transparent lightning bolts (GSAP handles opacity decay)
     for (let i = this.lightningBolts.length - 1; i >= 0; i--) {
-      const bolt = this.lightningBolts[i];
-      const mat = bolt.material as THREE.LineBasicMaterial;
+      const mat = this.lightningBolts[i].material as THREE.LineBasicMaterial;
       if (!mat || mat.opacity < 0.01) {
         this.lightningBolts.splice(i, 1);
-        continue;
       }
-      mat.opacity *= 0.95;
     }
 
     // Update particle animations in main loop
