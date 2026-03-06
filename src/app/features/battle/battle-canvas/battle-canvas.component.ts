@@ -1179,8 +1179,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     const toxicColor = new THREE.Color(0x39ff14);
     const emissiveColor = new THREE.Color(0x00ff44);
 
-    // --- 5 STACKED EXPANDING RINGS with spin ---
-    for (let i = 0; i < 5; i++) {
+    // --- 3 STACKED EXPANDING RINGS with spin ---
+    for (let i = 0; i < 3; i++) {
       const rGeo = new THREE.TorusGeometry(0.5 + i * 0.12, 0.065 - i * 0.004, 16, 80);
       const rMat = new THREE.MeshStandardMaterial({
         color: toxicColor,
@@ -1218,7 +1218,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       });
     }
 
-    // --- HELIX VORTEX: 40 spores spiralling upward around the defender ---
+    // --- HELIX VORTEX: spores spiralling upward around the defender ---
     const helixMat = new THREE.SpriteMaterial({
       map: this.circleTexture,
       color: 0x7cff6b,
@@ -1227,7 +1227,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
-    const helixCount = 40;
+    const helixCount = 20;
     for (let i = 0; i < helixCount; i++) {
       const t = i / helixCount;
       const angle = t * Math.PI * 6;
@@ -1263,8 +1263,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       });
     }
 
-    // --- BURST EXPLOSION: 90 particles launched outward ---
-    const particleCount = 90;
+    // --- BURST EXPLOSION: particles launched outward ---
+    const particleCount = 45;
     const burstGeo = new THREE.BufferGeometry();
     const burstPos = new Float32Array(particleCount * 3);
     const burstVel: THREE.Vector3[] = [];
@@ -1744,7 +1744,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
           runAttackAnimation('attack');
           this.comboTimeoutId = null;
         },
-        (firstTimeline.duration() + 0.1) * 500,
+        (firstTimeline.duration() + 0.1) * 1000,
       );
       return;
     }
@@ -1780,7 +1780,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.scene.add(shieldGroup);
 
     // Outer hexagonal shield with energy flow
-    const outerShieldGeometry = new THREE.IcosahedronGeometry(2.5, 2);
+    const outerShieldGeometry = new THREE.IcosahedronGeometry(2.5, 1);
     const outerShieldMaterial = new THREE.MeshPhongMaterial({
       color: 0x00ffff,
       transparent: true,
@@ -1819,7 +1819,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     shieldGroup.add(innerShield);
 
     // Energy particles around shield
-    const particleCount = 80;
+    const particleCount = 40;
     const particleGeometry = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     const particleVelocities: number[] = [];
@@ -2043,7 +2043,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.scene.add(shieldGroup);
 
     // Outer hexagonal shield with energy flow
-    const outerShieldGeometry = new THREE.IcosahedronGeometry(2.5, 2);
+    const outerShieldGeometry = new THREE.IcosahedronGeometry(2.5, 1);
     const outerShieldMaterial = new THREE.MeshPhongMaterial({
       color: 0x00ffff,
       transparent: true,
@@ -2082,7 +2082,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     shieldGroup.add(innerShield);
 
     // Energy particles around shield
-    const particleCount = 80;
+    const particleCount = 40;
     const particleGeometry = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     const particleVelocities: number[] = [];
@@ -2562,7 +2562,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       const glow = spawnBolt(points, 0x7fffff, 0.45, 0.25);
 
       // Create branching bolts from random points
-      for (let branchIdx = 0; branchIdx < 6; branchIdx++) {
+      for (let branchIdx = 0; branchIdx < 3; branchIdx++) {
         const branchStartIdx = Math.floor(Math.random() * (points.length - 6)) + 2;
         const branchPoints: THREE.Vector3[] = [points[branchStartIdx].clone()];
         const branchSegments = 6 + Math.floor(Math.random() * 5);
@@ -2621,7 +2621,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     this.scene.add(topGlowLight);
 
     // Electrical particles along the strike path
-    const particleCount = 100;
+    const particleCount = 50;
     const particleGeometry = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     const particleVelocities: THREE.Vector3[] = [];
@@ -2714,7 +2714,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     }
 
     // Secondary flickering bolts
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 4; i++) {
       setTimeout(() => {
         const points: THREE.Vector3[] = [];
         const segments = 15;
@@ -2812,7 +2812,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       });
     }
 
-    const particleCount = isCritical ? 200 : 120;
+    const particleCount = isCritical ? 100 : 60;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities: THREE.Vector3[] = [];
@@ -3003,7 +3003,6 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     if (this.groundWaterNormalMap) {
       this.groundWaterNormalMap.offset.x -= 0.00058;
       this.groundWaterNormalMap.offset.y += 0.00032;
-      this.groundWaterNormalMap.needsUpdate = true;
     }
     if (this.groundMaterial) {
       const wt = currentTime * 0.001;
@@ -3014,12 +3013,16 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
       this.groundMaterial.roughness = 0.06 + Math.abs(Math.sin(wt * 0.4)) * 0.06;
     }
 
-    // Optimize lightning bolt updates
-    this.lightningBolts.forEach((bolt) => {
-      if (bolt.material) {
-        (bolt.material as THREE.LineBasicMaterial).opacity *= 0.95;
+    // Decay lightning bolt opacity and prune invisible ones
+    for (let i = this.lightningBolts.length - 1; i >= 0; i--) {
+      const bolt = this.lightningBolts[i];
+      const mat = bolt.material as THREE.LineBasicMaterial;
+      if (!mat || mat.opacity < 0.01) {
+        this.lightningBolts.splice(i, 1);
+        continue;
       }
-    });
+      mat.opacity *= 0.95;
+    }
 
     // Update particle animations in main loop
     this.particleAnimations.forEach((anim) => {
