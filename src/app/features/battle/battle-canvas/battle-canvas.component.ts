@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as THREE from 'three';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import gsap from 'gsap';
 import { BattleService } from '../battle.service';
 import { BattleCharacter, BattleAction, BattleActionType, Position3d } from '../battle.model';
@@ -68,6 +69,8 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private readonly resizeHandler = this.throttleResize.bind(this);
   private lastTime = 0;
   private readonly spiderGroundOffset = 0.4;
+  private spiderModelTemplate: THREE.Group | null = null;
+  private modelLoadPromise: Promise<void> | null = null;
   private particleAnimations: {
     geometry: THREE.BufferGeometry;
     velocities: number[];
@@ -104,6 +107,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   constructor() {
     afterNextRender(() => {
       this.createCircleTexture();
+      this.modelLoadPromise = this.loadSpiderModel();
       this.initScene();
       this.animate();
       document.addEventListener('visibilitychange', this.visibilityHandler);
@@ -129,7 +133,7 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
         }
 
         if (!this.character1Mesh && !this.character2Mesh) {
-          this.createCharacters();
+          this.createCharactersWhenReady();
         } else {
           // Check if character1 changed (different id or character replaced)
           if (prevCharacter1 && this.character1 && prevCharacter1.id !== this.character1.id) {
@@ -219,90 +223,22 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createTarantulaPatternTexture(
-    baseColor: THREE.Color,
-    accentColor: THREE.Color,
-  ): THREE.CanvasTexture {
-    const size = 256;
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d')!;
-
-    ctx.fillStyle = baseColor.getStyle();
-    ctx.fillRect(0, 0, size, size);
-
-    // Subtle gradient for depth and dimension
-    const radial = ctx.createRadialGradient(size / 2, size / 2, 20, size / 2, size / 2, size / 2);
-    radial.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
-    radial.addColorStop(0.7, 'rgba(0, 0, 0, 0.1)');
-    radial.addColorStop(1, 'rgba(0, 0, 0, 0.4)');
-    ctx.fillStyle = radial;
-    ctx.fillRect(0, 0, size, size);
-
-    // Chevron pattern down the center (like real tarantulas)
-    ctx.strokeStyle = accentColor.getStyle();
-    ctx.fillStyle = accentColor.getStyle();
-    ctx.globalAlpha = 0.5;
-    ctx.lineWidth = 3;
-    ctx.lineJoin = 'round';
-
-    for (let i = 0; i < 5; i++) {
-      const y = (i + 0.5) * (size / 5);
-      const centerX = size / 2;
-      const chevronWidth = 40 + Math.sin(i * 0.8) * 10;
-      const chevronHeight = 15;
-
-      ctx.beginPath();
-      ctx.moveTo(centerX - chevronWidth, y - chevronHeight);
-      ctx.lineTo(centerX, y);
-      ctx.lineTo(centerX + chevronWidth, y - chevronHeight);
-      ctx.stroke();
-    }
-
-    // Add subtle hair-like texture with fine lines
-    ctx.globalAlpha = 0.15;
-    ctx.lineWidth = 1;
-    for (let i = 0; i < 80; i++) {
-      const x = Math.random() * size;
-      const y = Math.random() * size;
-      const length = 8 + Math.random() * 12;
-      const angle = Math.random() * Math.PI * 2;
-
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(x + Math.cos(angle) * length, y + Math.sin(angle) * length);
-      ctx.strokeStyle = i % 3 === 0 ? accentColor.getStyle() : 'rgba(0, 0, 0, 0.6)';
-      ctx.stroke();
-    }
-
-    // Organic spots with variation
-    ctx.globalAlpha = 0.3;
-    for (let i = 0; i < 25; i++) {
-      const x = Math.random() * size;
-      const y = Math.random() * size;
-      const radiusX = 3 + Math.random() * 6;
-      const radiusY = 3 + Math.random() * 6;
-      const rotation = Math.random() * Math.PI;
-
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(rotation);
-      ctx.beginPath();
-      ctx.ellipse(0, 0, radiusX, radiusY, 0, 0, Math.PI * 2);
-      ctx.fillStyle = i % 2 === 0 ? accentColor.getStyle() : 'rgba(0, 0, 0, 0.5)';
-      ctx.fill();
-      ctx.restore();
-    }
-
-    ctx.globalAlpha = 1;
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(1.6, 1.6);
-    texture.anisotropy = 4;
-    return texture;
+  private loadSpiderModel(): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const loader = new OBJLoader();
+      loader.load(
+        'assets/Spider/18754_Spider_in_defensive_stance_V1.obj',
+        (obj) => {
+          this.spiderModelTemplate = obj;
+          resolve();
+        },
+        undefined,
+        () => {
+          console.error('Failed to load spider OBJ model');
+          resolve();
+        },
+      );
+    });
   }
 
   private createCircleTexture(): void {
@@ -636,24 +572,40 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
     // Remove old mesh
     this.disposeCharacterMesh(oldMesh);
 
-    // Create new mesh with teleportation entrance effect
-    const newMesh = this.createEnhancedCharacterMesh(character.color, character.position);
+    const doReplace = () => {
+      // Create new mesh with teleportation entrance effect
+      const newMesh = this.createEnhancedCharacterMesh(character.color, character.position);
 
-    if (characterNumber === 1) {
-      newMesh.rotation.y = Math.PI / 3;
-      this.character1Mesh = newMesh;
+      if (characterNumber === 1) {
+        newMesh.rotation.y = Math.PI / 3;
+        this.character1Mesh = newMesh;
+      } else {
+        newMesh.scale.x = -1;
+        newMesh.rotation.y = -Math.PI / 3;
+        this.character2Mesh = newMesh;
+      }
+
+      this.scene.add(newMesh);
+      this.createTeleportationEntrance(
+        newMesh,
+        character.position,
+        characterNumber === 1 ? 'left' : 'right',
+      );
+    };
+
+    if (this.spiderModelTemplate) {
+      doReplace();
     } else {
-      newMesh.scale.x = -1;
-      newMesh.rotation.y = -Math.PI / 3;
-      this.character2Mesh = newMesh;
+      this.modelLoadPromise?.then(() => doReplace());
     }
+  }
 
-    this.scene.add(newMesh);
-    this.createTeleportationEntrance(
-      newMesh,
-      character.position,
-      characterNumber === 1 ? 'left' : 'right',
-    );
+  private createCharactersWhenReady(): void {
+    if (this.spiderModelTemplate) {
+      this.createCharacters();
+    } else {
+      this.modelLoadPromise?.then(() => this.createCharacters());
+    }
   }
 
   private createCharacters(): void {
@@ -684,290 +636,55 @@ export class BattleCanvasComponent implements OnInit, OnDestroy {
   private createEnhancedCharacterMesh(color: string, position: Position3d): THREE.Group {
     const group = new THREE.Group();
     const themeColor = new THREE.Color(color);
-    const whiteColor = new THREE.Color('#ffffff');
-    const deepShadow = new THREE.Color(0x0a0a0a).lerp(themeColor, 0.35);
-    const patternTexture = this.createTarantulaPatternTexture(deepShadow, themeColor);
 
-    const bodyMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0xffffff).lerp(whiteColor, 0.85),
-      roughness: 0.2,
-      metalness: 0.1,
-      emissive: whiteColor,
-      emissiveIntensity: 2.5,
-    });
+    if (this.spiderModelTemplate) {
+      const clone = this.spiderModelTemplate.clone();
 
-    const cephaloMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x1a1a1a).lerp(themeColor, 0.9),
-      roughness: 0.9,
-      metalness: 0.1,
-      map: patternTexture,
-      emissive: themeColor,
-      emissiveIntensity: 0.2,
-    });
+      const material = new THREE.MeshStandardMaterial({
+        color: themeColor,
+        roughness: 0.5,
+        metalness: 0.2,
+        emissive: themeColor,
+        emissiveIntensity: 0.3,
+      });
 
-    const cephaloGeometry = new THREE.SphereGeometry(0.48, 20, 20);
-    cephaloGeometry.scale(1.2, 0.48, 1.44);
-    const cephalothorax = new THREE.Mesh(cephaloGeometry, cephaloMaterial);
-    cephalothorax.position.set(0, 0.45, 0.18);
-    cephalothorax.castShadow = true;
-    cephalothorax.receiveShadow = true;
-    group.add(cephalothorax);
+      clone.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.material = material;
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
 
-    const cheliceraMaterial = bodyMaterial;
+      // Normalize the OBJ model to fit the scene scale
+      const box = new THREE.Box3().setFromObject(clone);
+      const size = box.getSize(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const targetSize = 2.5;
+      const scaleFactor = targetSize / maxDim;
+      clone.scale.setScalar(scaleFactor);
 
-    for (let side = 0; side < 2; side++) {
-      const sideMultiplier = side === 0 ? -1 : 1;
-      const cheliceraGroup = new THREE.Group();
+      // Center the model
+      const center = box.getCenter(new THREE.Vector3());
+      clone.position.set(
+        -center.x * scaleFactor,
+        -center.y * scaleFactor + targetSize / 2,
+        -center.z * scaleFactor,
+      );
 
-      const cheliceraBaseGeometry = new THREE.CylinderGeometry(0.07, 0.1, 0.18, 10);
-      const cheliceraBase = new THREE.Mesh(cheliceraBaseGeometry, cheliceraMaterial);
-      cheliceraBase.position.set(0.12 * sideMultiplier, 0.26, 0.52);
-      cheliceraBase.rotation.x = Math.PI / 8;
-      cheliceraBase.rotation.z = (Math.PI / 10) * sideMultiplier;
-      cheliceraBase.castShadow = true;
-      cheliceraBase.receiveShadow = true;
-      cheliceraGroup.add(cheliceraBase);
-
-      const fangGeometry = new THREE.ConeGeometry(0.06, 0.4, 20);
-      const fang = new THREE.Mesh(fangGeometry, cheliceraMaterial);
-      fang.position.set(0.14 * sideMultiplier, 0.14, 0.6);
-      fang.rotation.x = Math.PI / 2 + Math.PI / 10;
-      fang.rotation.z = (Math.PI / 12) * sideMultiplier;
-      fang.castShadow = true;
-      fang.receiveShadow = true;
-      cheliceraGroup.add(fang);
-
-      group.add(cheliceraGroup);
+      group.add(clone);
     }
 
-    const legMaterial = bodyMaterial;
-
-    const legAngles = [Math.PI / 5, Math.PI / 12, -Math.PI / 12, -Math.PI / 4];
-
-    const addJointAtEnds = (
-      legParent: THREE.Group,
-      segment: THREE.Mesh,
-      segmentLength: number,
-      geometry: THREE.BufferGeometry,
-    ): void => {
-      const addJoint = (offsetY: number) => {
-        const joint = new THREE.Mesh(geometry, legMaterial);
-        const jointAnchor = new THREE.Object3D();
-        jointAnchor.position.copy(segment.position);
-        jointAnchor.rotation.copy(segment.rotation);
-        joint.position.set(0, offsetY, 0);
-        joint.castShadow = true;
-        joint.receiveShadow = true;
-        jointAnchor.add(joint);
-        legParent.add(jointAnchor);
-      };
-
-      addJoint(segmentLength / 2);
-    };
-
-    // Shared geometries — created once, reused across all 8 legs
-    const upperLegGeo = new THREE.CylinderGeometry(0.12, 0.08, 0.5, 10);
-    const middleLegGeo = new THREE.CylinderGeometry(0.1, 0.06, 0.55, 10);
-    const lowerLegGeo = new THREE.CylinderGeometry(0.07, 0.03, 0.7, 10);
-    const jointGeo = new THREE.SphereGeometry(0.07, 12, 12);
-    const bristleUpperGeo = new THREE.CylinderGeometry(0.012, 0.006, 0.22, 4);
-    const bristleMid1Geo = new THREE.CylinderGeometry(0.014, 0.006, 0.17, 4);
-    const bristleMid2Geo = new THREE.CylinderGeometry(0.012, 0.005, 0.15, 4);
-    const bristleLow1Geo = new THREE.CylinderGeometry(0.012, 0.005, 0.08, 4);
-    const bristleLow2Geo = new THREE.CylinderGeometry(0.01, 0.004, 0.12, 4);
-
-    for (let side = 0; side < 2; side++) {
-      const sideMultiplier = side === 0 ? -1 : 1;
-
-      for (let legNum = 0; legNum < 4; legNum++) {
-        const legGroup = new THREE.Group();
-
-        const legAngle = legAngles[legNum] * (side === 0 ? 1 : -1);
-        const zAngle = (Math.PI / 2.8 + legNum * 0.05) * sideMultiplier;
-
-        const middleLegLength = 0.55;
-
-        const upperLeg = new THREE.Mesh(upperLegGeo, legMaterial);
-        upperLeg.position.set(0.2 * sideMultiplier, -0.1, 0);
-        upperLeg.rotation.z = zAngle * 1.2;
-        upperLeg.castShadow = true;
-        upperLeg.receiveShadow = true;
-        legGroup.add(upperLeg);
-
-        for (let h = 0; h < 22; h++) {
-          const bristle = new THREE.Mesh(bristleUpperGeo, legMaterial);
-          const bristleAngle = (h / 8) * Math.PI * 2;
-          bristle.position.set(
-            0.25 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
-            -0.1 + Math.sin(bristleAngle) * 0.08,
-            0,
-          );
-          bristle.rotation.z = zAngle * 1.15 + (Math.random() - 0.5) * 0.35;
-          bristle.rotation.y = bristleAngle;
-          legGroup.add(bristle);
-        }
-
-        const middleLeg = new THREE.Mesh(middleLegGeo, legMaterial);
-        middleLeg.position.set(0.65 * sideMultiplier, -0.28, 0);
-        middleLeg.rotation.z = zAngle * 0.75;
-        middleLeg.castShadow = true;
-        middleLeg.receiveShadow = true;
-        legGroup.add(middleLeg);
-
-        addJointAtEnds(legGroup, middleLeg, middleLegLength, jointGeo);
-
-        for (let h = 0; h < 10; h++) {
-          const bristle = new THREE.Mesh(bristleMid1Geo, legMaterial);
-          const bristleAngle = (h / 8) * Math.PI * 2;
-          bristle.position.set(
-            0.6 * sideMultiplier + Math.cos(bristleAngle) * 0.08,
-            -0.2 + Math.sin(bristleAngle) * 0.03,
-            0,
-          );
-          bristle.rotation.z = zAngle * 0.95 + (Math.random() - 0.5) * 0.4;
-          bristle.rotation.y = bristleAngle;
-          legGroup.add(bristle);
-        }
-
-        for (let h = 0; h < 8; h++) {
-          const bristle = new THREE.Mesh(bristleMid2Geo, legMaterial);
-          const bristleAngle = (h / 6) * Math.PI * 2;
-          bristle.position.set(
-            0.7 * sideMultiplier + Math.cos(bristleAngle) * 0.06,
-            -0.28 + Math.sin(bristleAngle) * 0.06,
-            0,
-          );
-          bristle.rotation.z = zAngle * 0.7 + (Math.random() - 0.5) * 0.3;
-          bristle.rotation.y = bristleAngle;
-          legGroup.add(bristle);
-        }
-
-        const lowerLeg = new THREE.Mesh(lowerLegGeo, legMaterial);
-        lowerLeg.position.set(1.025 * sideMultiplier, -0.7, 0);
-        lowerLeg.rotation.z = (Math.PI / 5.3) * sideMultiplier;
-        lowerLeg.castShadow = true;
-        lowerLeg.receiveShadow = true;
-        legGroup.add(lowerLeg);
-
-        for (let h = 0; h < 10; h++) {
-          const bristle = new THREE.Mesh(bristleLow1Geo, legMaterial);
-          const bristleAngle = (h / 7) * Math.PI * 2;
-          bristle.position.set(
-            0.925 * sideMultiplier + Math.cos(bristleAngle) * 0.07,
-            -0.55 + Math.sin(bristleAngle) * 0.07,
-            0,
-          );
-          bristle.rotation.z = (Math.PI / 8) * sideMultiplier + (Math.random() - 0.5) * 0.4;
-          bristle.rotation.y = bristleAngle;
-          legGroup.add(bristle);
-        }
-
-        for (let h = 0; h < 6; h++) {
-          const bristle = new THREE.Mesh(bristleLow2Geo, legMaterial);
-          const bristleAngle = (h / 4) * Math.PI * 2;
-          bristle.position.set(
-            1.025 * sideMultiplier + Math.cos(bristleAngle) * 0.05,
-            -0.7 + Math.sin(bristleAngle) * 0.05,
-            0,
-          );
-          bristle.rotation.z = (Math.PI / 6) * sideMultiplier + (Math.random() - 0.5) * 0.3;
-          bristle.rotation.y = bristleAngle;
-          legGroup.add(bristle);
-        }
-
-        const legPositions = [0.5, 0.25, 0.0, -0.2];
-        const zOffset = legPositions[legNum];
-
-        legGroup.rotation.y = legAngle;
-
-        legGroup.position.set(0.4 * sideMultiplier, 0.3, zOffset);
-
-        group.add(legGroup);
-
-        const baseRotationY = legAngle;
-        const baseRotationX = -0.02 + (Math.random() - 0.5) * 0.04;
-        const baseRotationZ = (Math.PI / 120) * sideMultiplier + (Math.random() - 0.5) * 0.02;
-        legGroup.rotation.set(baseRotationX, baseRotationY, baseRotationZ);
-
-        const animateLegRandomly = () => {
-          const stride = 0.08 + Math.random() * 0.08;
-          const lift = 0.08 + Math.random() * 0.08;
-          const splay = 0;
-          const moveDuration = 0.32 + Math.random() * 0.45;
-          const settleDuration = 0.22 + Math.random() * 0.35;
-          const pauseDuration = 2 + Math.random() * 8;
-          const twitchChance = Math.random();
-
-          const timeline = gsap.timeline({
-            onComplete: () => {
-              gsap.delayedCall(pauseDuration, animateLegRandomly);
-            },
-          });
-
-          timeline
-            .to(legGroup.rotation, {
-              x: baseRotationX - lift,
-              y: baseRotationY - stride,
-              z: baseRotationZ + splay * sideMultiplier,
-              duration: moveDuration * 0.9,
-              ease: 'sine.out',
-            })
-            .to(legGroup.rotation, {
-              x: baseRotationX + lift * 0.35,
-              y: baseRotationY + stride,
-              z: baseRotationZ - 0,
-              duration: moveDuration * 1.2,
-              ease: 'sine.in',
-            })
-            .to(legGroup.rotation, {
-              x: baseRotationX,
-              y: baseRotationY,
-              z: baseRotationZ,
-              duration: settleDuration,
-              ease: 'power2.out',
-            });
-
-          if (twitchChance < 0.35) {
-            timeline.to(legGroup.rotation, {
-              x: baseRotationX + (Math.random() * 0.08 - 0.04),
-              y: baseRotationY + (Math.random() * 0.12 - 0.06),
-              z: baseRotationZ + (Math.random() * 0.12 - 0.06) * sideMultiplier,
-              duration: 2 + Math.random() * 0.08,
-              ease: 'power3.inOut',
-            });
-          }
-        };
-
-        const initialDelay = 2 + Math.random() * 8;
-        gsap.delayedCall(initialDelay, animateLegRandomly);
-      }
-    }
-
-    const venomGeometry = new THREE.SphereGeometry(0.75, 30, 30);
-
-    const venomSacMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x121212).lerp(themeColor, 0.7),
-      roughness: 0.85,
-      metalness: 0.1,
-      map: patternTexture,
-      emissive: themeColor,
-      emissiveIntensity: 0.15,
-    });
-
-    const venomSac = new THREE.Mesh(venomGeometry, venomSacMaterial);
-    venomSac.position.set(0, 0.9, -0.7);
-    group.add(venomSac);
-
-    const venomAnimationDelay = Math.random() * 1.5;
-    gsap.to(venomSac.scale, {
-      x: 1.05,
-      y: 1.05,
-      z: 1.05,
+    // Subtle idle breathing animation
+    gsap.to(group.scale, {
+      x: 1.03,
+      y: 1.03,
+      z: 1.03,
       duration: 2,
       repeat: -1,
       yoyo: true,
       ease: 'sine.inOut',
-      delay: venomAnimationDelay,
+      delay: Math.random() * 1.5,
     });
 
     group.position.set(position.x, position.y + this.spiderGroundOffset, position.z);
